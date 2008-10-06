@@ -1,0 +1,70 @@
+<!-- ##### SECTION Title ##### -->
+ccss_selector_group_t
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### TYPEDEF ccss_selector_group_t ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION ccss_selector_group_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_selector_group_free ##### -->
+<para>
+
+</para>
+
+@self: 
+
+
+<!-- ##### FUNCTION ccss_selector_group_apply ##### -->
+<para>
+
+</para>
+
+@self: 
+@style: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_selector_group_apply_type ##### -->
+<para>
+
+</para>
+
+@self: 
+@type: 
+@style: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_selector_group_dump ##### -->
+<para>
+
+</para>
+
+@self: 
+
+

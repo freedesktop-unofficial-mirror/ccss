@@ -1,0 +1,119 @@
+<!-- ##### SECTION Title ##### -->
+ccss_stylesheet_t
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### TYPEDEF ccss_stylesheet_t ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION ccss_stylesheet_new_from_buffer ##### -->
+<para>
+
+</para>
+
+@buffer: 
+@size: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_stylesheet_new_from_file ##### -->
+<para>
+
+</para>
+
+@css_file: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_stylesheet_free ##### -->
+<para>
+
+</para>
+
+@self: 
+
+
+<!-- ##### FUNCTION ccss_stylesheet_query_type ##### -->
+<para>
+
+</para>
+
+@self: 
+@type_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_stylesheet_query_collect ##### -->
+<para>
+
+</para>
+
+@self: 
+@node: 
+@result_group: 
+@as_base: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_stylesheet_query_apply ##### -->
+<para>
+
+</para>
+
+@self: 
+@node: 
+@style: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_stylesheet_dump ##### -->
+<para>
+
+</para>
+
+@self: 
+
+
+<!-- ##### TYPEDEF ccss_stylesheet_iter_t ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION ccss_stylesheet_iter_init ##### -->
+<para>
+
+</para>
+
+@self: 
+@stylesheet: 
+
+
+<!-- ##### FUNCTION ccss_stylesheet_iter_next ##### -->
+<para>
+
+</para>
+
+@self: 
+@type_name: 
+@group: 
+@Returns: 
+
+

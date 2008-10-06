@@ -1,0 +1,20 @@
+<!-- ##### USER_FUNCTION ccss_node_get_origin_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@x: 
+@y: 
+@Returns: 
+
+<!-- ##### USER_FUNCTION ccss_node_get_position_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@x: 
+@y: 
+@Returns: 
+

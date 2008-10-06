@@ -1,0 +1,61 @@
+
+HACKING
+=======
+
+General remarks
+---------------
+
+* Code is a maximum of 80 characters wide. This keeps it readable also where
+  the original screen width limitations do not apply any more.
+
+* Use C99, in particular stdint and stdbool, except that variables go at the 
+  beginning of the block. You may use embedded counters in `for' loops though.
+
+* Do not initialise variables, pointers in particular, where they are declared.
+  Initialise immediately before usage and read compiler warnings to find out
+  whether any variables are being used without initialisation.
+
+* Use variable names in `sizeof()` statements rather than type names. Otherwise
+  refactorings including changing the datatype can render those broken. Example:
+
+    foo_t *f;
+    memset (f, 0, sizeof (*f));
+
+
+Including files
+---------------
+
+* Always include files in the following order:
+    1. C headers, in alphabetical order.
+    2. Dependency libraries' headers, in alphabetical order.
+    3. Project headers, in alphabetical order.
+
+* In header files only ever include using pointy brackets and directory prefix.
+  This makes sure that installed headers work correctly and facilitates 
+  installation of multiple incompatible library versions in the same prefix.
+  Example foo.h:
+
+    `#include <bar/bar.h>`
+
+  In C files plain inclusion of headers from the project is encouraged, just
+  give the header's file name and leave setting of directories to the build
+  system. Example foo.c:
+  
+    `#include "foo.h"`
+
+
+Making a release
+----------------
+
+* NEWS.
+* TODO.
+* Remove extra version in configure.in.
+* `make distcheck`.
+* Commit to svn.
+* Tag in svn.
+* Upload tarball.
+* Announce.
+* Bump version and add extra version in configure.in.
+* Commit to svn.
+* Update web-page.
+

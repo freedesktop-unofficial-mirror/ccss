@@ -1,0 +1,4 @@
+theme_init
+theme_exit
+theme_create_rc_style
+g_module_check_init

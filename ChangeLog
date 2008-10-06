@@ -1,0 +1,673 @@
+2008-10-06  Robert Staudinger  <robsta@gnome.org>
+
+	* Split out libccss.
+
+2008-10-06  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-color.c:
+	* libccss/ccss/ccss-function.c:
+	* src/gce-functions.c:
+	* themes/gtk-css-test/gtk-2.0/styles.css:
+	Finish basic color functions support.
+
+2008-10-03  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-color.c:
+	* src/Makefile.am:
+	* src/gce-color.c (added):
+	* src/gce-color.h (added):
+	* src/gce-functions.c:
+	Initial gtk color mixing support (mix(), shade(), darker(), lighter()). Not completely hooked up yet.
+
+2008-10-03  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO:
+	* libccss/ccss/ccss-color.c:
+	* src/gce-functions.c:
+	Gtk color scheme support.
+
+2008-10-03  Robert Staudinger  <robsta@gnome.org>
+
+	* Makefile.am: `make distcheck' with standalone libccss.
+
+	* libccss/cccss/Makefile.am:
+	* libccss/cccss/example-1.c:
+	* libccss/cccss/example-2.c:
+	* libccss/cccss/example-2.css:
+	Update/fix examples.
+
+	* src/gce-rc-style.c: fix warning.
+
+2008-10-03  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/Makefile.am: actually link dependent libraries.
+
+2008-10-02  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/cccss/Makefile.am:
+	* libccss/cccss/example-1.c:
+	* libccss/cccss/cccss.c (added):
+	* libccss/cccss/example-2.css (added):
+	* libccss/cccss/foo.svg (added):
+	* libccss/cccss/cccss.h (added):
+	* libccss/cccss/example-2.c (added):
+	Add clutter example that involves node usage.
+
+	* libccss/ccss/ccss-parser.c: create ID selectors for IDs.
+
+	* src/gce-serialize.c: fill all node vtable fields.
+
+2008-10-02  Robert Staudinger  <robsta@gnome.org>
+
+	* configure.in:
+	* libccss/cccss/Makefile.am:
+	* libccss/cccss/example-1.c:
+	* libccss/cccss/example-1.css:
+	* libccss/cccss/example-1.css (added):
+	* libccss/cccss/Makefile.am (added):
+	* libccss/cccss/example-1.c (added):
+	Add simple clutter example.
+
+2008-10-02   Robert Staudinger  <robsta@gnome.org>
+
+	* configure.in:
+	* libccss/Makefile.am:
+	* libccss/examples/Makefile.am:
+	* libccss/examples/example-1.c:
+	* libccss/examples/example-1.css (added):
+	* libccss/examples/example-1.c (added):
+	* libccss/cccss (added):
+	* libccss/examples/example1.css (deleted):
+	* libccss/examples/example1.c (deleted):
+	Clutter integration infrastructure.
+
+2008-10-02  Robert Staudinger  <robsta@gnome.org>
+
+	* configure.in:
+	* src/gce-rc-style.c:
+	Introduce `--enable-rapid-development' configure argument.
+
+2008-10-01  Robert Staudinger  <robsta@gnome.org>
+
+	* NEWS:
+	* doc/Makefile.am:
+	Streamline project page generation.
+
+2008-10-01  Robert Staudinger  <robsta@gnome.org>
+
+	* configure.in: post-release version increment.
+
+2008-10-01  Robert Staudinger  <robsta@gnome.org>
+
+	* HACKING:
+	* Makefile.am:
+	* NEWS:
+	* README:
+	* TODO:
+	* configure.in:
+	* doc/Makefile.am:
+	* libccss/ccss/ccss-node.c:
+	Release 0.2: update auxiliary files and fix `make distcheck'.
+
+2008-10-01  Robert Staudinger  <robsta@gnome.org>
+
+	* themes/Gilouche-CSS/gtk-2.0/styles.css: use darker border color
+	  for spin-button arrow borders.
+
+2008-10-01  Robert Staudinger  <robsta@gnome.org>
+
+	* themes/Gilouche-CSS/gtk-2.0/styles.css: single interior border for 
+	  spin-buttons.
+
+2008-10-01 Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-background.c: more robustness wrt bg-color.
+
+	* libccss/ccss/ccss-border.c: fix setting border to `none'.
+
+	* themes/Gilouche-CSS/gtk-2.0/styles.css: tweak roundings.
+
+2008-10-01  Robert Staudinger  <robsta@gnome.org>
+
+	* themes/Gilouche-CSS/gtk-2.0/styles.css:
+	* themes/Gilouche-CSS/gtk-2.0/optionmenu.svg (added):
+	Teak theme, mainly roundings.
+
+2008-10-01  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-parser.c:
+	* libccss/ccss/ccss-selector.c:
+	Make parsing more robust, discard erroneous blocks instead of bailing.
+
+2008-10-01  Robert Staudinger  <robsta@gnome.org>
+
+	* doc/01-introduction.txt: update.
+
+2008-10-01  Andreas Nilsson  <andreas@imendio.com>
+
+	* themes/Gilouche-CSS/gtk-2.0/slider-background.png:
+	* themes/Gilouche-CSS/gtk-2.0/slider-background-horizontal.png:
+	handlers on scrollbars. 
+
+2008-10-01  Andreas Nilsson  <andreas@imendio.com>
+
+	* themes/Gilouche-CSS/gtk-2.0/styles.css: fixed scrollbars
+
+2008-10-01  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-gtk-style.c:
+	* libccss/ccss/ccss-node.c:
+	* libccss/ccss/ccss-node.h:
+	* libccss/ccss/ccss-style.c:
+	* libccss/ccss/ccss-style.h:
+	* libccss/ccss/exports.sym:
+	* libccss/doc/ccss-sections.txt:
+	* src/gce-style.c:
+	Finish support for `background-attachment: fixed'.
+
+2008-09-30  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: remember information about animations.
+
+	* libccss/ccss/ccss-node.c:
+	* libccss/ccss/ccss-node.h:
+	* libccss/ccss/ccss-selector.c:
+	* libccss/ccss/ccss-style.c:
+	* libccss/ccss/ccss-style.h:
+	* libccss/ccss/exports.sym:
+	* libccss/doc/ccss-sections.txt:
+	* libccss/doc/tmpl/ccss-unused.sgml:
+	* libccss/doc/tmpl/node.sgml:
+	* src/gce-style.c:
+	Work on fixed backgrounds, unfinished.
+
+2008-09-30  Robert Staudinger  <robsta@gnome.org>
+
+	* doc/01-introduction.txt (added): introductory article, unfinished.
+
+2008-09-30  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/examples/internal.c: fix build after cleanup.
+
+2008-09-29  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-node.c:
+	* libccss/ccss/ccss-node.h:
+	* libccss/ccss/ccss-selector-group.c:
+	* libccss/ccss/ccss-selector.c:
+	* libccss/ccss/ccss-stylesheet.c:
+	* libccss/ccss/ccss.c:
+	* libccss/ccss/ccss.h:
+	* libccss/ccss/exports.sym:
+	* libccss/doc/ccss-sections.txt:
+	* libccss/doc/tmpl/ccss.sgml:
+	* libccss/doc/tmpl/node.sgml:
+	* src/gce-node.c:
+	* src/gce-node.h:
+	* src/gce-serialize.c:
+	* src/gce-theme.c:
+	Merge changes after bzr repo problems (https://bugs.launchpad.net/bugs/275861):
+	  - Make implementation of ccss_node_class_t::is_a optional, fall back to
+	    ccss_node_class_t::get_type.
+	  - Attach node vtable to each node instance, simplifies the ccss API.
+
+2008-09-29  Robert Staudinger  <robsta@gnome.org>
+
+	* HACKING:
+	* NEWS:
+	* README:
+	* TODO:
+	Use markdown format.
+
+	* Makefile.am: dist TODO.
+
+	* configure.in:
+	* doc/Makefile.am:
+	Infrastructure for creating html pages of the auxiliary files.
+
+2008-09-29  Robert Staudinger  <robsta@gnome.org>
+
+	* ChangeLog: correctly format old entries.
+
+	* Makefile.am:
+	* TODO:
+	* configure.in:
+	* libccss/Makefile.am:
+	* libccss/ccss/Makefile.am:
+	* libccss/ccss/ccss-background.c:
+	* libccss/ccss/ccss-background.h:
+	* libccss/ccss/ccss-block.c:
+	* libccss/ccss/ccss-block.h:
+	* libccss/ccss/ccss-border.c:
+	* libccss/ccss/ccss-border.h:
+	* libccss/ccss/ccss-color.c:
+	* libccss/ccss/ccss-color.h:
+	* libccss/ccss/ccss-features.h.in:
+	* libccss/ccss/ccss-function.c:
+	* libccss/ccss/ccss-function.h:
+	* libccss/ccss/ccss-gtk-style.c:
+	* libccss/ccss/ccss-gtk-style.h:
+	* libccss/ccss/ccss-image.c:
+	* libccss/ccss/ccss-image.h:
+	* libccss/ccss/ccss-node.c:
+	* libccss/ccss/ccss-node.h:
+	* libccss/ccss/ccss-parser.c:
+	* libccss/ccss/ccss-parser.h:
+	* libccss/ccss/ccss-position.c:
+	* libccss/ccss/ccss-position.h:
+	* libccss/ccss/ccss-property.c:
+	* libccss/ccss/ccss-property.h:
+	* libccss/ccss/ccss-selector-group-priv.h:
+	* libccss/ccss/ccss-selector-group.c:
+	* libccss/ccss/ccss-selector-group.h:
+	* libccss/ccss/ccss-selector.c:
+	* libccss/ccss/ccss-selector.h:
+	* libccss/ccss/ccss-style.c:
+	* libccss/ccss/ccss-style.h:
+	* libccss/ccss/ccss-stylesheet.c:
+	* libccss/ccss/ccss-stylesheet.h:
+	* libccss/ccss/ccss.c:
+	* libccss/ccss/ccss.h:
+	* libccss/ccss/exports.sym:
+	* libccss/doc/Makefile.am:
+	* libccss/doc/ccss-docs.sgml:
+	* libccss/doc/ccss-sections.txt:
+	* libccss/doc/tmpl/ccss.sgml:
+	* libccss/doc/tmpl/ccss_gtk_style_functions.sgml:
+	* libccss/doc/tmpl/node.sgml:
+	* libccss/doc/tmpl/selector_group.sgml:
+	* libccss/doc/tmpl/style.sgml:
+	* libccss/doc/tmpl/stylesheet.sgml:
+	* libccss/examples/Makefile.am:
+	* libccss/examples/example1.c:
+	* libccss/examples/internal.c:
+	* libccss/libccss-1.pc.in:
+	* src/Makefile.am:
+	* src/css2gtkrc.c:
+	* src/gce-functions.c:
+	* src/gce-functions.h:
+	* src/gce-node.c:
+	* src/gce-node.h:
+	* src/gce-rc-style.c:
+	* src/gce-rc-style.h:
+	* src/gce-serialize.c:
+	* src/gce-serialize.h:
+	* src/gce-style.c:
+	* src/gce-style.h:
+	* src/gce-theme.c:
+	Rename from `ccd' to `ccss'.
+
+2008-09-26  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: remember how to handle drawing w/o widget pointer.
+
+	* configure.in:
+	* libccss/ccss/ccss-parser.c:
+	Detect defective libcroco versions and conditionally work around bug #553937.
+
+2008-09-26  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-border.c:
+	* libccss/ccss/ccss-color.c:
+	* libccss/ccss/ccss-color.h:
+	* libccss/ccss/ccss-parser.c:
+	Work around random startup crashes caused by libcroco, see bug #553937.
+
+2008-09-26  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: mention css2gtkrc.
+
+	* libccss/ccss/ccss-style.c:
+	* libccss/ccss/ccss-style.h:
+	* libccss/ccss/exports.sym:
+	Provide API to query for `border-color'.
+
+	* src/Makefile.am:
+	* src/css2gtkrc.c:
+	Basic version of `css2gtkrc', a simple standalone gtkrc creation tool.
+
+	* src/gce-rc-style.c:
+	* src/gce-serialize.c:
+	* src/gce-serialize.h:
+	Finish and hook-up basic gtkrc creation.
+
+2008-09-25  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: remember splitting out a CSS2 style sometime.
+
+	* libccss/ccss/ccss-node.c:
+	* libccss/ccss/ccss-node.h:
+	Improve clarity of node-class vtable lifecycle.
+
+	* libccss/ccss/ccss-selector-group.c:
+	* libccss/ccss/ccss-selector.c:
+	Use new node-class vtable API.
+
+	* libccss/ccss/ccss-stylesheet.c:
+	* libccss/ccss/ccss-stylesheet.h:
+	* libccss/ccss/exports.sym:
+	* libccss/doc/ccss-sections.txt:
+	* libccss/doc/tmpl/stylesheet.sgml:
+	New API to iterate over a stylesheet.
+
+	* src/gce-node.c: stricter const-ness.
+	* src/gce-parser.c:
+	* src/gce-parser.h:
+	* src/gce-rc-style.c:
+	Use stylesheet iteration API, not hooked up yet.
+
+2008-09-24  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: remember how to improve list iterations.
+	* libccss/ccss/ccss-selector-group.c:
+	* libccss/ccss/ccss-selector-group.h:
+	Add convenience API for simple uses w/o a node implementation.
+
+	* libccss/ccss/ccss-style.c:
+	* libccss/ccss/ccss-style.h:
+	Add convenience API to retrieve a style's colors.
+
+	* libccss/ccss/exports.sym:
+	* libccss/doc/ccss-sections.txt:
+	* libccss/doc/tmpl/selector_group.sgml:
+	* libccss/examples/example1.c:
+	Update auxiliary files after the changes above.
+
+	* src/Makefile.am:
+	* src/gce-parser.c:
+	* src/gce-parser.h:
+	Start implementing css/gtkrc infrastructure, not hooked up yet.
+
+	* themes/Gilouche-CSS/gtk-2.0/styles.css:
+	  - Fix background-color for check- and option-primitives.
+	  - Fix border-color for extension primitives.
+
+2008-09-24  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-background.c: do not round background-image offsets
+	  because this leasts to 1px-off errors. 
+
+	* themes/Gilouche-CSS/gtk-2.0/Makefile.am:
+	* themes/Gilouche-CSS/gtk-2.0/styles.css:
+	Use CSS borders	for check- and option-styling, and make them cover all
+	of their allocated area.
+
+2008-09-23  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: thoroughly revisit and update the next three release cycles.
+
+2008-09-23  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: add section regarding theme work.
+	* themes/Gilouche-CSS/gtk-2.0/styles.css: use 3px rounded corners.
+
+2008-09-23  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-gtk-style.c: fix off-by-one errors when drawing
+	  rectangles with gaps.
+
+2008-09-23  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/Makefile.am:
+	* libccss/ccss/ccss-background.c:
+	* libccss/ccss/ccss-background.h:
+	* libccss/ccss/ccss-block.c:
+	* libccss/ccss/ccss-block.h:
+	* libccss/ccss/ccss-border.c:
+	* libccss/ccss/ccss-border.h:
+	* libccss/ccss/ccss-color.c:
+	* libccss/ccss/ccss-color.h:
+	* libccss/ccss/ccss-parser.c:
+	* libccss/ccss/ccss-selector.c:
+	* libccss/ccss/ccss-style.c:
+	* libccss/ccss/ccss-style.h:
+	* libccss/ccss/ccss.h:
+	Make `color' a css property of its own.
+
+2008-09-23  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: account for progress.
+
+	* libccss/ccss/Makefile.am:
+	* libccss/ccss/ccss-background.c:
+	* libccss/ccss/ccss-background.h:
+	* libccss/ccss/ccss-block.h:
+	* libccss/ccss/ccss-border.c:
+	* libccss/ccss/ccss-border.h:
+	* libccss/ccss/ccss-parser.c:
+	* libccss/ccss/ccss-style.c:
+	* libccss/ccss/ccss-style.h:
+	* libccss/ccss/ccss-tinge.c:
+	* libccss/ccss/ccss-tinge.h:
+	* libccss/ccss/ccss.h:
+	Rename `color' to `tinge' in preparation of color properties.
+
+2008-09-22  Robert Staudinger  <robsta@gnome.org>
+
+	* themes/Gilouche-CSS/gtk-2.0/styles.css: fix sliders.
+
+2008-09-22  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-background.c:
+	* libccss/ccss/ccss-position.c:
+	* libccss/ccss/ccss-position.h:
+	Fix `background-position' issues.
+
+	* themes/Gilouche-CSS/gtk-2.0/styles.css:
+	Fix theme now that we mostly adhere to CSS background image defaults.
+
+2008-09-22  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: remember some background-image standard compliancy issues.
+
+	* libccss/ccss/ccss-background.c:
+	* libccss/ccss/ccss-position.c:
+	Initial background-image support.
+
+2008-09-22  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-background.c: rely on correctly initialised styles.
+
+	* libccss/ccss/ccss-background.h: consistently put the property spec at
+	  the beginning of property structs.
+
+	* libccss/ccss/ccss-property.c:
+	* libccss/ccss/ccss-property.h:
+
+	Add ccss_property_is_set() to consistently check on properties.
+	* libccss/ccss/ccss-style.c: initialise style to built-in defaults.
+
+2008-09-19 Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: what todo regarding internals for the next release.
+
+	* libccss/ccss/ccss-background.c:
+	* libccss/ccss/ccss-background.h:
+	More work on tile creation. Not hooked up yet.
+
+	* libccss/ccss/ccss-gtk-style.c:
+	* libccss/ccss/ccss-selector.c:
+	* libccss/ccss/ccss-style.c:
+	* libccss/ccss/ccss-style.h:
+	Propagate background properties thru the selector chain.
+
+2008-09-19  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-background.c:
+	* libccss/ccss/ccss-image.c:
+	* libccss/ccss/ccss-image.h:
+	Use a cairo pattern for the internal representation of an image instead
+	of a surface.
+
+2008-09-18  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-background.c:
+	* libccss/ccss/ccss-position.c:
+	* libccss/ccss/ccss-position.h:
+	Background tile creation. Not hooked up yet.
+
+2008-09-18  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: link screenshots of inspirational themes/mockups.
+
+	* configure.in: tweak configuration summary output.
+
+	* libccss/ccss/Makefile.am:
+	* libccss/ccss/ccss-background.c:
+	* libccss/ccss/ccss-background.h:
+	* libccss/ccss/ccss-position.c:
+	* libccss/ccss/ccss-position.h:
+	Generic position parsing infrastructure. Parse background image
+	settings.
+
+2008-09-16  Robert Staudinger  <robsta@gnome.org>
+
+	* configure.in:
+	* libccss/ccss/ccss-features.h.in:
+	* libccss/ccss/ccss-function.c:
+	* libccss/ccss/ccss-image.c:
+	* libccss/doc/ccss-docs.sgml:
+	* src/gce-functions.c:
+	Optionally depend on libsoup for URI parsing towards SVG sub-image support.
+
+	* src/gce-node.c:
+	* src/gce-style.c:
+	Fix typos in debug output.
+
+2008-09-16  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-border.c:
+	* libccss/ccss/ccss-border.h:
+	More consistent naming in the `border join' struct (s/radius_spec/spec).
+
+2008-09-16  Robert Staudinger  <robsta@gnome.org>
+
+	* configure.in: actually build debug code when configured to to so.
+
+	* libccss/ccss/ccss-border.c:
+	* libccss/ccss/ccss-border.h:
+	* libccss/ccss/ccss-selector.c:
+	* libccss/ccss/ccss-style.c:
+	Use property spec to determine whether properties are set and make
+	the flags private to the border implementation.
+
+2008-09-16  Robert Staudinger  <robsta@gnome.org>
+
+	* src/gce-node.c:
+	* src/gce-node.h:
+	* src/gce-style.c:
+	Make node implementation self contained to the theme engine.
+
+2008-09-15  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-background.c:
+	* libccss/ccss/ccss-background.h:
+	* libccss/ccss/ccss-block.c:
+	* libccss/ccss/ccss-block.h:
+	* libccss/ccss/ccss-border.c:
+	* libccss/ccss/ccss-border.h:
+	* libccss/ccss/ccss-color.c:
+	* libccss/ccss/ccss-color.h:
+	* libccss/ccss/ccss-image.c:
+	* libccss/ccss/ccss-image.h:
+	* libccss/ccss/ccss-property.c:
+	* libccss/ccss/ccss-property.h:
+	* libccss/ccss/ccss-selector-group.c:
+	* libccss/ccss/ccss-selector-group.h:
+	* libccss/ccss/ccss-selector.c:
+	* libccss/ccss/ccss-selector.h:
+	* libccss/ccss/ccss-style.c:
+	* libccss/ccss/ccss-style.h:
+	* libccss/ccss/ccss-stylesheet.c:
+	* libccss/ccss/ccss-stylesheet.h:
+	Only build debug code if requested at configure-time.
+
+2008-09-15  Robert Staudinger  <robsta@gnome.org>
+
+	* README:
+	* TODO:
+	Update.
+
+	* configure.in:
+	* libccss/ccss/Makefile.am:
+	* libccss/ccss/exports.sym:
+	* libccss/examples/Makefile.am:
+	* src/Makefile.am:
+	* src/exports.sym:
+	Only export public API.
+
+2008-09-15  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-selector.c: fix specificity initialisation of
+	  attribute- and pseudo-class selectors.
+
+2008-09-15  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-border.c:
+	* libccss/ccss/ccss-border.h:
+	* libccss/ccss/ccss-gtk-style.c:
+	Fix glitches for gap-boxes with insanely big border radii.
+
+2008-09-14  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-border.c: background includes area "under" borders.
+
+2008-09-12  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-border.c:
+	* libccss/ccss/ccss-gtk-style.c:
+	Restrict rounded corners' radius to half of the relevant object extent.
+
+2008-09-12  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-background.c:
+	* libccss/ccss/ccss-background.h:
+	* libccss/ccss/ccss-border.c:
+	* libccss/ccss/ccss-border.h:
+	* libccss/ccss/ccss-gtk-style.c:
+	* libccss/ccss/ccss-style.c:
+	* src/gce-style.c:
+	Draw gap-boxes with rounded corners correctly.
+
+2008-09-11  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-background.c:
+	* src/gce-style.c:
+	Fix background drawing both color and images are used.
+
+2008-09-11  Robert Staudinger  <robsta@gnome.org>
+
+	* libccss/ccss/ccss-background.c:
+	* libccss/ccss/ccss-border.c:
+	* libccss/ccss/ccss-border.h:
+	* libccss/ccss/ccss-style.c:
+	Fix background clipping with rounded corners.
+
+2008-09-10  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: mention widget path helper app.
+
+	* libccss/ccss/ccss-border.c:
+	* libccss/ccss/ccss-border.h:
+	* libccss/ccss/ccss-gtk-style.c:
+	* libccss/ccss/ccss-selector.c:
+	* libccss/ccss/ccss-style.c:
+	* libccss/ccss/ccss-style.h:
+	Initial support for rounded borders.
+
+	* libccss/examples/internal.c: fix after rounded borders internal API
+	  change.
+
+2008-09-09  Robert Staudinger  <robsta@gnome.org>
+
+	* README: update SVN repo address.
+
+	* TODO: update roadmap after release.
+
+	* libccss/ccss/ccss-border.c: parse single-value border properties like
+	  e.g. `border-left-color'.
+
+2008-08-22  Robert Staudinger  <robsta@gnome.org>
+
+	* Initial import.
+

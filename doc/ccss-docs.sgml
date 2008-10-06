@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+<!ENTITY ccss				SYSTEM "xml/ccss.xml">
+<!ENTITY ccss_node_t			SYSTEM "xml/node.xml">
+<!ENTITY ccss_style_t			SYSTEM "xml/style.xml">
+<!ENTITY ccss_stylesheet_t		SYSTEM "xml/stylesheet.xml">
+<!ENTITY ccss_selector_group_t		SYSTEM "xml/selector_group.xml">
+
+<!ENTITY ccss_gtk_style_functions	SYSTEM "xml/ccss_gtk_style_functions.xml">
+
+<!ENTITY TreeIndex			SYSTEM "xml/tree_index.sgml">
+
+]>
+<book id="index">
+  <bookinfo>
+    <title>CCSS Reference Manual</title>
+  </bookinfo>
+
+  <part id="intro">
+    <title>CCSS: Introduction</title>
+    <partintro id="ccss-into">
+    <para>
+TODO
+    </para>
+    </partintro>
+  </part>
+
+  <part id="dependencies">
+    <title>CCSS: Dependencies</title>
+    <para>
+CCSS depends on the following libraries:
+<variablelist>
+
+<varlistentry>
+<term><link linkend="glib" title="GLib">GLib</link></term>
+<listitem><para>
+A general-purpose utility library, not specific to graphical user interfaces.
+GLib provides many useful data types, macros, type conversions,
+string utilities, file utilities, a main loop abstraction, and so on.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><link linkend="cairo" title="Cairo">Cairo</link></term>
+<listitem><para>
+Cairo is a 2D graphics library with support for multiple output devices. 
+Currently supported output targets include the X Window System, Quartz, Win32, 
+image buffers, PostScript, PDF, and SVG file output. Experimental backends 
+include OpenGL (through glitz), XCB, BeOS, OS/2, and DirectFB.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><link linkend="libsoup" title="LibSoup">LibSoup (optional)</link></term>
+<listitem><para>
+LibSoup is an HTTP client/server library for GNOME. It uses GObjects and the glib main loop, to integrate well with GNOME applications. 
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><link linkend="gtk+" title="Gtk+">Gtk+ (optional)</link></term>
+<listitem><para>
+GTK+ is a highly usable, feature rich toolkit for creating graphical user interfaces which boasts cross platform compatibility and an easy to use API. GTK+ it is written in C, but has bindings to many other popular programming languages such as C++, Python and C# among others. GTK+ is licensed under the GNU LGPL 2.1 allowing development of both free and proprietary software with GTK+ without any license fees or royalties.
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+    </para>
+</part>
+
+<part id="ccss-users">
+  <title>Projects using CCSS</title>
+  <partintro id="ccss-projects">
+  <para>
+CCSS is used by
+<variablelist>
+<varlistentry>
+<term><ulink url="http://www.gnome.org/~robsta/gtk-css-engine/">Gtk CSS Engine</ulink></term>
+<listitem><para>
+The Gtk CSS Engine
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+  </para>
+  </partintro>
+</part>
+
+<part id="api">
+  <title>API Reference</title>
+    <partintro id="ccss-api-ref">
+      <para>
+TODO.
+      </para>
+    </partintro>
+  <chapter id="basic">
+    <title>Basic Usage</title>
+    &ccss;
+    &ccss_stylesheet_t;
+    &ccss_selector_group_t;
+    &ccss_style_t;
+    &ccss_node_t;
+  </chapter>
+  <chapter id="gtk-support">
+    <title>Gtk+ Support</title>
+    &ccss_gtk_style_functions;
+  </chapter>
+ </part>
+<index id="ccss-index">
+&TreeIndex;
+</index>
+</book>
+

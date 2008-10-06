@@ -1,0 +1,80 @@
+<!-- ##### SECTION Title ##### -->
+ccss_style_t
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT ccss_style_t ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION ccss_style_init ##### -->
+<para>
+
+</para>
+
+@self: 
+
+
+<!-- ##### FUNCTION ccss_style_draw_line ##### -->
+<para>
+
+</para>
+
+@self: 
+@cr: 
+@x1: 
+@x2: 
+@y1: 
+@y2: 
+
+
+<!-- ##### FUNCTION ccss_style_draw_outline ##### -->
+<para>
+
+</para>
+
+@self: 
+@cr: 
+@x: 
+@y: 
+@width: 
+@height: 
+
+
+<!-- ##### FUNCTION ccss_style_draw_rectangle ##### -->
+<para>
+
+</para>
+
+@self: 
+@cr: 
+@x: 
+@y: 
+@width: 
+@height: 
+
+
+<!-- ##### FUNCTION ccss_style_dump ##### -->
+<para>
+
+</para>
+
+@self: 
+
+

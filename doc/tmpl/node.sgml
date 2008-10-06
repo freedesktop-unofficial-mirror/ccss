@@ -1,0 +1,140 @@
+<!-- ##### SECTION Title ##### -->
+ccss_node_t
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION ccss_init ##### -->
+<para>
+
+</para>
+
+@vtable: 
+
+
+<!-- ##### FUNCTION ccss_shutdown ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT ccss_node_t ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### TYPEDEF ccss_node_class_t ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### USER_FUNCTION ccss_node_get_container_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION ccss_node_get_base_style_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION ccss_node_get_id_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION ccss_node_get_type_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION ccss_node_get_class_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION ccss_node_get_pseudo_class_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION ccss_node_get_attribute_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@name: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION ccss_node_get_viewport_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@x: 
+@y: 
+@width: 
+@height: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION ccss_node_release_f ##### -->
+<para>
+
+</para>
+
+@self: 
+
+
+<!-- ##### FUNCTION ccss_node_init ##### -->
+<para>
+
+</para>
+
+@self: 
+@node_class: 
+
+
