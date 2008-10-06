@@ -1,5 +1,12 @@
 2008-10-06  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-features.h.in:
+	* configure.in:
+	* libccss-1.pc.in:
+	Some work towards an optional cairo dependency.
+
+2008-10-06  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-gtk.sym.in:
 	* ccss/ccss.sym.in:
 	* ccss/exports.sym:

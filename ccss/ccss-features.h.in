@@ -23,6 +23,12 @@
 /* Enable debug code */
 #undef CCSS_DEBUG
 
+/* Cairo drawing support */
+#undef CCSS_WITH_CAIRO
+
+/* Support for clutter-cairo (experimental) */
+#undef CCSS_WITH_CLUTTER
+
 /* Support for drawing Gtk+ primitives like `box-gap' */
 #undef CCSS_WITH_GTK
 

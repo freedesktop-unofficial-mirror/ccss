@@ -94,7 +94,7 @@ AM_CONDITIONAL(GTK_DOC_INSTALLED, $gtk_doc_installed)
 
 ### Checks for libraries. ######################################################
 
-# Maybe it would work with gtk+-2.8, the first sporting cairo, right?
+
 pkgs='libcroco-0.6'
 
 
@@ -108,6 +108,23 @@ PKG_CHECK_EXISTS([ libcroco-0.6 >= 0.6.2 ],
 if test "$enable_libcroco_workaround" = "yes"; then
   AC_DEFINE([CCSS_ENABLE_LIBCROCO_WORKAROUND], [1], [Work around libcroco issue #553937])
 fi
+
+
+# Guessing a version.
+cairo_req='cairo >= 1.4'
+PKG_CHECK_EXISTS([ $cairo_req ],
+[
+  with_cairo="yes"
+  pkgs="$pkgs $cairo_req"
+],[
+  with_cairo="no"
+])
+
+if test "$with_cairo" = "yes"; then
+  AC_DEFINE([CCSS_WITH_CAIRO], [1], [Cairo drawing support])
+fi
+AM_CONDITIONAL([CCSS_WITH_CAIRO], [test "$with_cairo" = "yes"])
+AC_SUBST([ccss_with_cairo], [$with_cairo])
 
 
 # Guessing a version.
@@ -168,7 +185,11 @@ PKG_CHECK_EXISTS([ $clutter_req ],
   with_clutter="no"
 ])
 
+if test "$with_clutter" = "yes"; then
+  AC_DEFINE([CCSS_WITH_CLUTTER], [1], [Support for clutter-cairo (experimental)])
+fi
 AM_CONDITIONAL([CCSS_WITH_CLUTTER], [test "$with_clutter" = "yes"])
+AC_SUBST([ccss_with_clutter], [$with_clutter])
 
 
 PKG_CHECK_MODULES(CCSS, $pkgs)
@@ -233,10 +254,11 @@ Configuration
 Libccss:
     CFLAGS                       ${CFLAGS}
     Build debugging code         $enable_debug
+    Cairo drawing support        $with_cairo
     Support for SVG images       $with_rsvg (requires $rsvg_req)
     Support for Gtk+ primitives  $with_gtk (requires $gtk_req)
 
 WIP Support for SVG fragments    $with_soup (requires libsoup)
-WIP Clutter support              $with_clutter
+WIP Clutter-cairo support        $with_clutter
 "
 
