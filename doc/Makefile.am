@@ -22,8 +22,8 @@ MKDB_OPTIONS=--sgml-mode --output-format=xml
 FIXXREF_OPTIONS=
 
 # Used for dependencies
-HFILE_GLOB=$(top_srcdir)/libccss/ccss/*.h
-CFILE_GLOB=$(top_srcdir)/libccss/ccss/*.c
+HFILE_GLOB=$(top_srcdir)/ccss/*.h
+CFILE_GLOB=$(top_srcdir)/ccss/*.c
 
 # Header files to ignore when scanning
 IGNORE_HFILES =

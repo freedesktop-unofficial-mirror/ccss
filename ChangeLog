@@ -1,5 +1,11 @@
 2008-10-06  Robert Staudinger  <robsta@gnome.org>
 
+	patch by: Thomas Wood <thomas@linux.intel.com>
+
+	* doc/Makefile.am: fix input path.
+
+2008-10-06  Robert Staudinger  <robsta@gnome.org>
+
 	* configure.in:
 	* libccss-1.pc.in:
 	Export features (rsvg, gtk).
