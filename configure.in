@@ -223,7 +223,6 @@ AC_CONFIG_FILES([
   doc/Makefile
   doc/version.xml
   examples/Makefile
-  src/Makefile
 ])
 AC_OUTPUT
 

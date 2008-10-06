@@ -6,13 +6,16 @@ AM_CPPFLAGS = \
 
 lib_LTLIBRARIES = libccss-1.la
 
+libccss_1_la_DEPENDENCIES = \
+	ccss.sym
+
 libccss_1_la_LIBADD = $(CCSS_LIBS)
 
 libccss_1_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO)
 
 if CCSS_DEBUG
 else
-libccss_1_la_LDFLAGS += -export-symbols $(srcdir)/exports.sym
+libccss_1_la_LDFLAGS += -export-symbols ./ccss.sym
 endif
 
 headersdir = $(includedir)/libccss-1/ccss
@@ -82,8 +85,24 @@ libccss_1_la_SOURCES += \
 opt_src += $(libccss_1_la_SOURCES)
 endif
 
+BUILT_SOURCES = \
+	ccss.sym
+
+CLEANFILES = \
+	ccss.sym
+
 EXTRA_DIST = \
 	$(opt_src) \
 	ccss-features.h.in \
-	exports.sym
+	ccss.sym.in \
+	ccss-gtk.sym.in
+
+ccss_sym_in = $(srcdir)/ccss.sym.in
+
+if CCSS_WITH_GTK
+ccss_sym_in += $(srcdir)/ccss-gtk.sym.in
+endif
+
+ccss.sym: $(ccss_sym_in)
+	cat $^ > $@
 

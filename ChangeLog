@@ -1,5 +1,30 @@
 2008-10-06  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-gtk.sym.in:
+	* ccss/ccss.sym.in:
+	* ccss/exports.sym:
+	* src/Makefile.am:
+	* src/css2gtkrc.c:
+	* src/exports.sym:
+	* src/gce-color.c:
+	* src/gce-color.h:
+	* src/gce-functions.c:
+	* src/gce-functions.h:
+	* src/gce-maps.c:
+	* src/gce-maps.h:
+	* src/gce-node.c:
+	* src/gce-node.h:
+	* src/gce-rc-style.c:
+	* src/gce-rc-style.h:
+	* src/gce-serialize.c:
+	* src/gce-serialize.h:
+	* src/gce-style.c:
+	* src/gce-style.h:
+	* src/gce-theme.c:
+	Fix `make distcheck'.
+
+2008-10-06  Robert Staudinger  <robsta@gnome.org>
+
 	patch by: Thomas Wood <thomas@linux.intel.com>
 
 	* doc/Makefile.am: fix input path.

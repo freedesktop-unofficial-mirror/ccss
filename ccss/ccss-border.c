@@ -176,18 +176,6 @@ match_style (char const		*css_border_style,
 	return false;
 }
 
-static char const *
-lookup_name (ccss_border_style_type_t border_style)
-{
-	for (unsigned int i = 0; i < G_N_ELEMENTS (_border_style_map); i++) {
-		if (_border_style_map[i].border_style == border_style) {
-			return _border_style_map[i].css;
-		}
-	}	
-
-	return NULL;
-}
-
 ccss_border_t * 
 ccss_border_new (void)
 {
@@ -923,6 +911,18 @@ ccss_border_draw (ccss_border_stroke_t const	*left,
 }
 
 #ifdef CCSS_DEBUG
+
+static char const *
+lookup_name (ccss_border_style_type_t border_style)
+{
+	for (unsigned int i = 0; i < G_N_ELEMENTS (_border_style_map); i++) {
+		if (_border_style_map[i].border_style == border_style) {
+			return _border_style_map[i].css;
+		}
+	}	
+
+	return NULL;
+}
 
 void
 ccss_border_join_dump (ccss_border_join_t const *self)

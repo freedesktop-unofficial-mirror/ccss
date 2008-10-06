@@ -21,5 +21,3 @@ ccss_selector_group_new
 ccss_selector_group_free
 ccss_selector_group_apply
 ccss_selector_group_apply_type
-ccss_style_draw_gap
-ccss_style_draw_polygon
