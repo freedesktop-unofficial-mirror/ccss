@@ -16,7 +16,7 @@ m4_define([ccss_version_extra], [.trunk])
 m4_define([ccss_version],
     [ccss_version_major.ccss_version_minor.ccss_version_micro[]ccss_version_extra])
 
-AC_INIT([gtk-css-engine], [ccss_version])
+AC_INIT([libccss], [ccss_version])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_HEADERS([ccss/ccss-features.h])
 AC_CONFIG_SRCDIR([ccss/ccss-stylesheet.c])

@@ -1,5 +1,9 @@
 2008-10-06  Robert Staudinger  <robsta@gnome.org>
 
+	* configure.in: fix PACKAGE.
+
+2008-10-06  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-features.h.in:
 	* configure.in:
 	* libccss-1.pc.in:
