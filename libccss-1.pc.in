@@ -3,6 +3,9 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
+ccss_with_gtk=@ccss_with_gtk@
+ccss_with_rsvg=@ccss_with_rsvg@
+
 Name: libccss-1
 Description: The Cairo CSS Library
 Version: @VERSION@

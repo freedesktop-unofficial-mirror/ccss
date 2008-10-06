@@ -95,7 +95,7 @@ AM_CONDITIONAL(GTK_DOC_INSTALLED, $gtk_doc_installed)
 ### Checks for libraries. ######################################################
 
 # Maybe it would work with gtk+-2.8, the first sporting cairo, right?
-pkgs='gtk+-2.0 >= 2.10.0 libcroco-0.6'
+pkgs='libcroco-0.6'
 
 
 # See http://bugzilla.gnome.org/show_bug.cgi?id=553937 .
@@ -124,6 +124,24 @@ if test "$with_rsvg" = "yes"; then
   AC_DEFINE([CCSS_WITH_RSVG], [1], [SVG support through librsvg])
 fi
 AM_CONDITIONAL([CCSS_WITH_RSVG], [test "$with_rsvg" = "yes"])
+AC_SUBST([ccss_with_rsvg], [$with_rsvg])
+
+
+# Gtk+ 2.10 was the first with color scheme support, so we want it.
+gtk_req='gtk+-2.0 >= 2.10.0'
+PKG_CHECK_EXISTS([ $gtk_req ],
+[
+  with_gtk="yes"
+  pkgs="$pkgs $gtk_req"
+],[
+  with_gtk="no"
+])
+
+if test "$with_gtk" = "yes"; then
+  AC_DEFINE([CCSS_WITH_GTK], [1], [SVG support through libgtk])
+fi
+AM_CONDITIONAL([CCSS_WITH_GTK], [test "$with_gtk" = "yes"])
+AC_SUBST([ccss_with_gtk], [$with_gtk])
 
 
 soup_req='libsoup-2.4'
@@ -216,7 +234,9 @@ Configuration
 Libccss:
     CFLAGS                       ${CFLAGS}
     Build debugging code         $enable_debug
-    Support for SVG images       $with_rsvg (requires librsvg)
+    Support for SVG images       $with_rsvg (requires $rsvg_req)
+    Support for Gtk+ primitives  $with_gtk (requires $gtk_req)
+
 WIP Support for SVG fragments    $with_soup (requires libsoup)
 WIP Clutter support              $with_clutter
 "

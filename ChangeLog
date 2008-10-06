@@ -1,5 +1,11 @@
 2008-10-06  Robert Staudinger  <robsta@gnome.org>
 
+	* configure.in:
+	* libccss-1.pc.in:
+	Export features (rsvg, gtk).
+
+2008-10-06  Robert Staudinger  <robsta@gnome.org>
+
 	* libccss-1.pc.in: fix name.
 
 2008-10-06  Robert Staudinger  <robsta@gnome.org>
