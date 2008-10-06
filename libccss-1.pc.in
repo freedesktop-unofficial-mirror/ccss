@@ -3,8 +3,8 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: libgsf-1
-Description: The Cairo CSS Box Drawing Library
+Name: libccss-1
+Description: The Cairo CSS Library
 Version: @VERSION@
 Requires: @CCSS_DEPS@
 Libs: -L${libdir} -lccss-1
