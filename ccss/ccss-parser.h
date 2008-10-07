@@ -27,11 +27,9 @@
 G_BEGIN_DECLS
 
 GSList * ccss_parser_parse_buffer (char const *buffer, size_t size, 
-				  GHashTable *type_rules, 
-				  GHashTable *class_rules, GHashTable *id_rules);
+				  GHashTable *groups);
 
-GSList * ccss_parser_parse_file (char const *css_file, GHashTable *type_rules, 
-				GHashTable *class_rules, GHashTable *id_rules);
+GSList * ccss_parser_parse_file (char const *css_file, GHashTable *groups);
 
 G_END_DECLS
 

@@ -12,6 +12,3 @@ noinst_PROGRAMS = example-1
 
 example_1_SOURCES = example-1.c
 
-EXTRA_DIST = \
-	example-1.css
-

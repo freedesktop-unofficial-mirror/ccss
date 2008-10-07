@@ -1,3 +1,25 @@
+2008-10-07  Robert Staudinger  <robsta@gnome.org>
+
+	* README: update after libccss split.
+
+	* TODO:  update after libccss split.
+
+	* ccss/ccss-parser.c (end_selector_cb), (ccss_parser_parse_file),
+	(ccss_parser_parse_buffer):
+	* ccss/ccss-parser.h:
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_new),
+	(fix_dangling_selectors), (ccss_stylesheet_new_from_buffer),
+	(ccss_stylesheet_new_from_file), (ccss_stylesheet_free),
+	(ccss_stylesheet_query_type), (collect_type_r),
+	(ccss_stylesheet_query_collect), (apply_type_r),
+	(ccss_stylesheet_query_apply), (ccss_stylesheet_iter_init),
+	(ccss_stylesheet_dump):
+	Better naming consistency.
+
+	* examples/example-1.c (main): 
+	* examples/example-1.css:
+	Use css from buffer instead of file.
+
 2008-10-06  Robert Staudinger  <robsta@gnome.org>
 
 	* configure.in: fix PACKAGE.

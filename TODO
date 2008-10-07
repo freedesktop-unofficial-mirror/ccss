@@ -2,5 +2,12 @@
 ROADMAP
 =======
 
-See gtk-css-engine's TODO for now.
+Also see gtk-css-engine's TODO for now.
+
+0.3
+---
+
+* Implement blocks with hash-table.
+* Implement style with a hash-table and provide a query API (GValue based?).
+* Implement public selector-group API in terms of stylesheet?
 

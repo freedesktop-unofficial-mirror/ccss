@@ -5,8 +5,8 @@ README
 Download
 --------
 
-* Releases: [http://ftp.gnome.org/pub/GNOME/sources/gtk-css-engine/0.1/](http://ftp.gnome.org/pub/GNOME/sources/gtk-css-engine/0.1/)
-* Repository: [http://svn.gnome.org/svn/gtk-css-engine/trunk](http://svn.gnome.org/svn/gtk-css-engine/trunk).
+http://anongit.freedesktop.org/git/ccss.git/
+git+ssh://<user>@git.freedesktop.org/git/ccss
 
 
 (0) Supported CSS Subset

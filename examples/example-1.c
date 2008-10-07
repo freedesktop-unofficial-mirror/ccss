@@ -24,13 +24,11 @@ expose_cb (GtkWidget		*widget,
 	return FALSE;
 }
 
-/*
-static char const *_css = "			\
+static char const _css[] = "			\
 	box { 					\
 		border: 3px solid black		\
 	}					\
 ";
-*/
 
 int
 main (int	  argc,
@@ -43,8 +41,8 @@ main (int	  argc,
 
 	gtk_init (&argc, &argv);
 
-	/* stylesheet = ccss_stylesheet_new_from_buffer (_css, sizeof (_css)); */
-	stylesheet = ccss_stylesheet_new_from_file ("example-1.css");
+	stylesheet = ccss_stylesheet_new_from_buffer (_css, sizeof (_css));
+	/* stylesheet = ccss_stylesheet_new_from_file ("example-1.css"); */
 
 	group = ccss_stylesheet_query_type (stylesheet, "box");
 	g_assert (group);

@@ -30,9 +30,7 @@
 
 typedef struct {
 	GSList		*blocks;
-	GHashTable	*type_rules;
-	GHashTable	*class_rules;
-	GHashTable	*id_rules;
+	GHashTable	*groups;
 	ccss_block_t	*block;
 } ccss_parser_info_t;
 
@@ -205,7 +203,6 @@ end_selector_cb (CRDocHandler	*handler,
 	ccss_selector_t		*selector;
 	ccss_selector_group_t	*group;
 	CRSelector		*iter;
-	GHashTable		*rules;
 	char const		*key;
 
 	g_assert (HANDLER_GET_INFO (handler));
@@ -218,24 +215,15 @@ end_selector_cb (CRDocHandler	*handler,
 		if (selector) {
 			ccss_selector_set_block (selector, info->block);
 
-			rules = NULL;
-			if (ccss_selector_is_type (selector)) {
-				rules = info->type_rules;
-			} else if (ccss_selector_is_class (selector)) {
-				rules = info->class_rules;
-			} else if (ccss_selector_is_id (selector)) {
-				rules = info->id_rules;
-			} else {
-				g_assert_not_reached ();
-			}
+			g_assert (ccss_selector_is_type (selector));
 
 			key = ccss_selector_get_key (selector);
 			g_assert (key);
 
-			group = (ccss_selector_group_t *) g_hash_table_lookup (rules, key);
+			group = (ccss_selector_group_t *) g_hash_table_lookup (info->groups, key);
 			if (!group) {
 				group = ccss_selector_group_new ();
-				g_hash_table_insert (rules, (char *) key, group);
+				g_hash_table_insert (info->groups, (char *) key, group);
 			}
 			ccss_selector_group_add_selector (group, selector);
 		}
@@ -246,25 +234,21 @@ end_selector_cb (CRDocHandler	*handler,
 
 GSList *
 ccss_parser_parse_file (char const	*css_file,
-		       GHashTable	*type_rules,
-		       GHashTable	*class_rules,
-		       GHashTable	*id_rules)
+		       GHashTable	*groups)
 {
 	CRParser		*parser;
 	CRDocHandler		*handler;
 	ccss_parser_info_t	 info;
 	enum CRStatus		 ret;
 
-	g_assert (css_file && type_rules && class_rules && id_rules);
+	g_assert (css_file && groups);
 
 	parser = cr_parser_new_from_file ((guchar *) css_file, CR_UTF_8);
 
 	handler = cr_doc_handler_new ();
 	handler->app_data = (gpointer) &info;
 	info.blocks = NULL;
-	info.type_rules = type_rules;
-	info.class_rules = class_rules;
-	info.id_rules = id_rules;
+	info.groups = groups;
 	info.block = NULL;
 
 	handler->start_selector = start_selector_cb;
@@ -291,16 +275,14 @@ ccss_parser_parse_file (char const	*css_file,
 GSList *
 ccss_parser_parse_buffer (char const	*buffer,
 			 size_t		 size,
-			 GHashTable	*type_rules,
-			 GHashTable	*class_rules,
-			 GHashTable	*id_rules)
+			 GHashTable	*groups)
 {
 	CRParser		*parser;
 	CRDocHandler		*handler;
 	ccss_parser_info_t	 info;
 	enum CRStatus		 ret;
 
-	g_assert (buffer && size && type_rules && class_rules && id_rules);
+	g_assert (buffer && size && groups);
 
 	parser = cr_parser_new_from_buf ((guchar *) buffer, (gulong) size, 
 					 CR_UTF_8, false);
@@ -308,9 +290,7 @@ ccss_parser_parse_buffer (char const	*buffer,
 	handler = cr_doc_handler_new ();
 	handler->app_data = (gpointer) &info;
 	info.blocks = NULL;
-	info.type_rules = type_rules;
-	info.class_rules = class_rules;
-	info.id_rules = id_rules;
+	info.groups = groups;
 	info.block = NULL;
 
 	handler->start_selector = start_selector_cb;

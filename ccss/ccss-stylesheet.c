@@ -28,17 +28,13 @@
 /**
  * ccss_stylesheet_t:
  * @blocks:		List owning all blocks parsed from the stylesheet.
- * @type_rules:		Associates type names with all applying selectors.
- * @class_rules:	Associates class names with all applying selectors.
- * @id_rules:		Associates IDs with all applying selectors.
+ * @groups:		Associates type names with all applying selectors.
  *
  * Represents a parsed instance of a stylesheet.
  **/
 struct ccss_stylesheet_ {
 	GSList		*blocks;
-	GHashTable	*type_rules;
-	GHashTable	*class_rules;
-	GHashTable	*id_rules;
+	GHashTable	*groups;
 };
 
 static ccss_stylesheet_t *
@@ -47,9 +43,7 @@ ccss_stylesheet_new (void)
 	ccss_stylesheet_t *self;
 
 	self = g_new0 (ccss_stylesheet_t, 1);
-	self->type_rules = g_hash_table_new (g_str_hash, g_str_equal);
-	self->class_rules = g_hash_table_new (g_str_hash, g_str_equal);
-	self->id_rules = g_hash_table_new (g_str_hash, g_str_equal);
+	self->groups = g_hash_table_new (g_str_hash, g_str_equal);
 
 	return self;
 }
@@ -68,7 +62,7 @@ fix_dangling_selectors (ccss_stylesheet_t *self)
 	void			*v;
 
 	/* fix up dangling associations to base styles, walk the tree of type rules */
-	g_hash_table_iter_init (&iter, self->type_rules);
+	g_hash_table_iter_init (&iter, self->groups);
 	while (g_hash_table_iter_next (&iter, &k, &v)) {
 		
 		/* walk extra mile to prevent warnings */
@@ -85,7 +79,7 @@ fix_dangling_selectors (ccss_stylesheet_t *self)
 			 * selectors will be removed in clear_dangling_selectors(). */
 			selector = (ccss_selector_t const *) item->data;
 			dangling_key = ccss_selector_get_key (selector);
-			fixup_group = g_hash_table_lookup (self->type_rules, dangling_key);
+			fixup_group = g_hash_table_lookup (self->groups, dangling_key);
 			if (fixup_group) {
 				ccss_selector_group_merge_base (group, fixup_group);
 			}
@@ -112,12 +106,9 @@ ccss_stylesheet_new_from_buffer (char const	*buffer,
 {
 	ccss_stylesheet_t	*self;
 
-	g_critical ("%s() not tested", __FUNCTION__);
-
 	self = ccss_stylesheet_new ();
 
-	self->blocks = ccss_parser_parse_buffer (buffer, size, self->type_rules, 
-						self->class_rules, self->id_rules);
+	self->blocks = ccss_parser_parse_buffer (buffer, size, self->groups);
 
 	fix_dangling_selectors (self);
 
@@ -139,8 +130,7 @@ ccss_stylesheet_new_from_file (char const *css_file)
 
 	self = ccss_stylesheet_new ();
 
-	self->blocks = ccss_parser_parse_file (css_file, self->type_rules, 
-					      self->class_rules, self->id_rules);
+	self->blocks = ccss_parser_parse_file (css_file, self->groups);
 
 	fix_dangling_selectors (self);
 
@@ -168,9 +158,7 @@ ccss_stylesheet_free (ccss_stylesheet_t *self)
 		ccss_block_free (block);
 	}
 
-	g_hash_table_destroy (self->type_rules);
-	g_hash_table_destroy (self->class_rules);
-	g_hash_table_destroy (self->id_rules);
+	g_hash_table_destroy (self->groups);
 	g_free (self);
 }
 
@@ -189,9 +177,9 @@ ccss_stylesheet_query_type (ccss_stylesheet_t const	*self,
 {
 	ccss_selector_group_t const *group;
 
-	g_assert (self && type_name && self->type_rules);
+	g_assert (self && type_name && self->groups);
 
-	group = (ccss_selector_group_t const *) g_hash_table_lookup (self->type_rules, type_name);
+	group = (ccss_selector_group_t const *) g_hash_table_lookup (self->groups, type_name);
 
 	return group;
 }
@@ -224,7 +212,7 @@ collect_type_r (ccss_stylesheet_t const	*self,
 
 		ccss_node_t *base;
 
-		group = g_hash_table_lookup (self->type_rules, type_name);
+		group = g_hash_table_lookup (self->groups, type_name);
 		if (group) {
 			ret = ccss_selector_group_query_collect (group, node, result_group, as_base);
 		}
@@ -270,7 +258,7 @@ ccss_stylesheet_query_collect (ccss_stylesheet_t const	*self,
 	ret = false;
 
 	/* Match wildcard styles. */
-	group = g_hash_table_lookup (self->type_rules, "*");
+	group = g_hash_table_lookup (self->groups, "*");
 	if (group) {
 		ret |= ccss_selector_group_query_collect (group, node, 
 							 result_group, false);
@@ -278,14 +266,6 @@ ccss_stylesheet_query_collect (ccss_stylesheet_t const	*self,
 
 	/* match style by type information */
 	ret |= collect_type_r (self, node, node, result_group, as_base);
-
-	/* match by class name 
-	ret |= match_class (self, node, style);
-	*/
-
-	/* match by id
-	ret |= query_id (self, node, style);
-	*/
 
 	return ret;
 }
@@ -317,7 +297,7 @@ apply_type_r (ccss_stylesheet_t const	*self,
 
 		ccss_node_t *base;
 
-		group = g_hash_table_lookup (self->type_rules, type_name);
+		group = g_hash_table_lookup (self->groups, type_name);
 		if (group) {
 			ret = ccss_selector_group_query_apply (group, node, style);
 		}
@@ -331,62 +311,6 @@ apply_type_r (ccss_stylesheet_t const	*self,
 
 	} else {
 		g_warning ("No type name");
-	}
-
-	return ret;
-}
-
-/*
- * Merge properties from global style classes.
- * Note: not yet supported by libcroco.
- */
-static bool
-match_class (ccss_stylesheet_t const	*self,
-	     ccss_node_t const		*node, 
-	     ccss_style_t		*style)
-{
-	ccss_node_class_t const	*node_class;
-	ccss_selector_group_t	*group;
-	char const		*class_name;
-	bool			 ret;
-
-	node_class = node->node_class;
-
-	ret = false;
-	class_name = node_class->get_class (node);
-	if (class_name) {
-		group = g_hash_table_lookup (self->class_rules, class_name);
-		if (group) {
-			ret |= ccss_selector_group_query_apply (group, node, style);
-		}		
-	}
-
-	return ret;
-}
-
-/*
- * Merge properties from global style classes.
- * Note: not yet supported by libcroco.
- */
-static bool
-match_id (ccss_stylesheet_t const	*self,
-	  ccss_node_t const		*node, 
-	  ccss_style_t			*style)
-{
-	ccss_node_class_t const	*node_class;
-	ccss_selector_group_t	*group;
-	char const		*id;
-	bool			 ret;
-
-	node_class = node->node_class;
-
-	ret = false;
-	id = node_class->get_id (node);
-	if (id) {
-		group = g_hash_table_lookup (self->id_rules, id);
-		if (group) {
-			ret |= ccss_selector_group_query_apply (group, node, style);
-		}		
 	}
 
 	return ret;
@@ -419,12 +343,6 @@ ccss_stylesheet_query_apply (ccss_stylesheet_t const	*self,
 	/* match style by type information */
 	have_type = apply_type_r (self, node, node, style);
 
-	/* match by class name */
-	have_class = match_class (self, node, style);
-
-	/* match by id */
-	have_id = match_id (self, node, style);
-
 	return have_type || have_class || have_id;
 }
 
@@ -439,9 +357,9 @@ void
 ccss_stylesheet_iter_init (ccss_stylesheet_iter_t		*self,
 			  ccss_stylesheet_t const	*stylesheet)
 {
-	g_return_if_fail (stylesheet && stylesheet->type_rules);
+	g_return_if_fail (stylesheet && stylesheet->groups);
 
-	g_hash_table_iter_init (self, stylesheet->type_rules);
+	g_hash_table_iter_init (self, stylesheet->groups);
 }
 
 /**
@@ -476,19 +394,7 @@ ccss_stylesheet_dump (ccss_stylesheet_t const *self)
 	char const		*key;
 	ccss_selector_group_t	*value;
 
-	g_return_if_fail (self && self->class_rules);
-
-	g_hash_table_iter_init (&iter, self->type_rules);
-	while (g_hash_table_iter_next (&iter, (gpointer) &key, (gpointer) &value)) {
-		ccss_selector_group_dump (value);
-	}
-
-	g_hash_table_iter_init (&iter, self->class_rules);
-	while (g_hash_table_iter_next (&iter, (gpointer) &key, (gpointer) &value)) {
-		ccss_selector_group_dump (value);
-	}
-
-	g_hash_table_iter_init (&iter, self->id_rules);
+	g_hash_table_iter_init (&iter, self->groups);
 	while (g_hash_table_iter_next (&iter, (gpointer) &key, (gpointer) &value)) {
 		ccss_selector_group_dump (value);
 	}
