@@ -10,4 +10,4 @@ Also see gtk-css-engine's TODO for now.
 * Implement blocks with hash-table.
 * Implement style with a hash-table and provide a query API (GValue based?).
 * Implement public selector-group API in terms of stylesheet?
-
+* ccss_stylesheet_new_from_file took (filename, GError)

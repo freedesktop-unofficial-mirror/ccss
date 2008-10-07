@@ -1,3 +1,54 @@
+2008-10-07 Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: remember error handling.
+
+	* ccss/ccss-block.c (ccss_block_new), (ccss_block_new_background),
+	(ccss_block_new_background_attachment),
+	(ccss_block_new_background_color),
+	(ccss_block_new_background_image),
+	(ccss_block_new_background_position),
+	(ccss_block_new_background_repeat),
+	(ccss_block_new_background_size), (ccss_block_new_border),
+	(ccss_block_new_border_color), (ccss_block_new_border_style),
+	(ccss_block_new_border_width), (ccss_block_new_border_bottom),
+	(ccss_block_new_border_bottom_color),
+	(ccss_block_new_border_bottom_style),
+	(ccss_block_new_border_bottom_with), (ccss_block_new_border_left),
+	(ccss_block_new_border_right), (ccss_block_new_border_top),
+	(ccss_block_new_border_radius),
+	(ccss_block_new_border_bottom_left_radius),
+	(ccss_block_new_border_bottom_right_radius),
+	(ccss_block_new_border_top_left_radius),
+	(ccss_block_new_border_top_right_radius), (ccss_block_new_color),
+	(ccss_block_get_background),
+	(ccss_block_get_background_attachment),
+	(ccss_block_get_background_color),
+	(ccss_block_get_background_image),
+	(ccss_block_get_background_position),
+	(ccss_block_get_background_repeat),
+	(ccss_block_get_background_size), (ccss_block_get_border),
+	(ccss_block_get_border_color), (ccss_block_get_border_style),
+	(ccss_block_get_border_width), (ccss_block_get_border_bottom),
+	(ccss_block_get_border_bottom_color),
+	(ccss_block_get_border_bottom_style),
+	(ccss_block_get_border_bottom_with), (ccss_block_get_border_left),
+	(ccss_block_get_border_left_color),
+	(ccss_block_get_border_left_style),
+	(ccss_block_get_border_left_width), (ccss_block_get_border_right),
+	(ccss_block_get_border_right_color),
+	(ccss_block_get_border_right_style),
+	(ccss_block_get_border_right_width), (ccss_block_get_border_top),
+	(ccss_block_get_border_top_color),
+	(ccss_block_get_border_top_style),
+	(ccss_block_get_border_top_width), (ccss_block_get_border_radius),
+	(ccss_block_get_border_bottom_left_radius),
+	(ccss_block_get_border_bottom_right_radius),
+	(ccss_block_get_border_top_left_radius),
+	(ccss_block_get_border_top_right_radius), (ccss_block_get_color):
+	* ccss/ccss-block.h:
+	* ccss/ccss-property.h:
+	Towards internal property representation in a hash-table (not hooked up yet).
+
 2008-10-07  Robert Staudinger  <robsta@gnome.org>
 
 	* README: update after libccss split.
