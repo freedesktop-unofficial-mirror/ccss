@@ -72,15 +72,6 @@ typedef struct {
 	ccss_border_width_t const *	width;
 } ccss_border_stroke_t; 
 
-#define CCSS_BORDER_JOIN_IS_SET(join_) 				\
-	((join_).spec != CCSS_PROPERTY_SPEC_UNSET)
-
-#define CCSS_BORDER_JOIN_ASSIGN(lhs_, rhs_) {			\
-	(lhs_).radius	= (rhs_).radius;			\
-	(lhs_).spec	= (rhs_).spec;				\
-	(lhs_).flags	= (rhs_).flags;				\
-}
-
 typedef struct {
 	ccss_property_spec_t	spec;	
 	double			radius;

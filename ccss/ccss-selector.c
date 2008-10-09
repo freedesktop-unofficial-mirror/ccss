@@ -877,12 +877,10 @@ ccss_selector_query_apply (ccss_selector_t const	*self,
 
 		/* Update dynamic block variables. 
 		 * FIXME: find some good place/way to to this. */
-		if (CCSS_BACKGROUND_FIXED == self->block->background.bg_attachment.attachment) {
-printf ("%s() query\n", __FUNCTION__);
-			/* TODO: set viewport */
+		/* if (CCSS_BACKGROUND_FIXED == self->block->background.bg_attachment.attachment) {
+			// TODO: set viewport
 
-		}
-
+		} */
 		ccss_selector_apply (self, style);
 	}
 

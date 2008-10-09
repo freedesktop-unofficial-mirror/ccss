@@ -17,8 +17,8 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_BORDER_PARSER_H
-#define CCSS_BORDER_PARSER_H
+#ifndef CCSS_BACKGROUND_PARSER_H
+#define CCSS_BACKGROUND_PARSER_H
 
 #include <stdbool.h>
 #include <glib.h>
@@ -28,10 +28,10 @@
 
 G_BEGIN_DECLS
 
-bool ccss_block_parse_border (ccss_block_t *self, char const *property, 
-			      CRTerm const *values);
+bool ccss_block_parse_background (ccss_block_t *self, char const *property, 
+				  CRTerm const *values);
 
 G_END_DECLS
 
-#endif /* CCSS_BORDER_PARSER_H */
+#endif /* CCSS_BACKGROUND_PARSER_H */
 

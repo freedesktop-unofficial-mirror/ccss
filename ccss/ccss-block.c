@@ -49,6 +49,7 @@ static GQuark _BORDER_BOTTOM_LEFT_RADIUS	= 0;
 
 static GQuark _COLOR				= 0;
 
+/* FIXME: move each quark to its getter and initialise there. */
 static void
 init (void)
 {
@@ -285,12 +286,12 @@ ccss_block_new_background_attachment (ccss_block_t *self)
 
 	bg_attachment = (ccss_background_attachment_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BACKGROUND_ATTACHMENT);
+				(gpointer) CCSS_PROPERTY_BACKGROUND_ATTACHMENT);
 	if (!bg_attachment) {
 		bg_attachment = g_new0 (ccss_background_attachment_t, 1);
 		g_hash_table_insert (
 				self->properties,
-				(gpointer) _BACKGROUND_ATTACHMENT,
+				(gpointer) CCSS_PROPERTY_BACKGROUND_ATTACHMENT,
 				(gpointer) bg_attachment);
 	}
 	
@@ -306,12 +307,12 @@ ccss_block_new_background_color (ccss_block_t *self)
 
 	bg_color = (ccss_color_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BACKGROUND_COLOR);
+				(gpointer) CCSS_PROPERTY_BACKGROUND_COLOR);
 	if (!bg_color) {
 		bg_color = g_new0 (ccss_color_t, 1);
 		g_hash_table_insert (
 				self->properties,
-				(gpointer) _BACKGROUND_COLOR,
+				(gpointer) CCSS_PROPERTY_BACKGROUND_COLOR,
 				(gpointer) bg_color);
 	}
 	
@@ -327,12 +328,12 @@ ccss_block_new_background_image (ccss_block_t *self)
 
 	bg_image = (ccss_background_image_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BACKGROUND_IMAGE);
+				(gpointer) CCSS_PROPERTY_BACKGROUND_IMAGE);
 	if (!bg_image) {
 		bg_image = g_new0 (ccss_background_image_t, 1);
 		g_hash_table_insert (
 				self->properties,
-				(gpointer) _BACKGROUND_IMAGE,
+				(gpointer) CCSS_PROPERTY_BACKGROUND_IMAGE,
 				(gpointer) bg_image);
 	}
 	
@@ -348,12 +349,12 @@ ccss_block_new_background_position (ccss_block_t *self)
 
 	bg_position = (ccss_background_position_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BACKGROUND_POSITION);
+				(gpointer) CCSS_PROPERTY_BACKGROUND_POSITION);
 	if (!bg_position) {
 		bg_position = g_new0 (ccss_background_position_t, 1);
 		g_hash_table_insert (
 				self->properties,
-				(gpointer) _BACKGROUND_POSITION,
+				(gpointer) CCSS_PROPERTY_BACKGROUND_POSITION,
 				(gpointer) bg_position);
 	}
 	
@@ -369,12 +370,12 @@ ccss_block_new_background_repeat (ccss_block_t *self)
 
 	bg_repeat = (ccss_background_repeat_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BACKGROUND_REPEAT);
+				(gpointer) CCSS_PROPERTY_BACKGROUND_REPEAT);
 	if (!bg_repeat) {
 		bg_repeat = g_new0 (ccss_background_repeat_t, 1);
 		g_hash_table_insert (
 				self->properties,
-				(gpointer) _BACKGROUND_REPEAT,
+				(gpointer) CCSS_PROPERTY_BACKGROUND_REPEAT,
 				(gpointer) bg_repeat);
 	}
 	
@@ -390,11 +391,11 @@ ccss_block_new_background_size (ccss_block_t *self)
 
 	bg_size = (ccss_background_size_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BACKGROUND_SIZE);
+				(gpointer) CCSS_PROPERTY_BACKGROUND_SIZE);
 	if (!bg_size) {
 		bg_size = g_new0 (ccss_background_size_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BACKGROUND_SIZE,
+				(gpointer) CCSS_PROPERTY_BACKGROUND_SIZE,
 				(gpointer) bg_size);
 	}
 	
@@ -410,11 +411,11 @@ ccss_block_new_border_bottom_color (ccss_block_t *self)
 
 	color = (ccss_color_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_BOTTOM_COLOR);
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_COLOR);
 	if (!color) {
 		color = g_new0 (ccss_color_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_BOTTOM_COLOR,
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_COLOR,
 				(gpointer) color);
 	}
 	
@@ -430,11 +431,11 @@ ccss_block_new_border_bottom_style (ccss_block_t *self)
 
 	style = (ccss_border_style_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_BOTTOM_STYLE);
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_STYLE);
 	if (!style) {
 		style = g_new0 (ccss_border_style_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_BOTTOM_STYLE,
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_STYLE,
 				(gpointer) style);
 	}
 	
@@ -450,11 +451,11 @@ ccss_block_new_border_bottom_width (ccss_block_t *self)
 
 	width = (ccss_border_width_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_BOTTOM_WIDTH);
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_WIDTH);
 	if (!width) {
 		width = g_new0 (ccss_border_width_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_BOTTOM_WIDTH,
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_WIDTH,
 				(gpointer) width);
 	}
 	
@@ -470,11 +471,11 @@ ccss_block_new_border_left_color (ccss_block_t *self)
 
 	color = (ccss_color_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_LEFT_COLOR);
+				(gpointer) CCSS_PROPERTY_BORDER_LEFT_COLOR);
 	if (!color) {
 		color = g_new0 (ccss_color_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_LEFT_COLOR,
+				(gpointer) CCSS_PROPERTY_BORDER_LEFT_COLOR,
 				(gpointer) color);
 	}
 	
@@ -490,11 +491,11 @@ ccss_block_new_border_left_style (ccss_block_t *self)
 
 	style = (ccss_border_style_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_LEFT_STYLE);
+				(gpointer) CCSS_PROPERTY_BORDER_LEFT_STYLE);
 	if (!style) {
 		style = g_new0 (ccss_border_style_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_LEFT_STYLE,
+				(gpointer) CCSS_PROPERTY_BORDER_LEFT_STYLE,
 				(gpointer) style);
 	}
 	
@@ -510,11 +511,11 @@ ccss_block_new_border_left_width (ccss_block_t *self)
 
 	width = (ccss_border_width_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_LEFT_WIDTH);
+				(gpointer) CCSS_PROPERTY_BORDER_LEFT_WIDTH);
 	if (!width) {
 		width = g_new0 (ccss_border_width_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_LEFT_WIDTH,
+				(gpointer) CCSS_PROPERTY_BORDER_LEFT_WIDTH,
 				(gpointer) width);
 	}
 	
@@ -530,11 +531,11 @@ ccss_block_new_border_right_color (ccss_block_t *self)
 
 	color = (ccss_color_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_RIGHT_COLOR);
+				(gpointer) CCSS_PROPERTY_BORDER_RIGHT_COLOR);
 	if (!color) {
 		color = g_new0 (ccss_color_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_RIGHT_COLOR,
+				(gpointer) CCSS_PROPERTY_BORDER_RIGHT_COLOR,
 				(gpointer) color);
 	}
 	
@@ -550,11 +551,11 @@ ccss_block_new_border_right_style (ccss_block_t *self)
 
 	style = (ccss_border_style_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_RIGHT_STYLE);
+				(gpointer) CCSS_PROPERTY_BORDER_RIGHT_STYLE);
 	if (!style) {
 		style = g_new0 (ccss_border_style_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_RIGHT_STYLE,
+				(gpointer) CCSS_PROPERTY_BORDER_RIGHT_STYLE,
 				(gpointer) style);
 	}
 	
@@ -570,11 +571,11 @@ ccss_block_new_border_right_width (ccss_block_t *self)
 
 	width = (ccss_border_width_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_RIGHT_WIDTH);
+				(gpointer) CCSS_PROPERTY_BORDER_RIGHT_WIDTH);
 	if (!width) {
 		width = g_new0 (ccss_border_width_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_RIGHT_WIDTH,
+				(gpointer) CCSS_PROPERTY_BORDER_RIGHT_WIDTH,
 				(gpointer) width);
 	}
 	
@@ -590,11 +591,11 @@ ccss_block_new_border_top_color (ccss_block_t *self)
 
 	color = (ccss_color_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_TOP_COLOR);
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_COLOR);
 	if (!color) {
 		color = g_new0 (ccss_color_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_TOP_COLOR,
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_COLOR,
 				(gpointer) color);
 	}
 	
@@ -610,11 +611,11 @@ ccss_block_new_border_top_style (ccss_block_t *self)
 
 	style = (ccss_border_style_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_TOP_STYLE);
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_STYLE);
 	if (!style) {
 		style = g_new0 (ccss_border_style_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_TOP_STYLE,
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_STYLE,
 				(gpointer) style);
 	}
 	
@@ -630,11 +631,11 @@ ccss_block_new_border_top_width (ccss_block_t *self)
 
 	width = (ccss_border_width_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_TOP_WIDTH);
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_WIDTH);
 	if (!width) {
 		width = g_new0 (ccss_border_width_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_TOP_WIDTH,
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_WIDTH,
 				(gpointer) width);
 	}
 	
@@ -650,11 +651,11 @@ ccss_block_new_border_bottom_left_radius (ccss_block_t *self)
 
 	join = (ccss_border_join_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_BOTTOM_LEFT_RADIUS);
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_LEFT_RADIUS);
 	if (!join) {
 		join = g_new0 (ccss_border_join_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_BOTTOM_LEFT_RADIUS,
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_LEFT_RADIUS,
 				(gpointer) join);
 	}
 	
@@ -670,11 +671,11 @@ ccss_block_new_border_bottom_right_radius (ccss_block_t *self)
 
 	join = (ccss_border_join_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_BOTTOM_RIGHT_RADIUS);
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS);
 	if (!join) {
 		join = g_new0 (ccss_border_join_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_BOTTOM_RIGHT_RADIUS,
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS,
 				(gpointer) join);
 	}
 	
@@ -690,11 +691,11 @@ ccss_block_new_border_top_left_radius (ccss_block_t *self)
 
 	join = (ccss_border_join_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_TOP_LEFT_RADIUS);
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_LEFT_RADIUS);
 	if (!join) {
 		join = g_new0 (ccss_border_join_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_TOP_LEFT_RADIUS,
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_LEFT_RADIUS,
 				(gpointer) join);
 	}
 	
@@ -710,11 +711,11 @@ ccss_block_new_border_top_right_radius (ccss_block_t *self)
 
 	join = (ccss_border_join_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_TOP_RIGHT_RADIUS);
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS);
 	if (!join) {
 		join = g_new0 (ccss_border_join_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _BORDER_TOP_RIGHT_RADIUS,
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS,
 				(gpointer) join);
 	}
 	
@@ -730,11 +731,11 @@ ccss_block_new_color (ccss_block_t *self)
 
 	color = (ccss_color_t *) g_hash_table_lookup (
 				self->properties,
-				(gpointer) _COLOR);
+				(gpointer) CCSS_PROPERTY_COLOR);
 	if (!color) {
 		color = g_new0 (ccss_color_t, 1);
 		g_hash_table_insert (self->properties,
-				(gpointer) _COLOR,
+				(gpointer) CCSS_PROPERTY_COLOR,
 				(gpointer) color);
 	}
 	
@@ -749,7 +750,7 @@ ccss_block_get_background_attachment (ccss_block_t const *self)
 	return (ccss_background_attachment_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BACKGROUND_ATTACHMENT);
+				(gpointer) CCSS_PROPERTY_BACKGROUND_ATTACHMENT);
 }
 
 ccss_color_t const *
@@ -760,7 +761,7 @@ ccss_block_get_background_color (ccss_block_t const *self)
 	return (ccss_color_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BACKGROUND_COLOR);
+				(gpointer) CCSS_PROPERTY_BACKGROUND_COLOR);
 }
 
 ccss_background_image_t const *
@@ -771,7 +772,7 @@ ccss_block_get_background_image (ccss_block_t const *self)
 	return (ccss_background_image_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BACKGROUND_IMAGE);
+				(gpointer) CCSS_PROPERTY_BACKGROUND_IMAGE);
 }
 
 ccss_background_position_t const *
@@ -782,7 +783,7 @@ ccss_block_get_background_position (ccss_block_t const *self)
 	return (ccss_background_position_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BACKGROUND_POSITION);
+				(gpointer) CCSS_PROPERTY_BACKGROUND_POSITION);
 }
 
 ccss_background_repeat_t const *
@@ -793,7 +794,7 @@ ccss_block_get_background_repeat (ccss_block_t const *self)
 	return (ccss_background_repeat_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BACKGROUND_REPEAT);
+				(gpointer) CCSS_PROPERTY_BACKGROUND_REPEAT);
 }
 
 ccss_background_size_t const *
@@ -804,7 +805,7 @@ ccss_block_get_background_size (ccss_block_t const *self)
 	return (ccss_background_size_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BACKGROUND_SIZE);
+				(gpointer) CCSS_PROPERTY_BACKGROUND_SIZE);
 }
 
 ccss_color_t const *
@@ -815,7 +816,7 @@ ccss_block_get_border_bottom_color (ccss_block_t const *self)
 	return (ccss_color_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_BOTTOM_COLOR);
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_COLOR);
 }
 
 ccss_border_style_t const *
@@ -826,7 +827,7 @@ ccss_block_get_border_bottom_style (ccss_block_t const *self)
 	return (ccss_border_style_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_BOTTOM_STYLE);
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_STYLE);
 }
 
 ccss_border_width_t const *
@@ -837,7 +838,7 @@ ccss_block_get_border_bottom_width (ccss_block_t const *self)
 	return (ccss_border_width_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_BOTTOM_WIDTH);
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_WIDTH);
 }
 
 ccss_color_t const *
@@ -848,7 +849,7 @@ ccss_block_get_border_left_color (ccss_block_t const *self)
 	return (ccss_color_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_LEFT_COLOR);
+				(gpointer) CCSS_PROPERTY_BORDER_LEFT_COLOR);
 }
 
 ccss_border_style_t const *
@@ -859,7 +860,7 @@ ccss_block_get_border_left_style (ccss_block_t const *self)
 	return (ccss_border_style_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_LEFT_STYLE);
+				(gpointer) CCSS_PROPERTY_BORDER_LEFT_STYLE);
 }
 
 ccss_border_width_t const *
@@ -870,7 +871,7 @@ ccss_block_get_border_left_width (ccss_block_t const *self)
 	return (ccss_border_width_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_LEFT_WIDTH);
+				(gpointer) CCSS_PROPERTY_BORDER_LEFT_WIDTH);
 }
 
 ccss_color_t const *
@@ -881,7 +882,7 @@ ccss_block_get_border_right_color (ccss_block_t const *self)
 	return (ccss_color_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_RIGHT_COLOR);
+				(gpointer) CCSS_PROPERTY_BORDER_RIGHT_COLOR);
 }
 
 ccss_border_style_t const *
@@ -892,7 +893,7 @@ ccss_block_get_border_right_style (ccss_block_t const *self)
 	return (ccss_border_style_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_RIGHT_STYLE);
+				(gpointer) CCSS_PROPERTY_BORDER_RIGHT_STYLE);
 }
 
 ccss_border_width_t const *
@@ -903,7 +904,7 @@ ccss_block_get_border_right_width (ccss_block_t const *self)
 	return (ccss_border_width_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_RIGHT_WIDTH);
+				(gpointer) CCSS_PROPERTY_BORDER_RIGHT_WIDTH);
 }
 
 ccss_color_t const *
@@ -914,7 +915,7 @@ ccss_block_get_border_top_color (ccss_block_t const *self)
 	return (ccss_color_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_TOP_COLOR);
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_COLOR);
 }
 
 ccss_border_style_t const *
@@ -925,7 +926,7 @@ ccss_block_get_border_top_style (ccss_block_t const *self)
 	return (ccss_border_style_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_TOP_STYLE);
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_STYLE);
 }
 
 ccss_border_width_t const *
@@ -936,7 +937,7 @@ ccss_block_get_border_top_width (ccss_block_t const *self)
 	return (ccss_border_width_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_TOP_WIDTH);
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_WIDTH);
 }
 
 ccss_border_join_t const *
@@ -947,7 +948,7 @@ ccss_block_get_border_bottom_left_radius (ccss_block_t const *self)
 	return (ccss_border_join_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_BOTTOM_LEFT_RADIUS);
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_LEFT_RADIUS);
 }
 
 ccss_border_join_t const *
@@ -958,7 +959,7 @@ ccss_block_get_border_bottom_right_radius (ccss_block_t const *self)
 	return (ccss_border_join_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_BOTTOM_RIGHT_RADIUS);
+				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS);
 }
 
 ccss_border_join_t const *
@@ -969,7 +970,7 @@ ccss_block_get_border_top_left_radius (ccss_block_t const *self)
 	return (ccss_border_join_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_TOP_LEFT_RADIUS);
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_LEFT_RADIUS);
 }
 
 ccss_border_join_t const *
@@ -980,7 +981,7 @@ ccss_block_get_border_top_right_radius (ccss_block_t const *self)
 	return (ccss_border_join_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _BORDER_TOP_RIGHT_RADIUS);
+				(gpointer) CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS);
 }
 
 ccss_color_t const *
@@ -991,7 +992,7 @@ ccss_block_get_color (ccss_block_t const *self)
 	return (ccss_color_t const *) 
 			g_hash_table_lookup (
 				self->properties,
-				(gpointer) _COLOR);
+				(gpointer) CCSS_PROPERTY_COLOR);
 }
 
 #ifdef CCSS_DEBUG
@@ -999,9 +1000,11 @@ ccss_block_get_color (ccss_block_t const *self)
 void
 ccss_block_dump (ccss_block_t const *self)
 {
+/* TODO
 	ccss_background_dump (&self->background);
 	ccss_border_dump (&self->border);
 	ccss_color_dump (&self->color);
+*/
 }
 
 #endif /* CCSS_DEBUG */

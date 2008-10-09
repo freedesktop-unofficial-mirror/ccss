@@ -22,6 +22,16 @@
 #include <string.h>
 #include "ccss-border.h"
 
+#define STROKE_IS_SET(stroke_)						\
+		(stroke_ && 						\
+		 stroke_->color->spec == CCSS_PROPERTY_SPEC_SET &&	\
+		 stroke_->style->spec == CCSS_PROPERTY_SPEC_SET &&	\
+		 stroke_->width->spec == CCSS_PROPERTY_SPEC_SET)
+
+#define JOIN_IS_SET(join_)						\
+		(join_ &&						\
+		 join_->spec == CCSS_PROPERTY_SPEC_SET)
+
 #define _PI (_pi ())
 
 static double
@@ -149,7 +159,7 @@ get_line_draw_func (ccss_border_stroke_t const	*stroke,
 		return draw_none_line;
 	}
 
-	switch (stroke->style->spec) {
+	switch (stroke->style->style) {
 	case CCSS_BORDER_STYLE_HIDDEN: 
 		g_warning ("CCSS_BORDER_STYLE_HIDDEN not implemented");
 		return draw_none_line;
@@ -189,6 +199,18 @@ join (ccss_border_stroke_t const	*before,
 }
 
 static void
+draw_none_join (ccss_border_stroke_t const	*before,
+		ccss_border_stroke_t const	*after,
+		cairo_t				*cr,
+		double				 xc,
+		double				 yc,
+		double				 radius,
+		double				 angle1,
+		double				 angle2)
+{
+}
+
+static void
 draw_solid_join (ccss_border_stroke_t const	*before,
 		 ccss_border_stroke_t const	*after,
 		 cairo_t			*cr,
@@ -202,7 +224,7 @@ draw_solid_join (ccss_border_stroke_t const	*before,
 
 	join (before, after, cr, xc, yc, radius, angle1, angle2);
 
-	/* TODO draw with gradient if colors are different. 
+	/* FIXME draw with gradient if colors are different. 
 	 * Probably requires that the join has all the color information. */
 	if (before) {
 		cairo_set_line_width (cr, before->width->width);
@@ -236,6 +258,12 @@ get_join_draw_func (ccss_border_stroke_t const	*before,
 {
 	if (path_only) {
 		return join;
+	}
+
+	/* FIXME: draw a transition if only one of them is set. */
+	if (!STROKE_IS_SET (before) ||
+	    !STROKE_IS_SET (after)) {
+		return draw_none_join;
 	}
 
 	return draw_solid_join;

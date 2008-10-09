@@ -45,6 +45,8 @@ endif
 libccss_1_la_SOURCES = \
 	ccss-background.c \
 	ccss-background.h \
+	ccss-background-parser.c \
+	ccss-background-parser.h \
 	ccss-block.c \
 	ccss-block.h \
 	ccss-border.c \

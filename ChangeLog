@@ -1,5 +1,13 @@
 2008-10-09  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-background-parser.c (bg_attachment_parse),
+	(bg_image_parse), (bg_position_parse), (bg_repeat_parse),
+	(bg_size_parse), (ccss_block_parse_background):
+	* ccss/ccss-background-parser.h:
+	Fix border-drawing now that they are always set because of the internal representation.
+
+2008-10-09  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-border-parser.c (match_style), (parse_width),
 	(parse_style), (parse_color), (parse_radius),
 	(parse_stroke_property), (ccss_block_parse_border), (lookup_name):

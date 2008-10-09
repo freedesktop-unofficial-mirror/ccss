@@ -54,8 +54,9 @@ static const ccss_background_size_t const _bg_size = {
 	.height = { CCSS_POSITION_AUTO, 0 }
 };
 
+/* FIXME: don't draw borders by default? */
 static const ccss_border_style_t const _border_style = {
-	.spec = CCSS_PROPERTY_SPEC_SET,
+	.spec = CCSS_PROPERTY_SPEC_UNSET,
 	.style = CCSS_BORDER_STYLE_SOLID
 };
 

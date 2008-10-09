@@ -63,10 +63,6 @@ G_BEGIN_DECLS
 typedef struct {
 	/*< private >*/
 	GHashTable *properties;
-// TODO
-	ccss_background_t	background;
-	ccss_border_t		border;
-	ccss_color_t		color;
 } ccss_block_t;
 
 ccss_block_t *	ccss_block_new	(void);

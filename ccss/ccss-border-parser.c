@@ -275,7 +275,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 	}
 
 	/* Test for specific properties first. */
-	if (g_str_has_prefix ("border-left-", property)) {
+	if (g_str_has_prefix (property, "border-left-")) {
 
 		ret = parse_stroke_property (&c, &s, &w, property, values);
 		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_left_color (self); *color = c; }
@@ -283,7 +283,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_left_width (self); *width = w; }
 		return ret;
 
-	} else if (g_str_has_prefix ("border-top-", property)) {
+	} else if (g_str_has_prefix (property, "border-top-")) {
 
 		ret = parse_stroke_property (&c, &s, &w, property, values);
 		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_top_color (self); *color = c; }
@@ -291,7 +291,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_top_width (self); *width = w; }
 		return ret;
 
-	} else if (g_str_has_prefix ("border-right-", property)) {
+	} else if (g_str_has_prefix (property, "border-right-")) {
 
 		ret = parse_stroke_property (&c, &s, &w, property, values);
 		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_right_color (self); *color = c; }
@@ -299,7 +299,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_right_width (self); *width = w; }
 		return ret;
 
-	} else if (g_str_has_prefix ("border-bottom-", property)) {
+	} else if (g_str_has_prefix (property, "border-bottom-")) {
 
 		ret = parse_stroke_property (&c, &s, &w, property, values);
 		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_bottom_color (self); *color = c; }
