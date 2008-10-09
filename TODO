@@ -7,7 +7,22 @@ Also see gtk-css-engine's TODO for now.
 0.3
 ---
 
-* Implement blocks with hash-table.
-* Implement style with a hash-table and provide a query API (GValue based?).
+* Implement blocks with hash-table and a string API (TODO: generic getter/new'er in ccss_block_t).
+* Implement ccss_style_t with a hash-table, only add set values and fall back to the built-in style for unset properties.
+* Implement style with a hash-table and provide a query API. 
 * Implement public selector-group API in terms of stylesheet?
 * ccss_stylesheet_new_from_file took (filename, GError)
+* Extension API for custom CSS properties?
+* Better function interface, so it can also be used for gtkrc settings:
+    GtkButton {
+      gtk: xthickness(3);	/* Or just "xthickness: 3;" for this special case? */
+      GtkButton: child-displacement-x(0);
+      GtkButton: default_border( 0, 0, 0, 0 );
+    }
+* Style merging by property prefix, this is needed for g-c-e, so e.g. "border-left*" can be merged from the GtkComboBox style when drawing its embedded entries' shadow.
+
+0.4
+---
+
+* Move `none' and `inherit' out of the structs and into an own hash (save mem).
+* Consider a custom allocator (gslice?) for same-sized properties (find out how much overhead regular malloc has for small structs first).

@@ -1,3 +1,11 @@
+2008-10-09  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-border-parser.c (match_style), (parse_width),
+	(parse_style), (parse_color), (parse_radius),
+	(parse_stroke_property), (ccss_block_parse_border), (lookup_name):
+	* ccss/ccss-border-parser.h:
+	Internal property representation as a hash, untested.
+
 2008-10-07 Robert Staudinger  <robsta@gnome.org>
 
 	* TODO: remember error handling.

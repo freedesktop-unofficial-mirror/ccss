@@ -59,7 +59,7 @@ cccss_paint (ccss_stylesheet_t const	*stylesheet,
 	     gint			 height)
 {
 	cairo_t			*cr;
-	ccss_style_t		 style;
+	ccss_style_t		*style;
 	Node			 node;
 	gboolean		 ret;
 
@@ -68,9 +68,9 @@ cccss_paint (ccss_stylesheet_t const	*stylesheet,
 	ccss_node_init ((ccss_node_t *) &node, &_node_class);
 	node.actor = CLUTTER_ACTOR (actor);
 
-	ccss_style_init (&style);
+	style = ccss_style_new ();
 	ret = ccss_stylesheet_query_apply (stylesheet,
-					   (ccss_node_t const *) &node, &style);
+					   (ccss_node_t const *) &node, style);
 	if (!ret) {
 		g_warning ("No styling information for %s#%s", 
 				"actor", 
@@ -79,8 +79,9 @@ cccss_paint (ccss_stylesheet_t const	*stylesheet,
 	}
 
 	cr = clutter_cairo_create (actor);
-	ccss_style_draw_rectangle (&style, cr, x, y, width, height);
+	ccss_style_draw_rectangle (style, cr, x, y, width, height);
 	cairo_destroy (cr);
+	ccss_style_free (style);
 
 	return TRUE;
 }

@@ -23,7 +23,15 @@ ccss_style_t
 </para>
 
 
-<!-- ##### FUNCTION ccss_style_init ##### -->
+<!-- ##### FUNCTION ccss_style_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_style_free ##### -->
 <para>
 
 </para>

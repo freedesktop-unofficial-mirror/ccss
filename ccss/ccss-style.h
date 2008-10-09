@@ -41,32 +41,19 @@ G_BEGIN_DECLS
  **/
 typedef struct {
 	/*< private >*/
-	ccss_background_attachment_t const	*bg_attachment;
-	ccss_color_t const			*bg_color;
-	ccss_background_image_t const		*bg_image;
-	ccss_background_position_t const		*bg_position;
-	ccss_background_repeat_t const		*bg_repeat;
-	ccss_background_size_t const		*bg_size;
-	ccss_border_stroke_t			 left;
-	ccss_border_join_t			 left_top;
-	ccss_border_stroke_t			 top;
-	ccss_border_join_t			 top_right;
-	ccss_border_stroke_t			 right;
-	ccss_border_join_t			 right_bottom;
-	ccss_border_stroke_t			 bottom;
-	ccss_border_join_t			 bottom_left;
-	ccss_color_t const			*color;
+	GHashTable	*properties;
 
-	int32_t					 viewport_x;
-	int32_t					 viewport_y;
-	int32_t					 viewport_width;
-	int32_t					 viewport_height;
+	int32_t		 viewport_x;
+	int32_t		 viewport_y;
+	int32_t		 viewport_width;
+	int32_t		 viewport_height;
 } ccss_style_t;
 
 
 
 
-void ccss_style_init (ccss_style_t *self);
+ccss_style_t *	ccss_style_new	(void);
+void		ccss_style_free (ccss_style_t *self);
 
 void ccss_style_draw_line (ccss_style_t const *self, cairo_t *cr, 
 			  int32_t x1, int32_t x2, int32_t y1, int32_t y2);
@@ -91,6 +78,28 @@ bool ccss_style_get_border_color (ccss_style_t const *self,
 
 void ccss_style_set_viewport (ccss_style_t *self, int32_t x, int32_t y,
 			      int32_t width, int32_t height);
+
+/* FIXME: move to -priv header */
+void
+ccss_style_gather_outline (ccss_style_t const		 *self,
+			   ccss_border_stroke_t		 *bottom,
+			   ccss_border_stroke_t		 *left,
+			   ccss_border_stroke_t		 *right,
+			   ccss_border_stroke_t		 *top,
+			   ccss_border_join_t const	**bottom_left,
+			   ccss_border_join_t const	**bottom_right,
+			   ccss_border_join_t const	**top_left,
+			   ccss_border_join_t const	**top_right);
+
+/* FIXME: move to -priv header */
+void
+ccss_style_gather_background (ccss_style_t const			 *self,
+			      ccss_background_attachment_t const	**bg_attachment, 
+			      ccss_color_t const			**bg_color,
+			      ccss_background_image_t const		**bg_image,
+			      ccss_background_position_t const		**bg_position,
+			      ccss_background_repeat_t const		**bg_repeat,
+			      ccss_background_size_t const		**bg_size);
 
 #ifdef CCSS_DEBUG
 void ccss_style_dump (ccss_style_t const *self);

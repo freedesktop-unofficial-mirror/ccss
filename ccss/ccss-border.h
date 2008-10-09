@@ -43,40 +43,33 @@ typedef enum {
 } ccss_border_style_type_t;
 
 typedef enum {
-	CCSS_BORDER_VISIBILITY_SHOW_ALL		= 0,
+	CCSS_BORDER_VISIBILITY_SHOW_ALL			= 0,
 	CCSS_BORDER_VISIBILITY_HIDE_LEFT		= 1 << 0,
-	CCSS_BORDER_VISIBILITY_HIDE_LEFT_TOP	= 1 << 1,
-	CCSS_BORDER_VISIBILITY_HIDE_TOP		= 1 << 2,
-	CCSS_BORDER_VISIBILITY_HIDE_TOP_RIGHT	= 1 << 3,
-	CCSS_BORDER_VISIBILITY_HIDE_RIGHT	= 1 << 4,
+	CCSS_BORDER_VISIBILITY_HIDE_LEFT_TOP		= 1 << 1,
+	CCSS_BORDER_VISIBILITY_HIDE_TOP			= 1 << 2,
+	CCSS_BORDER_VISIBILITY_HIDE_TOP_RIGHT		= 1 << 3,
+	CCSS_BORDER_VISIBILITY_HIDE_RIGHT		= 1 << 4,
 	CCSS_BORDER_VISIBILITY_HIDE_RIGHT_BOTTOM	= 1 << 5,
-	CCSS_BORDER_VISIBILITY_HIDE_BOTTOM	= 1 << 6,
-	CCSS_BORDER_VISIBILITY_HIDE_BOTTOM_LEFT	= 1 << 7,
+	CCSS_BORDER_VISIBILITY_HIDE_BOTTOM		= 1 << 6,
+	CCSS_BORDER_VISIBILITY_HIDE_BOTTOM_LEFT		= 1 << 7,
 
-	CCSS_BORDER_ROUNDING_UNRESTRICTED	= 1 << 8
+	CCSS_BORDER_ROUNDING_UNRESTRICTED		= 1 << 8
 } ccss_border_drawing_flags_t;
 
-#define CCSS_BORDER_STROKE_IS_SET(stroke_) 			\
-	((stroke_).width_spec != CCSS_PROPERTY_SPEC_UNSET &&	\
-	 (stroke_).style_spec != CCSS_PROPERTY_SPEC_UNSET &&	\
-	 (stroke_).color.spec != CCSS_PROPERTY_SPEC_UNSET)
-
-#define CCSS_BORDER_STROKE_ASSIGN(lhs_, rhs_) {			\
-	(lhs_).width		= (rhs_).width;			\
-	(lhs_).width_spec	= (rhs_).width_spec;		\
-	(lhs_).style		= (rhs_).style;			\
-	(lhs_).style_spec	= (rhs_).style_spec;		\
-	(lhs_).color		= (rhs_).color;			\
-	(lhs_).flags		= (rhs_).flags;			\
-}
+typedef struct {
+	ccss_property_spec_t		spec;
+	ccss_border_style_type_t	style;
+} ccss_border_style_t;
 
 typedef struct {
-	double			width;
-	ccss_property_spec_t	width_spec;
-	ccss_border_style_type_t	style;
-	ccss_property_spec_t	style_spec;
-	ccss_color_t		color;
-	unsigned int		flags;
+	ccss_property_spec_t		spec;
+	double				width;
+} ccss_border_width_t;
+
+typedef struct {
+	ccss_color_t const *		color;
+	ccss_border_style_t const *	style;
+	ccss_border_width_t const *	width;
 } ccss_border_stroke_t; 
 
 #define CCSS_BORDER_JOIN_IS_SET(join_) 				\
@@ -88,10 +81,9 @@ typedef struct {
 	(lhs_).flags	= (rhs_).flags;				\
 }
 
-/* TODO just call it "spec"? */
 typedef struct {
-	double			radius;
 	ccss_property_spec_t	spec;	
+	double			radius;
 	unsigned int		flags;
 } ccss_border_join_t;
 
@@ -105,12 +97,6 @@ typedef struct {
 	ccss_border_stroke_t	bottom;
 	ccss_border_join_t	bottom_left;
 } ccss_border_t;
-
-ccss_border_t *	ccss_border_new	(void);
-void		ccss_border_free	(ccss_border_t *self);
-
-bool ccss_border_parse (ccss_border_t *self, char const *property, 
-		       CRTerm const *values);
 
 void ccss_border_clamp_radii (double x, double y, double width, double height,
 			     double *left_top, double *top_right,

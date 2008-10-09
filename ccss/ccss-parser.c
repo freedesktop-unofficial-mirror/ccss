@@ -22,6 +22,7 @@
 #include <libcroco/libcroco.h>
 #include "config.h"
 #include "ccss-block.h"
+#include "ccss-border-parser.h"
 #include "ccss-color.h"
 #include "ccss-parser.h"
 #include "ccss-property.h"
@@ -188,7 +189,7 @@ property_cb (CRDocHandler	*handler,
 		ccss_background_parse (&info->block->background, property, values);
 	} else if (0 == strcmp ("border", property) ||
 		   0 == strncmp ("border-", property, sizeof ("border-") - 1)) {
-		ccss_border_parse (&info->block->border, property, values);
+		 ccss_block_parse_border (info->block, property, values);
 	} else if (0 == strcmp ("color", property)) {
 		ccss_color_parse (&info->block->color,
 				 (CRTerm const **) &values);

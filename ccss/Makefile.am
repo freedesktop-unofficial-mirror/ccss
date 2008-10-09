@@ -49,6 +49,8 @@ libccss_1_la_SOURCES = \
 	ccss-block.h \
 	ccss-border.c \
 	ccss-border.h \
+	ccss-border-parser.c \
+	ccss-border-parser.h \
 	ccss-color.c \
 	ccss-color.h \
 	ccss-features.h \

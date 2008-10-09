@@ -31,18 +31,20 @@ paint_css (ccss_stylesheet_t	*stylesheet,
 	   int			 height)
 {
 	ccss_selector_group_t const	*group;
-	ccss_style_t			 style;
+	ccss_style_t			*style;
 
 	/* Query the stylesheet for the type to be drawn. */
 	group = ccss_stylesheet_query_type (stylesheet, "foo");
 	g_return_if_fail (group);
 
 	/* Initialise style with its drawing properties. */
-	ccss_style_init (&style);
-	ccss_selector_group_apply (group, &style);
+	style = ccss_style_new ();
+	ccss_selector_group_apply (group, style);
 
 	/* Draw the style covering the actor. */
-	ccss_style_draw_rectangle (&style, cr, x, y, width, height);
+	ccss_style_draw_rectangle (style, cr, x, y, width, height);
+
+	ccss_style_free (style);
 }
 
 int

@@ -17,36 +17,20 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_PROPERTY_H
-#define CCSS_PROPERTY_H
+#ifndef CCSS_BORDER_PARSER_H
+#define CCSS_BORDER_PARSER_H
 
-#include <glib.h>
 #include <stdbool.h>
-#include <libcroco/libcroco.h>
+#include <glib.h>
 #include <ccss/ccss-features.h>
+#include <ccss/ccss-block.h>
 
 G_BEGIN_DECLS
 
-#define CCSS_PROPERTY_DUMP_PREFIX "    "
-
-/* TODO maybe make this flags, include a CCSS_PROPERTY_SPEC_RESOLVED
- * and resolve in ccss_style_init(). */
-typedef enum {
-	CCSS_PROPERTY_SPEC_UNSET = 0,
-	CCSS_PROPERTY_SPEC_NONE,
-	CCSS_PROPERTY_SPEC_INHERIT,
-	CCSS_PROPERTY_SPEC_SET
-} ccss_property_spec_t;
-
-ccss_property_spec_t ccss_property_parse_spec (CRTerm const **value);
-
-bool ccss_property_is_set (ccss_property_spec_t property);
-
-#ifdef CCSS_DEBUG
-void ccss_property_spec_dump (ccss_property_spec_t const spec);
-#endif
+bool ccss_block_parse_border (ccss_block_t *self, char const *property, 
+			      CRTerm const *values);
 
 G_END_DECLS
 
-#endif /* CCSS_PROPERTY_H */
+#endif /* CCSS_BORDER_PARSER_H */
 
