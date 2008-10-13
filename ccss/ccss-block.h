@@ -30,36 +30,6 @@
 
 G_BEGIN_DECLS
 
-#define CCSS_PROPERTY_BACKGROUND_ATTACHMENT		ccss_property_background_attachment()
-#define CCSS_PROPERTY_BACKGROUND_COLOR			ccss_property_background_color()
-#define CCSS_PROPERTY_BACKGROUND_IMAGE			ccss_property_background_image()
-#define CCSS_PROPERTY_BACKGROUND_POSITION		ccss_property_background_position()
-#define CCSS_PROPERTY_BACKGROUND_REPEAT			ccss_property_background_repeat()
-#define CCSS_PROPERTY_BACKGROUND_SIZE			ccss_property_background_size()
-
-#define CCSS_PROPERTY_BORDER_BOTTOM_COLOR		ccss_property_border_bottom_color()
-#define CCSS_PROPERTY_BORDER_BOTTOM_STYLE		ccss_property_border_bottom_style()
-#define CCSS_PROPERTY_BORDER_BOTTOM_WIDTH		ccss_property_border_bottom_width()
-
-#define CCSS_PROPERTY_BORDER_LEFT_COLOR			ccss_property_border_left_color()
-#define CCSS_PROPERTY_BORDER_LEFT_STYLE			ccss_property_border_left_style()
-#define CCSS_PROPERTY_BORDER_LEFT_WIDTH			ccss_property_border_left_width()
-
-#define CCSS_PROPERTY_BORDER_RIGHT_COLOR		ccss_property_border_right_color()
-#define CCSS_PROPERTY_BORDER_RIGHT_STYLE		ccss_property_border_right_style()
-#define CCSS_PROPERTY_BORDER_RIGHT_WIDTH		ccss_property_border_right_width()
-
-#define CCSS_PROPERTY_BORDER_TOP_COLOR			ccss_property_border_top_color()
-#define CCSS_PROPERTY_BORDER_TOP_STYLE			ccss_property_border_top_style()
-#define CCSS_PROPERTY_BORDER_TOP_WIDTH			ccss_property_border_top_width()
-
-#define CCSS_PROPERTY_BORDER_TOP_LEFT_RADIUS		ccss_property_border_top_left_radius()
-#define CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS		ccss_property_border_top_right_radius()
-#define CCSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS	ccss_property_border_bottom_right_radius()
-#define CCSS_PROPERTY_BORDER_BOTTOM_LEFT_RADIUS		ccss_property_border_bottom_left_radius()
-
-#define CCSS_PROPERTY_COLOR				ccss_property_color()
-
 typedef struct {
 	/*< private >*/
 	GHashTable *properties;
@@ -128,37 +98,6 @@ ccss_border_join_t const * 		ccss_block_get_border_top_left_radius		(ccss_block_
 ccss_border_join_t const * 		ccss_block_get_border_top_right_radius		(ccss_block_t const *self);
 
 ccss_color_t const *			ccss_block_get_color				(ccss_block_t const *self);
-
-
-GQuark ccss_property_background_attachment (void);
-GQuark ccss_property_background_color (void);
-GQuark ccss_property_background_image (void);
-GQuark ccss_property_background_position (void);
-GQuark ccss_property_background_repeat (void);
-GQuark ccss_property_background_size (void);
-
-GQuark ccss_property_border_bottom_color (void);
-GQuark ccss_property_border_bottom_style (void);
-GQuark ccss_property_border_bottom_width (void);
-
-GQuark ccss_property_border_left_color (void);
-GQuark ccss_property_border_left_style (void);
-GQuark ccss_property_border_left_width (void);
-
-GQuark ccss_property_border_right_color (void);
-GQuark ccss_property_border_right_style (void);
-GQuark ccss_property_border_right_width (void);
-
-GQuark ccss_property_border_top_color (void);
-GQuark ccss_property_border_top_style (void);
-GQuark ccss_property_border_top_width (void);
-
-GQuark ccss_property_border_top_left_radius (void);
-GQuark ccss_property_border_top_right_radius (void);
-GQuark ccss_property_border_bottom_right_radius (void);
-GQuark ccss_property_border_bottom_left_radius (void);
-
-GQuark ccss_property_color (void);
 
 #ifdef CCSS_DEBUG
 void ccss_block_dump (ccss_block_t const *self);

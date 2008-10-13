@@ -1,3 +1,30 @@
+2008-10-13  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-block.c (ccss_block_new):
+	* ccss/ccss-block.h:
+	* ccss/ccss-property.c (ccss_property_background_attachment),
+	(ccss_property_background_color), (ccss_property_background_image),
+	(ccss_property_background_position),
+	(ccss_property_background_repeat), (ccss_property_background_size),
+	(ccss_property_border_bottom_color),
+	(ccss_property_border_bottom_style),
+	(ccss_property_border_bottom_width),
+	(ccss_property_border_left_color),
+	(ccss_property_border_left_style),
+	(ccss_property_border_left_width),
+	(ccss_property_border_right_color),
+	(ccss_property_border_right_style),
+	(ccss_property_border_right_width),
+	(ccss_property_border_top_color), (ccss_property_border_top_style),
+	(ccss_property_border_top_width),
+	(ccss_property_border_top_left_radius),
+	(ccss_property_border_top_right_radius),
+	(ccss_property_border_bottom_right_radius),
+	(ccss_property_border_bottom_left_radius), (ccss_property_color):
+	* ccss/ccss-property.h:
+	* ccss/ccss-style.c:
+	Move property quarks to property.c/h.
+
 2008-10-09  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/ccss-background-parser.c (bg_attachment_parse),

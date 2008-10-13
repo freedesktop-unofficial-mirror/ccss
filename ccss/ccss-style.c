@@ -18,7 +18,7 @@
  */
 
 #include <string.h>
-#include "ccss-block.h" /* TODO: use "property.h" once the prop quarks are moves. */
+#include "ccss-block.h" /* TODO: use "property.h" once the prop quarks are moved. */
 #include "ccss-style.h"
 
 static const ccss_background_attachment_t const _bg_attachment = {
