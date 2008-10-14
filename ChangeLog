@@ -1,3 +1,13 @@
+2008-10-14  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-background-parser.c (ccss_block_parse_background):
+	* ccss/ccss-background.c:
+	* ccss/ccss-block.c (ccss_block_dump):
+	* ccss/ccss-border.c:
+	* ccss/ccss-color.c:
+	* ccss/ccss-style.c (ccss_style_dump):
+	Reinstate `dump' functions after change of internal representation.
+
 2008-10-14  Thomas Wood  <thomas@linux.intel.com>
 
 	* ccss/ccss-node.h:

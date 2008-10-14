@@ -765,11 +765,26 @@ ccss_block_get_color (ccss_block_t const *self)
 void
 ccss_block_dump (ccss_block_t const *self)
 {
-/* TODO
-	ccss_background_dump (&self->background);
-	ccss_border_dump (&self->border);
-	ccss_color_dump (&self->color);
-*/
+	GHashTableIter	 iter;
+	GQuark		 property_id;
+	void const	*property;
+	double		 dval;
+	char		*strval;
+
+	g_hash_table_iter_init (&iter, self->properties);
+	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property))  {
+
+		if (ccss_property_convert (property, property_id, 
+		    CCSS_PROPERTY_TYPE_DOUBLE, &dval)) {
+			printf ("%s: %f;\n", g_quark_to_string (property_id), dval);
+		} else if (ccss_property_convert (property, property_id, 
+		    CCSS_PROPERTY_TYPE_STRING, &strval)) {
+			printf ("%s: %s;\n", g_quark_to_string (property_id), strval);
+			g_free (strval), strval = NULL;
+		} else {
+			g_message ("Failed to serialise property `%s'", g_quark_to_string (property_id));
+		}
+	}
 }
 
 #endif /* CCSS_DEBUG */

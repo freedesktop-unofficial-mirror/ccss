@@ -217,7 +217,7 @@ ccss_block_parse_background (ccss_block_t	*self,
 
 	if (0 == strcmp ("background", property)) {
 
-		/* TODO: also support `background-size' here, but let's stick
+		/* FIXME: also support `background-size' here, but let's stick
 		 * to CSS2 for now. */
 		ret = ccss_color_parse (&bgc, &values);
 		if (ret) {

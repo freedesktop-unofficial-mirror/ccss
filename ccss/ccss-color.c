@@ -358,22 +358,3 @@ ccss_color_parse (ccss_color_t	 *self,
 	return self->spec != CCSS_PROPERTY_SPEC_UNSET;
 }
 
-#ifdef CCSS_DEBUG
-
-void
-ccss_color_dump (ccss_color_t const *self)
-{
-	switch (self->spec) {
-	case CCSS_PROPERTY_SPEC_UNSET:
-	case CCSS_PROPERTY_SPEC_NONE:
-	case CCSS_PROPERTY_SPEC_INHERIT:
-		ccss_property_spec_dump (self->spec);
-		break;
-	case CCSS_PROPERTY_SPEC_SET:
-		printf ("rgb(%.3f,%.3f,%.3f)",
-			self->red, self->green, self->blue);
-	}
-}
-
-#endif /* CCSS_DEBUG */
-

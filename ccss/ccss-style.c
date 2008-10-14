@@ -976,16 +976,26 @@ ccss_style_set_viewport (ccss_style_t	*self,
 void
 ccss_style_dump (ccss_style_t const *self)
 {
-/* TODO
-	if (self->bg_color)
-		ccss_color_dump (self->bg_color);
-	if (self->bg_image)
-		ccss_background_image_dump (self->bg_image);
-	ccss_border_stroke_dump (&self->left);
-	ccss_border_stroke_dump (&self->top);
-	ccss_border_stroke_dump (&self->right);
-	ccss_border_stroke_dump (&self->bottom);
-*/
+	GHashTableIter	 iter;
+	GQuark		 property_id;
+	void const	*property;
+	double		 dval;
+	char		*strval;
+
+	g_hash_table_iter_init (&iter, self->properties);
+	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property))  {
+
+		if (ccss_property_convert (property, property_id, 
+		    CCSS_PROPERTY_TYPE_DOUBLE, &dval)) {
+			printf ("%s: %f;\n", g_quark_to_string (property_id), dval);
+		} else if (ccss_property_convert (property, property_id, 
+		    CCSS_PROPERTY_TYPE_STRING, &strval)) {
+			printf ("%s: %s;\n", g_quark_to_string (property_id), strval);
+			g_free (strval), strval = NULL;
+		} else {
+			g_message ("Failed to serialise property `%s'", g_quark_to_string (property_id));
+		}
+	}
 }
 
 #endif /* CCSS_DEBUG */

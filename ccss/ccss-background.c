@@ -273,38 +273,3 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 	cairo_restore (cr);
 }
 
-#ifdef CCSS_DEBUG
-
-void
-ccss_background_dump (ccss_background_t const *self)
-{
-	printf (CCSS_PROPERTY_DUMP_PREFIX "background-color: ");
-	ccss_color_dump (&self->bg_color);
-	printf (";\n");
-
-	printf (CCSS_PROPERTY_DUMP_PREFIX "background-image: ");
-	ccss_background_image_dump (&self->bg_image);
-	printf (";\n");
-}
-
-// TODO dump functions
-
-void
-ccss_background_image_dump (ccss_background_image_t const *self)
-{
-	switch (self->spec) {
-	case CCSS_PROPERTY_SPEC_UNSET:
-	case CCSS_PROPERTY_SPEC_NONE:
-		ccss_property_spec_dump (self->spec);
-		break;
-	case CCSS_PROPERTY_SPEC_INHERIT:
-		ccss_property_spec_dump (self->spec);
-		/* fall thru */
-	case CCSS_PROPERTY_SPEC_SET:
-		ccss_image_dump (&self->image);
-		break;
-	}
-}
-
-#endif /* CCSS_DEBUG */
-
