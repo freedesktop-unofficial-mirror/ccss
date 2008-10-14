@@ -588,7 +588,7 @@ ccss_selector_append_child (ccss_selector_t *self,
 	selector->b += self->b;
 	selector->c += self->c;
 	selector->d += self->d;
-	/* TODO: invert the meaing of `e' and only apply
+	/* PONDERING: invert the meaing of `e' and only apply
 	 * "MAX - e" when calculating specificity.
 	 * Will this let us propagate correctly?
 	 * selector->e += self->e; */
@@ -611,7 +611,7 @@ ccss_selector_append_descendant (ccss_selector_t *self,
 	selector->b += self->b;
 	selector->c += self->c;
 	selector->d += self->d;
-	/* TODO: invert the meaing of `e' and only apply
+	/* PONDERING: invert the meaing of `e' and only apply
 	 * "MAX - e" when calculating specificity.
 	 * Will this let us propagate correctly?
 	 * selector->e += self->e; */

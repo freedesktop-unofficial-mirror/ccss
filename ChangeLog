@@ -1,5 +1,12 @@
 2008-10-14  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-property.h:
+	* ccss/ccss-selector.c (ccss_selector_append_child),
+	(ccss_selector_append_descendant):
+	Revisit TODOs for staleness.
+
+2008-10-14  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-background-parser.c (ccss_block_parse_background):
 	* ccss/ccss-background.c:
 	* ccss/ccss-block.c (ccss_block_dump):

@@ -59,7 +59,7 @@ G_BEGIN_DECLS
 
 #define CCSS_PROPERTY_DUMP_PREFIX "    "
 
-/* TODO maybe make this flags, include a CCSS_PROPERTY_SPEC_RESOLVED
+/* PONDERING: maybe make this flags, include a CCSS_PROPERTY_SPEC_RESOLVED
  * and resolve in ccss_style_init(). */
 typedef enum {
 	CCSS_PROPERTY_SPEC_UNSET = 0,
