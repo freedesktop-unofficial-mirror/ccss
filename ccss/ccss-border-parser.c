@@ -368,10 +368,8 @@ ccss_block_parse_border (ccss_block_t	*self,
 	return true;
 }
 
-#ifdef CCSS_DEBUG
-
-static char const *
-lookup_name (ccss_border_style_type_t border_style)
+char const *
+ccss_border_lookup_name (ccss_border_style_type_t border_style)
 {
 	for (unsigned int i = 0; i < G_N_ELEMENTS (_border_style_map); i++) {
 		if (_border_style_map[i].border_style == border_style) {
@@ -382,4 +380,3 @@ lookup_name (ccss_border_style_type_t border_style)
 	return NULL;
 }
 
-#endif /* CCSS_DEBUG */

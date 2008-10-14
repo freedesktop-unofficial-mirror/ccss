@@ -1,5 +1,15 @@
 2008-10-14  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/Makefile.am:
+	* ccss/ccss-border-parser.c (ccss_border_lookup_name):
+	* ccss/ccss-border-parser.h:
+	* ccss/ccss-style.c (convert_background_position),
+	(convert_background_size), (convert_border_style):
+	* configure.in:
+	Fix `make distcheck'.
+
+2008-10-14  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-parser.c (ccss_parser_parse_buffer): also use libcroco workaround.
 
 2008-10-14  Robert Staudinger  <robsta@gnome.org>

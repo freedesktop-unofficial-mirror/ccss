@@ -194,7 +194,7 @@ AC_SUBST([ccss_with_clutter], [$with_clutter])
 
 PKG_CHECK_MODULES(CCSS, $pkgs)
 
-AC_SUBST([CCSS_CFLAGS])
+# AC_SUBST([CCSS_CFLAGS]) # set further down
 AC_SUBST([CCSS_LIBS])
 AC_SUBST([CCSS_DEPS], $pkgs)
 
@@ -215,7 +215,9 @@ AC_CHECK_HEADERS([stdbool.h stdint.h stdio.h stdlib.h string.h])
 
 AC_C_CONST
 
+extra_cflags=
 if test "$GCC" = "yes"; then
+  orig_cflags=${CFLAGS}
   for option in -std=c99 -pedantic -Wall -Wbitwise -Wcast-to-as			\
     -Wchar-subscripts -Wdeclaration-after-statement -Wdefault-bitfield-sign	\
     -Wdo-while -Wmissing-declarations -Wmissing-noreturn -Wmissing-prototypes	\
@@ -228,13 +230,22 @@ if test "$GCC" = "yes"; then
     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],[has_option=yes],[has_option=no])
     if test $has_option = no; then
       CFLAGS="$SAVE_CFLAGS"
+    else
+      extra_cflags="${extra_cflags} $option"
     fi
     AC_MSG_RESULT($has_option)
     unset has_option
     unset SAVE_CFLAGS
   done
   unset option
+  CFLAGS=${orig_cflags}
 fi
+
+CCSS_CFLAGS="${CCSS_CFLAGS} ${extra_cflags}"
+AC_SUBST([CCSS_CFLAGS])
+
+COMPAT_CFLAGS=$(echo ${CCSS_CFLAGS} | sed 's,-pedantic,,g')
+AC_SUBST([COMPAT_CFLAGS])
 
 AC_CONFIG_FILES([
   Makefile
@@ -252,7 +263,7 @@ Configuration
 -------------
 
 Libccss:
-    CFLAGS                       ${CFLAGS}
+    CFLAGS                       ${CCSS_CFLAGS}
     Build debugging code         $enable_debug
     Cairo drawing support        $with_cairo
     Support for SVG images       $with_rsvg (requires $rsvg_req)

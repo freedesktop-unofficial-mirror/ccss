@@ -1,15 +1,18 @@
 
-AM_CPPFLAGS = \
+lib_LTLIBRARIES = libccss-1.la
+
+libccss_1_la_CPPFLAGS = \
 	$(CCSS_CFLAGS) \
 	-I$(top_srcdir) \
 	-I$(top_builddir)
 
-lib_LTLIBRARIES = libccss-1.la
-
 libccss_1_la_DEPENDENCIES = \
-	ccss.sym
+	ccss.sym \
+	libccssproperty.la
 
-libccss_1_la_LIBADD = $(CCSS_LIBS)
+libccss_1_la_LIBADD = \
+	$(CCSS_LIBS) \
+	libccssproperty.la
 
 libccss_1_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO)
 
@@ -68,8 +71,6 @@ libccss_1_la_SOURCES = \
 	ccss-parser.h \
 	ccss-position.c \
 	ccss-position.h \
-	ccss-property.c \
-	ccss-property.h \
 	ccss-selector-group.c \
 	ccss-selector-group.h \
 	ccss-selector-group-priv.h \
@@ -80,7 +81,7 @@ libccss_1_la_SOURCES = \
 	ccss-stylesheet.c \
 	ccss-stylesheet.h
 
-opt_src = 
+opt_src =
 
 if CCSS_WITH_GTK
 libccss_1_la_SOURCES += \
@@ -88,6 +89,15 @@ libccss_1_la_SOURCES += \
 	ccss-gtk-style.h
 opt_src += $(libccss_1_la_SOURCES)
 endif
+
+# Messing with function pointers in a non-ISO way needs some extra love
+# to prevent warnings (not using ISO C).
+noinst_LTLIBRARIES = libccssproperty.la
+#libccssproperty_la_CPPFLAGS = $(subst -std=c99,,$(libccss_1_la_CPPFLAGS))
+libccssproperty_la_CPPFLAGS = $(COMPAT_CFLAGS)
+libccssproperty_la_SOURCES = \
+	ccss-property.c \
+	ccss-property.h
 
 BUILT_SOURCES = \
 	ccss.sym

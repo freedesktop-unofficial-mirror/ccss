@@ -18,6 +18,7 @@
  */
 
 #include <string.h>
+#include "ccss-border-parser.h"
 #include "ccss-property.h"
 #include "ccss-style.h"
 
@@ -198,7 +199,7 @@ convert_background_position (ccss_background_position_t const	*property,
 			     void				*value)
 {
 	// FIXME: this needs 2 return values.
-	g_assert_not_reached ();
+	g_return_val_if_fail (0, false);
 	return false;
 }
 
@@ -243,7 +244,7 @@ convert_background_size (ccss_background_size_t const	*property,
 			 void				*value)
 {
 	// FIXME: this needs 2 return values.
-	g_assert_not_reached ();
+	g_return_val_if_fail (0, false);
 	return false;
 }
 
@@ -252,47 +253,12 @@ convert_border_style (ccss_border_style_t const	*property,
 		      ccss_property_type_t	 target,
 		      void			*value)
 {
-	char *ret;
-
 	g_return_val_if_fail (property && value, false);
 
 	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
 		return false;
 
-	switch (property->style) {
-	case CCSS_BORDER_STYLE_HIDDEN:
-		ret = g_strdup ("hidden");
-		break;
-	case CCSS_BORDER_STYLE_DOTTED:
-		ret = g_strdup ("dotted");
-		break;
-	case CCSS_BORDER_STYLE_DASHED:
-		ret = g_strdup ("dashed");
-		break;
-	case CCSS_BORDER_STYLE_SOLID:
-		ret = g_strdup ("solid");
-		break;
-	case CCSS_BORDER_STYLE_DOUBLE:
-		ret = g_strdup ("double");
-		break;
-	case CCSS_BORDER_STYLE_GROOVE:
-		ret = g_strdup ("groove");
-		break;
-	case CCSS_BORDER_STYLE_RIDGE:
-		ret = g_strdup ("ridge");
-		break;
-	case CCSS_BORDER_STYLE_INSET:
-		ret = g_strdup ("inset");
-		break;
-	case CCSS_BORDER_STYLE_OUTSET:
-		ret = g_strdup ("outset");
-		break;
-	default:
-		g_assert_not_reached ();
-		return false;
-	}
-
-	* (char **) value = ret;
+	* (char **) value = g_strdup (ccss_border_lookup_name (property->style));
 
 	return true;
 }
