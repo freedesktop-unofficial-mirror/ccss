@@ -311,7 +311,10 @@ ccss_parser_parse_buffer (char const	*buffer,
 	cr_parser_set_sac_handler (parser, handler);
 	ret = cr_parser_parse (parser);
 
-	cr_doc_handler_destroy (handler);	
+/* See http://bugzilla.gnome.org/show_bug.cgi?id=553937 . */
+#ifndef CCSS_ENABLE_LIBCROCO_WORKAROUND
+	cr_doc_handler_unref (handler), handler = NULL;
+#endif
 	cr_parser_destroy (parser);
 
 	return info.blocks;

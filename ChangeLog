@@ -1,5 +1,9 @@
 2008-10-14  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-parser.c (ccss_parser_parse_buffer): also use libcroco workaround.
+
+2008-10-14  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-property.h:
 	* ccss/ccss-selector.c (ccss_selector_append_child),
 	(ccss_selector_append_descendant):
