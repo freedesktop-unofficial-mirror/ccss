@@ -1,3 +1,26 @@
+2008-10-14  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-border.h:
+	* ccss/ccss-property.c (ccss_property_init),
+	(ccss_property_shutdown),
+	(ccss_property_register_conversion_function),
+	(ccss_property_convert):
+	* ccss/ccss-property.h:
+	* ccss/ccss-style.c (convert_background_attachment),
+	(convert_background_image), (convert_background_position),
+	(convert_background_repeat), (convert_background_size),
+	(convert_border_style), (convert_border_width),
+	(convert_border_radius), (convert_color), (ccss_style_init),
+	(ccss_style_shutdown), (ccss_style_get_double),
+	(ccss_style_get_string):
+	* ccss/ccss-style.h:
+	* ccss/ccss.c (ccss_init), (ccss_shutdown):
+	* ccss/ccss.sym.in:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/style.sgml:
+	* examples/example-1.c (main):
+	Property-query API for ccss_style_t.
+
 2008-10-13  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/ccss-block.c (ccss_block_new):

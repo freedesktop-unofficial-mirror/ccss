@@ -51,6 +51,51 @@ static GQuark _BORDER_BOTTOM_LEFT_RADIUS	= 0;
 
 static GQuark _COLOR				= 0;
 
+
+static GHashTable *_conversion_funcs = NULL;
+
+
+void
+ccss_property_init (void)
+{
+	g_assert (NULL == _conversion_funcs);
+
+	_conversion_funcs = g_hash_table_new (g_direct_hash, g_direct_equal);
+}
+
+void
+ccss_property_shutdown	(void)
+{
+	g_hash_table_destroy (_conversion_funcs), _conversion_funcs = NULL;
+}
+
+void
+ccss_property_register_conversion_function (GQuark			property,
+					    ccss_property_convert_f	function)
+{
+	g_assert (_conversion_funcs);
+
+	g_hash_table_insert (_conversion_funcs, (gpointer) property,
+			     (gpointer) function);
+}
+
+bool
+ccss_property_convert (void const		*property,
+		       GQuark			 property_id,
+		       ccss_property_type_t	 target,
+		       void			*value)
+{
+	ccss_property_convert_f	 convert;
+
+	g_assert (property && property_id && _conversion_funcs);
+
+	convert = (ccss_property_convert_f) g_hash_table_lookup (_conversion_funcs, 
+								 (gpointer) property_id);
+	g_return_val_if_fail (convert, false);
+
+	return convert (property, target, value);
+}
+
 ccss_property_spec_t
 ccss_property_parse_spec (CRTerm const **value)
 {

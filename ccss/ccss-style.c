@@ -18,7 +18,7 @@
  */
 
 #include <string.h>
-#include "ccss-block.h" /* TODO: use "property.h" once the prop quarks are moved. */
+#include "ccss-property.h"
 #include "ccss-style.h"
 
 static const ccss_background_attachment_t const _bg_attachment = {
@@ -142,6 +142,261 @@ static const struct {
 	.color = &_color
 };
 
+
+static bool
+convert_background_attachment (ccss_background_attachment_t const	*property,
+			       ccss_property_type_t			 target,
+			       void					*value)
+{
+	char *ret;
+
+	g_return_val_if_fail (property && value, false);
+
+	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
+		return false;
+
+	switch (property->attachment) {
+	case CCSS_BACKGROUND_SCROLL:
+		ret = g_strdup ("scroll");
+		break;
+	case CCSS_BACKGROUND_FIXED:
+		ret = g_strdup ("fixed");
+		break;
+	default:
+		g_assert_not_reached ();
+		return false;
+	}
+
+	* (char **) value = ret;
+
+	return true;
+}
+
+static bool
+convert_background_image (ccss_background_image_t const	*property,
+			  ccss_property_type_t		 target,
+			  void				*value)
+{
+	char *ret;
+
+	g_return_val_if_fail (property && value, false);
+
+	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
+		return false;
+
+	ret = g_strdup (property->image.uri);
+
+	* (char **) value = ret;
+
+	return true;
+}
+
+static bool
+convert_background_position (ccss_background_position_t const	*property,
+			     ccss_property_type_t		 target,
+			     void				*value)
+{
+	// FIXME: this needs 2 return values.
+	g_assert_not_reached ();
+	return false;
+}
+
+static bool
+convert_background_repeat (ccss_background_repeat_t const	*property,
+			   ccss_property_type_t			 target,
+			   void					*value)
+{
+	char *ret;
+
+	g_return_val_if_fail (property && value, false);
+
+	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
+		return false;
+
+	switch (property->repeat) {
+	case CCSS_BACKGROUND_REPEAT:
+		ret = g_strdup ("repeat");
+		break;
+	case CCSS_BACKGROUND_REPEAT_X:
+		ret = g_strdup ("repeat-x");
+		break;
+	case CCSS_BACKGROUND_REPEAT_Y:
+		ret = g_strdup ("repeat-y");
+		break;
+	case CCSS_BACKGROUND_NO_REPEAT:
+		ret = g_strdup ("no-repeat");
+		break;
+	default:
+		g_assert_not_reached ();
+		return false;
+	}
+
+	* (char **) value = ret;
+
+	return true;
+}
+
+static bool
+convert_background_size (ccss_background_size_t const	*property,
+			 ccss_property_type_t		 target,
+			 void				*value)
+{
+	// FIXME: this needs 2 return values.
+	g_assert_not_reached ();
+	return false;
+}
+
+static bool
+convert_border_style (ccss_border_style_t const	*property,
+		      ccss_property_type_t	 target,
+		      void			*value)
+{
+	char *ret;
+
+	g_return_val_if_fail (property && value, false);
+
+	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
+		return false;
+
+	switch (property->style) {
+	case CCSS_BORDER_STYLE_HIDDEN:
+		ret = g_strdup ("hidden");
+		break;
+	case CCSS_BORDER_STYLE_DOTTED:
+		ret = g_strdup ("dotted");
+		break;
+	case CCSS_BORDER_STYLE_DASHED:
+		ret = g_strdup ("dashed");
+		break;
+	case CCSS_BORDER_STYLE_SOLID:
+		ret = g_strdup ("solid");
+		break;
+	case CCSS_BORDER_STYLE_DOUBLE:
+		ret = g_strdup ("double");
+		break;
+	case CCSS_BORDER_STYLE_GROOVE:
+		ret = g_strdup ("groove");
+		break;
+	case CCSS_BORDER_STYLE_RIDGE:
+		ret = g_strdup ("ridge");
+		break;
+	case CCSS_BORDER_STYLE_INSET:
+		ret = g_strdup ("inset");
+		break;
+	case CCSS_BORDER_STYLE_OUTSET:
+		ret = g_strdup ("outset");
+		break;
+	default:
+		g_assert_not_reached ();
+		return false;
+	}
+
+	* (char **) value = ret;
+
+	return true;
+}
+
+static bool
+convert_border_width (ccss_border_width_t const	*property,
+		      ccss_property_type_t	 target,
+		      void			*value)
+{
+	g_return_val_if_fail (property && value, false);
+
+	switch (target) {
+	case CCSS_PROPERTY_TYPE_DOUBLE:
+		* (double *) value = property->width;
+		return true;
+	case CCSS_PROPERTY_TYPE_STRING:
+		* (char **) value = g_strdup_printf ("%f", property->width);
+		return true;
+	default:
+		g_assert_not_reached ();
+		return false;
+	}
+
+	return false;
+}
+
+static bool
+convert_border_radius (ccss_border_join_t const	*property,
+		       ccss_property_type_t	 target,
+		       void			*value)
+{
+	g_return_val_if_fail (property && value, false);
+
+	switch (target) {
+	case CCSS_PROPERTY_TYPE_DOUBLE:
+		* (double *) value = property->radius;
+		return true;
+	case CCSS_PROPERTY_TYPE_STRING:
+		* (char **) value = g_strdup_printf ("%f", property->radius);
+		return true;
+	default:
+		g_assert_not_reached ();
+		return false;
+	}
+
+	return false;
+}
+
+static bool
+convert_color (ccss_color_t const	*property,
+	       ccss_property_type_t	 target,
+	       void			*value)
+{
+	g_return_val_if_fail (property && value, false);
+
+	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
+		return false;
+
+	* (char **) value = g_strdup_printf ("%02x%02x%02x", 
+						(int) property->red * 255,
+						(int) property->green * 255,
+						(int) property->blue * 255);
+	return true;
+}
+
+void
+ccss_style_init (void)
+{
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_ATTACHMENT, (ccss_property_convert_f) convert_background_attachment);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_COLOR, (ccss_property_convert_f) convert_color);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_IMAGE, (ccss_property_convert_f) convert_background_image);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_POSITION, (ccss_property_convert_f) convert_background_position);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_REPEAT, (ccss_property_convert_f) convert_background_repeat);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_SIZE, (ccss_property_convert_f) convert_background_size);
+
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_COLOR, (ccss_property_convert_f) convert_color);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_STYLE, (ccss_property_convert_f) convert_border_style);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_WIDTH, (ccss_property_convert_f) convert_border_width);
+
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_LEFT_COLOR, (ccss_property_convert_f) convert_color);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_LEFT_STYLE, (ccss_property_convert_f) convert_border_style);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_LEFT_WIDTH, (ccss_property_convert_f) convert_border_width);
+
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_RIGHT_COLOR, (ccss_property_convert_f) convert_color);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_RIGHT_STYLE, (ccss_property_convert_f) convert_border_style);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_RIGHT_WIDTH, (ccss_property_convert_f) convert_border_width);
+
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_COLOR, (ccss_property_convert_f) convert_color);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_STYLE, (ccss_property_convert_f) convert_border_style);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_WIDTH, (ccss_property_convert_f) convert_border_width);
+
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_LEFT_RADIUS, (ccss_property_convert_f) convert_border_radius);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS, (ccss_property_convert_f) convert_border_radius);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS, (ccss_property_convert_f) convert_border_radius);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_LEFT_RADIUS, (ccss_property_convert_f) convert_border_radius);
+
+	ccss_property_register_conversion_function (CCSS_PROPERTY_COLOR, (ccss_property_convert_f) convert_color);
+}
+
+void
+ccss_style_shutdown (void)
+{
+	/* Nothing to do. */
+}
+
 /**
  * ccss_style_new:
  *
@@ -159,6 +414,12 @@ ccss_style_new (void)
 	return self;
 }
 
+/**
+ * ccss_style_free:
+ * @self: a #ccss_style_t.
+ *
+ * Frees the style an all associated resources.
+ **/
 void
 ccss_style_free (ccss_style_t *self)
 {
@@ -166,6 +427,70 @@ ccss_style_free (ccss_style_t *self)
 
 	g_hash_table_destroy (self->properties), self->properties = NULL;
 	g_free (self);
+}
+
+/**
+ * ccss_style_get_double:
+ * @self:		a #ccss_style_t.
+ * @property_name:	name of the property.
+ * @value:		location to store the converted property.
+ *
+ * Returns: %TRUE if the property was found and could be converted.
+ **/
+bool 
+ccss_style_get_double (ccss_style_t const	*self,
+		       char const		*property_name,
+		       double			*value)
+{
+	GQuark		 property_id;
+	void const	*property;
+
+	g_return_val_if_fail (self && property_name && value, false);
+
+	property_id = g_quark_try_string (property_name);
+	if (0 == property_id) {
+		g_warning ("Unknown property `%s'", property_name);
+		return false;
+	}
+
+	property = g_hash_table_lookup (self->properties, (gpointer) property_id);
+	if (NULL == property)
+		return false;
+
+	return ccss_property_convert (property, property_id, 
+				      CCSS_PROPERTY_TYPE_DOUBLE, value);
+}
+
+/**
+ * ccss_style_get_string:
+ * @self:		a #ccss_style_t.
+ * @property_name:	name of the property.
+ * @value:		location to store the converted property.
+ *
+ * Returns: %TRUE if the property was found and could be converted.
+ **/
+bool 
+ccss_style_get_string (ccss_style_t const	 *self,
+		       char const		 *property_name,
+		       char			**value)
+{
+	GQuark		 property_id;
+	void const	*property;
+
+	g_return_val_if_fail (self && property_name && value, false);
+
+	property_id = g_quark_try_string (property_name);
+	if (0 == property_id) {
+		g_warning ("Unknown property `%s'", property_name);
+		return false;
+	}
+
+	property = g_hash_table_lookup (self->properties, (gpointer) property_id);
+	if (NULL == property)
+		return false;
+
+	return ccss_property_convert (property, property_id, 
+				      CCSS_PROPERTY_TYPE_STRING, value);
 }
 
 /**

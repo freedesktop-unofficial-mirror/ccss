@@ -40,6 +40,7 @@ main (int	  argc,
 	GtkWidget			*window;
 
 	gtk_init (&argc, &argv);
+	ccss_init (NULL);
 
 	stylesheet = ccss_stylesheet_new_from_buffer (_css, sizeof (_css));
 	/* stylesheet = ccss_stylesheet_new_from_file ("example-1.css"); */
@@ -63,6 +64,8 @@ main (int	  argc,
 
 	ccss_style_free (style);
 	ccss_stylesheet_free (stylesheet);
+
+	ccss_shutdown ();
 
 	return EXIT_SUCCESS;
 }

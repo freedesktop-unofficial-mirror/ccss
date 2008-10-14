@@ -50,7 +50,8 @@ typedef struct {
 } ccss_style_t;
 
 
-
+void ccss_style_init		(void);
+void ccss_style_shutdown	(void);
 
 ccss_style_t *	ccss_style_new	(void);
 void		ccss_style_free (ccss_style_t *self);
@@ -63,6 +64,12 @@ void ccss_style_draw_outline (ccss_style_t const *self, cairo_t *cr,
 
 void ccss_style_draw_rectangle (ccss_style_t const *self, cairo_t *cr, 
 			       int32_t x, int32_t y, int32_t width, int32_t height);
+
+bool ccss_style_get_double (ccss_style_t const *self, char const *property_name,
+			    double *value);
+
+bool ccss_style_get_string (ccss_style_t const *self, char const *property_name,
+			    char **value);
 
 /* Somewhat obscure, undocumented API, primarily for the css engine.
  * Maybe we should return a cairo pattern instead? */

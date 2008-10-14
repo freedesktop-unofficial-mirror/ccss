@@ -78,6 +78,28 @@ ccss_style_t
 @height: 
 
 
+<!-- ##### FUNCTION ccss_style_get_double ##### -->
+<para>
+
+</para>
+
+@self: 
+@property_name: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_style_get_string ##### -->
+<para>
+
+</para>
+
+@self: 
+@property_name: 
+@value: 
+@Returns: 
+
+
 <!-- ##### FUNCTION ccss_style_dump ##### -->
 <para>
 

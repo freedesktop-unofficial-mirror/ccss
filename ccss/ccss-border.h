@@ -75,7 +75,7 @@ typedef struct {
 typedef struct {
 	ccss_property_spec_t	spec;	
 	double			radius;
-	unsigned int		flags;
+	unsigned int		flags;	// TODO: no more needed.
 } ccss_border_join_t;
 
 typedef struct {

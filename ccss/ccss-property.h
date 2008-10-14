@@ -68,6 +68,25 @@ typedef enum {
 	CCSS_PROPERTY_SPEC_SET
 } ccss_property_spec_t;
 
+typedef enum {
+	CCSS_PROPERTY_TYPE_DOUBLE,
+	CCSS_PROPERTY_TYPE_STRING
+} ccss_property_type_t;
+
+typedef bool (*ccss_property_convert_f) (void const *property,
+					 ccss_property_type_t target,
+					 void *value);
+
+void ccss_property_init		(void);
+void ccss_property_shutdown	(void);
+
+
+void ccss_property_register_conversion_function (GQuark property,
+						 ccss_property_convert_f function);
+
+bool ccss_property_convert (void const *property, GQuark property_id,
+			    ccss_property_type_t target, void *value);
+
 ccss_property_spec_t ccss_property_parse_spec (CRTerm const **value);
 
 bool ccss_property_is_set (ccss_property_spec_t property);
