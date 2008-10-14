@@ -27,21 +27,7 @@
 
 G_BEGIN_DECLS
 
-typedef struct ccss_node_class_ ccss_node_class_t;
-
-/**
- * ccss_node_t:
- * 
- * Stack-allocatable struct representing a document node. Used for querying the 
- * #ccss_stylesheet_t.
- * 
- * <emphasis>Memory management:</emphasis> Unless specified otherwise, objects 
- * of this kind are under the responsibility of the libccss consumer.
- **/
-typedef struct {
-	/*< private >*/
-	ccss_node_class_t const *node_class;
-} ccss_node_t;
+typedef struct ccss_node_ ccss_node_t;
 
 /** 
  * ccss_node_is_a_f:
@@ -154,6 +140,7 @@ typedef void (*ccss_node_release_f) (ccss_node_t *self);
 
 /**
  * ccss_node_class_t:
+ * @is_a:		a #ccss_node_is_a_f.
  * @get_container:	a #ccss_node_get_container_f.
  * @get_base_style:	a #ccss_node_get_base_style_f.
  * @get_id:		a #ccss_node_get_id_f.
@@ -161,7 +148,7 @@ typedef void (*ccss_node_release_f) (ccss_node_t *self);
  * @get_class:		a #ccss_node_get_class_f.
  * @get_pseudo_class:	a #ccss_node_get_pseudo_class_f.
  * @get_attribute:	a #ccss_node_get_attribute_f.
- * @get_viewport	a #ccss_node_get_viewport_f.
+ * @get_viewport:	a #ccss_node_get_viewport_f.
  * @release:		a #ccss_node_release_f.
  *
  * Dispatch table a CCSS consumer has to fill so the selection engine can 
@@ -169,7 +156,7 @@ typedef void (*ccss_node_release_f) (ccss_node_t *self);
  *
  * The implemented dispatch table needs to be passed to #ccss_init.
  **/
-struct ccss_node_class_ {
+typedef struct {
 	ccss_node_is_a_f		is_a;
 	ccss_node_get_container_f	get_container;
 	ccss_node_get_base_style_f	get_base_style;
@@ -180,6 +167,20 @@ struct ccss_node_class_ {
 	ccss_node_get_attribute_f	get_attribute;
 	ccss_node_get_viewport_f	get_viewport;
 	ccss_node_release_f		release;
+} ccss_node_class_t;
+
+/**
+ * ccss_node_t:
+ * 
+ * Stack-allocatable struct representing a document node. Used for querying the 
+ * #ccss_stylesheet_t.
+ * 
+ * <emphasis>Memory management:</emphasis> Unless specified otherwise, objects 
+ * of this kind are under the responsibility of the libccss consumer.
+ **/
+struct ccss_node_ {
+	/*< private >*/
+	ccss_node_class_t const *node_class;
 };
 
 void ccss_node_init (ccss_node_t *self, ccss_node_class_t *node_class);

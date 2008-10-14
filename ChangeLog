@@ -1,3 +1,9 @@
+2008-10-14  Thomas Wood  <thomas@linux.intel.com>
+
+	* ccss/ccss-node.h:
+	* doc/tmpl/node.sgml:
+	Re-arrange ccss-node.h to fix gtk-doc not following forward declerations.
+
 2008-10-14  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/ccss-border.h: remove unused field.
