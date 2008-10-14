@@ -1,5 +1,9 @@
 2008-10-14  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-border.h: remove unused field.
+
+2008-10-14  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-border.h:
 	* ccss/ccss-property.c (ccss_property_init),
 	(ccss_property_shutdown),

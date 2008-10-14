@@ -142,6 +142,7 @@ static const struct {
 	.color = &_color
 };
 
+/* TODO: also support "border-width" -style -color -radius */
 
 static bool
 convert_background_attachment (ccss_background_attachment_t const	*property,
