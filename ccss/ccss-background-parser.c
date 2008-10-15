@@ -51,12 +51,12 @@ bg_attachment_parse (ccss_background_attachment_t	 *self,
 	if (TERM_IDENT == (*values)->type) {
 		char const *attachment;
 		attachment = cr_string_peek_raw_str ((*values)->content.str);
-		if (0 == g_ascii_strcasecmp ("scroll", attachment)) {
+		if (0 == g_strcmp0 ("scroll", attachment)) {
 			self->attachment = CCSS_BACKGROUND_SCROLL;
 			self->spec = CCSS_PROPERTY_SPEC_SET;
 			*values = (*values)->next;
 			return true;
-		} else if (0 == g_ascii_strcasecmp ("fixed", attachment)) {
+		} else if (0 == g_strcmp0 ("fixed", attachment)) {
 			self->attachment = CCSS_BACKGROUND_FIXED;
 			self->spec = CCSS_PROPERTY_SPEC_SET;
 			*values = (*values)->next;
@@ -138,7 +138,7 @@ bg_repeat_parse (ccss_background_repeat_t	 *self,
 
 	repeat = cr_string_peek_raw_str ((*values)->content.str);
 	for (unsigned int i = 0; i < G_N_ELEMENTS (_repeat_map); i++) {
-		if (0 == g_ascii_strcasecmp (_repeat_map[i].name, repeat)) {
+		if (0 == g_strcmp0 (_repeat_map[i].name, repeat)) {
 			self->repeat = _repeat_map[i].repeat;
 			self->spec = CCSS_PROPERTY_SPEC_SET;
 			*values = (*values)->next;

@@ -51,7 +51,7 @@ ccss_position_parse (ccss_position_t	 *self,
 		name = (char const *) cr_string_peek_raw_str ((*values)->content.str);
 		for (unsigned int i = 0; i < G_N_ELEMENTS (_position_map); i++) {
 			if (_position_map[i].type & flags &&
-			    0 == g_ascii_strcasecmp (_position_map[i].name, name)) {
+			    0 == g_strcmp0 (_position_map[i].name, name)) {
 				if (_position_map[i].percentage > -1) {
 					self->type = CCSS_POSITION_PERCENTAGE;
 					self->value = _position_map[i].percentage;

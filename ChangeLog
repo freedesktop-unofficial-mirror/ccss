@@ -1,5 +1,13 @@
 2008-10-15  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-background-parser.c (bg_attachment_parse),
+	(bg_repeat_parse):
+	* ccss/ccss-position.c (ccss_position_parse):
+	* ccss/ccss-selector-group.c (traverse_apply):
+	Consistent use of case sensitivity, only colors are case-insensitive.
+
+2008-10-15  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/Makefile.am:
 	* ccss/ccss-gtk-style.c:
 	* ccss/ccss-selector-group.h:

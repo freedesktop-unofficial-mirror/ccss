@@ -396,7 +396,7 @@ traverse_apply (size_t			 specificity,
 							     &a, &b, &c, &d, &e);
 
 			if (ccss_selector_is_type (selector) &&
-			    0 == g_ascii_strcasecmp (info->type_name, key) &&
+			    0 == g_strcmp0 (info->type_name, key) &&
 			    a == 0 && b == 0 && c == 0 && d == 1 && e == 0) {
 
 				info->ret |= ccss_selector_apply (selector,
