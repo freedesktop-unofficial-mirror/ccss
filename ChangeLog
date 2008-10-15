@@ -1,5 +1,9 @@
 2008-10-15  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_query_apply): include wildcard styles (report by Thomas Wood  <thomas@linux.intel.com>).
+
+2008-10-15  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-background-parser.c (bg_attachment_parse),
 	(bg_repeat_parse):
 	* ccss/ccss-position.c (ccss_position_parse):

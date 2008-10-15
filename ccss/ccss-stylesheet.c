@@ -331,19 +331,26 @@ ccss_stylesheet_query_apply (ccss_stylesheet_t const	*self,
 			    ccss_node_t const		*node, 
 			    ccss_style_t			*style)
 {
-	ccss_node_class_t const	*node_class;
-	bool			 have_type;
-	bool			 have_class;
-	bool			 have_id;
+	ccss_node_class_t const		*node_class;
+	ccss_selector_group_t const	*group;
+	bool				 ret;
 
 	node_class = node->node_class;
 
 	g_return_val_if_fail (self && node && style, false);
 
-	/* match style by type information */
-	have_type = apply_type_r (self, node, node, style);
+	ret = false;
 
-	return have_type || have_class || have_id;
+	/* Match wildcard styles. */
+	group = g_hash_table_lookup (self->groups, "*");
+	if (group) {
+		ret |= ccss_selector_group_query_apply (group, node, style);
+	}			
+
+	/* match style by type information */
+	ret |= apply_type_r (self, node, node, style);
+
+	return ret;
 }
 
 /**
