@@ -24,19 +24,11 @@ endif
 headersdir = $(includedir)/libccss-1/ccss
 
 headers_DATA = \
-	ccss-background.h \
-	ccss-block.h \
-	ccss-border.h \
-	ccss-color.h \
 	ccss-features.h \
 	ccss-function.h \
 	ccss.h \
-	ccss-image.h \
 	ccss-node.h \
-	ccss-position.h \
-	ccss-property.h \
 	ccss-selector-group.h \
-	ccss-selector.h \
 	ccss-style.h \
 	ccss-stylesheet.h
 
@@ -78,6 +70,7 @@ libccss_1_la_SOURCES = \
 	ccss-selector.h \
 	ccss-style.c \
 	ccss-style.h \
+	ccss-style-priv.h \
 	ccss-stylesheet.c \
 	ccss-stylesheet.h
 
@@ -93,8 +86,7 @@ endif
 # Messing with function pointers in a non-ISO way needs some extra love
 # to prevent warnings (not using ISO C).
 noinst_LTLIBRARIES = libccssproperty.la
-#libccssproperty_la_CPPFLAGS = $(subst -std=c99,,$(libccss_1_la_CPPFLAGS))
-libccssproperty_la_CPPFLAGS = $(COMPAT_CFLAGS)
+libccssproperty_la_CPPFLAGS = $(CCSS_COMPAT_CFLAGS)
 libccssproperty_la_SOURCES = \
 	ccss-property.c \
 	ccss-property.h

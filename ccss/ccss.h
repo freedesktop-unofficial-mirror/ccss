@@ -26,9 +26,6 @@ G_BEGIN_DECLS
 
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-function.h>
-#include <ccss/ccss-background.h>
-#include <ccss/ccss-border.h>
-#include <ccss/ccss-color.h>
 #include <ccss/ccss-function.h>
 #include <ccss/ccss-node.h>
 #include <ccss/ccss-style.h>

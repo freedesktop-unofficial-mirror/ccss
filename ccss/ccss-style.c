@@ -20,7 +20,7 @@
 #include <string.h>
 #include "ccss-border-parser.h"
 #include "ccss-property.h"
-#include "ccss-style.h"
+#include "ccss-style-priv.h"
 
 static const ccss_background_attachment_t const _bg_attachment = {
 	.spec = CCSS_PROPERTY_SPEC_SET,

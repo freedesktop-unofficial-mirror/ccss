@@ -1,3 +1,15 @@
+2008-10-15  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/Makefile.am:
+	* ccss/ccss-gtk-style.c:
+	* ccss/ccss-selector-group.h:
+	* ccss/ccss-style-priv.h:
+	* ccss/ccss-style.c:
+	* ccss/ccss-style.h:
+	* ccss/ccss.h:
+	* configure.in:
+	Cut down number of installed headers after change of internal representation.
+
 2008-10-14  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/Makefile.am:

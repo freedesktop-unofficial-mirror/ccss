@@ -244,8 +244,8 @@ fi
 CCSS_CFLAGS="${CCSS_CFLAGS} ${extra_cflags}"
 AC_SUBST([CCSS_CFLAGS])
 
-COMPAT_CFLAGS=$(echo ${CCSS_CFLAGS} | sed 's,-pedantic,,g')
-AC_SUBST([COMPAT_CFLAGS])
+CCSS_COMPAT_CFLAGS=$(echo ${CCSS_CFLAGS} | sed 's,-pedantic,,g')
+AC_SUBST([CCSS_COMPAT_CFLAGS])
 
 AC_CONFIG_FILES([
   Makefile

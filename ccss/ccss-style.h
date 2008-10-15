@@ -24,10 +24,6 @@
 #include <glib.h>
 #include <cairo.h>
 #include <ccss/ccss-features.h>
-#include <ccss/ccss-background.h>
-#include <ccss/ccss-border.h>
-#include <ccss/ccss-color.h>
-#include <ccss/ccss-property.h>
 
 G_BEGIN_DECLS
 
@@ -85,28 +81,6 @@ bool ccss_style_get_border_color (ccss_style_t const *self,
 
 void ccss_style_set_viewport (ccss_style_t *self, int32_t x, int32_t y,
 			      int32_t width, int32_t height);
-
-/* FIXME: move to -priv header */
-void
-ccss_style_gather_outline (ccss_style_t const		 *self,
-			   ccss_border_stroke_t		 *bottom,
-			   ccss_border_stroke_t		 *left,
-			   ccss_border_stroke_t		 *right,
-			   ccss_border_stroke_t		 *top,
-			   ccss_border_join_t const	**bottom_left,
-			   ccss_border_join_t const	**bottom_right,
-			   ccss_border_join_t const	**top_left,
-			   ccss_border_join_t const	**top_right);
-
-/* FIXME: move to -priv header */
-void
-ccss_style_gather_background (ccss_style_t const			 *self,
-			      ccss_background_attachment_t const	**bg_attachment, 
-			      ccss_color_t const			**bg_color,
-			      ccss_background_image_t const		**bg_image,
-			      ccss_background_position_t const		**bg_position,
-			      ccss_background_repeat_t const		**bg_repeat,
-			      ccss_background_size_t const		**bg_size);
 
 #ifdef CCSS_DEBUG
 void ccss_style_dump (ccss_style_t const *self);

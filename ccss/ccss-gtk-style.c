@@ -18,6 +18,7 @@
  */
 
 #include "ccss-gtk-style.h"
+#include "ccss-style-priv.h"
 
 /**
  * ccss_style_draw_gap:

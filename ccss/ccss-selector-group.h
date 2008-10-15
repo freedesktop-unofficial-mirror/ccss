@@ -24,7 +24,6 @@
 #include <glib.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-node.h>
-#include <ccss/ccss-selector.h>
 #include <ccss/ccss-style.h>
 
 G_BEGIN_DECLS
