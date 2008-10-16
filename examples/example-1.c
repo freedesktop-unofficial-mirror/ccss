@@ -26,7 +26,8 @@ expose_cb (GtkWidget		*widget,
 
 static char const _css[] = "			\
 	box { 					\
-		border: 3px solid black		\
+		border: 3px solid black;	\
+		border-radius: 3px;		\
 	}					\
 ";
 
@@ -50,6 +51,7 @@ main (int	  argc,
 
 	style = ccss_style_new ();
 	ccss_selector_group_apply_type (group, "box", style);
+	ccss_style_dump (style);
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size (GTK_WINDOW (window), 160, 90);

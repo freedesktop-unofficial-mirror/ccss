@@ -325,15 +325,57 @@ convert_color (ccss_color_t const	*property,
 	return true;
 }
 
+typedef struct {
+	GQuark id;
+	GQuark fallback;	
+} fallback_map_t;
+
+fallback_map_t *_fallback_map = NULL;
+
 void
 ccss_style_init (void)
 {
+	fallback_map_t fm[] = {
+		{ CCSS_PROPERTY_BORDER_COLOR, CCSS_PROPERTY_COLOR },
+
+		{ CCSS_PROPERTY_BORDER_BOTTOM_COLOR, CCSS_PROPERTY_BORDER_COLOR },
+		{ CCSS_PROPERTY_BORDER_BOTTOM_STYLE, CCSS_PROPERTY_BORDER_STYLE },
+		{ CCSS_PROPERTY_BORDER_BOTTOM_WIDTH, CCSS_PROPERTY_BORDER_WIDTH },
+
+		{ CCSS_PROPERTY_BORDER_LEFT_COLOR, CCSS_PROPERTY_BORDER_COLOR },
+		{ CCSS_PROPERTY_BORDER_LEFT_STYLE, CCSS_PROPERTY_BORDER_STYLE },
+		{ CCSS_PROPERTY_BORDER_LEFT_WIDTH, CCSS_PROPERTY_BORDER_WIDTH },
+
+		{ CCSS_PROPERTY_BORDER_RIGHT_COLOR, CCSS_PROPERTY_BORDER_COLOR },
+		{ CCSS_PROPERTY_BORDER_RIGHT_STYLE, CCSS_PROPERTY_BORDER_STYLE },
+		{ CCSS_PROPERTY_BORDER_RIGHT_WIDTH, CCSS_PROPERTY_BORDER_WIDTH },
+
+		{ CCSS_PROPERTY_BORDER_TOP_COLOR, CCSS_PROPERTY_BORDER_COLOR },
+		{ CCSS_PROPERTY_BORDER_TOP_STYLE, CCSS_PROPERTY_BORDER_STYLE },
+		{ CCSS_PROPERTY_BORDER_TOP_WIDTH, CCSS_PROPERTY_BORDER_WIDTH },
+
+		{ CCSS_PROPERTY_BORDER_TOP_LEFT_RADIUS,		CCSS_PROPERTY_BORDER_RADIUS },
+		{ CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS,	CCSS_PROPERTY_BORDER_RADIUS },
+		{ CCSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS,	CCSS_PROPERTY_BORDER_RADIUS },
+		{ CCSS_PROPERTY_BORDER_BOTTOM_LEFT_RADIUS,	CCSS_PROPERTY_BORDER_RADIUS },
+
+		{ 0, 0 }
+	};
+
+	g_assert (NULL == _fallback_map);
+
+	_fallback_map = g_memdup (&fm, sizeof (fm));
+
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_ATTACHMENT, (ccss_property_convert_f) convert_background_attachment);
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_COLOR, (ccss_property_convert_f) convert_color);
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_IMAGE, (ccss_property_convert_f) convert_background_image);
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_POSITION, (ccss_property_convert_f) convert_background_position);
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_REPEAT, (ccss_property_convert_f) convert_background_repeat);
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_SIZE, (ccss_property_convert_f) convert_background_size);
+
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_COLOR, (ccss_property_convert_f) convert_color);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_STYLE, (ccss_property_convert_f) convert_border_style);
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_WIDTH, (ccss_property_convert_f) convert_border_width);
 
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_COLOR, (ccss_property_convert_f) convert_color);
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_STYLE, (ccss_property_convert_f) convert_border_style);
@@ -351,6 +393,8 @@ ccss_style_init (void)
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_STYLE, (ccss_property_convert_f) convert_border_style);
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_WIDTH, (ccss_property_convert_f) convert_border_width);
 
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_RADIUS, (ccss_property_convert_f) convert_border_radius);
+
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_LEFT_RADIUS, (ccss_property_convert_f) convert_border_radius);
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS, (ccss_property_convert_f) convert_border_radius);
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS, (ccss_property_convert_f) convert_border_radius);
@@ -362,7 +406,9 @@ ccss_style_init (void)
 void
 ccss_style_shutdown (void)
 {
-	/* Nothing to do. */
+	g_assert (_fallback_map != NULL);
+
+	g_free (_fallback_map), _fallback_map = NULL;
 }
 
 /**
@@ -397,6 +443,27 @@ ccss_style_free (ccss_style_t *self)
 	g_free (self);
 }
 
+/* Look up a property, take fallback into account. */
+static void const *
+lookup_property_r (ccss_style_t const	*self,
+		   GQuark		 property_id)
+{
+	void const *property;
+
+	property = g_hash_table_lookup (self->properties, (gpointer) property_id);
+	if (property) {
+		return property;
+	}
+
+	for (unsigned int i = 0; _fallback_map[i].id != 0; i++) {
+		if (property_id == _fallback_map[i].id) {
+			return lookup_property_r (self, _fallback_map[i].fallback);
+		}
+	}
+
+	return NULL;
+}
+
 /**
  * ccss_style_get_double:
  * @self:		a #ccss_style_t.
@@ -421,7 +488,7 @@ ccss_style_get_double (ccss_style_t const	*self,
 		return false;
 	}
 
-	property = g_hash_table_lookup (self->properties, (gpointer) property_id);
+	property = lookup_property_r (self, property_id);
 	if (NULL == property)
 		return false;
 
@@ -453,7 +520,7 @@ ccss_style_get_string (ccss_style_t const	 *self,
 		return false;
 	}
 
-	property = g_hash_table_lookup (self->properties, (gpointer) property_id);
+	property = lookup_property_r (self, property_id);
 	if (NULL == property)
 		return false;
 
@@ -483,95 +550,34 @@ ccss_style_draw_line (ccss_style_t const	*self,
 	ccss_border_stroke_t		 stroke;
 	double				 off;
 
+	stroke.color = (ccss_color_t *) lookup_property_r (self,
+						CCSS_PROPERTY_BORDER_COLOR);
+	if (NULL == stroke.color) {
+		stroke.color = _default_style.top_color;
+	}
+
+	stroke.style = (ccss_border_style_t *) lookup_property_r (self,
+						CCSS_PROPERTY_BORDER_STYLE);
+	if (NULL == stroke.style) {
+		stroke.style = _default_style.top_style;
+	}
+
+	stroke.width = (ccss_border_width_t *) lookup_property_r (self,
+						CCSS_PROPERTY_BORDER_WIDTH);
+	if (NULL == stroke.width) {
+		stroke.width = _default_style.top_width;
+	}
+
+	/* Unlike borders, lines are not drawn inside the box, 
+	 * account for that. */
+	off = stroke.width->width / 2.;
+
 	if (y1 == y2) {
-		/* Horizontal: try to use top, then bottom, 
-		 * then default border. */
-		stroke.color = (ccss_color_t *) g_hash_table_lookup (
-				self->properties,
-				(gpointer) CCSS_PROPERTY_BORDER_TOP_COLOR);
-		if (NULL == stroke.color) {
-			stroke.color = (ccss_color_t *) g_hash_table_lookup (
-				self->properties,
-				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_COLOR);
-		}
-		if (NULL == stroke.color) {
-			stroke.color = _default_style.top_color;
-		}
-
-		stroke.style = (ccss_border_style_t *) g_hash_table_lookup (
-				self->properties,
-				(gpointer) CCSS_PROPERTY_BORDER_TOP_STYLE);
-		if (NULL == stroke.style) {
-			stroke.style = (ccss_border_style_t *) g_hash_table_lookup (
-				self->properties,
-				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_STYLE);
-		}
-		if (NULL == stroke.style) {
-			stroke.style = _default_style.top_style;
-		}
-
-		stroke.width = (ccss_border_width_t *) g_hash_table_lookup (
-				self->properties,
-				(gpointer) CCSS_PROPERTY_BORDER_TOP_WIDTH);
-		if (NULL == stroke.width) {
-			stroke.width = (ccss_border_width_t *) g_hash_table_lookup (
-				self->properties,
-				(gpointer) CCSS_PROPERTY_BORDER_BOTTOM_WIDTH);
-		}
-		if (NULL == stroke.width) {
-			stroke.width = _default_style.top_width;
-		}
-
-		/* Unlike borders, lines are not drawn inside the box, 
-		 * account for that. */
-		off = stroke.width->width / 2.;
 		ccss_border_draw (NULL, NULL, &stroke, NULL,
 				 NULL, NULL, NULL, NULL,
 				 CCSS_BORDER_VISIBILITY_SHOW_ALL,
 				 cr, x1, y1 - off, x2 - x1, 0);
 	} else {
-		/* Vertical: try to use left, then right, 
-		 * then default border. */
-		stroke.color = (ccss_color_t *) g_hash_table_lookup (
-				self->properties,
-				(gpointer) CCSS_PROPERTY_BORDER_LEFT_COLOR);
-		if (NULL == stroke.color) {
-			stroke.color = (ccss_color_t *) g_hash_table_lookup (
-				self->properties,
-				(gpointer) CCSS_PROPERTY_BORDER_RIGHT_COLOR);
-		}
-		if (NULL == stroke.color) {
-			stroke.color = _default_style.left_color;
-		}
-
-		stroke.style = (ccss_border_style_t *) g_hash_table_lookup (
-				self->properties,
-				(gpointer) CCSS_PROPERTY_BORDER_LEFT_STYLE);
-		if (NULL == stroke.style) {
-			stroke.style = (ccss_border_style_t *) g_hash_table_lookup (
-				self->properties,
-				(gpointer) CCSS_PROPERTY_BORDER_RIGHT_STYLE);
-		}
-		if (NULL == stroke.style) {
-			stroke.style = _default_style.left_style;
-		}
-
-		stroke.width = (ccss_border_width_t *) g_hash_table_lookup (
-				self->properties,
-				(gpointer) CCSS_PROPERTY_BORDER_LEFT_WIDTH);
-		if (NULL == stroke.width) {
-			stroke.width = (ccss_border_width_t *) g_hash_table_lookup (
-				self->properties,
-				(gpointer) CCSS_PROPERTY_BORDER_RIGHT_WIDTH);
-		}
-		if (NULL == stroke.width) {
-			stroke.width = _default_style.left_width;
-		}
-
-		/* Unlike borders, lines are not drawn inside the box, 
-		 * account for that. */
-		off = stroke.width->width / 2.;
-
 		ccss_border_draw (&stroke, NULL, NULL, NULL,
 				 NULL, NULL, NULL, NULL,
 				 CCSS_BORDER_VISIBILITY_SHOW_ALL,
@@ -589,20 +595,17 @@ gather_stroke (ccss_style_t const		*self,
 	       ccss_border_width_t const	*width_fallback,
 	       ccss_border_stroke_t		*stroke)
 {
-	stroke->color = (ccss_color_t *) g_hash_table_lookup (
-			self->properties, (gpointer) color_prop);
+	stroke->color = (ccss_color_t *) lookup_property_r (self, color_prop);
 	if (NULL == stroke->color) {
 		stroke->color = color_fallback;
 	}
 
-	stroke->style = (ccss_border_style_t *) g_hash_table_lookup (
-			self->properties, (gpointer) style_prop);
+	stroke->style = (ccss_border_style_t *) lookup_property_r (self, style_prop);
 	if (NULL == stroke->style) {
 		stroke->style = style_fallback;
 	}
 
-	stroke->width = (ccss_border_width_t *) g_hash_table_lookup (
-			self->properties, (gpointer) width_prop);
+	stroke->width = (ccss_border_width_t *) lookup_property_r (self, width_prop);
 	if (NULL == stroke->width) {
 		stroke->width = width_fallback;
 	}
@@ -615,8 +618,7 @@ gather_join (ccss_style_t const		*self,
 {
 	ccss_border_join_t const *join;
 
-	join = (ccss_border_join_t *) g_hash_table_lookup (
-			self->properties, (gpointer) prop);
+	join = (ccss_border_join_t *) lookup_property_r (self, prop);
 	if (NULL == join) {
 		join = fallback;
 	}

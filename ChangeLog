@@ -1,3 +1,23 @@
+2008-10-16  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-block.c (ccss_block_new_border_color),
+	(ccss_block_new_border_style), (ccss_block_new_border_width),
+	(ccss_block_new_border_radius), (ccss_block_get_border_color),
+	(ccss_block_get_border_style), (ccss_block_get_border_width),
+	(ccss_block_get_border_radius), (ccss_block_dump):
+	* ccss/ccss-block.h:
+	* ccss/ccss-border-parser.c (ccss_block_parse_border):
+	* ccss/ccss-property.c (ccss_property_border_color),
+	(ccss_property_border_style), (ccss_property_border_width),
+	(ccss_property_border_radius):
+	* ccss/ccss-property.h:
+	* ccss/ccss-style.c (ccss_style_init), (ccss_style_shutdown),
+	(lookup_property_r), (ccss_style_get_double),
+	(ccss_style_get_string), (ccss_style_draw_line), (gather_stroke),
+	(gather_join):
+	* examples/example-1.c (main):
+	Fallback infrastructure for properties like `border-width', the way things are read from CSS is now preserved internally. This facilitates more useful things with the ccss_style_t property query interface.
+
 2008-10-16  Thomas Wood  <thomas@linux.intel.com>
 
 	* ccss/ccss-style.c (convert_color): leading '#' for color to string conversion.

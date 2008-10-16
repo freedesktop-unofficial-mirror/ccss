@@ -28,6 +28,10 @@ static GQuark _BACKGROUND_POSITION		= 0;
 static GQuark _BACKGROUND_REPEAT		= 0;
 static GQuark _BACKGROUND_SIZE			= 0;
 
+static GQuark _BORDER_COLOR			= 0;
+static GQuark _BORDER_STYLE			= 0;
+static GQuark _BORDER_WIDTH			= 0;
+
 static GQuark _BORDER_BOTTOM_COLOR		= 0;
 static GQuark _BORDER_BOTTOM_STYLE		= 0;
 static GQuark _BORDER_BOTTOM_WIDTH		= 0;
@@ -43,6 +47,8 @@ static GQuark _BORDER_RIGHT_WIDTH		= 0;
 static GQuark _BORDER_TOP_COLOR			= 0;
 static GQuark _BORDER_TOP_STYLE			= 0;
 static GQuark _BORDER_TOP_WIDTH			= 0;
+
+static GQuark _BORDER_RADIUS			= 0;
 
 static GQuark _BORDER_TOP_LEFT_RADIUS		= 0;
 static GQuark _BORDER_TOP_RIGHT_RADIUS		= 0;
@@ -180,6 +186,33 @@ ccss_property_background_size (void)
 }
 
 GQuark
+ccss_property_border_color (void)
+{
+	if (0 == _BORDER_COLOR)
+		_BORDER_COLOR = g_quark_from_static_string ("border-color");
+
+	return _BORDER_COLOR;
+}
+
+GQuark
+ccss_property_border_style (void)
+{
+	if (0 == _BORDER_STYLE)
+		_BORDER_STYLE = g_quark_from_static_string ("border-style");
+
+	return _BORDER_STYLE;
+}
+
+GQuark
+ccss_property_border_width (void)
+{
+	if (0 == _BORDER_WIDTH)
+		_BORDER_WIDTH = g_quark_from_static_string ("border-width");
+
+	return _BORDER_WIDTH;
+}
+
+GQuark
 ccss_property_border_bottom_color (void)
 {
 	if (0 == _BORDER_BOTTOM_COLOR)
@@ -285,6 +318,15 @@ ccss_property_border_top_width (void)
 		_BORDER_TOP_WIDTH = g_quark_from_static_string ("border-top-width");
 
 	return _BORDER_TOP_WIDTH;
+}
+
+GQuark
+ccss_property_border_radius (void)
+{
+	if (0 == _BORDER_RADIUS)
+		_BORDER_RADIUS = g_quark_from_static_string ("border-radius");
+
+	return _BORDER_RADIUS;
 }
 
 GQuark

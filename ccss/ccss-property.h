@@ -34,6 +34,10 @@ G_BEGIN_DECLS
 #define CCSS_PROPERTY_BACKGROUND_REPEAT			ccss_property_background_repeat()
 #define CCSS_PROPERTY_BACKGROUND_SIZE			ccss_property_background_size()
 
+#define CCSS_PROPERTY_BORDER_COLOR			ccss_property_border_color()
+#define CCSS_PROPERTY_BORDER_STYLE			ccss_property_border_style()
+#define CCSS_PROPERTY_BORDER_WIDTH			ccss_property_border_width()
+
 #define CCSS_PROPERTY_BORDER_BOTTOM_COLOR		ccss_property_border_bottom_color()
 #define CCSS_PROPERTY_BORDER_BOTTOM_STYLE		ccss_property_border_bottom_style()
 #define CCSS_PROPERTY_BORDER_BOTTOM_WIDTH		ccss_property_border_bottom_width()
@@ -49,6 +53,8 @@ G_BEGIN_DECLS
 #define CCSS_PROPERTY_BORDER_TOP_COLOR			ccss_property_border_top_color()
 #define CCSS_PROPERTY_BORDER_TOP_STYLE			ccss_property_border_top_style()
 #define CCSS_PROPERTY_BORDER_TOP_WIDTH			ccss_property_border_top_width()
+
+#define CCSS_PROPERTY_BORDER_RADIUS			ccss_property_border_radius()
 
 #define CCSS_PROPERTY_BORDER_TOP_LEFT_RADIUS		ccss_property_border_top_left_radius()
 #define CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS		ccss_property_border_top_right_radius()
@@ -107,6 +113,10 @@ GQuark ccss_property_background_position (void);
 GQuark ccss_property_background_repeat (void);
 GQuark ccss_property_background_size (void);
 
+GQuark ccss_property_border_color (void);
+GQuark ccss_property_border_style (void);
+GQuark ccss_property_border_width (void);
+
 GQuark ccss_property_border_bottom_color (void);
 GQuark ccss_property_border_bottom_style (void);
 GQuark ccss_property_border_bottom_width (void);
@@ -122,6 +132,8 @@ GQuark ccss_property_border_right_width (void);
 GQuark ccss_property_border_top_color (void);
 GQuark ccss_property_border_top_style (void);
 GQuark ccss_property_border_top_width (void);
+
+GQuark ccss_property_border_radius (void);
 
 GQuark ccss_property_border_top_left_radius (void);
 GQuark ccss_property_border_top_right_radius (void);

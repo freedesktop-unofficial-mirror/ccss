@@ -243,6 +243,66 @@ ccss_block_new_background_size (ccss_block_t *self)
 }
 
 ccss_color_t *
+ccss_block_new_border_color (ccss_block_t *self)
+{
+	ccss_color_t *color;
+
+	g_return_val_if_fail (self && self->properties, NULL);
+
+	color = (ccss_color_t *) g_hash_table_lookup (
+				self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_COLOR);
+	if (!color) {
+		color = g_new0 (ccss_color_t, 1);
+		g_hash_table_insert (self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_COLOR,
+				(gpointer) color);
+	}
+	
+	return color;
+}
+
+ccss_border_style_t *
+ccss_block_new_border_style (ccss_block_t *self)
+{
+	ccss_border_style_t *style;
+
+	g_return_val_if_fail (self && self->properties, NULL);
+
+	style = (ccss_border_style_t *) g_hash_table_lookup (
+				self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_STYLE);
+	if (!style) {
+		style = g_new0 (ccss_border_style_t, 1);
+		g_hash_table_insert (self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_STYLE,
+				(gpointer) style);
+	}
+	
+	return style;
+}
+
+ccss_border_width_t *
+ccss_block_new_border_width (ccss_block_t *self)
+{
+	ccss_border_width_t *width;
+
+	g_return_val_if_fail (self && self->properties, NULL);
+
+	width = (ccss_border_width_t *) g_hash_table_lookup (
+				self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_WIDTH);
+	if (!width) {
+		width = g_new0 (ccss_border_width_t, 1);
+		g_hash_table_insert (self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_WIDTH,
+				(gpointer) width);
+	}
+	
+	return width;
+}
+
+ccss_color_t *
 ccss_block_new_border_bottom_color (ccss_block_t *self)
 {
 	ccss_color_t *color;
@@ -483,6 +543,26 @@ ccss_block_new_border_top_width (ccss_block_t *self)
 }
 
 ccss_border_join_t *
+ccss_block_new_border_radius (ccss_block_t *self)
+{
+	ccss_border_join_t *join;
+
+	g_return_val_if_fail (self && self->properties, NULL);
+
+	join = (ccss_border_join_t *) g_hash_table_lookup (
+				self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_RADIUS);
+	if (!join) {
+		join = g_new0 (ccss_border_join_t, 1);
+		g_hash_table_insert (self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_RADIUS,
+				(gpointer) join);
+	}
+	
+	return join;
+}
+
+ccss_border_join_t *
 ccss_block_new_border_bottom_left_radius (ccss_block_t *self)
 {
 	ccss_border_join_t *join;
@@ -671,6 +751,39 @@ ccss_block_get_background_size (ccss_block_t const *self)
 }
 
 ccss_color_t const *
+ccss_block_get_border_color (ccss_block_t const *self)
+{
+	g_return_val_if_fail (self && self->properties, NULL);
+
+	return (ccss_color_t const *) 
+			g_hash_table_lookup (
+				self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_COLOR);
+}
+
+ccss_border_style_t const *
+ccss_block_get_border_style (ccss_block_t const *self)
+{
+	g_return_val_if_fail (self && self->properties, NULL);
+
+	return (ccss_border_style_t const *) 
+			g_hash_table_lookup (
+				self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_STYLE);
+}
+
+ccss_border_width_t const *
+ccss_block_get_border_width (ccss_block_t const *self)
+{
+	g_return_val_if_fail (self && self->properties, NULL);
+
+	return (ccss_border_width_t const *) 
+			g_hash_table_lookup (
+				self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_WIDTH);
+}
+
+ccss_color_t const *
 ccss_block_get_border_bottom_color (ccss_block_t const *self)
 {
 	g_return_val_if_fail (self && self->properties, NULL);
@@ -803,6 +916,17 @@ ccss_block_get_border_top_width (ccss_block_t const *self)
 }
 
 ccss_border_join_t const *
+ccss_block_get_border_radius (ccss_block_t const *self)
+{
+	g_return_val_if_fail (self && self->properties, NULL);
+
+	return (ccss_border_join_t const *) 
+			g_hash_table_lookup (
+				self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_RADIUS);
+}
+
+ccss_border_join_t const *
 ccss_block_get_border_bottom_left_radius (ccss_block_t const *self)
 {
 	g_return_val_if_fail (self && self->properties, NULL);
@@ -865,16 +989,12 @@ ccss_block_dump (ccss_block_t const *self)
 	GHashTableIter	 iter;
 	GQuark		 property_id;
 	void const	*property;
-	double		 dval;
 	char		*strval;
 
 	g_hash_table_iter_init (&iter, self->properties);
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property))  {
 
 		if (ccss_property_convert (property, property_id, 
-		    CCSS_PROPERTY_TYPE_DOUBLE, &dval)) {
-			printf ("%s: %f;\n", g_quark_to_string (property_id), dval);
-		} else if (ccss_property_convert (property, property_id, 
 		    CCSS_PROPERTY_TYPE_STRING, &strval)) {
 			printf ("%s: %s;\n", g_quark_to_string (property_id), strval);
 			g_free (strval), strval = NULL;
