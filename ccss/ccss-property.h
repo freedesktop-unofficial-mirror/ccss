@@ -73,6 +73,15 @@ typedef enum {
 	CCSS_PROPERTY_TYPE_STRING
 } ccss_property_type_t;
 
+typedef struct {
+	ccss_property_spec_t	spec;
+	ccss_property_type_t	type;
+	union {
+		double	 dval;
+		char	*sval;
+	}			content;
+} ccss_property_t;
+
 typedef bool (*ccss_property_convert_f) (void const *property,
 					 ccss_property_type_t target,
 					 void *value);

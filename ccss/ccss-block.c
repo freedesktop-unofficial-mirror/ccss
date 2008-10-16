@@ -42,6 +42,81 @@ ccss_block_free (ccss_block_t *self)
 	g_free (self);
 }
 
+/* Generic property. */
+static bool
+convert_property (ccss_property_t const	*property,
+		  ccss_property_type_t	 target,
+		  void			*value)
+{
+	g_return_val_if_fail (property && value, false);
+
+	switch (target) {
+	case CCSS_PROPERTY_TYPE_DOUBLE:
+		switch (property->type) {
+		case CCSS_PROPERTY_TYPE_DOUBLE:
+			* (double *) value = property->content.dval;
+			break;
+		case CCSS_PROPERTY_TYPE_STRING:
+			g_message ("Unable to convert `string' property to `double'");
+			return false;
+		default:
+			g_assert_not_reached ();
+			return false;
+		}
+		break;
+	case CCSS_PROPERTY_TYPE_STRING:
+		switch (property->type) {
+		case CCSS_PROPERTY_TYPE_DOUBLE:
+			* (char **) value = g_strdup_printf ("%f", property->content.dval);
+			break;
+		case CCSS_PROPERTY_TYPE_STRING:
+			* (char **) value = g_strdup (property->content.sval);
+			break;
+		default:
+			g_assert_not_reached ();
+			return false;
+		}
+		break;
+	default:
+		g_assert_not_reached ();
+		return false;
+	}
+
+	return true;	
+}
+
+/* Generic property. */
+ccss_property_t *
+ccss_block_new_property (ccss_block_t	*self,
+			 char const	*property_name)
+{
+	ccss_property_t	*property;
+	GQuark		 property_id;
+
+	g_return_val_if_fail (self && property_name && self->properties, NULL);
+
+	property_id = g_quark_try_string (property_name);
+	if (0 == property_id) {
+		/* First property of this name, register generic conversion function. */
+		property_id = g_quark_from_string (property_name);
+		ccss_property_register_conversion_function (property_id, (ccss_property_convert_f) convert_property);
+	}
+
+	property = (ccss_property_t *) g_hash_table_lookup (
+						self->properties,
+						(gpointer) property_id);
+
+	if (!property) {
+		property = g_new0 (ccss_property_t, 1);
+		g_hash_table_insert (
+				self->properties, 
+				(gpointer) property_id,
+				(gpointer) property);
+	}
+
+	return property;
+}
+
 ccss_background_attachment_t *
 ccss_block_new_background_attachment (ccss_block_t *self)
 {
@@ -516,6 +591,28 @@ ccss_block_get_background_attachment (ccss_block_t const *self)
 			g_hash_table_lookup (
 				self->properties,
 				(gpointer) CCSS_PROPERTY_BACKGROUND_ATTACHMENT);
+}
+
+/* Generic property. */
+ccss_property_t const *
+ccss_block_get_property (ccss_block_t const	*self,
+			 char const		*property_name)
+{
+	GQuark property_id;
+
+	g_return_val_if_fail (self && property_name && self->properties, NULL);
+
+	property_id = g_quark_try_string (property_name);
+	if (0 == property_id) {
+		/* Maybe this is legal, or will be some time, but let's warn for now. */
+		g_warning ("Unknown property `%s'", property_name);
+		return NULL;
+	}
+
+	return (ccss_property_t const *) g_hash_table_lookup (
+			self->properties,
+			(gpointer) property_id);
+
 }
 
 ccss_color_t const *

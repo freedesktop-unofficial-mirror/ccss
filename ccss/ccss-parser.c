@@ -203,6 +203,41 @@ property_cb (CRDocHandler	*handler,
 			color = ccss_block_new_color (info->block);
 			*color = c;
 		}
+	} else {
+		/* Generic property. */
+		ccss_property_t	*prop, p;
+		char const	*s;
+
+		memset (&p, 0, sizeof (p));
+		switch (values->type) {
+		case TERM_NUMBER:
+			p.spec = CCSS_PROPERTY_SPEC_SET;
+			p.type = CCSS_PROPERTY_TYPE_DOUBLE;
+			p.content.dval = values->content.num->val;
+			break;
+		case TERM_IDENT:
+		case TERM_STRING:
+			s = cr_string_peek_raw_str (values->content.str);
+			if (0 == g_strcmp0 ("none", s)) {
+				p.spec = CCSS_PROPERTY_SPEC_NONE;
+			} else if (0 == g_strcmp0 ("inherit", s)) {
+				/* FIXME */
+				g_warning ("CSS `inherit' not supported yet");
+				return;
+			} else {
+				p.spec = CCSS_PROPERTY_SPEC_SET;
+				p.type = CCSS_PROPERTY_TYPE_STRING;
+				p.content.sval = g_strdup (s);
+			}
+			break;
+		default:
+			g_warning ("Unknown property type %d", values->type);
+			return;
+		}
+
+		/*  Coming here means success. */
+		prop = ccss_block_new_property (info->block, property);
+		*prop = p;
 	}
 }
 

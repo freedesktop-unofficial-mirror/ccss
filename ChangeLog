@@ -1,3 +1,13 @@
+2008-10-16  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-block.c (convert_property), (ccss_block_new_property),
+	(ccss_block_get_property):
+	* ccss/ccss-block.h:
+	* ccss/ccss-parser.c (property_cb):
+	* ccss/ccss-property.h:
+	* ccss/ccss-style.c (ccss_style_dump):
+	Generic properties (opaque to libccss), only types `double', 'identifier', and `string' supported for now.
+
 2008-10-15  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/ccss-stylesheet.c (ccss_stylesheet_query_apply): include wildcard styles (report by Thomas Wood  <thomas@linux.intel.com>).

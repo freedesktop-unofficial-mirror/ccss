@@ -38,6 +38,8 @@ typedef struct {
 ccss_block_t *	ccss_block_new	(void);
 void		ccss_block_free	(ccss_block_t *self);
 
+ccss_property_t *		ccss_block_new_property				(ccss_block_t *self, char const *property_name);
+
 ccss_background_attachment_t * 	ccss_block_new_background_attachment		(ccss_block_t *self);
 ccss_color_t * 			ccss_block_new_background_color			(ccss_block_t *self);
 ccss_background_image_t * 	ccss_block_new_background_image			(ccss_block_t *self);
@@ -68,6 +70,8 @@ ccss_border_join_t * 		ccss_block_new_border_top_right_radius		(ccss_block_t *se
 
 ccss_color_t *			ccss_block_new_color				(ccss_block_t *self);
 
+
+ccss_property_t const *			ccss_block_get_property				(ccss_block_t const *self, char const *property_name);
 
 ccss_color_t const * 			ccss_block_get_background_color			(ccss_block_t const *self);
 ccss_background_attachment_t const * 	ccss_block_get_background_attachment		(ccss_block_t const *self);
