@@ -1,3 +1,7 @@
+2008-10-16  Thomas Wood  <thomas@linux.intel.com>
+
+	* ccss/ccss-style.c (convert_color): leading '#' for color to string conversion.
+
 2008-10-16  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/ccss-block.c (convert_property), (ccss_block_new_property),

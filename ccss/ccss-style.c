@@ -318,10 +318,10 @@ convert_color (ccss_color_t const	*property,
 	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
 		return false;
 
-	* (char **) value = g_strdup_printf ("%02x%02x%02x", 
-						(int) property->red * 255,
-						(int) property->green * 255,
-						(int) property->blue * 255);
+	* (char **) value = g_strdup_printf ("#%02x%02x%02x", 
+						(int) (property->red * 255),
+						(int) (property->green * 255),
+						(int) (property->blue * 255));
 	return true;
 }
 
