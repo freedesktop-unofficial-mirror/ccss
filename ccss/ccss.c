@@ -18,6 +18,8 @@
  */
 
 #include "ccss.h"
+#include "ccss-property.h"
+#include "ccss-style-priv.h"
 
 /**
  * ccss_init:

@@ -45,10 +45,6 @@ typedef struct {
 	int32_t		 viewport_height;
 } ccss_style_t;
 
-
-void ccss_style_init		(void);
-void ccss_style_shutdown	(void);
-
 ccss_style_t *	ccss_style_new	(void);
 void		ccss_style_free (ccss_style_t *self);
 

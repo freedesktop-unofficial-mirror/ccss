@@ -51,8 +51,9 @@ main (int	  argc,
 
 	style = ccss_style_new ();
 	ccss_selector_group_apply_type (group, "box", style);
+#ifdef CCSS_DEBUG
 	ccss_style_dump (style);
-
+#endif
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size (GTK_WINDOW (window), 160, 90);
 	gtk_widget_set_app_paintable (window, TRUE);

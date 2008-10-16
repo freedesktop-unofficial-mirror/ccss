@@ -30,6 +30,9 @@
 
 G_BEGIN_DECLS
 
+void ccss_style_init		(void);
+void ccss_style_shutdown	(void);
+
 void
 ccss_style_gather_outline (ccss_style_t const		 *self,
 			   ccss_border_stroke_t		 *bottom,

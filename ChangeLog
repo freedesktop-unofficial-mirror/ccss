@@ -1,5 +1,13 @@
 2008-10-16  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-style-priv.h:
+	* ccss/ccss-style.h:
+	* ccss/ccss.c:
+	* examples/example-1.c (main):
+	Fix warnings.
+
+2008-10-16  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-block.c (ccss_block_new_border_color),
 	(ccss_block_new_border_style), (ccss_block_new_border_width),
 	(ccss_block_new_border_radius), (ccss_block_get_border_color),
