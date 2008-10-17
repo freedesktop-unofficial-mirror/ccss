@@ -329,7 +329,7 @@ apply_type_r (ccss_stylesheet_t const	*self,
 bool
 ccss_stylesheet_query_apply (ccss_stylesheet_t const	*self,
 			    ccss_node_t const		*node, 
-			    ccss_style_t			*style)
+			    ccss_style_t		*style)
 {
 	ccss_node_class_t const		*node_class;
 	ccss_selector_group_t const	*group;

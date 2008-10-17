@@ -63,17 +63,7 @@ bool ccss_style_get_double (ccss_style_t const *self, char const *property_name,
 bool ccss_style_get_string (ccss_style_t const *self, char const *property_name,
 			    char **value);
 
-/* Somewhat obscure, undocumented API, primarily for the css engine.
- * Maybe we should return a cairo pattern instead? */
-
-bool ccss_style_get_color (ccss_style_t const *self,
-			  double *red, double *green, double *blue);
-
-bool ccss_style_get_background_color (ccss_style_t const *self,
-				     double *red, double *green, double *blue);
-
-bool ccss_style_get_border_color (ccss_style_t const *self,
-				 double *red, double *green, double *blue);
+/* Somewhat obscure, undocumented API, primarily for the css engine. */
 
 void ccss_style_set_viewport (ccss_style_t *self, int32_t x, int32_t y,
 			      int32_t width, int32_t height);

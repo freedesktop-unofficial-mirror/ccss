@@ -8,9 +8,6 @@ ccss_style_draw_outline
 ccss_style_draw_rectangle
 ccss_style_get_double
 ccss_style_get_string
-ccss_style_get_color
-ccss_style_get_background_color
-ccss_style_get_border_color
 ccss_style_set_viewport
 ccss_stylesheet_new_from_buffer
 ccss_stylesheet_new_from_file

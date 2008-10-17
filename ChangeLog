@@ -1,3 +1,10 @@
+2008-10-17  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-style.c:
+	* ccss/ccss-style.h:
+	* ccss/ccss.sym.in:
+	Remove CSS-engine-specific API, now that style property interface is in place.
+
 2008-10-16  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/ccss-style-priv.h:
