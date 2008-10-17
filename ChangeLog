@@ -1,5 +1,9 @@
 2008-10-17  Robert Staudinger  <robsta@gnome.org>
 
+	* configure.in: post-release version bump.
+
+2008-10-17  Robert Staudinger  <robsta@gnome.org>
+
 	* HACKING:
 	* NEWS:
 	* README:
@@ -354,6 +358,8 @@
 	* src/gce-rc-style.c: fix warning.
 
 2008-10-03  Robert Staudinger  <robsta@gnome.org>
+
+	patch by: Cygwin Ports Maintainer <yselkowitz at users.sourceforge.net>
 
 	* libccss/ccss/Makefile.am: actually link dependent libraries.
 
