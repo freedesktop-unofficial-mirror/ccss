@@ -34,6 +34,9 @@ The following properties are at least partially supported.
 * background-repeat
 * background-size
 * border
+* border-color
+* border-style
+* border-width
 * border-bottom
 * border-left
 * border-right

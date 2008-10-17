@@ -7,12 +7,12 @@
 AC_PREREQ(2.54)
 
 m4_define([ccss_version_major], [0])
-m4_define([ccss_version_minor], [3])
+m4_define([ccss_version_minor], [1])
 m4_define([ccss_version_micro], [0])
 ### For the release:
-# m4_define([ccss_version_extra], [])
+m4_define([ccss_version_extra], [])
 ### On trunk:
-m4_define([ccss_version_extra], [.trunk])
+#m4_define([ccss_version_extra], [.trunk])
 m4_define([ccss_version],
     [ccss_version_major.ccss_version_minor.ccss_version_micro[]ccss_version_extra])
 

@@ -727,23 +727,6 @@ ccss_style_gather_background (ccss_style_t const			 *self,
 		*bg_size = _default_style.bg_size;
 }
 
-static ccss_color_t const *
-gather_color (ccss_style_t const	*self,
-	      GQuark			 prop,
-	      ccss_color_t const	*fallback)
-{
-	ccss_color_t const *color;
-
-	color = (ccss_color_t const *)
-			g_hash_table_lookup (
-				self->properties,
-				(gpointer) prop);
-	if (!color)
-		color = fallback;
-
-	return color;
-}
-
 /**
  * ccss_style_draw_outline:
  * @self:	a ccss_style_t.

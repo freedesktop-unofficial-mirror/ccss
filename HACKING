@@ -50,8 +50,8 @@ Making a release
 * NEWS.
 * TODO.
 * Remove extra version in configure.in.
-* `make distcheck`.
 * Commit to svn.
+* `make distcheck`.
 * Tag in svn.
 * Upload tarball.
 * Announce.

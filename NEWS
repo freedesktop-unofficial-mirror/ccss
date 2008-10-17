@@ -2,36 +2,11 @@
 NEWS
 ====
 
-Version 0.2, 2008-10-01
+Version 0.1, 2008-10-17
 -----------------------
 
-Focus on basic CSS support.
-
-### Features ###
-* Border radius.
-* Background image: -attachment, -position, -repeat, -size.
-* External tool `css2gtkrc` for extracting gtkrc information form stylesheets.
-
-### Theme ###
-* Use actual borders for checks and options, make them use 100% of the 
-  allocated space.
-* Gilouche-CSS theme somewhat closer to the original.
-
-### Internals ###
-* Have an internal instance of `ccss_style_t` with default values, `ccss_style_init()`
-  initialises the style to those. Then drawing functions don't have to check
-  for `NULL` pointers any more, or, at least not handle them functionally.
-* Create `color` property and use it for bg- and fg-color (in `block`, `style`, ...).
-* More robust parsing, handle (some) invalid CSS.
-* Better stability, work around a problem in libcroco (b.g.o#553937).
-
-Version 0.1, 2008-08-22
------------------------
-
-Focus on basic infrastructure.
-
-* Matching (descendant and child).
-* Background color.
-* Basic border styles, also through the `color` property.
-* Single background image.
+* Implement blocks with hash-table and a string API (TODO: generic getter/new'er in ccss_block_t).
+* Implement ccss_style_t with a hash-table, only add set values and fall back to the built-in style for unset properties.
+* Implement style with a hash-table and provide a query API. 
+* Extension API for custom CSS properties.
 
