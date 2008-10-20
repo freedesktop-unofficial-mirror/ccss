@@ -1,5 +1,11 @@
 2008-10-20  Robert Staudinger  <robsta@gnome.org>
 
+	* TODO: update.
+
+	* ccss/ccss-background.h: delete unused prototypes.
+
+2008-10-20  Robert Staudinger  <robsta@gnome.org>
+
 	* TODO: remember how to fix complex universal selectors.
 
 	* ccss/ccss-selector-group.c (traverse_merge), (traverse_query),

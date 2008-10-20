@@ -38,7 +38,7 @@ typedef struct ccss_node_ ccss_node_t;
  * Returns: %TRUE if matches.
  **/
 typedef bool (*ccss_node_is_a_f) (ccss_node_t const *self, 
-				 char const *type_name);
+				  char const *type_name);
 
 /** 
  * ccss_node_get_container_f:

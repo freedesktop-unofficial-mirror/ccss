@@ -19,5 +19,5 @@ Also see gtk-css-engine's TODO for now.
       GtkButton: child-displacement-x(0);
       GtkButton: default_border( 0, 0, 0, 0 );
     }
-* Style merging by property prefix, this is needed for g-c-e, so e.g. "border-left*" can be merged from the GtkComboBox style when drawing its embedded entries' shadow.
+* Query interface through CSS selectors, see gtk-css-engine TODO.
 

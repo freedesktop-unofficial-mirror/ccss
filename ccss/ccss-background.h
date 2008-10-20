@@ -77,9 +77,6 @@ typedef struct {
 	ccss_background_size_t		bg_size;
 } ccss_background_t;
 
-ccss_background_t *	ccss_background_new	(void);
-void			ccss_background_free	(ccss_background_t *self);
-
 void ccss_background_fill (ccss_background_attachment_t const *bg_attachment, 
 			  ccss_color_t const *bg_color,
 			  ccss_background_image_t const *bg_image,
