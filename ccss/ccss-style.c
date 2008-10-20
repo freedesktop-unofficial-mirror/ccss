@@ -144,7 +144,6 @@ static const struct {
 };
 
 /* FIXME: maybe they should also be in `block', where the generic conversion function is? */
-/* TODO: also support "border-width" -style -color -radius */
 
 static bool
 convert_background_attachment (ccss_background_attachment_t const	*property,

@@ -1,3 +1,12 @@
+2008-10-20  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO: remember how to fix complex universal selectors.
+
+	* ccss/ccss-selector-group.c (traverse_merge), (traverse_query),
+	(traverse_match), (traverse_dump), (ccss_selector_group_dump):
+	* ccss/ccss-style.c:
+	Iterate GSList using `for' loops.
+
 2008-10-17  Robert Staudinger  <robsta@gnome.org>
 
 	* configure.in: post-release version bump.

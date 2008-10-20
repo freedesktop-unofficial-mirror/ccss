@@ -187,14 +187,12 @@ traverse_merge (size_t			 	 specificity,
 		ccss_selector_set_t const	*set,
 		traverse_merge_info_t		*info)
 {
-	GSList const		*iter;
 	ccss_selector_t const	*selector;
 	ccss_selector_t		*new_selector;
 
 	g_assert (info->self && set);
 
-	iter = set->selectors;
-	while (iter) {
+	for (GSList const *iter = set->selectors; iter != NULL; iter = iter->next) {
 		selector = (ccss_selector_t const *) iter->data;
 		if (info->as_base) {
 			new_selector = ccss_selector_copy_as_base (selector, info->specificity_e);
@@ -202,7 +200,6 @@ traverse_merge (size_t			 	 specificity,
 			new_selector = ccss_selector_copy (selector);
 		}
 		ccss_selector_group_add_selector (info->self, new_selector);
-		iter = iter->next;
 	}
 
 	info->specificity_e++;
@@ -281,11 +278,9 @@ traverse_query (size_t			 specificity,
 {
 	ccss_selector_t const	*selector;
 	ccss_selector_t		*new_selector;
-	GSList const		*iter;
 	bool			 ret;
 
-	iter = set->selectors;
-	while (iter) {
+	for (GSList const *iter = set->selectors; iter != NULL; iter = iter->next) {
 		selector = (ccss_selector_t const *) iter->data;
 		ret = ccss_selector_query_apply (selector, info->node, NULL);
 		if (ret) {
@@ -298,7 +293,6 @@ traverse_query (size_t			 specificity,
 			ccss_selector_group_add_selector (info->result_group, new_selector);
 			info->ret = true;
 		}
-		iter = iter->next;
 	}
 
 	return false;
@@ -339,13 +333,9 @@ traverse_match (size_t			 specificity,
 		ccss_selector_set_t	*set,
 		traverse_match_info_t	*info)
 {
-	GSList const *iter;
-
-	iter = set->selectors;
-	while (iter) {
+	for (GSList const *iter = set->selectors; iter != NULL; iter = iter->next) {
 		info->ret |= ccss_selector_query_apply ((ccss_selector_t const *) iter->data, 
 						 info->node, info->style);
-		iter = iter->next;
 	}
 
 	return false;
@@ -470,12 +460,8 @@ traverse_dump (size_t			 specificity,
 	       ccss_selector_set_t	*set,
 	       void			*data)
 {
-	GSList const *iter;
-
-	iter = set->selectors;
-	while (iter) {
+	for (GSList const *iter = set->selectors; iter != NULL; iter = iter->next) {
 		ccss_selector_dump ((ccss_selector_t const *) iter->data);
-		iter = iter->next;
 	}
 
 	return false;
@@ -490,17 +476,15 @@ traverse_dump (size_t			 specificity,
 void
 ccss_selector_group_dump (ccss_selector_group_t const *self)
 {
-	GSList const *iter;
+	
 
 	g_return_if_fail (self);
 
 	g_tree_foreach (self->sets, (GTraverseFunc) traverse_dump, NULL);
 
-	iter = self->dangling_selectors;
-	while (iter) {
+	for (GSList const *iter = self->dangling_selectors; iter != NULL; iter = iter->next) {
 		printf ("(dangling) ");
 		ccss_selector_dump ((ccss_selector_t const *) iter->data);
-		iter = iter->next;
 	}
 }
 
