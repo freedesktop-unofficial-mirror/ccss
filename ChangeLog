@@ -1,5 +1,12 @@
 2008-10-22  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-border.c (draw_none_line), (draw_dotted_line),
+	(draw_dashed_line):
+	* examples/example-1.c:
+	Fix drawing of dotted and dashed lines.
+
+2008-10-22  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-selector-group.c (ccss_selector_group_new),
 	(ccss_selector_group_free), (ccss_selector_group_add_selector),
 	(ccss_selector_group_merge), (ccss_selector_group_merge_base),

@@ -69,7 +69,9 @@ draw_none_line (ccss_border_stroke_t const	*stroke,
 		double				 y1,
 		double				 x2,
 		double				 y2)
-{}
+{
+	cairo_move_to (cr, x1, y1);
+}
 
 static void
 draw_dotted_line (ccss_border_stroke_t const	*stroke,
@@ -85,6 +87,7 @@ draw_dotted_line (ccss_border_stroke_t const	*stroke,
 
 	cairo_save (cr);
 
+	cairo_move_to (cr, x1, y1);
 	line (stroke, cr, x1, y1, x2, y2);
 
 	cairo_set_dash (cr, &dash_len, 1, 0);
@@ -111,6 +114,7 @@ draw_dashed_line (ccss_border_stroke_t const	*stroke,
 
 	cairo_save (cr);
 
+	cairo_move_to (cr, x1, y1);
 	line (stroke, cr, x1, y1, x2, y2);
 
 	cairo_set_dash (cr, dashes, G_N_ELEMENTS (dashes), 0);

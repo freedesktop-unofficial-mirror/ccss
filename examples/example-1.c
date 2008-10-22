@@ -27,6 +27,7 @@ expose_cb (GtkWidget		*widget,
 static char const _css[] = "			\
 	box { 					\
 		border: 3px solid black;	\
+		border-top: 3px dotted red;	\
 		border-radius: 3px;		\
 	}					\
 ";
