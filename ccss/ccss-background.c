@@ -21,18 +21,6 @@
 #include <string.h>
 #include "ccss-background.h"
 
-ccss_background_t * 
-ccss_background_new (void)
-{
-	return g_new0 (ccss_background_t, 1);
-}
-
-void
-ccss_background_free (ccss_background_t *self)
-{
-	g_free (self);
-}
-
 static cairo_pattern_t *
 create_pattern (ccss_background_image_t const	*bg_image,
 		double				 width,

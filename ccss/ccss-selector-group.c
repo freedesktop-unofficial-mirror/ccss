@@ -38,14 +38,6 @@ struct ccss_selector_group_ {
 	GSList		*dangling_selectors;
 };
 
-static int
-compare (size_t	 key1,
-	 size_t	 key2, 
-	 void	*data)
-{
-	return key1 - key2;
-}
-
 static void
 free_set (ccss_selector_set_t *set)
 {
@@ -302,8 +294,8 @@ traverse_query (size_t			 specificity,
 bool
 ccss_selector_group_query_collect (ccss_selector_group_t const	*self, 
 				  ccss_node_t const		*node, 
-				  ccss_selector_group_t		*result_group,
-				  bool				 as_base)
+				  bool				 as_base,
+				  ccss_selector_group_t		*result_group)
 {
 	traverse_query_info_t info;
 

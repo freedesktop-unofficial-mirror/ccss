@@ -39,7 +39,7 @@ ccss_selector_group_t const * ccss_stylesheet_query_type (ccss_stylesheet_t cons
 							char const *type_name);
 
 bool ccss_stylesheet_query_collect (ccss_stylesheet_t const *self, ccss_node_t const *node, 
-				   ccss_selector_group_t *result_group, bool as_base);
+				   bool as_base, ccss_selector_group_t *result_group);
 
 bool ccss_stylesheet_query_apply (ccss_stylesheet_t const *self, ccss_node_t const *node, 
 				 ccss_style_t *style);

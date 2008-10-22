@@ -1,5 +1,16 @@
 2008-10-22  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-background.c:
+	* ccss/ccss-selector-group-priv.h:
+	* ccss/ccss-selector-group.c (ccss_selector_group_query_collect):
+	* ccss/ccss-stylesheet.c (collect_type_r),
+	(ccss_stylesheet_query_collect):
+	* ccss/ccss-stylesheet.h:
+	* doc/tmpl/stylesheet.sgml:
+	Better consistency, move all out parameters to the end of parameter list.
+
+2008-10-22  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-border.c (draw_none_line), (draw_dotted_line),
 	(draw_dashed_line):
 	* examples/example-1.c:

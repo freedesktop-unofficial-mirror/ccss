@@ -191,8 +191,8 @@ static bool
 collect_type_r (ccss_stylesheet_t const	*self,
 	      ccss_node_t const		*node, 
 	      ccss_node_t const		*iter,
-	      ccss_selector_group_t	*result_group,
-	      bool			 as_base)
+	      bool			 as_base,
+	      ccss_selector_group_t	*result_group)
 {
 	ccss_node_class_t const	*node_class;
 	ccss_selector_group_t	*group;
@@ -214,13 +214,13 @@ collect_type_r (ccss_stylesheet_t const	*self,
 
 		group = g_hash_table_lookup (self->groups, type_name);
 		if (group) {
-			ret = ccss_selector_group_query_collect (group, node, result_group, as_base);
+			ret = ccss_selector_group_query_collect (group, node, as_base, result_group);
 		}
 
 		/* Try to match base types. */
 		base = node_class->get_base_style (iter);
 		if (base) {
-			ret |= collect_type_r (self, node, base, result_group, true);
+			ret |= collect_type_r (self, node, base, true, result_group);
 			node_class->release (base);
 		}
 	} else {
@@ -234,8 +234,8 @@ collect_type_r (ccss_stylesheet_t const	*self,
  * ccss_stylesheet_query_collect:
  * @self:		a #ccss_stylesheet_t.
  * @node:		a #ccss_node_t implementation that is used by libccss to retrieve information about the underlying document.
- * @result_group:	a #ccss_selector_group_t that accumulates the results of the query.
  * @as_base:		whether the results should be accumulates with lowered priority, e.g. when querying for base style information.
+ * @result_group:	a #ccss_selector_group_t that accumulates the results of the query.
  *
  * Query the stylesheet for styling information regarding a document node and collect the results.
  *
@@ -244,8 +244,8 @@ collect_type_r (ccss_stylesheet_t const	*self,
 bool
 ccss_stylesheet_query_collect (ccss_stylesheet_t const	*self,
 			      ccss_node_t const		*node, 
-			      ccss_selector_group_t	*result_group,
-			      bool			 as_base)
+			      bool			 as_base,
+			      ccss_selector_group_t	*result_group)
 {
 	ccss_node_class_t const		*node_class;
 	ccss_selector_group_t const	*group;
@@ -261,11 +261,11 @@ ccss_stylesheet_query_collect (ccss_stylesheet_t const	*self,
 	group = g_hash_table_lookup (self->groups, "*");
 	if (group) {
 		ret |= ccss_selector_group_query_collect (group, node, 
-							 result_group, false);
+							 false, result_group);
 	}			
 
 	/* match style by type information */
-	ret |= collect_type_r (self, node, node, result_group, as_base);
+	ret |= collect_type_r (self, node, node, as_base, result_group);
 
 	return ret;
 }
