@@ -1,3 +1,13 @@
+2008-10-22  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-selector-group.c (ccss_selector_group_new),
+	(ccss_selector_group_free), (ccss_selector_group_add_selector),
+	(ccss_selector_group_merge), (ccss_selector_group_merge_base),
+	(ccss_selector_group_query_collect),
+	(ccss_selector_group_query_apply), (ccss_selector_group_apply),
+	(ccss_selector_group_apply_type), (ccss_selector_group_dump):
+	Use GHashTable instead of GTree so it's possible to do queue-based iteration over multiple selector groups.
+
 2008-10-20  Robert Staudinger  <robsta@gnome.org>
 
 	* TODO: update.
