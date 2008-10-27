@@ -1,3 +1,27 @@
+2008-10-27  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-parser.c (walk_additional_selector),
+	(walk_simple_selector_r), (start_selector_cb), (end_selector_cb),
+	(ccss_parser_parse_file), (ccss_parser_parse_buffer):
+	* ccss/ccss-parser.h:
+	* ccss/ccss-selector-group.c:
+	* ccss/ccss-selector.c (selector_sync),
+	(ccss_universal_selector_new), (ccss_type_selector_new),
+	(ccss_base_type_selector_new), (ccss_class_selector_new),
+	(ccss_id_selector_new), (ccss_attribute_selector_new),
+	(ccss_pseudo_class_selector_new), (ccss_selector_refine),
+	(ccss_selector_append_child), (ccss_selector_append_descendant),
+	(ccss_selector_get_importance), (ccss_selector_get_precedence),
+	(ccss_selector_get_specificity):
+	* ccss/ccss-selector.h:
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_new_from_buffer),
+	(ccss_stylesheet_new_from_file), (ccss_stylesheet_load_from_file):
+	* ccss/ccss-stylesheet.h:
+	* ccss/ccss.sym.in:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/stylesheet.sgml:
+	Allow for multiple CSS files being loaded with cascading as per CSS specification.
+
 2008-10-22  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/ccss-background.c:

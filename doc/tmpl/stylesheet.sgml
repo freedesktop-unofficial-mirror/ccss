@@ -23,6 +23,15 @@ ccss_stylesheet_t
 </para>
 
 
+<!-- ##### ENUM ccss_stylesheet_precedence_t ##### -->
+<para>
+
+</para>
+
+@CCSS_STYLESHEET_USER_AGENT: 
+@CCSS_STYLESHEET_USER: 
+@CCSS_STYLESHEET_AUTHOR: 
+
 <!-- ##### FUNCTION ccss_stylesheet_new_from_buffer ##### -->
 <para>
 
@@ -39,6 +48,17 @@ ccss_stylesheet_t
 </para>
 
 @css_file: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_stylesheet_load_from_file ##### -->
+<para>
+
+</para>
+
+@self: 
+@css_file: 
+@precedence: 
 @Returns: 
 
 

@@ -28,11 +28,30 @@
 
 G_BEGIN_DECLS
 
+/**
+ * ccss_stylesheet_precedence_t:
+ * @CCSS_STYLESHEET_USER_AGENT:	the application's intrinsic CSS rules.
+ * @CCSS_STYLESHEET_USER:	CSS rules provided by the user.
+ * @CCSS_STYLESHEET_AUTHOR:	CSS rules provided by the author.
+ *
+ * See <ulink url="http://www.w3.org/TR/CSS21/cascade.html">http://www.w3.org/TR/CSS21/cascade.html</ulink>.
+ **/
+typedef enum {
+	CCSS_STYLESHEET_USER_AGENT = 0,
+	CCSS_STYLESHEET_USER,
+	CCSS_STYLESHEET_AUTHOR
+} ccss_stylesheet_precedence_t;
+
 typedef struct ccss_stylesheet_ ccss_stylesheet_t;
 
 ccss_stylesheet_t *	ccss_stylesheet_new_from_buffer	(char const *buffer,
 							 size_t size);
 ccss_stylesheet_t *	ccss_stylesheet_new_from_file	(char const *css_file);
+
+ccss_stylesheet_t *	ccss_stylesheet_load_from_file	(ccss_stylesheet_t *self,
+							 char const *css_file,
+							 ccss_stylesheet_precedence_t precedence);
+
 void			ccss_stylesheet_free		(ccss_stylesheet_t *self);
 
 ccss_selector_group_t const * ccss_stylesheet_query_type (ccss_stylesheet_t const *self,

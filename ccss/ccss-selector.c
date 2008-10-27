@@ -22,7 +22,6 @@
 #include "ccss-node.h"
 #include "ccss-selector.h"
 #include "ccss-style.h"
-#include "ccss-stylesheet.h"
 
 typedef enum {
 	CCSS_SELECTOR_MODALITY_UNIVERSAL,	/* Universal selector. */
@@ -42,11 +41,13 @@ typedef enum {
  */
 struct ccss_selector_ {
 	ccss_selector_modality_t	 modality;
-	uint8_t			 a;
-	uint8_t			 b;
-	uint8_t			 c;
-	uint8_t			 d;
-	uint8_t			 e;
+	unsigned int			 importance : 2;
+	unsigned int			 precedence : 5;
+	unsigned int			 a : 5;
+	unsigned int			 b : 5;
+	unsigned int			 c : 5;
+	unsigned int			 d : 5;
+	unsigned int			 e : 5;
 	struct ccss_selector_	*refinement;
 	struct ccss_selector_	*container;
 	struct ccss_selector_	*antecessor;
@@ -60,6 +61,7 @@ selector_sync (ccss_selector_t const	*self,
 	g_assert (self && to);
 
 	to->modality = self->modality;
+	to->precedence = self->precedence;
 	to->a = self->a;
 	to->b = self->b;
 	to->c = self->c;
@@ -77,12 +79,13 @@ selector_sync (ccss_selector_t const	*self,
 typedef ccss_selector_t ccss_universal_selector_t;
 
 ccss_selector_t * 
-ccss_universal_selector_new (void)
+ccss_universal_selector_new (unsigned int precedence)
 {
 	ccss_universal_selector_t *self;
 
 	self = g_new0 (ccss_universal_selector_t, 1);
 	self->modality = CCSS_SELECTOR_MODALITY_UNIVERSAL;
+	self->precedence = precedence;
 
 	return (ccss_selector_t *) self;
 }
@@ -125,7 +128,8 @@ typedef struct {
 } ccss_type_selector_t;
 
 ccss_selector_t *
-ccss_type_selector_new (char const *type_name)
+ccss_type_selector_new (char const	*type_name,
+			unsigned int	 precedence)
 {
 	ccss_type_selector_t *self;
 
@@ -133,6 +137,7 @@ ccss_type_selector_new (char const *type_name)
 
 	self = g_new0 (ccss_type_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_TYPE;
+	self->parent.precedence = precedence;
 	self->parent.d = 1;
 	self->type_name = g_strdup (type_name);
 
@@ -176,12 +181,14 @@ type_selector_dump (ccss_type_selector_t const *self)
  */
 ccss_selector_t * 
 ccss_base_type_selector_new (char const		*type_name,
-			    unsigned int	 specificity_e)
+			     unsigned int	 precedence,
+			     unsigned int	 specificity_e)
 {
 	ccss_selector_t *self;
 
-	self = ccss_type_selector_new (type_name);
+	self = ccss_type_selector_new (type_name, precedence);
 	self->modality = CCSS_SELECTOR_MODALITY_BASE_TYPE;
+	self->precedence = precedence;
 	self->a = 0;
 	self->b = 0;
 	self->c = 0;
@@ -200,7 +207,8 @@ typedef struct {
 } ccss_class_selector_t;
 
 ccss_selector_t *
-ccss_class_selector_new (char const *class_name)
+ccss_class_selector_new (char const	*class_name,
+			 unsigned int	 precedence)
 {
 	ccss_class_selector_t *self;
 
@@ -208,6 +216,7 @@ ccss_class_selector_new (char const *class_name)
 
 	self = g_new0 (ccss_class_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_CLASS;
+	self->parent.precedence = precedence;
 	self->parent.c = 1;
 	self->class_name = g_strdup (class_name);
 
@@ -254,7 +263,8 @@ typedef struct {
 } ccss_id_selector_t;
 
 ccss_selector_t *
-ccss_id_selector_new (char const *id)
+ccss_id_selector_new (char const	*id,
+		      unsigned int	 precedence)
 {
 	ccss_id_selector_t *self;
 
@@ -262,6 +272,7 @@ ccss_id_selector_new (char const *id)
 
 	self = g_new0 (ccss_id_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_ID;
+	self->parent.precedence = precedence;
 	self->parent.b = 1;
 	self->id = g_strdup (id);
 
@@ -311,8 +322,9 @@ typedef struct {
 
 ccss_selector_t *
 ccss_attribute_selector_new (char const				*name,
-			    char const				*value,
-			    ccss_attribute_selector_match_t	 match)
+			     char const				*value,
+			     ccss_attribute_selector_match_t	 match,
+			     unsigned int			 precedence)
 {
 	ccss_attribute_selector_t *self;
 
@@ -320,6 +332,7 @@ ccss_attribute_selector_new (char const				*name,
 
 	self = g_new0 (ccss_attribute_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_ATTRIBUTE;
+	self->parent.precedence = precedence;
 	self->parent.c = 1;
 	self->name = g_strdup (name);
 	self->value = g_strdup (value);
@@ -380,7 +393,8 @@ typedef struct {
 } ccss_pseudo_class_selector_t;
 
 ccss_selector_t *
-ccss_pseudo_class_selector_new (char const *pseudo_class)
+ccss_pseudo_class_selector_new (char const	*pseudo_class,
+				unsigned int	 precedence)
 {
 	ccss_pseudo_class_selector_t *self;
 
@@ -388,6 +402,7 @@ ccss_pseudo_class_selector_new (char const *pseudo_class)
 
 	self = g_new0 (ccss_pseudo_class_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_PSEUDO_CLASS;
+	self->parent.precedence = precedence;
 	self->parent.d = 1;
 	self->pseudo_class = g_strdup (pseudo_class);
 
@@ -567,6 +582,7 @@ ccss_selector_refine (ccss_selector_t *self,
 	self->refinement = selector;
 
 	/* propagate specificity */
+	self->precedence = selector->precedence;
 	self->a += selector->a;
 	self->b += selector->b;
 	self->c += selector->c;
@@ -584,6 +600,7 @@ ccss_selector_append_child (ccss_selector_t *self,
 			   ccss_selector_t *selector)
 {
 	/* propagate specificity */
+	self->precedence = selector->precedence;
 	selector->a += self->a;
 	selector->b += self->b;
 	selector->c += self->c;
@@ -607,6 +624,7 @@ ccss_selector_append_descendant (ccss_selector_t *self,
 				ccss_selector_t *selector)
 {
 	/* propagate specificity */
+	self->precedence = selector->precedence;
 	selector->a += self->a;
 	selector->b += self->b;
 	selector->c += self->c;
@@ -689,6 +707,22 @@ ccss_selector_set_block (ccss_selector_t		*self,
 	self->block = block;
 }
 
+ccss_selector_importance_t
+ccss_selector_get_importance (ccss_selector_t const *self)
+{
+	g_assert (self);
+
+	return self->importance;
+}
+
+ccss_stylesheet_precedence_t
+ccss_selector_get_precedence (ccss_selector_t const *self)
+{
+	g_assert (self);
+
+	return self->precedence;
+}
+
 /*
  * Depending on the modality of the selector this may return NULL.
  */
@@ -717,22 +751,24 @@ ccss_selector_get_key (ccss_selector_t const *self)
 uint32_t
 ccss_selector_get_specificity (ccss_selector_t const *self)
 {
-	g_assert (self->a <= CCSS_SELECTOR_MAX_SPECIFICITY &&
+	g_assert (self->importance <= CCSS_SELECTOR_MAX_IMPORTANCE &&
+		  self->precedence <= CCSS_SELECTOR_MAX_PRECEDENCE &&
+		  self->a <= CCSS_SELECTOR_MAX_SPECIFICITY &&
 		  self->b <= CCSS_SELECTOR_MAX_SPECIFICITY &&
 		  self->c <= CCSS_SELECTOR_MAX_SPECIFICITY &&
 		  self->d <= CCSS_SELECTOR_MAX_SPECIFICITY &&
 		  self->e <= CCSS_SELECTOR_MAX_SPECIFICITY);
 
-	return self->e | (self->d << 6) | (self->c << 12) | (self->b << 18) | (self->a << 24);
+	return self->e | (self->d << 5) | (self->c << 10) | (self->b << 15) | (self->a << 20) | (self->precedence << 25) | (self->importance << 30);
 }
 
 void
 ccss_selector_get_specificity_values (ccss_selector_t const	*self, 
-				     unsigned int		*a,
-				     unsigned int		*b,
-				     unsigned int		*c,
-				     unsigned int		*d,
-				     unsigned int		*e)
+				      unsigned int		*a,
+				      unsigned int		*b,
+				      unsigned int		*c,
+				      unsigned int		*d,
+				      unsigned int		*e)
 {
 	g_assert (self);
 

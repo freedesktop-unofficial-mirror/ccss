@@ -22,14 +22,19 @@
 
 #include <stdbool.h>
 #include <glib.h>
+#include <libcroco/libcroco.h>
 #include <ccss/ccss-features.h>
+#include <ccss/ccss-stylesheet.h>
 
 G_BEGIN_DECLS
 
-GSList * ccss_parser_parse_buffer (char const *buffer, size_t size, 
-				  GHashTable *groups);
+enum CRStatus ccss_parser_parse_buffer (char const *buffer, size_t size,
+					ccss_stylesheet_precedence_t precedence,
+					GHashTable *groups, GSList **block_list);
 
-GSList * ccss_parser_parse_file (char const *css_file, GHashTable *groups);
+enum CRStatus ccss_parser_parse_file (char const *css_file, 
+				      ccss_stylesheet_precedence_t precedence,
+				      GHashTable *groups, GSList **block_list);
 
 G_END_DECLS
 

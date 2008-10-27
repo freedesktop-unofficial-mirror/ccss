@@ -31,9 +31,10 @@
 #include "ccss-selector-group-priv.h"
 
 typedef struct {
-	GSList		*blocks;
-	GHashTable	*groups;
-	ccss_block_t	*block;
+	ccss_stylesheet_precedence_t	 precedence;
+	GSList				*block_list;
+	GHashTable			*groups;
+	ccss_block_t			*block;
 } ccss_parser_info_t;
 
 #define HANDLER_GET_INFO(handler_) ((ccss_parser_info_t *) handler->app_data)
@@ -58,7 +59,8 @@ map_attribute_selector_match (enum AttrMatchWay cr_match)
 }
 
 static ccss_selector_t *
-walk_additional_selector (CRAdditionalSel *cr_add_sel)
+walk_additional_selector (CRAdditionalSel		*cr_add_sel,
+			  ccss_stylesheet_precedence_t	 precedence)
 {
 	ccss_selector_t			*selector;
 	char const			*name;
@@ -73,21 +75,21 @@ walk_additional_selector (CRAdditionalSel *cr_add_sel)
 	switch (cr_add_sel->type) {
 	case CLASS_ADD_SELECTOR:
 		name = cr_string_peek_raw_str (cr_add_sel->content.class_name);
-		selector = ccss_class_selector_new (name);
+		selector = ccss_class_selector_new (name, precedence);
 		break;
 	case PSEUDO_CLASS_ADD_SELECTOR:
 		name = cr_string_peek_raw_str (cr_add_sel->content.pseudo->name);
-		selector = ccss_pseudo_class_selector_new (name);
+		selector = ccss_pseudo_class_selector_new (name, precedence);
 		break;
 	case ID_ADD_SELECTOR:
 		name = cr_string_peek_raw_str (cr_add_sel->content.id_name);
-		selector = ccss_id_selector_new (name);
+		selector = ccss_id_selector_new (name, precedence);
 		break;
 	case ATTRIBUTE_ADD_SELECTOR:
 		name = cr_string_peek_raw_str (cr_add_sel->content.attr_sel->name);
 		value = cr_string_peek_raw_str (cr_add_sel->content.attr_sel->value);
 		match = map_attribute_selector_match (cr_add_sel->content.attr_sel->match_way);
-		selector = ccss_attribute_selector_new (name, value, match);
+		selector = ccss_attribute_selector_new (name, value, match, precedence);
 		break;
 	case NO_ADD_SELECTOR:
 	default:
@@ -97,7 +99,7 @@ walk_additional_selector (CRAdditionalSel *cr_add_sel)
 
 	if (cr_add_sel->next) {
 		ccss_selector_t *refinement;
-		refinement = walk_additional_selector (cr_add_sel->next);
+		refinement = walk_additional_selector (cr_add_sel->next, precedence);
 		ccss_selector_refine (selector, refinement);
 	}
 
@@ -105,7 +107,8 @@ walk_additional_selector (CRAdditionalSel *cr_add_sel)
 }
 
 static ccss_selector_t *
-walk_simple_selector_r (CRSimpleSel *cr_simple_sel)
+walk_simple_selector_r (CRSimpleSel			*cr_simple_sel,
+			ccss_stylesheet_precedence_t	 precedence)
 {
 	ccss_selector_t *selector;
 
@@ -113,9 +116,9 @@ walk_simple_selector_r (CRSimpleSel *cr_simple_sel)
 
 	selector = NULL;
 	if (UNIVERSAL_SELECTOR & cr_simple_sel->type_mask) {
-		selector = ccss_universal_selector_new ();
+		selector = ccss_universal_selector_new (precedence);
 	} else if (TYPE_SELECTOR & cr_simple_sel->type_mask) {
-		selector = ccss_type_selector_new (cr_string_peek_raw_str (cr_simple_sel->name));
+		selector = ccss_type_selector_new (cr_string_peek_raw_str (cr_simple_sel->name), precedence);
 	} else {
 		char const *sel;
 		sel = cr_simple_sel->name ? cr_string_peek_raw_str (cr_simple_sel->name) : NULL;
@@ -127,13 +130,13 @@ walk_simple_selector_r (CRSimpleSel *cr_simple_sel)
 
 	if (cr_simple_sel->add_sel) {
 		ccss_selector_t *refinement;
-		refinement = walk_additional_selector (cr_simple_sel->add_sel);
+		refinement = walk_additional_selector (cr_simple_sel->add_sel, precedence);
 		ccss_selector_refine (selector, refinement);
 	}
 
 	if (cr_simple_sel->next) {
 		ccss_selector_t *descendant;
-		descendant = walk_simple_selector_r (cr_simple_sel->next);
+		descendant = walk_simple_selector_r (cr_simple_sel->next, precedence);
 		if (COMB_WS == cr_simple_sel->next->combinator) {
 			selector = ccss_selector_append_descendant (selector,
 								   descendant);
@@ -169,6 +172,7 @@ start_selector_cb (CRDocHandler	*handler,
 	}
 
 	info->block = ccss_block_new ();
+	info->block_list = g_slist_prepend (info->block_list, info->block);
 }
 
 static void
@@ -257,7 +261,7 @@ end_selector_cb (CRDocHandler	*handler,
 
 	iter = cr_sel;
 	do {
-		selector = walk_simple_selector_r (iter->simple_sel);
+		selector = walk_simple_selector_r (iter->simple_sel, info->precedence);
 		if (selector) {
 			ccss_selector_set_block (selector, info->block);
 
@@ -278,9 +282,11 @@ end_selector_cb (CRDocHandler	*handler,
 	info->block = NULL;
 }
 
-GSList *
-ccss_parser_parse_file (char const	*css_file,
-		       GHashTable	*groups)
+enum CRStatus
+ccss_parser_parse_file (char const			 *css_file,
+			ccss_stylesheet_precedence_t	  precedence,
+			GHashTable			 *groups,
+			GSList				**block_list)
 {
 	CRParser		*parser;
 	CRDocHandler		*handler;
@@ -293,7 +299,8 @@ ccss_parser_parse_file (char const	*css_file,
 
 	handler = cr_doc_handler_new ();
 	handler->app_data = (gpointer) &info;
-	info.blocks = NULL;
+	info.precedence = precedence;
+	info.block_list = *block_list;
 	info.groups = groups;
 	info.block = NULL;
 
@@ -315,13 +322,17 @@ ccss_parser_parse_file (char const	*css_file,
 #endif
 	cr_parser_destroy (parser), parser = NULL;
 
-	return info.blocks;
+	*block_list = info.block_list;
+
+	return ret;
 }
 
-GSList *
-ccss_parser_parse_buffer (char const	*buffer,
-			 size_t		 size,
-			 GHashTable	*groups)
+enum CRStatus
+ccss_parser_parse_buffer (char const			 *buffer,
+			  size_t			  size,
+			  ccss_stylesheet_precedence_t	  precedence,
+			  GHashTable			 *groups,
+			  GSList			**block_list)
 {
 	CRParser		*parser;
 	CRDocHandler		*handler;
@@ -335,7 +346,8 @@ ccss_parser_parse_buffer (char const	*buffer,
 
 	handler = cr_doc_handler_new ();
 	handler->app_data = (gpointer) &info;
-	info.blocks = NULL;
+	info.precedence = precedence;
+	info.block_list = *block_list;
 	info.groups = groups;
 	info.block = NULL;
 
@@ -352,6 +364,8 @@ ccss_parser_parse_buffer (char const	*buffer,
 #endif
 	cr_parser_destroy (parser);
 
-	return info.blocks;
+	*block_list = info.block_list;
+
+	return ret;
 }
 

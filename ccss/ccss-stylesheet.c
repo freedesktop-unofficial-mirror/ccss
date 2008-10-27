@@ -105,12 +105,17 @@ ccss_stylesheet_new_from_buffer (char const	*buffer,
 				size_t		 size)
 {
 	ccss_stylesheet_t	*self;
+	enum CRStatus		 ret;
 
 	self = ccss_stylesheet_new ();
 
-	self->blocks = ccss_parser_parse_buffer (buffer, size, self->groups);
+	ret = ccss_parser_parse_buffer (buffer, size, 
+					CCSS_STYLESHEET_AUTHOR,
+					self->groups, &self->blocks);
 
 	fix_dangling_selectors (self);
+
+	// FIXME handle `ret'
 
 	return self;
 }
@@ -127,12 +132,47 @@ ccss_stylesheet_t *
 ccss_stylesheet_new_from_file (char const *css_file)
 {
 	ccss_stylesheet_t	*self;
+	enum CRStatus		 ret;
 
 	self = ccss_stylesheet_new ();
 
-	self->blocks = ccss_parser_parse_file (css_file, self->groups);
+	ret = ccss_parser_parse_file (css_file, CCSS_STYLESHEET_AUTHOR,
+				      self->groups, &self->blocks);
 
 	fix_dangling_selectors (self);
+
+	// FIXME handle `ret'
+
+	return self;
+}
+
+/**
+ * ccss_stylesheet_load_from_file:
+ * @self:	#ccss_stylesheet_t instance or %NULL.
+ * @css_file:	file to parse.
+ * @precedence:	see #ccss_stylesheet_precedence_t.
+ *
+ * Load a CSS file with a given precedence.
+ *
+ * Returns: a #ccss_stylesheet_t representation of the CSS file.
+ **/
+ccss_stylesheet_t *
+ccss_stylesheet_load_from_file (ccss_stylesheet_t		*self,
+				char const			*css_file,
+				ccss_stylesheet_precedence_t	 precedence)
+{
+	enum CRStatus ret;
+
+	if (!self) {
+		self = ccss_stylesheet_new ();
+	}
+
+	ret = ccss_parser_parse_file (css_file, precedence,
+				      self->groups, &self->blocks);
+
+	fix_dangling_selectors (self);
+
+	// FIXME handle `ret'
 
 	return self;
 }

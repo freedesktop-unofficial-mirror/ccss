@@ -94,40 +94,6 @@ ccss_selector_group_free (ccss_selector_group_t *self)
 }
 
 /*
- * The attribute `min_specificity_e' is decremented before each recursive 
- * invocation, so base styles are cascaded root-first.
- */
-static void
-query_base_r (ccss_selector_group_t	*self,
-	      ccss_node_t const		*node)
-{
-	ccss_node_class_t const	*node_class;
-	ccss_selector_t		*selector;
-	ccss_node_t		*base;
-	char const		*type_name;
-	unsigned int		 specificity_e;
-
-	g_assert (self->min_specificity_e >= 0);
-
-	node_class = node->node_class;
-
-	specificity_e = self->min_specificity_e;
-	base = node_class->get_base_style (node);
-	if (base) {
-		/* recurse */
-		g_assert (self->min_specificity_e > 0);
-		self->min_specificity_e--;
-		query_base_r (self, base);
-		node_class->release (base);
-	}
-
-	/* create dangling base type selector and remember for later fixup */
-	type_name = node_class->get_type (node);
-	selector = ccss_base_type_selector_new (type_name, specificity_e);
-	self->dangling_selectors = g_slist_prepend (self->dangling_selectors, selector);
-}
-
-/*
  * Takes ownership of the selector.
  */
 void
