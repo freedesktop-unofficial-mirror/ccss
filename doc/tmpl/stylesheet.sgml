@@ -80,18 +80,6 @@ ccss_stylesheet_t
 @Returns: 
 
 
-<!-- ##### FUNCTION ccss_stylesheet_query_collect ##### -->
-<para>
-
-</para>
-
-@self: 
-@node: 
-@as_base: 
-@result_group: 
-@Returns: 
-
-
 <!-- ##### FUNCTION ccss_stylesheet_query_apply ##### -->
 <para>
 
