@@ -224,65 +224,6 @@ ccss_selector_group_clear_dangling_selectors (ccss_selector_group_t *self)
 
 typedef struct {
 	ccss_node_t const	*node;
-	ccss_selector_group_t	*result_group;
-	bool			 as_base;
-	unsigned int		 specificity_e;
-	bool			 ret;
-} traverse_query_info_t;
-
-static bool
-traverse_query (size_t			 specificity,
-		ccss_selector_set_t	*set,
-		traverse_query_info_t	*info)
-{
-	ccss_selector_t const	*selector;
-	ccss_selector_t		*new_selector;
-	bool			 ret;
-
-	for (GSList const *iter = set->selectors; iter != NULL; iter = iter->next) {
-		selector = (ccss_selector_t const *) iter->data;
-		ret = ccss_selector_query_apply (selector, info->node, NULL);
-		if (ret) {
-			if (info->as_base) {
-				new_selector = ccss_selector_copy_as_base (selector, info->specificity_e);
-				info->specificity_e++;
-			} else {
-				new_selector = ccss_selector_copy (selector);
-			}
-			ccss_selector_group_add_selector (info->result_group, new_selector);
-			info->ret = true;
-		}
-	}
-
-	return false;
-}
-
-bool
-ccss_selector_group_query_collect (ccss_selector_group_t const	*self, 
-				  ccss_node_t const		*node, 
-				  bool				 as_base,
-				  ccss_selector_group_t		*result_group)
-{
-	traverse_query_info_t info;
-
-	g_assert (self && self->sets && node && result_group);
-
-	info.node = node;
-	info.result_group = result_group;
-	info.as_base = as_base;
-	if (as_base) {
-		info.specificity_e = calculate_min_specificity_e (result_group,
-					self->n_selectors);
-	}
-	info.ret = false;
-
-	g_hash_table_foreach (self->sets, (GHFunc) traverse_query, &info);
-
-	return info.ret;
-}
-
-typedef struct {
-	ccss_node_t const	*node;
 	ccss_style_t		*style;
 	bool			 ret;
 } traverse_match_info_t;

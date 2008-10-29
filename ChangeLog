@@ -1,5 +1,16 @@
 2008-10-29  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-color.c (parse):
+	* ccss/ccss-selector-group-priv.h:
+	* ccss/ccss-selector-group.c:
+	* ccss/ccss-stylesheet.c:
+	* ccss/ccss-stylesheet.h:
+	* ccss/ccss.sym.in:
+	* doc/ccss-sections.txt:
+	Get rid of gce-specifiy API.
+
+2008-10-29  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-parser.c (calculate_importance),
 	(walk_additional_selector), (walk_simple_selector_r),
 	(walk_selector_r), (start_selector_cb), (property_cb),

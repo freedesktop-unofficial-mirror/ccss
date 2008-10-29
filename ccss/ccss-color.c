@@ -327,6 +327,7 @@ parse (ccss_color_t	 *self,
 				if (!iter) { g_warning ("Could not parse '%s'", color); goto bail; }
 
 				g_free (color), color = NULL;
+				*value = (*value)->next;
 				return CCSS_PROPERTY_SPEC_SET;
 			}
 			/* FIXME recognize "rgba". */

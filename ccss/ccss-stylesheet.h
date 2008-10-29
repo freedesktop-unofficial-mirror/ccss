@@ -57,9 +57,6 @@ void			ccss_stylesheet_free		(ccss_stylesheet_t *self);
 ccss_selector_group_t const * ccss_stylesheet_query_type (ccss_stylesheet_t const *self,
 							char const *type_name);
 
-bool ccss_stylesheet_query_collect (ccss_stylesheet_t const *self, ccss_node_t const *node, 
-				   bool as_base, ccss_selector_group_t *result_group);
-
 bool ccss_stylesheet_query_apply (ccss_stylesheet_t const *self, ccss_node_t const *node, 
 				 ccss_style_t *style);
 
