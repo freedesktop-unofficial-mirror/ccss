@@ -35,6 +35,7 @@ typedef struct {
 	GSList				*block_list;
 	GHashTable			*groups;
 	ccss_block_t			*block;
+	ccss_block_t			*important_block;
 } ccss_parser_info_t;
 
 #define HANDLER_GET_INFO(handler_) ((ccss_parser_info_t *) handler->app_data)
@@ -58,38 +59,64 @@ map_attribute_selector_match (enum AttrMatchWay cr_match)
 	return CCSS_ATTRIBUTE_SELECTOR_MATCH_EXISTS;
 }
 
+static ccss_selector_importance_t
+calculate_importance (ccss_stylesheet_precedence_t	 precedence,
+		      bool				 is_important)
+{
+	switch (precedence) {
+	case CCSS_STYLESHEET_USER_AGENT:
+		if (is_important)
+			g_message ("Ignoring `!important' in user agent stylesheet.");
+		return CCSS_SELECTOR_IMPORTANCE_NONE;
+	case CCSS_STYLESHEET_USER:
+		return is_important ? CCSS_SELECTOR_IMPORTANCE_USER :
+				      CCSS_SELECTOR_IMPORTANCE_NONE;
+	case CCSS_STYLESHEET_AUTHOR:
+		return is_important ? CCSS_SELECTOR_IMPORTANCE_AUTHOR :
+				      CCSS_SELECTOR_IMPORTANCE_NONE;
+	default:
+		g_assert_not_reached ();
+		return CCSS_SELECTOR_IMPORTANCE_NONE;
+	}
+
+	return CCSS_SELECTOR_IMPORTANCE_NONE;
+}
+
 static ccss_selector_t *
 walk_additional_selector (CRAdditionalSel		*cr_add_sel,
-			  ccss_stylesheet_precedence_t	 precedence)
+			  ccss_stylesheet_precedence_t	 precedence,
+			  bool				 is_important)
 {
 	ccss_selector_t			*selector;
 	char const			*name;
 	char const			*value;
 	ccss_attribute_selector_match_t	 match;
+	ccss_selector_importance_t	 importance;
 
 	g_return_val_if_fail (cr_add_sel, NULL);
 
 	name = NULL;
 	value = NULL;
 	selector = NULL;
+	importance = calculate_importance (precedence, is_important);
 	switch (cr_add_sel->type) {
 	case CLASS_ADD_SELECTOR:
 		name = cr_string_peek_raw_str (cr_add_sel->content.class_name);
-		selector = ccss_class_selector_new (name, precedence);
+		selector = ccss_class_selector_new (name, precedence, importance);
 		break;
 	case PSEUDO_CLASS_ADD_SELECTOR:
 		name = cr_string_peek_raw_str (cr_add_sel->content.pseudo->name);
-		selector = ccss_pseudo_class_selector_new (name, precedence);
+		selector = ccss_pseudo_class_selector_new (name, precedence, importance);
 		break;
 	case ID_ADD_SELECTOR:
 		name = cr_string_peek_raw_str (cr_add_sel->content.id_name);
-		selector = ccss_id_selector_new (name, precedence);
+		selector = ccss_id_selector_new (name, precedence, importance);
 		break;
 	case ATTRIBUTE_ADD_SELECTOR:
 		name = cr_string_peek_raw_str (cr_add_sel->content.attr_sel->name);
 		value = cr_string_peek_raw_str (cr_add_sel->content.attr_sel->value);
 		match = map_attribute_selector_match (cr_add_sel->content.attr_sel->match_way);
-		selector = ccss_attribute_selector_new (name, value, match, precedence);
+		selector = ccss_attribute_selector_new (name, value, match, precedence, importance);
 		break;
 	case NO_ADD_SELECTOR:
 	default:
@@ -99,7 +126,7 @@ walk_additional_selector (CRAdditionalSel		*cr_add_sel,
 
 	if (cr_add_sel->next) {
 		ccss_selector_t *refinement;
-		refinement = walk_additional_selector (cr_add_sel->next, precedence);
+		refinement = walk_additional_selector (cr_add_sel->next, precedence, is_important);
 		ccss_selector_refine (selector, refinement);
 	}
 
@@ -108,17 +135,20 @@ walk_additional_selector (CRAdditionalSel		*cr_add_sel,
 
 static ccss_selector_t *
 walk_simple_selector_r (CRSimpleSel			*cr_simple_sel,
-			ccss_stylesheet_precedence_t	 precedence)
+			ccss_stylesheet_precedence_t	 precedence,
+			bool				 is_important)
 {
-	ccss_selector_t *selector;
+	ccss_selector_t			*selector;
+	ccss_selector_importance_t	 importance;
 
 	g_return_val_if_fail (cr_simple_sel, NULL);
 
 	selector = NULL;
+	importance = calculate_importance (precedence, is_important);
 	if (UNIVERSAL_SELECTOR & cr_simple_sel->type_mask) {
-		selector = ccss_universal_selector_new (precedence);
+		selector = ccss_universal_selector_new (precedence, importance);
 	} else if (TYPE_SELECTOR & cr_simple_sel->type_mask) {
-		selector = ccss_type_selector_new (cr_string_peek_raw_str (cr_simple_sel->name), precedence);
+		selector = ccss_type_selector_new (cr_string_peek_raw_str (cr_simple_sel->name), precedence, importance);
 	} else {
 		char const *sel;
 		sel = cr_simple_sel->name ? cr_string_peek_raw_str (cr_simple_sel->name) : NULL;
@@ -130,13 +160,13 @@ walk_simple_selector_r (CRSimpleSel			*cr_simple_sel,
 
 	if (cr_simple_sel->add_sel) {
 		ccss_selector_t *refinement;
-		refinement = walk_additional_selector (cr_simple_sel->add_sel, precedence);
+		refinement = walk_additional_selector (cr_simple_sel->add_sel, precedence, is_important);
 		ccss_selector_refine (selector, refinement);
 	}
 
 	if (cr_simple_sel->next) {
 		ccss_selector_t *descendant;
-		descendant = walk_simple_selector_r (cr_simple_sel->next, precedence);
+		descendant = walk_simple_selector_r (cr_simple_sel->next, precedence, is_important);
 		if (COMB_WS == cr_simple_sel->next->combinator) {
 			selector = ccss_selector_append_descendant (selector,
 								   descendant);
@@ -152,6 +182,39 @@ walk_simple_selector_r (CRSimpleSel			*cr_simple_sel,
 }
 
 static void
+walk_selector_r (CRSelector			*cr_sel,
+		 ccss_block_t			*block,
+		 GHashTable			*groups,
+		 ccss_stylesheet_precedence_t	 precedence,
+		 bool				 is_important)
+{
+	ccss_selector_t		*selector;
+	ccss_selector_group_t	*group;
+	CRSelector const	*iter;
+	char const		*key;
+
+	iter = cr_sel;
+	do {
+		selector = walk_simple_selector_r (iter->simple_sel, precedence, is_important);
+		if (selector) {
+			ccss_selector_set_block (selector, block);
+
+			g_assert (ccss_selector_is_type (selector));
+
+			key = ccss_selector_get_key (selector);
+			g_assert (key);
+
+			group = (ccss_selector_group_t *) g_hash_table_lookup (groups, key);
+			if (!group) {
+				group = ccss_selector_group_new ();
+				g_hash_table_insert (groups, (char *) key, group);
+			}
+			ccss_selector_group_add_selector (group, selector);
+		}
+	} while (NULL != (iter = iter->next));
+}
+
+static void
 start_selector_cb (CRDocHandler	*handler,
 		   CRSelector	*cr_sel)
 {
@@ -159,11 +222,15 @@ start_selector_cb (CRDocHandler	*handler,
 
 	info = HANDLER_GET_INFO (handler);
 
-	if (info && info->block) {
+	g_return_if_fail (info);
+
+	if (info->block) {
 		char *location;
 
-		location = cr_parsing_location_to_string (&cr_sel->location, DUMP_LINE);
-		g_warning ("Looks like there may be a problem in the block before %s, possibly a missing semicolon.", location);
+		location = cr_parsing_location_to_string (&cr_sel->location,
+							  DUMP_LINE);
+		g_warning ("Looks like there may be a problem in the block before %s, possibly a missing semicolon.",
+			   location);
 		g_free (location), location = NULL;
 
 		/* Discard what's been accumulated so far. */
@@ -171,8 +238,16 @@ start_selector_cb (CRDocHandler	*handler,
 		info->block = NULL;
 	}
 
-	info->block = ccss_block_new ();
-	info->block_list = g_slist_prepend (info->block_list, info->block);
+	if (info->important_block) {
+
+		/* Since the `regular' and `important' properties are from the 
+		 * same block in the CSS file/buffer we don't need to raise
+		 * the error another time. */
+
+		/* Discard what's been accumulated so far. */
+		ccss_block_free (info->important_block);
+		info->important_block = NULL;
+	}
 }
 
 static void
@@ -182,20 +257,39 @@ property_cb (CRDocHandler	*handler,
 	     gboolean	 	 is_important)
 {
 	ccss_parser_info_t	*info;
+	ccss_block_t		*block;
 	char const 		*property;
 
 	info = HANDLER_GET_INFO (handler);
 
-	g_assert (info && info->block);
+	g_assert (info);
+
+	/* The internal representation uses separate blocks for `normal' vs.
+	 * `important' properties. */
+	if (is_important) {
+		if (NULL == info->important_block) {
+			info->important_block = ccss_block_new ();
+			info->block_list = g_slist_prepend (info->block_list,
+							    info->important_block);
+		}
+		block = info->important_block;
+	} else {
+		if (NULL == info->block) {
+			info->block = ccss_block_new ();
+			info->block_list = g_slist_prepend (info->block_list,
+							    info->block);
+		}
+		block = info->block;
+	}
 
 	property = cr_string_peek_raw_str (name);
 	if (g_str_has_prefix (property, "background")) {
 
-		ccss_block_parse_background (info->block, property, values);
+		ccss_block_parse_background (block, property, values);
 
 	} else if (g_str_has_prefix (property, "border")) {
 
-		 ccss_block_parse_border (info->block, property, values);
+		 ccss_block_parse_border (block, property, values);
 
 	} else if (0 == g_strcmp0 ("color", property)) {
 
@@ -204,7 +298,7 @@ property_cb (CRDocHandler	*handler,
 
 		ret = ccss_color_parse (&c, (CRTerm const **) &values);
 		if (ret) {
-			color = ccss_block_new_color (info->block);
+			color = ccss_block_new_color (block);
 			*color = c;
 		}
 	} else {
@@ -240,7 +334,7 @@ property_cb (CRDocHandler	*handler,
 		}
 
 		/*  Coming here means success. */
-		prop = ccss_block_new_property (info->block, property);
+		prop = ccss_block_new_property (block, property);
 		*prop = p;
 	}
 }
@@ -250,36 +344,24 @@ end_selector_cb (CRDocHandler	*handler,
 		 CRSelector	*cr_sel)
 {
 	ccss_parser_info_t	*info;
-	ccss_selector_t		*selector;
-	ccss_selector_group_t	*group;
-	CRSelector		*iter;
-	char const		*key;
-
-	g_assert (HANDLER_GET_INFO (handler));
 
 	info = HANDLER_GET_INFO (handler);
 
-	iter = cr_sel;
-	do {
-		selector = walk_simple_selector_r (iter->simple_sel, info->precedence);
-		if (selector) {
-			ccss_selector_set_block (selector, info->block);
+	g_assert (info);
 
-			g_assert (ccss_selector_is_type (selector));
+	if (info->block) {
+		walk_selector_r (cr_sel, info->block, info->groups, 
+				 info->precedence, false);
+		info->block = NULL;
+	}
 
-			key = ccss_selector_get_key (selector);
-			g_assert (key);
-
-			group = (ccss_selector_group_t *) g_hash_table_lookup (info->groups, key);
-			if (!group) {
-				group = ccss_selector_group_new ();
-				g_hash_table_insert (info->groups, (char *) key, group);
-			}
-			ccss_selector_group_add_selector (group, selector);
-		}
-	} while (NULL != (iter = iter->next));
-
-	info->block = NULL;
+	/* Properties marked `important' form a block of their own,
+	 * so they can be sorted into the cascade at the appropriate position. */
+	if (info->important_block) {
+		walk_selector_r (cr_sel, info->important_block, info->groups, 
+				 info->precedence, true);
+		info->important_block = NULL;
+	}
 }
 
 enum CRStatus
@@ -303,6 +385,7 @@ ccss_parser_parse_file (char const			 *css_file,
 	info.block_list = *block_list;
 	info.groups = groups;
 	info.block = NULL;
+	info.important_block = NULL;
 
 	handler->start_selector = start_selector_cb;
         handler->property = property_cb;
@@ -350,6 +433,7 @@ ccss_parser_parse_buffer (char const			 *buffer,
 	info.block_list = *block_list;
 	info.groups = groups;
 	info.block = NULL;
+	info.important_block = NULL;
 
 	handler->start_selector = start_selector_cb;
         handler->property = property_cb;

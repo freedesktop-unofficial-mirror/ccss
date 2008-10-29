@@ -41,7 +41,7 @@ typedef struct ccss_selector_ ccss_selector_t;
 typedef enum {
 	CCSS_SELECTOR_IMPORTANCE_NONE	= 0,
 	CCSS_SELECTOR_IMPORTANCE_AUTHOR,
-	CCSS_SELECTOR_IMPORTANCE_USER,
+	CCSS_SELECTOR_IMPORTANCE_USER
 } ccss_selector_importance_t;
 
 typedef enum {
@@ -50,13 +50,36 @@ typedef enum {
 	/* more match types go here */
 } ccss_attribute_selector_match_t;
 
-ccss_selector_t * ccss_universal_selector_new		(unsigned int precedence);
-ccss_selector_t * ccss_type_selector_new		(char const *type_name, unsigned int precedence);
-ccss_selector_t * ccss_base_type_selector_new		(char const *type_name, unsigned int precedence, unsigned int specificity_e);
-ccss_selector_t * ccss_class_selector_new		(char const *class_name, unsigned int precedence);
-ccss_selector_t * ccss_id_selector_new			(char const *id, unsigned int precedence);
-ccss_selector_t * ccss_attribute_selector_new		(char const *name, char const *value, ccss_attribute_selector_match_t match, unsigned int precedence);
-ccss_selector_t * ccss_pseudo_class_selector_new	(char const *pseudo_class, unsigned int precedence);
+ccss_selector_t *
+ccss_universal_selector_new	(unsigned int			 precedence,
+				 ccss_selector_importance_t	 importance);
+ccss_selector_t *
+ccss_type_selector_new		(char const			*type_name,
+				 unsigned int			 precedence,
+				 ccss_selector_importance_t	 importance);
+ccss_selector_t *
+ccss_base_type_selector_new	(char const			*type_name,
+				 unsigned int			 precedence,
+				 ccss_selector_importance_t	 importance,
+				 unsigned int			 specificity_e);
+ccss_selector_t *
+ccss_class_selector_new		(char const			*class_name,
+				 unsigned int			 precedence,
+				 ccss_selector_importance_t	 importance);
+ccss_selector_t *
+ccss_id_selector_new		(char const			*id,
+				 unsigned int			 precedence,
+				 ccss_selector_importance_t	 importance);
+ccss_selector_t *
+ccss_attribute_selector_new	(char const			*name,
+				 char const			*value,
+				 ccss_attribute_selector_match_t match,
+				 unsigned int			 precedence,
+				 ccss_selector_importance_t	 importance);
+ccss_selector_t *
+ccss_pseudo_class_selector_new	(char const			*pseudo_class,
+				 unsigned int			 precedence,
+				 ccss_selector_importance_t	 importance);
 
 ccss_selector_t * ccss_selector_copy		(ccss_selector_t const *original);
 ccss_selector_t * ccss_selector_copy_as_base	(ccss_selector_t const *original,

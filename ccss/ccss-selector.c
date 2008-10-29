@@ -61,6 +61,7 @@ selector_sync (ccss_selector_t const	*self,
 	g_assert (self && to);
 
 	to->modality = self->modality;
+	to->importance = self->importance;
 	to->precedence = self->precedence;
 	to->a = self->a;
 	to->b = self->b;
@@ -79,12 +80,14 @@ selector_sync (ccss_selector_t const	*self,
 typedef ccss_selector_t ccss_universal_selector_t;
 
 ccss_selector_t * 
-ccss_universal_selector_new (unsigned int precedence)
+ccss_universal_selector_new (unsigned int		precedence,
+			     ccss_selector_importance_t	importance)
 {
 	ccss_universal_selector_t *self;
 
 	self = g_new0 (ccss_universal_selector_t, 1);
 	self->modality = CCSS_SELECTOR_MODALITY_UNIVERSAL;
+	self->importance = importance;
 	self->precedence = precedence;
 
 	return (ccss_selector_t *) self;
@@ -128,8 +131,9 @@ typedef struct {
 } ccss_type_selector_t;
 
 ccss_selector_t *
-ccss_type_selector_new (char const	*type_name,
-			unsigned int	 precedence)
+ccss_type_selector_new (char const			*type_name,
+			unsigned int			 precedence,
+			ccss_selector_importance_t	 importance)
 {
 	ccss_type_selector_t *self;
 
@@ -137,6 +141,7 @@ ccss_type_selector_new (char const	*type_name,
 
 	self = g_new0 (ccss_type_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_TYPE;
+	self->parent.importance = importance;
 	self->parent.precedence = precedence;
 	self->parent.d = 1;
 	self->type_name = g_strdup (type_name);
@@ -180,14 +185,16 @@ type_selector_dump (ccss_type_selector_t const *self)
  * Derived from the type selector
  */
 ccss_selector_t * 
-ccss_base_type_selector_new (char const		*type_name,
-			     unsigned int	 precedence,
-			     unsigned int	 specificity_e)
+ccss_base_type_selector_new (char const			*type_name,
+			     unsigned int		 precedence,
+			     ccss_selector_importance_t	 importance,
+			     unsigned int		 specificity_e)
 {
 	ccss_selector_t *self;
 
-	self = ccss_type_selector_new (type_name, precedence);
+	self = ccss_type_selector_new (type_name, precedence, importance);
 	self->modality = CCSS_SELECTOR_MODALITY_BASE_TYPE;
+	self->importance = importance;
 	self->precedence = precedence;
 	self->a = 0;
 	self->b = 0;
@@ -207,8 +214,9 @@ typedef struct {
 } ccss_class_selector_t;
 
 ccss_selector_t *
-ccss_class_selector_new (char const	*class_name,
-			 unsigned int	 precedence)
+ccss_class_selector_new (char const			*class_name,
+			 unsigned int			 precedence,
+			 ccss_selector_importance_t	 importance)
 {
 	ccss_class_selector_t *self;
 
@@ -216,6 +224,7 @@ ccss_class_selector_new (char const	*class_name,
 
 	self = g_new0 (ccss_class_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_CLASS;
+	self->parent.importance = importance;
 	self->parent.precedence = precedence;
 	self->parent.c = 1;
 	self->class_name = g_strdup (class_name);
@@ -263,8 +272,9 @@ typedef struct {
 } ccss_id_selector_t;
 
 ccss_selector_t *
-ccss_id_selector_new (char const	*id,
-		      unsigned int	 precedence)
+ccss_id_selector_new (char const			*id,
+		      unsigned int			 precedence,
+		      ccss_selector_importance_t	 importance)
 {
 	ccss_id_selector_t *self;
 
@@ -272,6 +282,7 @@ ccss_id_selector_new (char const	*id,
 
 	self = g_new0 (ccss_id_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_ID;
+	self->parent.importance = importance;
 	self->parent.precedence = precedence;
 	self->parent.b = 1;
 	self->id = g_strdup (id);
@@ -324,7 +335,8 @@ ccss_selector_t *
 ccss_attribute_selector_new (char const				*name,
 			     char const				*value,
 			     ccss_attribute_selector_match_t	 match,
-			     unsigned int			 precedence)
+			     unsigned int			 precedence,
+			     ccss_selector_importance_t		 importance)
 {
 	ccss_attribute_selector_t *self;
 
@@ -332,6 +344,7 @@ ccss_attribute_selector_new (char const				*name,
 
 	self = g_new0 (ccss_attribute_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_ATTRIBUTE;
+	self->parent.importance = importance;
 	self->parent.precedence = precedence;
 	self->parent.c = 1;
 	self->name = g_strdup (name);
@@ -393,8 +406,9 @@ typedef struct {
 } ccss_pseudo_class_selector_t;
 
 ccss_selector_t *
-ccss_pseudo_class_selector_new (char const	*pseudo_class,
-				unsigned int	 precedence)
+ccss_pseudo_class_selector_new (char const			*pseudo_class,
+				unsigned int			 precedence,
+				ccss_selector_importance_t	 importance)
 {
 	ccss_pseudo_class_selector_t *self;
 
@@ -402,6 +416,7 @@ ccss_pseudo_class_selector_new (char const	*pseudo_class,
 
 	self = g_new0 (ccss_pseudo_class_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_PSEUDO_CLASS;
+	self->parent.importance = importance;
 	self->parent.precedence = precedence;
 	self->parent.d = 1;
 	self->pseudo_class = g_strdup (pseudo_class);
@@ -582,7 +597,6 @@ ccss_selector_refine (ccss_selector_t *self,
 	self->refinement = selector;
 
 	/* propagate specificity */
-	self->precedence = selector->precedence;
 	self->a += selector->a;
 	self->b += selector->b;
 	self->c += selector->c;
@@ -600,7 +614,6 @@ ccss_selector_append_child (ccss_selector_t *self,
 			   ccss_selector_t *selector)
 {
 	/* propagate specificity */
-	self->precedence = selector->precedence;
 	selector->a += self->a;
 	selector->b += self->b;
 	selector->c += self->c;
@@ -624,7 +637,6 @@ ccss_selector_append_descendant (ccss_selector_t *self,
 				ccss_selector_t *selector)
 {
 	/* propagate specificity */
-	self->precedence = selector->precedence;
 	selector->a += self->a;
 	selector->b += self->b;
 	selector->c += self->c;
