@@ -30,16 +30,13 @@ paint_css (ccss_stylesheet_t	*stylesheet,
 	   int			 width,
 	   int			 height)
 {
-	ccss_selector_group_t const	*group;
-	ccss_style_t			*style;
+	ccss_style_t	*style;
+	gboolean	 ret;
 
 	/* Query the stylesheet for the type to be drawn. */
-	group = ccss_stylesheet_query_type (stylesheet, "foo");
-	g_return_if_fail (group);
-
-	/* Initialise style with its drawing properties. */
 	style = ccss_style_new ();
-	ccss_selector_group_apply_type (group, "foo", style);
+	ret = ccss_stylesheet_query_type (stylesheet, "foo", style);
+	g_return_if_fail (ret);
 
 	/* Draw the style covering the actor. */
 	ccss_style_draw_rectangle (style, cr, x, y, width, height);

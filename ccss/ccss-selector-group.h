@@ -29,11 +29,6 @@ G_BEGIN_DECLS
 
 typedef struct ccss_selector_group_ ccss_selector_group_t;
 
-bool
-ccss_selector_group_apply_type (ccss_selector_group_t const	*self, 
-				char const			*type,
-				ccss_style_t			*style);
-
 #ifdef CCSS_DEBUG
 
 void

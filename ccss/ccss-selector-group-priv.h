@@ -37,6 +37,11 @@ void
 ccss_selector_group_free	(ccss_selector_group_t		*self);
 
 bool
+ccss_selector_group_apply_type (ccss_selector_group_t const	*self, 
+				char const			*type,
+				ccss_style_t			*style);
+
+bool
 ccss_selector_group_apply	(ccss_selector_group_t const	*self,
 				 ccss_node_t const		*node,
 				 ccss_style_t			*style);

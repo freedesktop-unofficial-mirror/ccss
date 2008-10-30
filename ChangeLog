@@ -1,5 +1,19 @@
 2008-10-30  Robert Staudinger  <robsta@gnome.org>
 
+	* TODO:
+	* cccss/example-1.c (paint_css):
+	* ccss/ccss-selector-group-priv.h:
+	* ccss/ccss-selector-group.c (ccss_selector_group_apply_type):
+	* ccss/ccss-selector-group.h:
+	* ccss/ccss-selector.c (ccss_selector_apply):
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_query_type):
+	* ccss/ccss-stylesheet.h:
+	* doc/tmpl/stylesheet.sgml:
+	* examples/example-1.c (main):
+	Simplification of the type-based one-shot query API.
+
+2008-10-30  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-selector-group-priv.h:
 	* ccss/ccss-selector-group.c (traverse_query), (traverse_apply),
 	(ccss_selector_group_apply):

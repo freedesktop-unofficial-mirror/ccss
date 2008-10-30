@@ -37,9 +37,9 @@ main (int	  argc,
       char	**argv)
 {
 	ccss_stylesheet_t		*stylesheet;
-	ccss_selector_group_t const	*group;
 	ccss_style_t			*style;
 	GtkWidget			*window;
+	gboolean			 ret;
 
 	gtk_init (&argc, &argv);
 	ccss_init (NULL);
@@ -47,11 +47,10 @@ main (int	  argc,
 	stylesheet = ccss_stylesheet_new_from_buffer (_css, sizeof (_css));
 	/* stylesheet = ccss_stylesheet_new_from_file ("example-1.css"); */
 
-	group = ccss_stylesheet_query_type (stylesheet, "box");
-	g_assert (group);
-
 	style = ccss_style_new ();
-	ccss_selector_group_apply_type (group, "box", style);
+	ret = ccss_stylesheet_query_type (stylesheet, "box", style);
+	g_assert (ret);
+
 #ifdef CCSS_DEBUG
 	ccss_style_dump (style);
 #endif

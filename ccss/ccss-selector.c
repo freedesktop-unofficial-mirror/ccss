@@ -931,9 +931,7 @@ ccss_selector_apply (ccss_selector_t const	*self,
 	uint32_t		 x, y, width, height;
 	bool			 ret;
 
-	g_return_val_if_fail (self && node && self->block && style, false);
-
-	node_class = node->node_class;
+	g_return_val_if_fail (self && self->block && style, false);
 
 	/* Apply css properties to the style. */
 	g_hash_table_iter_init (&iter, self->block->properties);
@@ -942,13 +940,17 @@ ccss_selector_apply (ccss_selector_t const	*self,
 		g_hash_table_insert (style->properties, key, value);
 	}
 
-	/* Update viewport (for things like fixed background-images). */
-	ret = node_class->get_viewport (node, &x, &y, &width, &height);
-	if (ret) {
-		style->viewport_x = x;
-		style->viewport_y = y;
-		style->viewport_width = width;
-		style->viewport_height = height;
+	/* Requiring a node instance here would make the type-based API impossible. */
+	if (node) {
+		/* Update viewport (for things like fixed background-images). */
+		node_class = node->node_class;
+		ret = node_class->get_viewport (node, &x, &y, &width, &height);
+		if (ret) {
+			style->viewport_x = x;
+			style->viewport_y = y;
+			style->viewport_width = width;
+			style->viewport_height = height;
+		}
 	}
 
 	return true;

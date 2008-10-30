@@ -55,8 +55,10 @@ ccss_stylesheet_t *	ccss_stylesheet_load_from_file	(ccss_stylesheet_t *self,
 
 void			ccss_stylesheet_free		(ccss_stylesheet_t *self);
 
-ccss_selector_group_t const * ccss_stylesheet_query_type (ccss_stylesheet_t const *self,
-							char const *type_name);
+bool
+ccss_stylesheet_query_type (ccss_stylesheet_t const	*self,
+			    char const			*type_name,
+			    ccss_style_t		*style);
 
 bool
 ccss_stylesheet_query (ccss_stylesheet_t const	*self,

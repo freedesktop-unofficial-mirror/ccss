@@ -206,22 +206,26 @@ ccss_stylesheet_free (ccss_stylesheet_t *self)
  * ccss_stylesheet_query_type:
  * @self:	a #ccss_stylesheet_t.
  * @type_name:	the type to query for, e.g. `h1'.
+ * @style:	a #ccss_style_t that the results of the query are applied to.
  *
  * Query the stylesheet for styling information regarding a type.
  *
  * Returns: a #ccss_selector_group_t containing the requested information of %NULL.
  **/
-ccss_selector_group_t const *
+bool
 ccss_stylesheet_query_type (ccss_stylesheet_t const	*self,
-			   char const			*type_name)
+			    char const			*type_name,
+			    ccss_style_t		*style)
 {
 	ccss_selector_group_t const *group;
 
 	g_assert (self && type_name && self->groups);
 
 	group = (ccss_selector_group_t const *) g_hash_table_lookup (self->groups, type_name);
+	if (!group)
+		return false;
 
-	return group;
+	return ccss_selector_group_apply_type (group, type_name, style);
 }
 
 /*
