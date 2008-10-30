@@ -32,11 +32,19 @@ typedef struct {
  * Represents a set of associated styling information. 
  **/
 struct ccss_selector_group_ {
-	GHashTable	*sets;
+	GTree		*sets;
 	unsigned int	 n_selectors;
 	unsigned int	 min_specificity_e;
 	GSList		*dangling_selectors;
 };
+
+static int
+compare (size_t	 key1,
+	 size_t	 key2, 
+	 void	*data)
+{
+	return key1 - key2;
+}
 
 static void
 free_set (ccss_selector_set_t *set)
@@ -69,8 +77,8 @@ ccss_selector_group_new (void)
 	ccss_selector_group_t *self;
 
 	self = g_new0 (ccss_selector_group_t, 1);
-	self->sets = g_hash_table_new_full (g_direct_hash, g_direct_equal, 
-					    NULL, (GDestroyNotify) free_set);
+	self->sets = g_tree_new_full ((GCompareDataFunc) compare, NULL, NULL, 
+				      (GDestroyNotify) free_set); 
 
 	self->n_selectors = 0;
 	self->min_specificity_e = CCSS_SELECTOR_MAX_SPECIFICITY;
@@ -89,7 +97,7 @@ ccss_selector_group_free (ccss_selector_group_t *self)
 {
 	g_assert (self);
 
-	g_hash_table_destroy (self->sets);
+	g_tree_destroy (self->sets), self->sets = NULL;
 	g_free (self);
 }
 
@@ -107,10 +115,10 @@ ccss_selector_group_add_selector (ccss_selector_group_t	*self,
 
 	/* insert or update the selector group */
 	specificity = ccss_selector_get_specificity (selector);
-	set = g_hash_table_lookup (self->sets, GSIZE_TO_POINTER (specificity));
+	set = g_tree_lookup (self->sets, GSIZE_TO_POINTER (specificity));
 	if (!set) {
 		set = g_new0 (ccss_selector_set_t, 1);
-		g_hash_table_insert (self->sets, GSIZE_TO_POINTER (specificity), set);
+		g_tree_insert (self->sets, GSIZE_TO_POINTER (specificity), set);
 	}
 	set->selectors = g_slist_prepend (set->selectors, selector);
 	self->n_selectors++;
@@ -177,7 +185,7 @@ ccss_selector_group_merge (ccss_selector_group_t		*self,
 	info.self = self;
 	info.as_base = false;
 	info.specificity_e = 0;
-	g_hash_table_foreach (group->sets, (GHFunc) traverse_merge, &info);
+	g_tree_foreach (group->sets, (GTraverseFunc) traverse_merge, &info);
 }
 
 void
@@ -193,7 +201,7 @@ ccss_selector_group_merge_base (ccss_selector_group_t		*self,
 	info.specificity_e = calculate_min_specificity_e (self, 
 				self->n_selectors);
 
-	g_hash_table_foreach (group->sets, (GHFunc) traverse_merge, &info);
+	g_tree_foreach (group->sets, (GTraverseFunc) traverse_merge, &info);
 }
 
 GSList const *
@@ -224,37 +232,62 @@ ccss_selector_group_clear_dangling_selectors (ccss_selector_group_t *self)
 
 typedef struct {
 	ccss_node_t const	*node;
-	ccss_style_t		*style;
+	ccss_selector_group_t	*result_group;
+	bool			 as_base;
+	unsigned int		 specificity_e;
 	bool			 ret;
-} traverse_match_info_t;
+} traverse_query_info_t;
 
 static bool
-traverse_match (size_t			 specificity,
+traverse_query (size_t			 specificity,
 		ccss_selector_set_t	*set,
-		traverse_match_info_t	*info)
+		traverse_query_info_t	*info)
 {
-	for (GSList const *iter = set->selectors; iter != NULL; iter = iter->next) {
-		info->ret |= ccss_selector_query_apply ((ccss_selector_t const *) iter->data, 
-						 info->node, info->style);
+	ccss_selector_t const	*selector;
+	ccss_selector_t		*new_selector;
+	GSList const		*iter;
+	bool			 ret;
+
+	iter = set->selectors;
+	while (iter) {
+		selector = (ccss_selector_t const *) iter->data;
+		ret = ccss_selector_query (selector, info->node, NULL);
+		if (ret) {
+			if (info->as_base) {
+				new_selector = ccss_selector_copy_as_base (selector, info->specificity_e);
+				info->specificity_e++;
+			} else {
+				new_selector = ccss_selector_copy (selector);
+			}
+			ccss_selector_group_add_selector (info->result_group, new_selector);
+			info->ret = true;
+		}
+		iter = iter->next;
 	}
 
 	return false;
 }
 
 bool
-ccss_selector_group_query_apply (ccss_selector_group_t const	*self,
-				ccss_node_t const		*node,
-				ccss_style_t			*style)
+ccss_selector_group_query (ccss_selector_group_t const	*self, 
+			   ccss_node_t const		*node, 
+			   bool				 as_base,
+			   ccss_selector_group_t	*result_group)
 {
-	traverse_match_info_t info;
+	traverse_query_info_t info;
 
-	g_assert (self && self->sets && node && style);
+	g_assert (self && self->sets && node && result_group);
 
 	info.node = node;
-	info.style = style;
+	info.result_group = result_group;
+	info.as_base = as_base;
+	if (as_base) {
+		info.specificity_e = calculate_min_specificity_e (result_group,
+					self->n_selectors);
+	}
 	info.ret = false;
 
-	g_hash_table_foreach (self->sets, (GHFunc) traverse_match, &info);
+	g_tree_foreach (self->sets, (GTraverseFunc) traverse_query, &info);
 
 	return info.ret;
 }
@@ -320,7 +353,7 @@ ccss_selector_group_apply (ccss_selector_group_t const	*self,
 	info.style = style;
 	info.ret = false;
 
-	g_hash_table_foreach (self->sets, (GHFunc) traverse_apply, &info);
+	g_tree_foreach (self->sets, (GTraverseFunc) traverse_apply, &info);
 
 	return info.ret;
 }
@@ -348,7 +381,7 @@ ccss_selector_group_apply_type (ccss_selector_group_t const	*self,
 	info.style = style;
 	info.ret = false;
 
-	g_hash_table_foreach (self->sets, (GHFunc) traverse_apply, &info);
+	g_tree_foreach (self->sets, (GTraverseFunc) traverse_apply, &info);
 
 	return info.ret;
 }
@@ -376,11 +409,9 @@ traverse_dump (size_t			 specificity,
 void
 ccss_selector_group_dump (ccss_selector_group_t const *self)
 {
-	
-
 	g_return_if_fail (self);
 
-	g_hash_table_foreach (self->sets, (GHFunc) traverse_dump, NULL);
+	g_tree_foreach (self->sets, (GTraverseFunc) traverse_dump, NULL);
 
 	for (GSList const *iter = self->dangling_selectors; iter != NULL; iter = iter->next) {
 		printf ("(dangling) ");

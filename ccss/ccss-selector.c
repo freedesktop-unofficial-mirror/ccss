@@ -812,7 +812,7 @@ match_antecessor_r (ccss_selector_t const	*self,
 
 	container = node_class->get_container (node);
 	if (container) {
-		is_matching = ccss_selector_query_apply (self, container, NULL);
+		is_matching = ccss_selector_query (self, container, NULL);
 		if (!is_matching) {
 			is_matching = match_antecessor_r (self, container);
 		}
@@ -828,9 +828,9 @@ match_antecessor_r (ccss_selector_t const	*self,
  * `style' may be NULL, in which case this just tests for a match.
  */
 bool
-ccss_selector_query_apply (ccss_selector_t const	*self, 
-			  ccss_node_t const	*node,
-			  ccss_style_t		*style)
+ccss_selector_query (ccss_selector_t const	*self, 
+		     ccss_node_t const		*node,
+		     ccss_style_t		*style)
 {
 	ccss_node_class_t const	*node_class;
 	char const	*name;
@@ -892,7 +892,7 @@ ccss_selector_query_apply (ccss_selector_t const	*self,
 
 	/* recursively match refinements */
 	if (self->refinement) {
-		is_matching = ccss_selector_query_apply (self->refinement, node, style);
+		is_matching = ccss_selector_query (self->refinement, node, style);
 		if (!is_matching) {
 			return false;
 		}
@@ -904,7 +904,7 @@ ccss_selector_query_apply (ccss_selector_t const	*self,
 		container = node_class->get_container (node);
 		is_matching = false;
 		if (container) {
-			is_matching = ccss_selector_query_apply (self->container, container, style);
+			is_matching = ccss_selector_query (self->container, container, style);
 			node_class->release (container);
 		}
 		if (!is_matching) {

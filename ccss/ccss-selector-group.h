@@ -26,6 +26,8 @@
 #include <ccss/ccss-node.h>
 #include <ccss/ccss-style.h>
 
+// TODO review what has to be public.
+
 G_BEGIN_DECLS
 
 typedef struct ccss_selector_group_ ccss_selector_group_t;

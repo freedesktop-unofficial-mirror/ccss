@@ -40,8 +40,11 @@ void ccss_selector_group_merge_base	(ccss_selector_group_t *self,
 GSList const *	ccss_selector_group_get_dangling_selectors	(ccss_selector_group_t const *self);
 void		ccss_selector_group_clear_dangling_selectors	(ccss_selector_group_t *self);
 
-bool ccss_selector_group_query_apply (ccss_selector_group_t const *self, 
-			             ccss_node_t const *node, ccss_style_t *style);
+bool
+ccss_selector_group_query (ccss_selector_group_t const	*self, 
+			   ccss_node_t const		*node,
+			   bool				 as_base,
+			   ccss_selector_group_t	*result_group);
 
 G_END_DECLS
 

@@ -69,8 +69,8 @@ cccss_paint (ccss_stylesheet_t const	*stylesheet,
 	node.actor = CLUTTER_ACTOR (actor);
 
 	style = ccss_style_new ();
-	ret = ccss_stylesheet_query_apply (stylesheet,
-					   (ccss_node_t const *) &node, style);
+	ret = ccss_stylesheet_query (stylesheet, (ccss_node_t const *) &node,
+				     style);
 	if (!ret) {
 		g_warning ("No styling information for %s#%s", 
 				"actor", 

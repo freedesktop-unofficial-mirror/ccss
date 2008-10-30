@@ -109,8 +109,11 @@ void				ccss_selector_get_specificity_values	(ccss_selector_t const *self,
 									 unsigned int *d,
 									 unsigned int *e);
 
-bool ccss_selector_query_apply (ccss_selector_t const *self, ccss_node_t const *node, 
-			       ccss_style_t *style);
+bool
+ccss_selector_query (ccss_selector_t const	*self,
+		     ccss_node_t const		*node, 
+		     ccss_style_t		*style);
+
 bool ccss_selector_apply (ccss_selector_t const *self, ccss_style_t *style);
 
 #ifdef CCSS_DEBUG

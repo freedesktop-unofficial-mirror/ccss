@@ -46,7 +46,7 @@ ccss_stylesheet_new_from_file
 ccss_stylesheet_load_from_file
 ccss_stylesheet_free
 ccss_stylesheet_query_type
-ccss_stylesheet_query_apply
+ccss_stylesheet_query
 ccss_stylesheet_dump
 ccss_stylesheet_iter_t
 ccss_stylesheet_iter_init

@@ -228,10 +228,11 @@ ccss_stylesheet_query_type (ccss_stylesheet_t const	*self,
  * `iter' is used for the recursion.
  */
 static bool
-apply_type_r (ccss_stylesheet_t const	*self,
+collect_type_r (ccss_stylesheet_t const	*self,
 	      ccss_node_t const		*node, 
-	      ccss_node_t const		*iter, 
-	      ccss_style_t		*style)
+	      ccss_node_t const		*iter,
+	      bool			 as_base,
+	      ccss_selector_group_t	*result_group)
 {
 	ccss_node_class_t const	*node_class;
 	ccss_selector_group_t	*group;
@@ -253,16 +254,15 @@ apply_type_r (ccss_stylesheet_t const	*self,
 
 		group = g_hash_table_lookup (self->groups, type_name);
 		if (group) {
-			ret = ccss_selector_group_query_apply (group, node, style);
+			ret = ccss_selector_group_query (group, node, as_base, result_group);
 		}
 
 		/* Try to match base types. */
 		base = node_class->get_base_style (iter);
 		if (base) {
-			ret |= apply_type_r (self, node, base, style);
+			ret |= collect_type_r (self, node, base, true, result_group);
 			node_class->release (base);
 		}
-
 	} else {
 		g_warning ("No type name");
 	}
@@ -271,7 +271,7 @@ apply_type_r (ccss_stylesheet_t const	*self,
 }
 
 /**
- * ccss_stylesheet_query_apply:
+ * ccss_stylesheet_query:
  * @self:	a #ccss_stylesheet_t.
  * @node:	a #ccss_node_t implementation that is used by libccss to retrieve information about the underlying document.
  * @style:	a #ccss_style_t that the results of the query are applied to.
@@ -281,28 +281,36 @@ apply_type_r (ccss_stylesheet_t const	*self,
  * Returns: %TRUE if styling information has been found.
  **/
 bool
-ccss_stylesheet_query_apply (ccss_stylesheet_t const	*self,
-			    ccss_node_t const		*node, 
-			    ccss_style_t		*style)
+ccss_stylesheet_query (ccss_stylesheet_t const	*self,
+		       ccss_node_t const	*node, 
+		       ccss_style_t		*style)
 {
-	ccss_node_class_t const		*node_class;
-	ccss_selector_group_t const	*group;
+	ccss_node_class_t const		*node_class;	// TODO
+	ccss_selector_group_t const	*universal_group;
+	ccss_selector_group_t		*result_group;
 	bool				 ret;
-
-	node_class = node->node_class;
 
 	g_return_val_if_fail (self && node && style, false);
 
+	result_group = ccss_selector_group_new ();
 	ret = false;
 
 	/* Match wildcard styles. */
-	group = g_hash_table_lookup (self->groups, "*");
-	if (group) {
-		ret |= ccss_selector_group_query_apply (group, node, style);
+	universal_group = g_hash_table_lookup (self->groups, "*");
+	if (universal_group) {
+		ret |= ccss_selector_group_query (universal_group, node,
+						  false, result_group);
 	}			
 
-	/* match style by type information */
-	ret |= apply_type_r (self, node, node, style);
+	/* Match style by type information. */
+	ret |= collect_type_r (self, node, node, false, result_group);
+
+	ret &= ccss_selector_group_apply (result_group, style);
+
+	// TODO query and set viewport.
+	node_class = node->node_class;
+
+	ccss_selector_group_free (result_group), result_group = NULL;
 
 	return ret;
 }
