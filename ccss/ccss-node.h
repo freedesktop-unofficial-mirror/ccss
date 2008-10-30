@@ -21,6 +21,7 @@
 #define CCSS_NODE_H
 
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <glib.h>
 #include <ccss/ccss-features.h>
@@ -72,6 +73,16 @@ typedef ccss_node_t * (*ccss_node_get_base_style_f) (ccss_node_t const *self);
  **/
 typedef const char * (*ccss_node_get_type_f) (ccss_node_t const *self);
 
+/**
+ * ccss_node_get_instance_f:
+ * @self: a #ccss_node_t.
+ * 
+ * Hook function to query for a unique numerical representation of a #ccss_node_t.
+ *
+ * Returns: unique numerical id or 0. If 0 is returned, node-based css style will not be considered.
+ **/
+typedef ptrdiff_t (*ccss_node_get_instance_f) (ccss_node_t const *self);
+
 /** 
  * ccss_node_get_id_f:
  * @self: a #ccss_node_t.
@@ -119,6 +130,16 @@ typedef char * (*ccss_node_get_attribute_f) (ccss_node_t const	*self,
 					    char const		*name);
 
 /**
+ * ccss_node_get_style_f:
+ * @self: a #ccss_node_t.
+ *
+ * Hook function to query a #ccss_node_t's inline CSS style.
+ *
+ * Returns: the node's CSS properties or %NULL.
+ **/
+typedef const char * (*ccss_node_get_style_f) (ccss_node_t const *self);
+
+/**
  * ccss_node_get_viewport_f:
  * @self:	a #ccss_node_t.
  * @x:		horizontal position.
@@ -143,11 +164,13 @@ typedef void (*ccss_node_release_f) (ccss_node_t *self);
  * @is_a:		a #ccss_node_is_a_f.
  * @get_container:	a #ccss_node_get_container_f.
  * @get_base_style:	a #ccss_node_get_base_style_f.
+ * @get_instance:	a #ccss_node_get_instance_f.
  * @get_id:		a #ccss_node_get_id_f.
  * @get_type:		a #ccss_node_get_type_f.
  * @get_class:		a #ccss_node_get_class_f.
  * @get_pseudo_class:	a #ccss_node_get_pseudo_class_f.
  * @get_attribute:	a #ccss_node_get_attribute_f.
+ * @get_style:		a #ccss_node_get_style_f.
  * @get_viewport:	a #ccss_node_get_viewport_f.
  * @release:		a #ccss_node_release_f.
  *
@@ -160,11 +183,13 @@ typedef struct {
 	ccss_node_is_a_f		is_a;
 	ccss_node_get_container_f	get_container;
 	ccss_node_get_base_style_f	get_base_style;
+	ccss_node_get_instance_f	get_instance;
 	ccss_node_get_id_f		get_id;
 	ccss_node_get_type_f		get_type;
 	ccss_node_get_class_f		get_class;
 	ccss_node_get_pseudo_class_f	get_pseudo_class;
 	ccss_node_get_attribute_f	get_attribute;
+	ccss_node_get_style_f		get_style;
 	ccss_node_get_viewport_f	get_viewport;
 	ccss_node_release_f		release;
 } ccss_node_class_t;

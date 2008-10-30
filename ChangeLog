@@ -1,6 +1,16 @@
 2008-10-30  Robert Staudinger  <robsta@gnome.org>
 
 	* TODO:
+	* ccss/ccss-node.c (get_instance), (get_style):
+	* ccss/ccss-node.h:
+	* configure.in:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/node.sgml:
+	Work on per-node inline CSS styling.
+
+2008-10-30  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO:
 	* cccss/example-1.c (paint_css):
 	* ccss/ccss-selector-group-priv.h:
 	* ccss/ccss-selector-group.c (ccss_selector_group_apply_type):

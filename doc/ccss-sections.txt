@@ -12,11 +12,13 @@ ccss_node_t
 ccss_node_class_t
 ccss_node_get_container_f
 ccss_node_get_base_style_f
+ccss_node_get_instance_f
 ccss_node_get_id_f
 ccss_node_get_type_f
 ccss_node_get_class_f
 ccss_node_get_pseudo_class_f
 ccss_node_get_attribute_f
+ccss_node_get_style_f
 ccss_node_get_viewport_f
 ccss_node_release_f
 ccss_node_init

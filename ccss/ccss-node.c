@@ -45,6 +45,12 @@ get_type (ccss_node_t const *self)
 	return NULL;
 }
 
+static ptrdiff_t
+get_instance (ccss_node_t const *self)
+{
+	return 0;
+}
+
 static char const * 
 get_id (ccss_node_t const *self)
 {
@@ -70,6 +76,12 @@ get_attribute (ccss_node_t const	*self,
 	return NULL;
 }
 
+static char const * 
+get_style (ccss_node_t const *self)
+{
+	return NULL;
+}
+
 static bool
 get_viewport (ccss_node_t const	*self,
 	      uint32_t		*x,
@@ -90,11 +102,13 @@ static const ccss_node_class_t _default_node_class = {
 	.is_a			= is_a,
 	.get_container		= get_container,
 	.get_base_style		= get_base_style,
+	.get_instance		= get_instance,
 	.get_id			= get_id,
 	.get_type		= get_type,
 	.get_class		= get_class,
 	.get_pseudo_class	= get_pseudo_class,
 	.get_attribute		= get_attribute,
+	.get_style		= get_style,
 	.get_viewport		= get_viewport,
 	.release		= release
 };

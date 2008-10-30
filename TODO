@@ -7,6 +7,7 @@ Also see gtk-css-engine's TODO for now.
 0.2
 ---
 
+* Finish per-node CSS ("style=''").
 * Merge universal- and type-selector based blocks in a single step, fetching the respectively next every time. Maybe use a hash and iterators internally, instead of GTree?
 * Pass pseudo class(es) to the drawing function(s) instead of determining them at query time.
 * Move `none' and `inherit' out of the structs and into an own hash (save mem).
