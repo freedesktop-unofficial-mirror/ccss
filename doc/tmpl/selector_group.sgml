@@ -23,32 +23,6 @@ ccss_selector_group_t
 </para>
 
 
-<!-- ##### FUNCTION ccss_selector_group_new ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
-<!-- ##### FUNCTION ccss_selector_group_free ##### -->
-<para>
-
-</para>
-
-@self: 
-
-
-<!-- ##### FUNCTION ccss_selector_group_apply ##### -->
-<para>
-
-</para>
-
-@self: 
-@style: 
-@Returns: 
-
-
 <!-- ##### FUNCTION ccss_selector_group_apply_type ##### -->
 <para>
 

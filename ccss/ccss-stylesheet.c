@@ -285,7 +285,6 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 		       ccss_node_t const	*node, 
 		       ccss_style_t		*style)
 {
-	ccss_node_class_t const		*node_class;	// TODO
 	ccss_selector_group_t const	*universal_group;
 	ccss_selector_group_t		*result_group;
 	bool				 ret;
@@ -305,10 +304,7 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 	/* Match style by type information. */
 	ret |= collect_type_r (self, node, node, false, result_group);
 
-	ret &= ccss_selector_group_apply (result_group, style);
-
-	// TODO query and set viewport.
-	node_class = node->node_class;
+	ret &= ccss_selector_group_apply (result_group, node, style);
 
 	ccss_selector_group_free (result_group), result_group = NULL;
 

@@ -251,7 +251,7 @@ traverse_query (size_t			 specificity,
 	iter = set->selectors;
 	while (iter) {
 		selector = (ccss_selector_t const *) iter->data;
-		ret = ccss_selector_query (selector, info->node, NULL);
+		ret = ccss_selector_query (selector, info->node);
 		if (ret) {
 			if (info->as_base) {
 				new_selector = ccss_selector_copy_as_base (selector, info->specificity_e);
@@ -294,6 +294,7 @@ ccss_selector_group_query (ccss_selector_group_t const	*self,
 
 typedef struct {
 	char const		*type_name;
+	ccss_node_t const	*node;
 	ccss_style_t		*style;
 	bool			 ret;
 } traverse_apply_info_t;
@@ -323,11 +324,14 @@ traverse_apply (size_t			 specificity,
 			    a == 0 && b == 0 && c == 0 && d == 1 && e == 0) {
 
 				info->ret |= ccss_selector_apply (selector,
-								 info->style);
+								  info->node,
+								  info->style);
 			}
 
 		} else {	
-			info->ret |= ccss_selector_apply (selector, info->style);
+			info->ret |= ccss_selector_apply (selector, 
+							  info->node,
+							  info->style);
 		}
 	}
 
@@ -337,19 +341,22 @@ traverse_apply (size_t			 specificity,
 /**
  * ccss_selector_group_apply:
  * @self:	a #ccss_selector_group_t.
+ * @node:	a #ccss_node_t implementation that is used by libccss to retrieve information about the underlying document.
  * @style:	a #ccss_style_t.
  *
  * Apply the styling information held by #self to #style.
  **/
 bool
 ccss_selector_group_apply (ccss_selector_group_t const	*self, 
-			  ccss_style_t			*style)
+			   ccss_node_t const		*node,
+			   ccss_style_t			*style)
 {
 	traverse_apply_info_t info;
 
 	g_assert (self && self->sets && style);
 
 	info.type_name = NULL;
+	info.node = node;
 	info.style = style;
 	info.ret = false;
 

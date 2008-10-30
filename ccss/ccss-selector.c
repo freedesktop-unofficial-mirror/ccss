@@ -812,7 +812,7 @@ match_antecessor_r (ccss_selector_t const	*self,
 
 	container = node_class->get_container (node);
 	if (container) {
-		is_matching = ccss_selector_query (self, container, NULL);
+		is_matching = ccss_selector_query (self, container);
 		if (!is_matching) {
 			is_matching = match_antecessor_r (self, container);
 		}
@@ -824,13 +824,9 @@ match_antecessor_r (ccss_selector_t const	*self,
 	return is_matching;
 }
 
-/*
- * `style' may be NULL, in which case this just tests for a match.
- */
 bool
 ccss_selector_query (ccss_selector_t const	*self, 
-		     ccss_node_t const		*node,
-		     ccss_style_t		*style)
+		     ccss_node_t const		*node)
 {
 	ccss_node_class_t const	*node_class;
 	char const	*name;
@@ -892,7 +888,7 @@ ccss_selector_query (ccss_selector_t const	*self,
 
 	/* recursively match refinements */
 	if (self->refinement) {
-		is_matching = ccss_selector_query (self->refinement, node, style);
+		is_matching = ccss_selector_query (self->refinement, node);
 		if (!is_matching) {
 			return false;
 		}
@@ -904,7 +900,7 @@ ccss_selector_query (ccss_selector_t const	*self,
 		container = node_class->get_container (node);
 		is_matching = false;
 		if (container) {
-			is_matching = ccss_selector_query (self->container, container, style);
+			is_matching = ccss_selector_query (self->container, container);
 			node_class->release (container);
 		}
 		if (!is_matching) {
@@ -920,35 +916,39 @@ ccss_selector_query (ccss_selector_t const	*self,
 		}
 	}
 
-	/* merge */
-	if (self->block && style) {
-
-		/* Update dynamic block variables. 
-		 * FIXME: find some good place/way to to this. */
-		/* if (CCSS_BACKGROUND_FIXED == self->block->background.bg_attachment.attachment) {
-			// TODO: set viewport
-
-		} */
-		ccss_selector_apply (self, style);
-	}
-
 	return true;
 }
 
 bool
 ccss_selector_apply (ccss_selector_t const	*self,
-		    ccss_style_t			*style)
+		     ccss_node_t const		*node,
+		     ccss_style_t		*style)
 {
-	GHashTableIter	iter;
-	gpointer	key;
-	gpointer	value;
+	ccss_node_class_t const	*node_class;
+	GHashTableIter		 iter;
+	gpointer		 key;
+	gpointer		 value;
+	uint32_t		 x, y, width, height;
+	bool			 ret;
 
-	g_return_val_if_fail (self && self->block && style, false);
+	g_return_val_if_fail (self && node && self->block && style, false);
 
+	node_class = node->node_class;
+
+	/* Apply css properties to the style. */
 	g_hash_table_iter_init (&iter, self->block->properties);
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
 
 		g_hash_table_insert (style->properties, key, value);
+	}
+
+	/* Update viewport (for things like fixed background-images). */
+	ret = node_class->get_viewport (node, &x, &y, &width, &height);
+	if (ret) {
+		style->viewport_x = x;
+		style->viewport_y = y;
+		style->viewport_width = width;
+		style->viewport_height = height;
 	}
 
 	return true;

@@ -18,12 +18,45 @@
 @y: 
 @Returns: 
 
+<!-- ##### FUNCTION ccss_selector_group_apply ##### -->
+<para>
+
+</para>
+
+@self: 
+@style: 
+@Returns: 
+
+<!-- ##### FUNCTION ccss_selector_group_free ##### -->
+<para>
+
+</para>
+
+@self: 
+
+<!-- ##### FUNCTION ccss_selector_group_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 <!-- ##### FUNCTION ccss_style_init ##### -->
 <para>
 
 </para>
 
 @self: 
+
+<!-- ##### FUNCTION ccss_stylesheet_query_apply ##### -->
+<para>
+
+</para>
+
+@self: 
+@node: 
+@style: 
+@Returns: 
 
 <!-- ##### FUNCTION ccss_stylesheet_query_collect ##### -->
 <para>

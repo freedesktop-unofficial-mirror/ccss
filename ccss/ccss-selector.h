@@ -111,10 +111,12 @@ void				ccss_selector_get_specificity_values	(ccss_selector_t const *self,
 
 bool
 ccss_selector_query (ccss_selector_t const	*self,
-		     ccss_node_t const		*node, 
-		     ccss_style_t		*style);
+		     ccss_node_t const		*node);
 
-bool ccss_selector_apply (ccss_selector_t const *self, ccss_style_t *style);
+bool
+ccss_selector_apply (ccss_selector_t const	*self,
+		     ccss_node_t const		*node,
+		     ccss_style_t		*style);
 
 #ifdef CCSS_DEBUG
 void ccss_selector_dump (ccss_selector_t const *self);

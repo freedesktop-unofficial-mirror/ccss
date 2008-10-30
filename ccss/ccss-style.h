@@ -63,11 +63,6 @@ bool ccss_style_get_double (ccss_style_t const *self, char const *property_name,
 bool ccss_style_get_string (ccss_style_t const *self, char const *property_name,
 			    char **value);
 
-/* Somewhat obscure, undocumented API, primarily for the css engine. */
-
-void ccss_style_set_viewport (ccss_style_t *self, int32_t x, int32_t y,
-			      int32_t width, int32_t height);
-
 #ifdef CCSS_DEBUG
 void ccss_style_dump (ccss_style_t const *self);
 #endif

@@ -836,20 +836,6 @@ ccss_style_draw_rectangle (ccss_style_t const	*self,
 			  cr, x, y, width, height);
 }
 
-void
-ccss_style_set_viewport (ccss_style_t	*self,
-			 int32_t	 x,
-			 int32_t	 y,
-			 int32_t	 width,
-			 int32_t	 height)
-{
-	self->viewport_x = x;
-	self->viewport_y = y;
-	self->viewport_width = width;
-	self->viewport_height = height;
-}
-
-
 #ifdef CCSS_DEBUG
 
 /**

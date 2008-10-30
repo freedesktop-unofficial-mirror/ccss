@@ -1,5 +1,22 @@
 2008-10-30  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-selector-group-priv.h:
+	* ccss/ccss-selector-group.c (traverse_query), (traverse_apply),
+	(ccss_selector_group_apply):
+	* ccss/ccss-selector.c (match_antecessor_r), (ccss_selector_query),
+	(ccss_selector_apply):
+	* ccss/ccss-selector.h:
+	* ccss/ccss-style.c:
+	* ccss/ccss-style.h:
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_query):
+	* ccss/ccss.sym.in:
+	* doc/tmpl/ccss-unused.sgml:
+	* doc/tmpl/selector_group.sgml:
+	* doc/tmpl/stylesheet.sgml:
+	Get rid of gce-specifiy viewport API.
+
+2008-10-30  Robert Staudinger  <robsta@gnome.org>
+
 	* cccss/example-1.c (paint_css):
 	* ccss/ccss-selector-group-priv.h:
 	* ccss/ccss-selector-group.h:
