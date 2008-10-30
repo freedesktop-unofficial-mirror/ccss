@@ -39,7 +39,7 @@ paint_css (ccss_stylesheet_t	*stylesheet,
 
 	/* Initialise style with its drawing properties. */
 	style = ccss_style_new ();
-	ccss_selector_group_apply (group, style);
+	ccss_selector_group_apply_type (group, "foo", style);
 
 	/* Draw the style covering the actor. */
 	ccss_style_draw_rectangle (style, cr, x, y, width, height);

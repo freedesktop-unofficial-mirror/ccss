@@ -17,7 +17,4 @@ ccss_stylesheet_query_type
 ccss_stylesheet_query
 ccss_stylesheet_iter_init
 ccss_stylesheet_iter_next
-ccss_selector_group_new
-ccss_selector_group_free
-ccss_selector_group_apply
 ccss_selector_group_apply_type

@@ -23,26 +23,22 @@
 #include <stdbool.h>
 #include <glib.h>
 #include <ccss/ccss-features.h>
-#include <ccss/ccss-node.h>
 #include <ccss/ccss-style.h>
-
-// TODO review what has to be public.
 
 G_BEGIN_DECLS
 
 typedef struct ccss_selector_group_ ccss_selector_group_t;
 
-ccss_selector_group_t *	ccss_selector_group_new	(void);
-void			ccss_selector_group_free	(ccss_selector_group_t *self);
-
-bool ccss_selector_group_apply (ccss_selector_group_t const *self, 
-			       ccss_style_t *style);
-
-bool ccss_selector_group_apply_type (ccss_selector_group_t const *self, 
-				    char const *type, ccss_style_t *style);
+bool
+ccss_selector_group_apply_type (ccss_selector_group_t const	*self, 
+				char const			*type,
+				ccss_style_t			*style);
 
 #ifdef CCSS_DEBUG
-void ccss_selector_group_dump (ccss_selector_group_t const *self);
+
+void
+ccss_selector_group_dump (ccss_selector_group_t const *self);
+
 #endif
 
 G_END_DECLS

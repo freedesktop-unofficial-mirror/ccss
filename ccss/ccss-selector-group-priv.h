@@ -30,15 +30,33 @@
 
 G_BEGIN_DECLS
 
-void ccss_selector_group_add_selector	(ccss_selector_group_t *self, 
-					 ccss_selector_t *selector);
-void ccss_selector_group_merge		(ccss_selector_group_t *self,
-					 ccss_selector_group_t const *group);
-void ccss_selector_group_merge_base	(ccss_selector_group_t *self,
-					 ccss_selector_group_t const *group);
+ccss_selector_group_t *	
+ccss_selector_group_new		(void);
 
-GSList const *	ccss_selector_group_get_dangling_selectors	(ccss_selector_group_t const *self);
-void		ccss_selector_group_clear_dangling_selectors	(ccss_selector_group_t *self);
+void
+ccss_selector_group_free	(ccss_selector_group_t		*self);
+
+bool
+ccss_selector_group_apply	(ccss_selector_group_t const	*self,
+				 ccss_style_t			*style);
+
+void
+ccss_selector_group_add_selector	(ccss_selector_group_t		*self, 
+					 ccss_selector_t		*selector);
+
+void
+ccss_selector_group_merge		(ccss_selector_group_t		*self,
+					 ccss_selector_group_t const	*group);
+
+void
+ccss_selector_group_merge_base		(ccss_selector_group_t		*self,
+					 ccss_selector_group_t const	*group);
+
+GSList const *
+ccss_selector_group_get_dangling_selectors	(ccss_selector_group_t const	*self);
+
+void
+ccss_selector_group_clear_dangling_selectors	(ccss_selector_group_t		*self);
 
 bool
 ccss_selector_group_query (ccss_selector_group_t const	*self, 

@@ -57,9 +57,6 @@ ccss_stylesheet_iter_next
 <TITLE>ccss_selector_group_t</TITLE>
 <FILE>selector_group</FILE>
 ccss_selector_group_t
-ccss_selector_group_new
-ccss_selector_group_free
-ccss_selector_group_apply
 ccss_selector_group_apply_type
 ccss_selector_group_dump
 </SECTION>
