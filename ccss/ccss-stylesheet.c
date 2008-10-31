@@ -333,19 +333,6 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 	/* Apply collected style. */
 	ret &= ccss_selector_group_apply (result_group, node, style);
 
-	/* Clean up. */
-	if (block_list) {
-		GSList		*iter;
-		ccss_block_t	*block;
-
-		iter = block_list;
-		while (iter) {
-			block = (ccss_block_t *) iter->data;
-			iter = g_slist_remove (iter, block);
-			ccss_block_free (block);
-		}
-	}
-
 	ccss_selector_group_free (result_group), result_group = NULL;
 
 	return ret;

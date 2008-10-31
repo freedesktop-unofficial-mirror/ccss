@@ -208,6 +208,7 @@ walk_selector (CRSelector			*cr_sel,
 		importance = calculate_importance (precedence, is_important);
 		selector = ccss_instance_selector_new (instance_info->instance,
 						       precedence, importance);
+		ccss_selector_set_block (selector, block);
 		ccss_selector_group_add_selector (instance_info->result_group,
 						  selector);
 		return;

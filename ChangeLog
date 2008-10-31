@@ -1,5 +1,20 @@
 2008-10-31  Robert Staudinger  <robsta@gnome.org>
 
+	* TODO: remember inline styling memory management facts.
+
+	* ccss/ccss-parser.c (walk_selector): associate the block to the
+	  selector, so the styling can be applied.
+
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_query): do not free the 
+	  block(s), they need to live as long as the style.
+
+	* examples/Makefile.am:
+	* examples/example-2.c (get_type), (get_instance), (get_style),
+	(expose_cb), (main):
+	New example illustrating the use of inline styling.
+
+2008-10-31  Robert Staudinger  <robsta@gnome.org>
+
 	* HACKING:
 	* TODO:
 	Update.
