@@ -289,8 +289,12 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 		       ccss_node_t const	*node, 
 		       ccss_style_t		*style)
 {
+	ccss_node_class_t const		*node_class;
 	ccss_selector_group_t const	*universal_group;
 	ccss_selector_group_t		*result_group;
+	char const			*inline_css;
+	GSList				*block_list;
+	enum CRStatus			 status;
 	bool				 ret;
 
 	g_return_val_if_fail (self && node && style, false);
@@ -308,7 +312,39 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 	/* Match style by type information. */
 	ret |= collect_type_r (self, node, node, false, result_group);
 
+	/* Handle inline styling. */
+	node_class = node->node_class;
+	inline_css = node_class->get_style (node);
+	block_list = NULL;
+	if (inline_css) {
+		ptrdiff_t instance;
+		instance = node_class->get_instance (node);
+		if (instance == 0) {
+			g_warning ("Inline CSS `%s' but instance == 0\n", inline_css);
+		} else {
+			status = ccss_parser_parse_inline (inline_css, 
+							   CCSS_STYLESHEET_AUTHOR,
+							   instance, result_group,
+							   &block_list);
+			ret &= (status == CR_OK);
+		}
+	}
+
+	/* Apply collected style. */
 	ret &= ccss_selector_group_apply (result_group, node, style);
+
+	/* Clean up. */
+	if (block_list) {
+		GSList		*iter;
+		ccss_block_t	*block;
+
+		iter = block_list;
+		while (iter) {
+			block = (ccss_block_t *) iter->data;
+			iter = g_slist_remove (iter, block);
+			ccss_block_free (block);
+		}
+	}
 
 	ccss_selector_group_free (result_group), result_group = NULL;
 

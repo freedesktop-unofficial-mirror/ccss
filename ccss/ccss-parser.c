@@ -31,14 +31,21 @@
 #include "ccss-selector-group-priv.h"
 
 typedef struct {
+	ptrdiff_t		 instance;
+	ccss_selector_group_t	*result_group;
+} instance_info_t;
+
+typedef struct {
 	ccss_stylesheet_precedence_t	 precedence;
 	GSList				*block_list;
 	GHashTable			*groups;
 	ccss_block_t			*block;
 	ccss_block_t			*important_block;
-} ccss_parser_info_t;
+	/* When parsing inline CSS. */
+	instance_info_t			*instance;
+} info_t;
 
-#define HANDLER_GET_INFO(handler_) ((ccss_parser_info_t *) handler->app_data)
+#define HANDLER_GET_INFO(handler_) ((info_t *) handler->app_data)
 
 static ccss_attribute_selector_match_t
 map_attribute_selector_match (enum AttrMatchWay cr_match)
@@ -182,17 +189,31 @@ walk_simple_selector_r (CRSimpleSel			*cr_simple_sel,
 }
 
 static void
-walk_selector_r (CRSelector			*cr_sel,
-		 ccss_block_t			*block,
-		 GHashTable			*groups,
-		 ccss_stylesheet_precedence_t	 precedence,
-		 bool				 is_important)
+walk_selector (CRSelector			*cr_sel,
+	       ccss_block_t			*block,
+	       GHashTable			*groups,
+	       ccss_stylesheet_precedence_t	 precedence,
+	       bool				 is_important,
+	       instance_info_t const		*instance_info)
 {
 	ccss_selector_t		*selector;
 	ccss_selector_group_t	*group;
 	CRSelector const	*iter;
 	char const		*key;
 
+	/* Special treatment for inline styling. */
+	if (instance_info) {
+		ccss_selector_importance_t	importance;
+
+		importance = calculate_importance (precedence, is_important);
+		selector = ccss_instance_selector_new (instance_info->instance,
+						       precedence, importance);
+		ccss_selector_group_add_selector (instance_info->result_group,
+						  selector);
+		return;
+	}
+
+	/* Handle `full' CSS statements. */
 	iter = cr_sel;
 	do {
 		selector = walk_simple_selector_r (iter->simple_sel, precedence, is_important);
@@ -218,7 +239,7 @@ static void
 start_selector_cb (CRDocHandler	*handler,
 		   CRSelector	*cr_sel)
 {
-	ccss_parser_info_t *info;
+	info_t *info;
 
 	info = HANDLER_GET_INFO (handler);
 
@@ -256,7 +277,7 @@ property_cb (CRDocHandler	*handler,
 	     CRTerm		*values,
 	     gboolean	 	 is_important)
 {
-	ccss_parser_info_t	*info;
+	info_t	*info;
 	ccss_block_t		*block;
 	char const 		*property;
 
@@ -343,23 +364,25 @@ static void
 end_selector_cb (CRDocHandler	*handler,
 		 CRSelector	*cr_sel)
 {
-	ccss_parser_info_t	*info;
+	info_t	*info;
 
 	info = HANDLER_GET_INFO (handler);
 
 	g_assert (info);
 
 	if (info->block) {
-		walk_selector_r (cr_sel, info->block, info->groups, 
-				 info->precedence, false);
+		walk_selector (cr_sel, info->block, info->groups, 
+				 info->precedence, false, 
+				 info->instance);
 		info->block = NULL;
 	}
 
 	/* Properties marked `important' form a block of their own,
 	 * so they can be sorted into the cascade at the appropriate position. */
 	if (info->important_block) {
-		walk_selector_r (cr_sel, info->important_block, info->groups, 
-				 info->precedence, true);
+		walk_selector (cr_sel, info->important_block, info->groups, 
+				 info->precedence, true,
+				 info->instance);
 		info->important_block = NULL;
 	}
 }
@@ -372,7 +395,7 @@ ccss_parser_parse_file (char const			 *css_file,
 {
 	CRParser		*parser;
 	CRDocHandler		*handler;
-	ccss_parser_info_t	 info;
+	info_t	 info;
 	enum CRStatus		 ret;
 
 	g_assert (css_file && groups);
@@ -386,6 +409,7 @@ ccss_parser_parse_file (char const			 *css_file,
 	info.groups = groups;
 	info.block = NULL;
 	info.important_block = NULL;
+	info.instance = NULL;
 
 	handler->start_selector = start_selector_cb;
         handler->property = property_cb;
@@ -419,7 +443,7 @@ ccss_parser_parse_buffer (char const			 *buffer,
 {
 	CRParser		*parser;
 	CRDocHandler		*handler;
-	ccss_parser_info_t	 info;
+	info_t	 info;
 	enum CRStatus		 ret;
 
 	g_assert (buffer && size && groups);
@@ -434,6 +458,7 @@ ccss_parser_parse_buffer (char const			 *buffer,
 	info.groups = groups;
 	info.block = NULL;
 	info.important_block = NULL;
+	info.instance = NULL;
 
 	handler->start_selector = start_selector_cb;
         handler->property = property_cb;
@@ -451,5 +476,58 @@ ccss_parser_parse_buffer (char const			 *buffer,
 	*block_list = info.block_list;
 
 	return ret;
+}
+
+enum CRStatus
+ccss_parser_parse_inline (char const			 *buffer,
+			  ccss_stylesheet_precedence_t	  precedence,
+			  ptrdiff_t			  instance,
+			  ccss_selector_group_t		 *result_group,
+			  GSList			**block_list)
+{
+	CRParser		*parser;
+	CRDocHandler		*handler;
+	info_t			 info;
+	instance_info_t		 instance_info;
+	enum CRStatus		 ret;
+	GString			*stmt;
+
+	stmt = g_string_new ("* {");
+	g_string_append (stmt, buffer);
+	g_string_append (stmt, "}");
+
+	g_assert (buffer && instance && result_group);
+
+	parser = cr_parser_new_from_buf ((guchar *) stmt->str, 
+					 (gulong) stmt->len, CR_UTF_8, false);
+
+	handler = cr_doc_handler_new ();
+	handler->app_data = (gpointer) &info;
+	info.precedence = precedence;
+	info.block_list = *block_list;
+	info.groups = NULL;
+	info.block = NULL;
+	info.important_block = NULL;
+	info.instance = &instance_info;
+	instance_info.instance = instance;
+	instance_info.result_group = result_group;
+
+	handler->start_selector = start_selector_cb;
+        handler->property = property_cb;
+	handler->end_selector = end_selector_cb;
+
+	cr_parser_set_sac_handler (parser, handler);
+	ret = cr_parser_parse (parser);
+
+/* See http://bugzilla.gnome.org/show_bug.cgi?id=553937 . */
+#ifndef CCSS_ENABLE_LIBCROCO_WORKAROUND
+	cr_doc_handler_unref (handler), handler = NULL;
+#endif
+	cr_parser_destroy (parser);
+	g_string_free (stmt, true), stmt = NULL;
+
+	*block_list = info.block_list;
+
+	return ret;	
 }
 

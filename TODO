@@ -21,4 +21,4 @@ Also see gtk-css-engine's TODO for now.
       GtkButton: default_border( 0, 0, 0, 0 );
     }
 * Query interface through CSS selectors, see gtk-css-engine TODO.
-* Callback-based stylesheet-iteration API, then selector-group can be totally internal.
+* Callback-based stylesheet-iteration API, then selector-group can be totally internal. Get rid of <glib.h> in all public headers.

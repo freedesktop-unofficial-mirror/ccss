@@ -30,7 +30,8 @@ typedef enum {
 	CCSS_SELECTOR_MODALITY_CLASS,		/* By element class. */
 	CCSS_SELECTOR_MODALITY_ID,		/* By element ID. */
 	CCSS_SELECTOR_MODALITY_ATTRIBUTE,	/* By element attribute. */
-	CCSS_SELECTOR_MODALITY_PSEUDO_CLASS	/* By pseudo class. */
+	CCSS_SELECTOR_MODALITY_PSEUDO_CLASS,	/* By pseudo class. */
+	CCSS_SELECTOR_MODALITY_INSTANCE		/* By node instance. */
 } ccss_selector_modality_t;
 
 /*
@@ -455,6 +456,63 @@ pseudo_class_selector_dump (ccss_pseudo_class_selector_t const *self)
 
 #endif /* CCSS_DEBUG */
 
+/*
+ * Select by unique instance.
+ */
+typedef struct {
+	ccss_selector_t	 parent;
+	ptrdiff_t	 instance;
+} ccss_instance_selector_t;
+
+ccss_selector_t *
+ccss_instance_selector_new (ptrdiff_t			instance,
+			    unsigned int		precedence,
+			    ccss_selector_importance_t	importance)
+{
+	ccss_instance_selector_t *self;
+
+	g_assert (instance);
+
+	self = g_new0 (ccss_instance_selector_t, 1);
+	self->parent.modality = CCSS_SELECTOR_MODALITY_INSTANCE;
+	self->parent.importance = importance;
+	self->parent.precedence = precedence;
+	self->parent.a = 1;
+	self->instance = instance;
+
+	return (ccss_selector_t *) self;
+}
+
+static ccss_selector_t *
+instance_selector_dup (ccss_instance_selector_t const *original)
+{
+	ccss_instance_selector_t *self;
+
+	self = g_new0 (ccss_instance_selector_t, 1);
+	selector_sync ((ccss_selector_t const *) original, &self->parent);
+	self->instance = original->instance;
+
+	return (ccss_selector_t *) self;
+}
+
+static void
+instance_selector_free (ccss_instance_selector_t *self)
+{
+	g_assert (self);
+
+	g_free (self);
+}
+
+#ifdef CCSS_DEBUG
+
+static void
+instance_selector_dump (ccss_instance_selector_t const *self)
+{
+	printf (":%x", self->instance);
+}
+
+#endif /* CCSS_DEBUG */
+
 ccss_selector_t *
 ccss_selector_copy (ccss_selector_t const *original)
 {
@@ -482,10 +540,9 @@ ccss_selector_copy (ccss_selector_t const *original)
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
 		self = pseudo_class_selector_dup ((ccss_pseudo_class_selector_t const *) original);
 		break;
-	default:
-		g_warning ("Unknown selector modality %d", original->modality);
-		self = NULL;
-		return self;
+	case CCSS_SELECTOR_MODALITY_INSTANCE:
+		self = instance_selector_dup ((ccss_instance_selector_t const *) original);
+		break;
 	}
 
 	if (original->refinement) {
@@ -580,8 +637,9 @@ ccss_selector_free (ccss_selector_t *self)
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
 		pseudo_class_selector_free ((ccss_pseudo_class_selector_t *) self);
 		break;
-	default:
-		g_warning ("Unknown selector modality %d", self->modality);
+	case CCSS_SELECTOR_MODALITY_INSTANCE:
+		instance_selector_free ((ccss_instance_selector_t *) self);
+		break;
 	}
 }
 
@@ -663,9 +721,11 @@ ccss_selector_is_type (ccss_selector_t const *self)
 	case CCSS_SELECTOR_MODALITY_ID:
 	case CCSS_SELECTOR_MODALITY_ATTRIBUTE:
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
-	default:
-		return false;
+	case CCSS_SELECTOR_MODALITY_INSTANCE:
+		break;
 	}
+
+	return false;
 }
 
 bool
@@ -680,9 +740,11 @@ ccss_selector_is_class (ccss_selector_t const *self)
 	case CCSS_SELECTOR_MODALITY_ID:
 	case CCSS_SELECTOR_MODALITY_ATTRIBUTE:
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
-	default:
-		return false;
+	case CCSS_SELECTOR_MODALITY_INSTANCE:
+		break;
 	}
+
+	return false;
 }
 
 bool
@@ -697,9 +759,11 @@ ccss_selector_is_id (ccss_selector_t const *self)
 	case CCSS_SELECTOR_MODALITY_CLASS:
 	case CCSS_SELECTOR_MODALITY_ATTRIBUTE:
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
-	default:
-		return false;
+	case CCSS_SELECTOR_MODALITY_INSTANCE:
+		break;
 	}
+
+	return false;
 }
 
 ccss_block_t const *
@@ -755,9 +819,11 @@ ccss_selector_get_key (ccss_selector_t const *self)
 		return ((ccss_id_selector_t *) self)->id;
 	case CCSS_SELECTOR_MODALITY_ATTRIBUTE:
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
-	default:
-		return NULL;
+	case CCSS_SELECTOR_MODALITY_INSTANCE:
+		break;
 	}
+
+	return NULL;
 }
 
 uint32_t
@@ -831,6 +897,7 @@ ccss_selector_query (ccss_selector_t const	*self,
 	ccss_node_class_t const	*node_class;
 	char const	*name;
 	char		*value;
+	ptrdiff_t	 instance;
 	bool		 is_matching;
 
 	g_return_val_if_fail (self && node, false);
@@ -843,20 +910,24 @@ ccss_selector_query (ccss_selector_t const	*self,
 		is_matching = true;
 		break;
 	case CCSS_SELECTOR_MODALITY_TYPE:
-		is_matching = ccss_node_is_a (node, ((ccss_type_selector_t *) self)->type_name);
+		is_matching = ccss_node_is_a (node, 
+				((ccss_type_selector_t *) self)->type_name);
 		break;
 	case CCSS_SELECTOR_MODALITY_BASE_TYPE:
-		/* HACK warning: let's just say it matches, because the base type selectors have
-		 * been set up internally -- that is in the fixup run after loading the stylesheet. */
+		/* HACK warning: let's just say it matches, because the base
+		 * type selectors have been set up internally -- that is in the
+		 * fixup run after loading the stylesheet. */
 		is_matching = true;
 		break;
 	case CCSS_SELECTOR_MODALITY_CLASS:
 		name = node_class->get_class (node);
-		is_matching = name ? 0 == strcmp (name, ((ccss_class_selector_t *) self)->class_name) : false;
+		is_matching = !g_strcmp0 (name, 
+				((ccss_class_selector_t *) self)->class_name);
 		break;
 	case CCSS_SELECTOR_MODALITY_ID:
 		name = node_class->get_id (node);
-		is_matching = name ? 0 == strcmp (name, ((ccss_id_selector_t *) self)->id) : false;
+		is_matching = !g_strcmp0 (name, 
+				((ccss_id_selector_t *) self)->id);
 		break;
 	case CCSS_SELECTOR_MODALITY_ATTRIBUTE:
 		name = ((ccss_attribute_selector_t *) self)->name;
@@ -866,20 +937,22 @@ ccss_selector_query (ccss_selector_t const	*self,
 			is_matching = value ? true : false;
 			break;
 		case CCSS_ATTRIBUTE_SELECTOR_MATCH_EQUALS:
-			is_matching = value ? 0 == strcmp (value, ((ccss_attribute_selector_t *) self)->value) : false;			
+			is_matching = !g_strcmp0 (value, 
+				((ccss_attribute_selector_t *) self)->value);
 			break;
-		default:
-			g_assert_not_reached ();
-			is_matching = false;
 		}
 		g_free (value), value = NULL;
 		break;
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
 		name = node_class->get_pseudo_class (node);
-		is_matching = name ? 0 == strcmp (name, ((ccss_pseudo_class_selector_t *) self)->pseudo_class) : false;
+		is_matching = !g_strcmp0 (name, 
+			((ccss_pseudo_class_selector_t *) self)->pseudo_class);
 		break;
-	default:
-		g_assert_not_reached ();
+	case CCSS_SELECTOR_MODALITY_INSTANCE:
+		instance = node_class->get_instance (node);
+		is_matching = (instance ==
+				((ccss_instance_selector_t *) self)->instance);
+		break;
 	}
 
 	if (!is_matching) {
@@ -1007,8 +1080,9 @@ ccss_selector_dump (ccss_selector_t const *self)
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
 		pseudo_class_selector_dump ((ccss_pseudo_class_selector_t *) self);
 		break;
-	default:
-		g_warning ("Unknown selector modality %d", self->modality);
+	case CCSS_SELECTOR_MODALITY_INSTANCE:
+		instance_selector_dump ((ccss_instance_selector_t *) self);
+		break;
 	}
 
 	if (self->refinement) {

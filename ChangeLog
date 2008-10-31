@@ -1,3 +1,24 @@
+2008-10-31  Robert Staudinger  <robsta@gnome.org>
+
+	* HACKING:
+	* TODO:
+	Update.
+
+	* ccss/ccss-parser.c (walk_selector), (start_selector_cb),
+	(property_cb), (end_selector_cb), (ccss_parser_parse_file),
+	(ccss_parser_parse_buffer), (ccss_parser_parse_inline):
+	* ccss/ccss-parser.h:
+	* ccss/ccss-selector.c (ccss_instance_selector_new),
+	(instance_selector_dup), (instance_selector_free),
+	(instance_selector_dump), (ccss_selector_copy),
+	(ccss_selector_free), (ccss_selector_is_type),
+	(ccss_selector_is_class), (ccss_selector_is_id),
+	(ccss_selector_get_key), (ccss_selector_query),
+	(ccss_selector_dump):
+	* ccss/ccss-selector.h:
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_query):
+	Basic inline-styling support.
+
 2008-10-30  Robert Staudinger  <robsta@gnome.org>
 
 	* TODO:

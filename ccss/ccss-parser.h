@@ -21,20 +21,35 @@
 #define CCSS_PARSER_H
 
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdlib.h>
 #include <glib.h>
 #include <libcroco/libcroco.h>
 #include <ccss/ccss-features.h>
+#include <ccss/ccss-selector-group.h>
 #include <ccss/ccss-stylesheet.h>
 
 G_BEGIN_DECLS
 
-enum CRStatus ccss_parser_parse_buffer (char const *buffer, size_t size,
-					ccss_stylesheet_precedence_t precedence,
-					GHashTable *groups, GSList **block_list);
+enum CRStatus
+ccss_parser_parse_file (char const			 *css_file, 
+			ccss_stylesheet_precedence_t	  precedence,
+			GHashTable			 *groups,
+			GSList				**block_list);
 
-enum CRStatus ccss_parser_parse_file (char const *css_file, 
-				      ccss_stylesheet_precedence_t precedence,
-				      GHashTable *groups, GSList **block_list);
+enum CRStatus
+ccss_parser_parse_buffer (char const			 *buffer,
+			  size_t			  buffer_size,
+			  ccss_stylesheet_precedence_t	  precedence,
+			  GHashTable			 *groups,
+			  GSList			**block_list);
+
+enum CRStatus
+ccss_parser_parse_inline (char const			 *buffer,
+			  ccss_stylesheet_precedence_t	  precedence,
+			  ptrdiff_t			  instance,
+			  ccss_selector_group_t		 *result_group,
+			  GSList			**block_list);
 
 G_END_DECLS
 

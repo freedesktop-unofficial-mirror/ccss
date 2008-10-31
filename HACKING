@@ -21,6 +21,8 @@ General remarks
     foo_t *f;
     memset (f, 0, sizeof (*f));
 
+* Do not include a `default' case when switching over enumerations, so you'll
+  get warnings when a values is added.
 
 Including files
 ---------------

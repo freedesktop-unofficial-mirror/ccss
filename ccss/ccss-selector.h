@@ -22,6 +22,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <glib.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-block.h>
@@ -78,6 +79,10 @@ ccss_attribute_selector_new	(char const			*name,
 				 ccss_selector_importance_t	 importance);
 ccss_selector_t *
 ccss_pseudo_class_selector_new	(char const			*pseudo_class,
+				 unsigned int			 precedence,
+				 ccss_selector_importance_t	 importance);
+ccss_selector_t *
+ccss_instance_selector_new	(ptrdiff_t			 instance,
 				 unsigned int			 precedence,
 				 ccss_selector_importance_t	 importance);
 
