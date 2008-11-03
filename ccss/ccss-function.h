@@ -20,10 +20,10 @@
 #ifndef CCSS_FUNCTION_H
 #define CCSS_FUNCTION_H
 
-#include <glib.h>
 #include <libcroco/libcroco.h>
+#include <ccss/ccss-macros.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 typedef char * (*ccss_function_f) (GSList const *args);
 
@@ -36,7 +36,7 @@ void ccss_function_set_vtable (ccss_function_t const *vtable);
 
 char * ccss_function_invoke (char const *name, CRTerm const *args);
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_FUNCTION_H */
 

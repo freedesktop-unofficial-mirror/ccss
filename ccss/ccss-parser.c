@@ -19,6 +19,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <glib.h>
 #include <libcroco/libcroco.h>
 #include "config.h"
 #include "ccss-background-parser.h"

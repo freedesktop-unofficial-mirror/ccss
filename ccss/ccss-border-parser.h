@@ -21,19 +21,19 @@
 #define CCSS_BORDER_PARSER_H
 
 #include <stdbool.h>
-#include <glib.h>
 #include <libcroco/libcroco.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-block.h>
+#include <ccss/ccss-features.h>
+#include <ccss/ccss-macros.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 bool ccss_block_parse_border (ccss_block_t *self, char const *property, 
 			      CRTerm const *values);
 
 char const * ccss_border_lookup_name (ccss_border_style_type_t border_style);
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_BORDER_PARSER_H */
 

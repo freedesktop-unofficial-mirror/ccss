@@ -24,9 +24,9 @@ endif
 headersdir = $(includedir)/libccss-1/ccss
 
 headers_DATA = \
-	ccss-features.h \
 	ccss-function.h \
 	ccss.h \
+	ccss-macros.h \
 	ccss-node.h \
 	ccss-selector-group.h \
 	ccss-style.h \
@@ -38,6 +38,7 @@ headers_DATA += \
 endif
 
 libccss_1_la_SOURCES = \
+	$(headers_DATA) \
 	ccss-background.c \
 	ccss-background.h \
 	ccss-background-parser.c \
@@ -50,29 +51,22 @@ libccss_1_la_SOURCES = \
 	ccss-border-parser.h \
 	ccss-color.c \
 	ccss-color.h \
-	ccss-features.h \
 	ccss-function.c \
-	ccss-function.h \
 	ccss.c \
-	ccss.h \
 	ccss-image.c \
 	ccss-image.h \
 	ccss-node.c \
-	ccss-node.h \
 	ccss-parser.c \
 	ccss-parser.h \
 	ccss-position.c \
 	ccss-position.h \
 	ccss-selector-group.c \
-	ccss-selector-group.h \
 	ccss-selector-group-priv.h \
 	ccss-selector.c \
 	ccss-selector.h \
 	ccss-style.c \
-	ccss-style.h \
 	ccss-style-priv.h \
-	ccss-stylesheet.c \
-	ccss-stylesheet.h
+	ccss-stylesheet.c
 
 opt_src =
 
@@ -85,8 +79,14 @@ endif
 
 # Messing with function pointers in a non-ISO way needs some extra love
 # to prevent warnings (not using ISO C).
+
 noinst_LTLIBRARIES = libccssproperty.la
-libccssproperty_la_CPPFLAGS = $(CCSS_COMPAT_CFLAGS)
+
+libccssproperty_la_CPPFLAGS = \
+	$(CCSS_COMPAT_CFLAGS) \
+	-I$(top_srcdir) \
+	-I$(top_builddir)
+
 libccssproperty_la_SOURCES = \
 	ccss-property.c \
 	ccss-property.h

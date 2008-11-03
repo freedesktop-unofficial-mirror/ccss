@@ -22,11 +22,11 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <glib.h>
 #include <libcroco/libcroco.h>
 #include <ccss/ccss-features.h>
+#include <ccss/ccss-macros.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 typedef enum {
 	/* Remember to revisit all locations where a mask is used when it's 
@@ -86,7 +86,7 @@ double ccss_position_get_vsize (ccss_position_t const *self,
 void ccss_position_dump (ccss_position_t const *self);
 #endif
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_POSITION_H */
 

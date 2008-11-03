@@ -19,6 +19,7 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include <glib.h>
 #include "ccss-function.h"
 #include "ccss-image.h"
 
@@ -62,7 +63,7 @@ load_svg (ccss_image_t	*self,
 	error = NULL;
 	handle = rsvg_handle_new_from_file (uri, &error);
 	if (error) {
-		g_warning (error->message);
+		g_warning ("%s", error->message);
 		g_warning ("Could not load `%s'", uri);
 		g_error_free (error);
 		return false;
@@ -77,7 +78,7 @@ load_svg (ccss_image_t	*self,
 	rsvg_handle_render_cairo_sub (handle, cr, id);
 	status = cairo_status (cr);
 	if (status != CAIRO_STATUS_SUCCESS) {
-		g_warning (cairo_status_to_string (status));
+		g_warning ("%s", cairo_status_to_string (status));
 	}
 
 	self->pattern = cairo_pattern_create_for_surface (surface);
@@ -102,7 +103,7 @@ load_png (ccss_image_t	*self,
 	surface = cairo_image_surface_create_from_png (path);
 	status = cairo_surface_status (surface);
 	if (status != CAIRO_STATUS_SUCCESS) {
-		g_warning (cairo_status_to_string (status));
+		g_warning ("%s", cairo_status_to_string (status));
 		cairo_surface_destroy (surface);
 		return false;
 	}
@@ -157,7 +158,7 @@ load_image (ccss_image_t *self)
 
 	status = self->pattern ? cairo_pattern_status (self->pattern) : CAIRO_STATUS_SUCCESS;
 	if (status != CAIRO_STATUS_SUCCESS) {
-		g_warning (cairo_status_to_string (status));
+		g_warning ("%s", cairo_status_to_string (status));
 	}
 
 	return matched && self->pattern;
@@ -186,7 +187,7 @@ ccss_image_parse (ccss_image_t	 *self,
 void
 ccss_image_dump (ccss_image_t const *self)
 {
-	printf (self->uri);
+	printf ("%s", self->uri);
 }
 
 #endif /* CCSS_DEBUG */

@@ -21,11 +21,11 @@
 #define CCSS_STYLE_H
 
 #include <stdint.h>
-#include <glib.h>
 #include <cairo.h>
 #include <ccss/ccss-features.h>
+#include <ccss/ccss-macros.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 /**
  * ccss_style_t:
@@ -67,7 +67,7 @@ bool ccss_style_get_string (ccss_style_t const *self, char const *property_name,
 void ccss_style_dump (ccss_style_t const *self);
 #endif
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_STYLE_H */
 

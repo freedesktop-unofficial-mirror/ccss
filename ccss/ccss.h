@@ -20,9 +20,9 @@
 #ifndef CCSS_H
 #define CCSS_H
 
-#include <glib.h>
+#include <ccss/ccss-macros.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-function.h>
@@ -38,7 +38,7 @@ G_BEGIN_DECLS
 void 		ccss_init	(ccss_function_t const *vtable);
 void 		ccss_shutdown	(void);
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_H */
 

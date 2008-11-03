@@ -23,14 +23,14 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <glib.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-block.h>
+#include <ccss/ccss-macros.h>
 #include <ccss/ccss-node.h>
 #include <ccss/ccss-style.h>
 #include <ccss/ccss-stylesheet.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 #define CCSS_SELECTOR_MAX_IMPORTANCE	(2)
 #define CCSS_SELECTOR_MAX_PRECEDENCE	((1 << 5) - 1)
@@ -127,7 +127,7 @@ ccss_selector_apply (ccss_selector_t const	*self,
 void ccss_selector_dump (ccss_selector_t const *self);
 #endif
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_SELECTOR_H */
 

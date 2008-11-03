@@ -23,15 +23,15 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <cairo.h>
-#include <glib.h>
 #include <libcroco/libcroco.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-color.h>
+#include <ccss/ccss-features.h>
 #include <ccss/ccss-image.h>
+#include <ccss/ccss-macros.h>
 #include <ccss/ccss-position.h>
 #include <ccss/ccss-property.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 typedef struct {
 	ccss_property_spec_t	spec;
@@ -91,7 +91,7 @@ void ccss_background_dump	(ccss_background_t const *self);
 void ccss_background_image_dump	(ccss_background_image_t const *self);
 #endif
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_BACKGROUND_H */
 

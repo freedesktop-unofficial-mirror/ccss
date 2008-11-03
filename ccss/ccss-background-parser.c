@@ -19,6 +19,7 @@
 
 #include <math.h>
 #include <string.h>
+#include <glib.h>
 #include "ccss-background-parser.h"
 #include "ccss-background.h"
 

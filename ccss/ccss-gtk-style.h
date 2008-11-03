@@ -23,12 +23,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <cairo.h>
-#include <glib.h>
 #include <gtk/gtk.h>
 #include <ccss/ccss-features.h>
+#include <ccss/ccss-macros.h>
 #include <ccss/ccss-style.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 void ccss_style_draw_gap (ccss_style_t const *self, cairo_t *cr, 
 			 int32_t x, int32_t y, int32_t width, int32_t height, 
@@ -37,7 +37,7 @@ void ccss_style_draw_gap (ccss_style_t const *self, cairo_t *cr,
 void ccss_style_draw_polygon (ccss_style_t const *self, cairo_t *cr, 
 			     GdkPoint *points, int32_t n_points, bool fill);
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_GTK_STYLE_H */
 

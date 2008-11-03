@@ -18,6 +18,7 @@
  */
 
 #include <string.h>
+#include <glib.h>
 #include "ccss-function.h"
 
 static ccss_function_t *_vtable = NULL;

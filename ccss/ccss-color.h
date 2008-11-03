@@ -21,11 +21,11 @@
 #define CCSS_COLOR_H
 
 #include <stdbool.h>
-#include <glib.h>
 #include <libcroco/libcroco.h>
+#include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 #define CCSS_COLOR_ASSIGN(lhs_, rhs_) {		\
 	(lhs_).spec = (rhs_).spec;		\
@@ -49,7 +49,7 @@ bool ccss_color_parse (ccss_color_t *self, CRTerm const **values);
 void ccss_color_dump (ccss_color_t const *self);
 #endif
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_COLOR_H */
 

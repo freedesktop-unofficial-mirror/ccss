@@ -19,6 +19,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <glib.h>
 #include "ccss-property.h"
 
 static GQuark _BACKGROUND_ATTACHMENT		= 0;

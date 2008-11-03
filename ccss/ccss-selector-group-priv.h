@@ -21,14 +21,14 @@
 #define CCSS_SELECTOR_GROUP_PRIV_H
 
 #include <stdbool.h>
-#include <glib.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-node.h>
+#include <ccss/ccss-macros.h>
 #include <ccss/ccss-selector-group.h>
 #include <ccss/ccss-selector.h>
 #include <ccss/ccss-style.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 ccss_selector_group_t *	
 ccss_selector_group_new		(void);
@@ -70,7 +70,7 @@ ccss_selector_group_query (ccss_selector_group_t const	*self,
 			   bool				 as_base,
 			   ccss_selector_group_t	*result_group);
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_SELECTOR_GROUP_PRIV_H */
 

@@ -19,6 +19,7 @@
 
 #include <math.h>
 #include <string.h>
+#include <glib.h>
 #include "ccss-background.h"
 
 static cairo_pattern_t *
@@ -37,7 +38,7 @@ create_pattern (ccss_background_image_t const	*bg_image,
 	surface = NULL;
 	status = cairo_pattern_get_surface (bg_image->image.pattern, &surface);
 	if (status != CAIRO_STATUS_SUCCESS) {
-		g_warning (cairo_status_to_string (status));
+		g_warning ("%s", cairo_status_to_string (status));
 		return NULL;
 	}
 
@@ -254,7 +255,7 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 
 		status = cairo_status (cr);
 		if (status != CAIRO_STATUS_SUCCESS) {
-			g_warning (cairo_status_to_string (status));
+			g_warning ("%s", cairo_status_to_string (status));
 		}
 	}
 

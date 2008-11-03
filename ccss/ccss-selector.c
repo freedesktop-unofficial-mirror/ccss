@@ -19,6 +19,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <glib.h>
 #include "ccss-node.h"
 #include "ccss-selector.h"
 #include "ccss-style.h"

@@ -17,6 +17,7 @@
  * MA 02110-1301, USA.
  */
 
+#include <glib.h>
 #include "ccss-block.h"
 
 ccss_block_t *

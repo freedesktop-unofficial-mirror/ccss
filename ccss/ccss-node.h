@@ -23,10 +23,10 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <glib.h>
 #include <ccss/ccss-features.h>
+#include <ccss/ccss-macros.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 typedef struct ccss_node_ ccss_node_t;
 
@@ -212,7 +212,7 @@ void ccss_node_init (ccss_node_t *self, ccss_node_class_t *node_class);
 
 bool ccss_node_is_a (ccss_node_t const *self, char const *type_name);
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_NODE_H */
 

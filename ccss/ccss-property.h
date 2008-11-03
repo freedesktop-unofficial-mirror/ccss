@@ -20,12 +20,12 @@
 #ifndef CCSS_PROPERTY_H
 #define CCSS_PROPERTY_H
 
-#include <glib.h>
 #include <stdbool.h>
 #include <libcroco/libcroco.h>
 #include <ccss/ccss-features.h>
+#include <ccss/ccss-macros.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 #define CCSS_PROPERTY_BACKGROUND_ATTACHMENT		ccss_property_background_attachment()
 #define CCSS_PROPERTY_BACKGROUND_COLOR			ccss_property_background_color()
@@ -146,7 +146,7 @@ GQuark ccss_property_color (void);
 void ccss_property_spec_dump (ccss_property_spec_t const spec);
 #endif
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_PROPERTY_H */
 

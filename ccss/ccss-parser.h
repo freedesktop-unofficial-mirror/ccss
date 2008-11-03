@@ -23,13 +23,13 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include <glib.h>
 #include <libcroco/libcroco.h>
 #include <ccss/ccss-features.h>
+#include <ccss/ccss-macros.h>
 #include <ccss/ccss-selector-group.h>
 #include <ccss/ccss-stylesheet.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 enum CRStatus
 ccss_parser_parse_file (char const			 *css_file, 
@@ -51,7 +51,7 @@ ccss_parser_parse_inline (char const			 *buffer,
 			  ccss_selector_group_t		 *result_group,
 			  GSList			**block_list);
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_PARSER_H */
 

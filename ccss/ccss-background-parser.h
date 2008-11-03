@@ -21,17 +21,17 @@
 #define CCSS_BACKGROUND_PARSER_H
 
 #include <stdbool.h>
-#include <glib.h>
 #include <libcroco/libcroco.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-block.h>
+#include <ccss/ccss-macros.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 bool ccss_block_parse_background (ccss_block_t *self, char const *property, 
 				  CRTerm const *values);
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_BACKGROUND_PARSER_H */
 

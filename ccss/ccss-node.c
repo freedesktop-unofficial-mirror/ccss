@@ -18,6 +18,7 @@
  */
 
 #include <string.h>
+#include <glib.h>
 #include "ccss-node.h"
 
 static bool

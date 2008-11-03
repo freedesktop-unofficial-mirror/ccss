@@ -23,12 +23,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <cairo.h>
-#include <glib.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-color.h>
+#include <ccss/ccss-features.h>
+#include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 typedef enum {
 	CCSS_BORDER_STYLE_HIDDEN,
@@ -120,7 +120,7 @@ void ccss_border_join_dump	(ccss_border_join_t const *self);
 void ccss_border_stroke_dump	(ccss_border_stroke_t const *self);
 #endif
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_BORDER_H */
 

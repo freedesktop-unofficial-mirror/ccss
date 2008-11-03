@@ -18,6 +18,7 @@
  */
 
 #include <string.h>
+#include <glib.h>
 #include "ccss-border-parser.h"
 #include "ccss-property.h"
 #include "ccss-style-priv.h"

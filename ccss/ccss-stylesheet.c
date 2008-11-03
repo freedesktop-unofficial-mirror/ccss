@@ -18,6 +18,7 @@
  */
 
 #include <string.h>
+#include <glib.h>
 #include "ccss-block.h"
 #include "ccss-node.h"
 #include "ccss-parser.h"
@@ -339,36 +340,29 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 }
 
 /**
- * ccss_stylesheet_iter_init:
- * @self:	a #ccss_stylesheet_iter_t.
- * @stylesheet:	the stylesheet to iterate.
+ * ccss_stylesheet_foreach:
+ * @self:	a #ccss_stylesheet_t.
+ * @func:	a #ccss_stylesheet_iterator_f.
+ * @user_data:	user data to pass to the iterator function.
  *
- * Modifying the underlying stylesheet invalidates the iterator.
+ * The iterator function @func is called for each type in the stylesheet.
  **/
 void
-ccss_stylesheet_iter_init (ccss_stylesheet_iter_t		*self,
-			  ccss_stylesheet_t const	*stylesheet)
+ccss_stylesheet_foreach (ccss_stylesheet_t const	*self,
+			 ccss_stylesheet_iterator_f	 func,
+			 void				*user_data)
 {
-	g_return_if_fail (stylesheet && stylesheet->groups);
+	GHashTableIter 	iter;
+	gpointer	type_name;
+	gpointer	value;
 
-	g_hash_table_iter_init (self, stylesheet->groups);
-}
+	g_return_if_fail (self && func);
 
-/**
- * ccss_stylesheet_iter_next:
- * @self:	a #ccss_stylesheet_iter_t.
- * @type_name:	type the selector group regards, e.g. DIV in HTML.
- * @group:	the #ccss_selector_group_t containing rules for #type_name.
- *
- * Returns: %FALSE when the last element is reached.
- **/
-bool
-ccss_stylesheet_iter_next (ccss_stylesheet_iter_t		 *self,
-			  char const			**type_name,
-			  ccss_selector_group_t const	**group)
-{
-	return g_hash_table_iter_next (self, (gpointer *) type_name,
-				       (gpointer *) group);
+	g_hash_table_iter_init (&iter, self->groups);
+	while (g_hash_table_iter_next (&iter, &type_name, &value)) {
+
+		func (self, (char const *) type_name, user_data);
+	}
 }
 
 #ifdef CCSS_DEBUG

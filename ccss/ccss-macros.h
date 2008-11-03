@@ -17,33 +17,16 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_IMAGE_H
-#define CCSS_IMAGE_H
+#ifndef CCSS_MACROS_H
+#define CCSS_MACROS_H
 
-#include <cairo.h>
-#include <libcroco/libcroco.h>
-#include <ccss/ccss-features.h>
-#include <ccss/ccss-macros.h>
-#include <ccss/ccss-property.h>
-
-CCSS_BEGIN_DECLS
-
-typedef struct {
-	char		*uri;
-	cairo_pattern_t *pattern;
-	double		 width;
-	double		 height;
-} ccss_image_t;
-
-ccss_property_spec_t ccss_image_parse (ccss_image_t *self, CRTerm const **value);
-
-void ccss_image_discard (ccss_image_t *self);
-
-#ifdef CCSS_DEBUG
-void ccss_image_dump (ccss_image_t const *self);
+#ifdef  __cplusplus
+# define CCSS_BEGIN_DECLS  extern "C" {
+# define CCSS_END_DECLS    }
+#else
+# define CCSS_BEGIN_DECLS
+# define CCSS_END_DECLS
 #endif
 
-CCSS_END_DECLS
-
-#endif /* CCSS_IMAGE_H */
+#endif /* CCSS_MACROS_H */
 

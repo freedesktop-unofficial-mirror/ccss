@@ -21,13 +21,13 @@
 #define CCSS_STYLESHEET_H
 
 #include <stdbool.h>
-#include <glib.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-node.h>
+#include <ccss/ccss-macros.h>
 #include <ccss/ccss-selector-group.h>
 #include <ccss/ccss-style.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 /**
  * ccss_stylesheet_precedence_t:
@@ -66,24 +66,27 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 		       ccss_style_t		*style);
 
 /**
- * ccss_stylesheet_iter_t:
+ * ccss_stylesheet_iterator_f:
+ * @self:	a #ccss_stylesheet_t.
+ * @type_name:	node type name selectors are available for, e.g. `div'.
+ * @user_data:	user data passed to #ccss_stylesheet_foreach.
  *
- * Stack-allocatable iterator for walking a stylesheet.
+ * Specifies the type of the function passed to ccss_stylesheet_foreach().
  **/
-typedef GHashTableIter ccss_stylesheet_iter_t;
+typedef void (*ccss_stylesheet_iterator_f) (ccss_stylesheet_t const	*self,
+					    char const			*type_name,
+					    void			*user_data);
 
-void ccss_stylesheet_iter_init (ccss_stylesheet_iter_t *self,
-			       ccss_stylesheet_t const *stylesheet);
-
-bool ccss_stylesheet_iter_next (ccss_stylesheet_iter_t *self,
-			       char const **type_name,
-			       ccss_selector_group_t const **group);
+void
+ccss_stylesheet_foreach (ccss_stylesheet_t const	*self,
+			 ccss_stylesheet_iterator_f	 func,
+			 void				*user_data);
 
 #ifdef CCSS_DEBUG
 void ccss_stylesheet_dump (ccss_stylesheet_t const *self);
 #endif
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_STYLESHEET_H */
 

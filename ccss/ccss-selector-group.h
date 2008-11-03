@@ -21,11 +21,11 @@
 #define CCSS_SELECTOR_GROUP_H
 
 #include <stdbool.h>
-#include <glib.h>
 #include <ccss/ccss-features.h>
+#include <ccss/ccss-macros.h>
 #include <ccss/ccss-style.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 typedef struct ccss_selector_group_ ccss_selector_group_t;
 
@@ -36,7 +36,7 @@ ccss_selector_group_dump (ccss_selector_group_t const *self);
 
 #endif
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_SELECTOR_GROUP_H */
 

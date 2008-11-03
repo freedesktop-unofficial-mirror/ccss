@@ -20,15 +20,15 @@
 #ifndef CCSS_STYLE_PRIV_H
 #define CCSS_STYLE_PRIV_H
 
-#include <glib.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-background.h>
 #include <ccss/ccss-border.h>
 #include <ccss/ccss-color.h>
+#include <ccss/ccss-features.h>
+#include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
 #include <ccss/ccss-style.h>
 
-G_BEGIN_DECLS
+CCSS_BEGIN_DECLS
 
 void ccss_style_init		(void);
 void ccss_style_shutdown	(void);
@@ -53,7 +53,7 @@ ccss_style_gather_background (ccss_style_t const			 *self,
 			      ccss_background_repeat_t const		**bg_repeat,
 			      ccss_background_size_t const		**bg_size);
 
-G_END_DECLS
+CCSS_END_DECLS
 
 #endif /* CCSS_STYLE_PRIV_H */
 
