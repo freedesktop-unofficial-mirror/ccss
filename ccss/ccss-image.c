@@ -20,7 +20,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <glib.h>
-#include "ccss-function.h"
+#include "ccss-function-priv.h"
 #include "ccss-image.h"
 
 #ifdef CCSS_WITH_SOUP

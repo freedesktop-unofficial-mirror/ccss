@@ -19,12 +19,12 @@
 
 #include <string.h>
 #include <glib.h>
-#include "ccss-function.h"
+#include "ccss-function-priv.h"
 
 static ccss_function_t *_vtable = NULL;
 
 void
-ccss_function_set_vtable (ccss_function_t	const *vtable)
+ccss_function_set_vtable (ccss_function_t const *vtable)
 {
 	ccss_function_t const	*iter;
 	unsigned int		 i;

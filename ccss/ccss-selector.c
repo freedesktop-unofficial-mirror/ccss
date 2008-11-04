@@ -22,7 +22,7 @@
 #include <glib.h>
 #include "ccss-node.h"
 #include "ccss-selector.h"
-#include "ccss-style.h"
+#include "ccss-style-priv.h"
 
 typedef enum {
 	CCSS_SELECTOR_MODALITY_UNIVERSAL,	/* Universal selector. */
@@ -792,6 +792,7 @@ ccss_selector_get_importance (ccss_selector_t const *self)
 	return self->importance;
 }
 
+/*
 ccss_stylesheet_precedence_t
 ccss_selector_get_precedence (ccss_selector_t const *self)
 {
@@ -799,6 +800,7 @@ ccss_selector_get_precedence (ccss_selector_t const *self)
 
 	return self->precedence;
 }
+*/
 
 /*
  * Depending on the modality of the selector this may return NULL.

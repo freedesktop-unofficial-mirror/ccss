@@ -35,36 +35,53 @@ CCSS_BEGIN_DECLS
  * <emphasis>Memory management:</emphasis> Style objects are owned by the 
  * stylesheet, and therefore not created or modified by the CCSS consumer.
  **/
-typedef struct {
-	/*< private >*/
-	GHashTable	*properties;
+typedef struct ccss_style_ ccss_style_t;
 
-	int32_t		 viewport_x;
-	int32_t		 viewport_y;
-	int32_t		 viewport_width;
-	int32_t		 viewport_height;
-} ccss_style_t;
+ccss_style_t *
+ccss_style_new	(void);
 
-ccss_style_t *	ccss_style_new	(void);
-void		ccss_style_free (ccss_style_t *self);
+void
+ccss_style_free (ccss_style_t *self);
 
-void ccss_style_draw_line (ccss_style_t const *self, cairo_t *cr, 
-			  int32_t x1, int32_t x2, int32_t y1, int32_t y2);
+void
+ccss_style_draw_line (ccss_style_t const	*self,
+		      cairo_t			*cr, 
+		      int32_t			 x1,
+		      int32_t			 x2,
+		      int32_t			 y1,
+		      int32_t			 y2);
 
-void ccss_style_draw_outline (ccss_style_t const *self, cairo_t *cr, 
-			     int32_t x, int32_t y, int32_t width, int32_t height);
+void
+ccss_style_draw_outline (ccss_style_t const	*self,
+			 cairo_t		*cr, 
+			 int32_t		 x,
+			 int32_t		 y,
+			 int32_t		 width,
+			 int32_t		 height);
 
-void ccss_style_draw_rectangle (ccss_style_t const *self, cairo_t *cr, 
-			       int32_t x, int32_t y, int32_t width, int32_t height);
+void
+ccss_style_draw_rectangle (ccss_style_t const	*self,
+			   cairo_t		*cr, 
+			   int32_t		 x,
+			   int32_t		 y,
+			   int32_t		 width,
+			   int32_t		 height);
 
-bool ccss_style_get_double (ccss_style_t const *self, char const *property_name,
-			    double *value);
+bool
+ccss_style_get_double (ccss_style_t const	*self,
+		       char const		*property_name,
+		       double			*value);
 
-bool ccss_style_get_string (ccss_style_t const *self, char const *property_name,
-			    char **value);
+bool
+ccss_style_get_string (ccss_style_t const	 *self,
+		       char const		 *property_name,
+		       char			**value);
 
 #ifdef CCSS_DEBUG
-void ccss_style_dump (ccss_style_t const *self);
+
+void
+ccss_style_dump (ccss_style_t const *self);
+
 #endif
 
 CCSS_END_DECLS

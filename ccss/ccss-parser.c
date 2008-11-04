@@ -29,7 +29,7 @@
 #include "ccss-parser.h"
 #include "ccss-property.h"
 #include "ccss-selector.h"
-#include "ccss-selector-group-priv.h"
+#include "ccss-selector-group.h"
 
 typedef struct {
 	ptrdiff_t		 instance;

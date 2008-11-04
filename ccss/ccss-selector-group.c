@@ -18,7 +18,7 @@
  */
 
 #include <glib.h>
-#include "ccss-selector-group-priv.h"
+#include "ccss-selector-group.h"
 
 typedef struct {
 	GSList *selectors;

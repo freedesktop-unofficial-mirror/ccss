@@ -28,7 +28,6 @@
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-node.h>
 #include <ccss/ccss-style.h>
-#include <ccss/ccss-stylesheet.h>
 
 CCSS_BEGIN_DECLS
 
@@ -36,7 +35,6 @@ CCSS_BEGIN_DECLS
 #define CCSS_SELECTOR_MAX_PRECEDENCE	((1 << 5) - 1)
 #define CCSS_SELECTOR_MAX_SPECIFICITY	((1 << 5) - 1)
 
-typedef struct ccss_rule_set_ ccss_rule_set_t;
 typedef struct ccss_selector_ ccss_selector_t;
 
 typedef enum {
@@ -105,7 +103,7 @@ void			ccss_selector_set_block	(ccss_selector_t *self, ccss_block_t const *block
 
 char const *			ccss_selector_get_key		(ccss_selector_t const *self);
 ccss_selector_importance_t	ccss_selector_get_importance	(ccss_selector_t const *self);
-ccss_stylesheet_precedence_t	ccss_selector_get_precedence	(ccss_selector_t const *self);
+/*ccss_stylesheet_precedence_t	ccss_selector_get_precedence	(ccss_selector_t const *self);*/
 uint32_t			ccss_selector_get_specificity	(ccss_selector_t const *self);
 void				ccss_selector_get_specificity_values	(ccss_selector_t const *self, 
 									 unsigned int *a,

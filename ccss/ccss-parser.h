@@ -23,6 +23,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <glib.h>
 #include <libcroco/libcroco.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>

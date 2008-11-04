@@ -20,6 +20,7 @@
 #ifndef CCSS_STYLE_PRIV_H
 #define CCSS_STYLE_PRIV_H
 
+#include <glib.h>
 #include <ccss/ccss-background.h>
 #include <ccss/ccss-border.h>
 #include <ccss/ccss-color.h>
@@ -30,8 +31,21 @@
 
 CCSS_BEGIN_DECLS
 
-void ccss_style_init		(void);
-void ccss_style_shutdown	(void);
+struct ccss_style_ {
+	/*< private >*/
+	GHashTable	*properties;
+
+	int32_t		 viewport_x;
+	int32_t		 viewport_y;
+	int32_t		 viewport_width;
+	int32_t		 viewport_height;
+};
+
+void
+ccss_style_init		(void);
+
+void
+ccss_style_shutdown	(void);
 
 void
 ccss_style_gather_outline (ccss_style_t const		 *self,

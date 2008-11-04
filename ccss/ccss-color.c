@@ -25,7 +25,7 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-color.h"
-#include "ccss-function.h"
+#include "ccss-function-priv.h"
 
 static const struct {
 	char const		*name;

@@ -22,7 +22,7 @@
 #include "ccss-block.h"
 #include "ccss-node.h"
 #include "ccss-parser.h"
-#include "ccss-selector-group-priv.h"
+#include "ccss-selector-group.h"
 #include "ccss-selector.h"
 #include "ccss-stylesheet.h"
 

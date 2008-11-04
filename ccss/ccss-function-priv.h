@@ -17,24 +17,20 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_FUNCTION_H
-#define CCSS_FUNCTION_H
+#ifndef CCSS_FUNCTION_PRIV_H
+#define CCSS_FUNCTION_PRIV_H
 
+#include <libcroco/libcroco.h>
+#include <ccss/ccss-function.h>
 #include <ccss/ccss-macros.h>
 
 CCSS_BEGIN_DECLS
 
-/* Let's just forward declare this, so we don't have to pull in <glib.h>. */
-struct _GSList;
+void ccss_function_set_vtable (ccss_function_t const *vtable);
 
-typedef char * (*ccss_function_f) (struct _GSList const *args);
-
-typedef struct {
-	char const	*name;
-	ccss_function_f	 function;
-} ccss_function_t;
+char * ccss_function_invoke (char const *name, CRTerm const *args);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_FUNCTION_H */
+#endif /* CCSS_FUNCTION_PRIV_H */
 

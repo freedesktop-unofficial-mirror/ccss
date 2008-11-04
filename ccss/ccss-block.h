@@ -20,6 +20,7 @@
 #ifndef CCSS_BLOCK_H
 #define CCSS_BLOCK_H
 
+#include <glib.h>
 #include <cairo.h>
 #include <ccss/ccss-color.h>
 #include <ccss/ccss-background.h>

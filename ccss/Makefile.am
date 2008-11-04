@@ -28,7 +28,6 @@ headers_DATA = \
 	ccss.h \
 	ccss-macros.h \
 	ccss-node.h \
-	ccss-selector-group.h \
 	ccss-style.h \
 	ccss-stylesheet.h
 
@@ -52,6 +51,7 @@ libccss_1_la_SOURCES = \
 	ccss-color.c \
 	ccss-color.h \
 	ccss-function.c \
+	ccss-function-priv.h \
 	ccss.c \
 	ccss-image.c \
 	ccss-image.h \
@@ -61,7 +61,7 @@ libccss_1_la_SOURCES = \
 	ccss-position.c \
 	ccss-position.h \
 	ccss-selector-group.c \
-	ccss-selector-group-priv.h \
+	ccss-selector-group.h \
 	ccss-selector.c \
 	ccss-selector.h \
 	ccss-style.c \

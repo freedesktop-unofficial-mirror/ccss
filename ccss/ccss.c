@@ -18,6 +18,7 @@
  */
 
 #include "ccss.h"
+#include "ccss-function-priv.h"
 #include "ccss-property.h"
 #include "ccss-style-priv.h"
 
