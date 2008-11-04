@@ -1,3 +1,27 @@
+<!-- ##### SECTION ./tmpl/selector_group.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/selector_group.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/selector_group.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/selector_group.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/selector_group.sgml:Title ##### -->
+ccss_selector_group_t
+
+
 <!-- ##### USER_FUNCTION ccss_node_get_origin_f ##### -->
 <para>
 
@@ -27,6 +51,23 @@
 @style: 
 @Returns: 
 
+<!-- ##### FUNCTION ccss_selector_group_apply_type ##### -->
+<para>
+
+</para>
+
+@self: 
+@type: 
+@style: 
+@Returns: 
+
+<!-- ##### FUNCTION ccss_selector_group_dump ##### -->
+<para>
+
+</para>
+
+@self: 
+
 <!-- ##### FUNCTION ccss_selector_group_free ##### -->
 <para>
 
@@ -40,6 +81,12 @@
 </para>
 
 @Returns: 
+
+<!-- ##### TYPEDEF ccss_selector_group_t ##### -->
+<para>
+
+</para>
+
 
 <!-- ##### FUNCTION ccss_style_init ##### -->
 <para>

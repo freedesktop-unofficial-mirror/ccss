@@ -27,8 +27,23 @@ CCSS_BEGIN_DECLS
 /* Let's just forward declare this, so we don't have to pull in <glib.h>. */
 struct _GSList;
 
+/**
+ * ccss_function_f:
+ * @args:	argument-list passed to the function.
+ * 
+ * Prototype for a custom `CSS function' handler.
+ *
+ * Returns: the function's result as a string.
+ **/
 typedef char * (*ccss_function_f) (struct _GSList const *args);
 
+/**
+ * ccss_function_t:
+ * @name:	identifier of the function, as used in CSS.
+ * @function:	handler, see #ccss_function_f.
+ *
+ * This datastructure represents one line in the libccss' consumers vtable.
+ **/
 typedef struct {
 	char const	*name;
 	ccss_function_f	 function;

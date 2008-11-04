@@ -52,15 +52,13 @@ ccss_stylesheet_free
 ccss_stylesheet_query_type
 ccss_stylesheet_query
 ccss_stylesheet_dump
-
 </SECTION>
 
 <SECTION>
-<TITLE>ccss_selector_group_t</TITLE>
-<FILE>selector_group</FILE>
-ccss_selector_group_t
-ccss_selector_group_apply_type
-ccss_selector_group_dump
+<TITLE>ccss_function_t</TITLE>
+<FILE>function</FILE>
+ccss_function_f
+ccss_function_t
 </SECTION>
 
 <SECTION>

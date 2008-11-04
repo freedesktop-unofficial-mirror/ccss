@@ -1,5 +1,14 @@
 2008-11-04  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-function.h:
+	* doc/ccss-docs.sgml:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/function.sgml:
+	* doc/tmpl/selector_group.sgml:
+	Update docs.
+
+2008-11-04  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss.sym.in:
 	* doc/ccss-sections.txt:
 	* doc/tmpl/ccss-unused.sgml:
