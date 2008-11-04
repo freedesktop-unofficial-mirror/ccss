@@ -17,6 +17,16 @@ ccss_stylesheet_t
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### USER_FUNCTION ccss_stylesheet_iterator_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@type_name: 
+@user_data: 
+
+
 <!-- ##### TYPEDEF ccss_stylesheet_t ##### -->
 <para>
 
@@ -62,6 +72,16 @@ ccss_stylesheet_t
 @Returns: 
 
 
+<!-- ##### FUNCTION ccss_stylesheet_foreach ##### -->
+<para>
+
+</para>
+
+@self: 
+@func: 
+@user_data: 
+
+
 <!-- ##### FUNCTION ccss_stylesheet_free ##### -->
 <para>
 
@@ -98,31 +118,5 @@ ccss_stylesheet_t
 </para>
 
 @self: 
-
-
-<!-- ##### TYPEDEF ccss_stylesheet_iter_t ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### FUNCTION ccss_stylesheet_iter_init ##### -->
-<para>
-
-</para>
-
-@self: 
-@stylesheet: 
-
-
-<!-- ##### FUNCTION ccss_stylesheet_iter_next ##### -->
-<para>
-
-</para>
-
-@self: 
-@type_name: 
-@group: 
-@Returns: 
 
 

@@ -1,3 +1,78 @@
+2008-11-04  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss.sym.in:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/ccss-unused.sgml:
+	* doc/tmpl/style.sgml:
+	* doc/tmpl/stylesheet.sgml:
+	* examples/example-2.c (main):
+	Cleanup after API change.
+
+2008-11-04  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/Makefile.am:
+	* ccss/ccss-block.h:
+	* ccss/ccss-color.c:
+	* ccss/ccss-function-priv.h:
+	* ccss/ccss-function.c:
+	* ccss/ccss-function.h:
+	* ccss/ccss-image.c:
+	* ccss/ccss-parser.c:
+	* ccss/ccss-parser.h:
+	* ccss/ccss-selector-group-priv.h:
+	* ccss/ccss-selector-group.c:
+	* ccss/ccss-selector-group.h:
+	* ccss/ccss-selector.c:
+	* ccss/ccss-selector.h:
+	* ccss/ccss-style-priv.h:
+	* ccss/ccss-style.h:
+	* ccss/ccss-stylesheet.c:
+	* ccss/ccss.c:
+	Do not expose libcroco dependency in headers, also gets rid of implicit glib header dependency.
+
+2008-11-03  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/Makefile.am:
+	* ccss/ccss-background-parser.c:
+	* ccss/ccss-background-parser.h:
+	* ccss/ccss-background.c (create_pattern), (ccss_background_fill):
+	* ccss/ccss-background.h:
+	* ccss/ccss-block.c:
+	* ccss/ccss-block.h:
+	* ccss/ccss-border-parser.c:
+	* ccss/ccss-border-parser.h:
+	* ccss/ccss-border.c:
+	* ccss/ccss-border.h:
+	* ccss/ccss-color.c:
+	* ccss/ccss-color.h:
+	* ccss/ccss-function.c:
+	* ccss/ccss-function.h:
+	* ccss/ccss-gtk-style.h:
+	* ccss/ccss-image.c (load_svg), (load_png), (load_image),
+	(ccss_image_dump):
+	* ccss/ccss-image.h:
+	* ccss/ccss-macros.h:
+	* ccss/ccss-node.c:
+	* ccss/ccss-node.h:
+	* ccss/ccss-parser.c:
+	* ccss/ccss-parser.h:
+	* ccss/ccss-position.c:
+	* ccss/ccss-position.h:
+	* ccss/ccss-property.c:
+	* ccss/ccss-property.h:
+	* ccss/ccss-selector-group-priv.h:
+	* ccss/ccss-selector-group.c:
+	* ccss/ccss-selector-group.h:
+	* ccss/ccss-selector.c:
+	* ccss/ccss-selector.h:
+	* ccss/ccss-style-priv.h:
+	* ccss/ccss-style.c:
+	* ccss/ccss-style.h:
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_foreach):
+	* ccss/ccss-stylesheet.h:
+	* ccss/ccss.h:
+	Do not expose glib dependency in any headers.
+
 2008-10-31  Robert Staudinger  <robsta@gnome.org>
 
 	* TODO: remember inline styling memory management facts.

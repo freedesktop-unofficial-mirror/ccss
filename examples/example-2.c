@@ -89,7 +89,9 @@ main (int	  argc,
 				       style);
 	g_assert (ret);
 
+#ifdef CCSS_DEBUG
 	ccss_style_dump (style);
+#endif
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size (GTK_WINDOW (window), 160, 90);

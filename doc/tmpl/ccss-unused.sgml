@@ -48,6 +48,30 @@
 
 @self: 
 
+<!-- ##### FUNCTION ccss_stylesheet_iter_init ##### -->
+<para>
+
+</para>
+
+@self: 
+@stylesheet: 
+
+<!-- ##### FUNCTION ccss_stylesheet_iter_next ##### -->
+<para>
+
+</para>
+
+@self: 
+@type_name: 
+@group: 
+@Returns: 
+
+<!-- ##### TYPEDEF ccss_stylesheet_iter_t ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### FUNCTION ccss_stylesheet_query_apply ##### -->
 <para>
 
