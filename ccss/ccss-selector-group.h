@@ -53,11 +53,7 @@ ccss_selector_group_add_selector	(ccss_selector_group_t		*self,
 					 ccss_selector_t		*selector);
 
 void
-ccss_selector_group_merge		(ccss_selector_group_t		*self,
-					 ccss_selector_group_t const	*group);
-
-void
-ccss_selector_group_merge_base		(ccss_selector_group_t		*self,
+ccss_selector_group_merge_as_base	(ccss_selector_group_t		*self,
 					 ccss_selector_group_t const	*group);
 
 GSList const *

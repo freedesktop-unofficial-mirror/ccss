@@ -82,7 +82,8 @@ fix_dangling_selectors (ccss_stylesheet_t *self)
 			dangling_key = ccss_selector_get_key (selector);
 			fixup_group = g_hash_table_lookup (self->groups, dangling_key);
 			if (fixup_group) {
-				ccss_selector_group_merge_base (group, fixup_group);
+				ccss_selector_group_merge_as_base (group,
+								   fixup_group);
 			}
 			item = item->next;
 		}
@@ -330,6 +331,9 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 			ret &= (status == CR_OK);
 		}
 	}
+
+	/* Inherit. */
+	// TODO
 
 	/* Apply collected style. */
 	ret &= ccss_selector_group_apply (result_group, node, style);

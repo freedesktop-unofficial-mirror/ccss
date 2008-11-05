@@ -1,3 +1,13 @@
+2008-11-05  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-selector-group.c (traverse_merge),
+	(ccss_selector_group_merge_as_base):
+	* ccss/ccss-selector-group.h:
+	* ccss/ccss-stylesheet.c (fix_dangling_selectors),
+	(ccss_stylesheet_query):
+	* doc/tmpl/function.sgml:
+	Remove unused code.
+
 2008-11-04  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/ccss-function.h:

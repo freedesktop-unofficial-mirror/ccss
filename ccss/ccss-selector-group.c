@@ -146,7 +146,6 @@ calculate_min_specificity_e (ccss_selector_group_t	*group,
 
 typedef struct {
 	ccss_selector_group_t	*self;
-	bool			 as_base;
 	unsigned int		 specificity_e;
 } traverse_merge_info_t;
 
@@ -162,11 +161,7 @@ traverse_merge (size_t			 	 specificity,
 
 	for (GSList const *iter = set->selectors; iter != NULL; iter = iter->next) {
 		selector = (ccss_selector_t const *) iter->data;
-		if (info->as_base) {
-			new_selector = ccss_selector_copy_as_base (selector, info->specificity_e);
-		} else {
-			new_selector = ccss_selector_copy (selector);
-		}
+		new_selector = ccss_selector_copy_as_base (selector, info->specificity_e);
 		ccss_selector_group_add_selector (info->self, new_selector);
 	}
 
@@ -176,29 +171,14 @@ traverse_merge (size_t			 	 specificity,
 }
 
 void
-ccss_selector_group_merge (ccss_selector_group_t		*self,
-			  ccss_selector_group_t const	*group)
+ccss_selector_group_merge_as_base (ccss_selector_group_t	*self,
+				   ccss_selector_group_t const	*group)
 {
 	traverse_merge_info_t info;
 
 	g_assert (self && group);
 
 	info.self = self;
-	info.as_base = false;
-	info.specificity_e = 0;
-	g_tree_foreach (group->sets, (GTraverseFunc) traverse_merge, &info);
-}
-
-void
-ccss_selector_group_merge_base (ccss_selector_group_t		*self,
-			       ccss_selector_group_t const	*group)
-{
-	traverse_merge_info_t info;
-
-	g_assert (self && group);
-
-	info.self = self;
-	info.as_base = true;
 	info.specificity_e = calculate_min_specificity_e (self, 
 				self->n_selectors);
 
