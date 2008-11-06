@@ -180,12 +180,6 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 					  bg_color->green, 
 					  bg_color->blue);
 		cairo_fill_preserve (cr);
-	} else {
-		g_warning ("Invalid `background-color'");
-#ifdef CCSS_DEBUG
-		ccss_color_dump (bg_color);
-		printf ("\n\n");
-#endif
 	}
 
 	if (bg_image && bg_image->spec == CCSS_PROPERTY_SPEC_SET) {
@@ -268,12 +262,6 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 		if (status != CAIRO_STATUS_SUCCESS) {
 			g_warning ("%s", cairo_status_to_string (status));
 		}
-	} else {
-		g_warning ("Invalid `background-image'");
-#ifdef CCSS_DEBUG
-// TODO		dump
-//		printf ("\n\n");
-#endif
 	}
 
 	cairo_restore (cr);
