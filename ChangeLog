@@ -1,5 +1,11 @@
 2008-11-06  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-background.c (create_pattern), (repeat), (repeat_x),
+	(repeat_y), (ccss_background_fill):
+	More defensive coding.
+
+2008-11-06  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-background-parser.c (bg_position_parse):
 	* ccss/ccss-background.c (ccss_background_fill):
 	* ccss/ccss-parser.c (property_cb):

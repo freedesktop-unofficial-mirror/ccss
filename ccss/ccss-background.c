@@ -34,6 +34,8 @@ create_pattern (ccss_background_image_t const	*bg_image,
 	cairo_status_t	 status;
 	cairo_pattern_t *pattern;
 
+	g_return_val_if_fail (bg_image && bg_image->image.pattern, NULL);
+
 	/* Setup. */
 	surface = NULL;
 	status = cairo_pattern_get_surface (bg_image->image.pattern, &surface);
@@ -75,6 +77,7 @@ repeat (ccss_background_image_t const	*bg_image,
 	pattern = create_pattern (bg_image,
 				  width + tile_width, height + tile_height,
 				  tile_width, tile_height);
+	g_return_if_fail (pattern);
 
 	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_NONE);
 	cairo_set_source (cr, pattern);
@@ -97,6 +100,7 @@ repeat_x (ccss_background_image_t const	*bg_image,
 	pattern = create_pattern (bg_image,
 				  width + tile_width, tile_height,
 				  tile_width, tile_height);
+	g_return_if_fail (pattern);
 
 	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_NONE);
 	cairo_set_source (cr, pattern);
@@ -119,6 +123,7 @@ repeat_y (ccss_background_image_t const	*bg_image,
 	pattern = create_pattern (bg_image,
 				  tile_width, height + tile_height,
 				  tile_width, tile_height);
+	g_return_if_fail (pattern);
 
 	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_NONE);
 	cairo_set_source (cr, pattern);
@@ -169,15 +174,21 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 
 	cairo_save (cr);
 
-	if (bg_color) {
+	if (bg_color && bg_color->spec == CCSS_PROPERTY_SPEC_SET) {
 
 		cairo_set_source_rgb (cr, bg_color->red, 
 					  bg_color->green, 
 					  bg_color->blue);
 		cairo_fill_preserve (cr);
+	} else {
+		g_warning ("Invalid `background-color'");
+#ifdef CCSS_DEBUG
+		ccss_color_dump (bg_color);
+		printf ("\n\n");
+#endif
 	}
 
-	if (bg_image) {
+	if (bg_image && bg_image->spec == CCSS_PROPERTY_SPEC_SET) {
 
 		double tile_width;
 		double tile_height;
@@ -257,6 +268,12 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 		if (status != CAIRO_STATUS_SUCCESS) {
 			g_warning ("%s", cairo_status_to_string (status));
 		}
+	} else {
+		g_warning ("Invalid `background-image'");
+#ifdef CCSS_DEBUG
+// TODO		dump
+//		printf ("\n\n");
+#endif
 	}
 
 	cairo_restore (cr);
