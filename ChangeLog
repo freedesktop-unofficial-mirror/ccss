@@ -1,5 +1,15 @@
 2008-11-06  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-background-parser.c (bg_position_parse):
+	* ccss/ccss-background.c (ccss_background_fill):
+	* ccss/ccss-parser.c (property_cb):
+	* ccss/ccss-property.c (ccss_property_parse_spec):
+	* ccss/ccss-property.h:
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_query):
+	Review FIXME tags related to property inheritance.
+
+2008-11-06  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-stylesheet.c (query_type_r), (query_shallow),
 	(inherit_container_style), (query_container_r),
 	(ccss_stylesheet_query):

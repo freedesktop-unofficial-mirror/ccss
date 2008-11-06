@@ -116,20 +116,12 @@ ccss_property_parse_spec (CRTerm const **value)
 			*value = (*value)->next;
 			return CCSS_PROPERTY_SPEC_NONE;
 		} else if (0 == strcmp ("inherit", str)) {
-			g_warning ("Property `inherit' not supported yet.");
 			*value = (*value)->next;
 			return CCSS_PROPERTY_SPEC_INHERIT;
 		}
 	}
 
 	return CCSS_PROPERTY_SPEC_SET;
-}
-
-bool
-ccss_property_is_set (ccss_property_spec_t property)
-{
-	return CCSS_PROPERTY_SPEC_SET == property || 
-	       CCSS_PROPERTY_SPEC_INHERIT == property;
 }
 
 GQuark

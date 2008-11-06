@@ -460,14 +460,13 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 				    (GEqualFunc) g_direct_equal);
 
 	g_hash_table_iter_init (&iter, style->properties);
-	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id,
-				       (gpointer *) &property)) {
+	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property)) {
 
 		property_spec = * (ccss_property_spec_t *) property;
 		if (CCSS_PROPERTY_SPEC_INHERIT == property_spec) {
 			g_hash_table_insert (inherit,
-					     (gpointer) property_spec,
-					     (gpointer) property_spec);
+					     (gpointer) property_id,
+					     (gpointer) property_id);
 		}
 	}
 
@@ -478,6 +477,12 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 		ret &= query_container_r (self, node, inherit, style);
 	}
 
+	/* Prune unresolved inherited properties from the style. */
+	g_hash_table_iter_init (&iter, inherit);
+	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property)) {
+
+		g_hash_table_remove (style->properties, (gpointer) property_id);
+	}
 	g_hash_table_destroy (inherit), inherit = NULL;
 
 	return ret;

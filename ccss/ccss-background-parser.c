@@ -95,10 +95,8 @@ bg_position_parse (ccss_background_position_t	 *self,
 
 	spec = ccss_property_parse_spec (values);
 	if (CCSS_PROPERTY_SPEC_INHERIT == spec) {
-		/* Not implemented yet. */
-		g_assert_not_reached ();
-		self->spec = CCSS_PROPERTY_SPEC_UNSET;
-		return false;
+		self->spec = CCSS_PROPERTY_SPEC_INHERIT;
+		return true;
 	}
 
 	flags = CCSS_POSITION_MASK_NUMERIC | CCSS_POSITION_MASK_HORIZONTAL;

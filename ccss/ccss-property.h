@@ -104,8 +104,6 @@ bool ccss_property_convert (void const *property, GQuark property_id,
 
 ccss_property_spec_t ccss_property_parse_spec (CRTerm const **value);
 
-bool ccss_property_is_set (ccss_property_spec_t property);
-
 GQuark ccss_property_background_attachment (void);
 GQuark ccss_property_background_color (void);
 GQuark ccss_property_background_image (void);

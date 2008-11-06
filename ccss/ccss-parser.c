@@ -342,9 +342,7 @@ property_cb (CRDocHandler	*handler,
 			if (0 == g_strcmp0 ("none", s)) {
 				p.spec = CCSS_PROPERTY_SPEC_NONE;
 			} else if (0 == g_strcmp0 ("inherit", s)) {
-				/* FIXME */
-				g_warning ("CSS `inherit' not supported yet");
-				return;
+				p.spec = CCSS_PROPERTY_SPEC_INHERIT;
 			} else {
 				p.spec = CCSS_PROPERTY_SPEC_SET;
 				p.type = CCSS_PROPERTY_TYPE_STRING;
