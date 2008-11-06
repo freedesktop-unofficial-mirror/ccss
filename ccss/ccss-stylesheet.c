@@ -24,6 +24,7 @@
 #include "ccss-parser.h"
 #include "ccss-selector-group.h"
 #include "ccss-selector.h"
+#include "ccss-style-priv.h"
 #include "ccss-stylesheet.h"
 
 /**
@@ -234,7 +235,7 @@ ccss_stylesheet_query_type (ccss_stylesheet_t const	*self,
  * `iter' is used for the recursion.
  */
 static bool
-collect_type_r (ccss_stylesheet_t const	*self,
+query_type_r (ccss_stylesheet_t const	*self,
 	      ccss_node_t const		*node, 
 	      ccss_node_t const		*iter,
 	      bool			 as_base,
@@ -266,7 +267,7 @@ collect_type_r (ccss_stylesheet_t const	*self,
 		/* Try to match base types. */
 		base = node_class->get_base_style (iter);
 		if (base) {
-			ret |= collect_type_r (self, node, base, true, result_group);
+			ret |= query_type_r (self, node, base, true, result_group);
 			node_class->release (base);
 		}
 	} else {
@@ -276,20 +277,13 @@ collect_type_r (ccss_stylesheet_t const	*self,
 	return ret;
 }
 
-/**
- * ccss_stylesheet_query:
- * @self:	a #ccss_stylesheet_t.
- * @node:	a #ccss_node_t implementation that is used by libccss to retrieve information about the underlying document.
- * @style:	a #ccss_style_t that the results of the query are applied to.
- *
- * Query the stylesheet for styling information regarding a document node and apply the results to a #ccss_style_t object.
- *
- * Returns: %TRUE if styling information has been found.
- **/
-bool
-ccss_stylesheet_query (ccss_stylesheet_t const	*self,
-		       ccss_node_t const	*node, 
-		       ccss_style_t		*style)
+/*
+ * Do not recurse containers.
+ */
+static bool
+query_shallow (ccss_stylesheet_t const	*self,
+	       ccss_node_t const	*node, 
+	       ccss_style_t		*style)
 {
 	ccss_node_class_t const		*node_class;
 	ccss_selector_group_t const	*universal_group;
@@ -312,7 +306,7 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 	}			
 
 	/* Match style by type information. */
-	ret |= collect_type_r (self, node, node, false, result_group);
+	ret |= query_type_r (self, node, node, false, result_group);
 
 	/* Handle inline styling. */
 	node_class = node->node_class;
@@ -332,13 +326,159 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 		}
 	}
 
-	/* Inherit. */
-	// TODO
-
 	/* Apply collected style. */
 	ret &= ccss_selector_group_apply (result_group, node, style);
 
 	ccss_selector_group_free (result_group), result_group = NULL;
+
+	return ret;
+}
+
+static void
+inherit_container_style (ccss_style_t const	*container_style,
+			 GHashTable		*inherit,
+			 ccss_style_t		*style)
+{
+	GHashTableIter		 iter;
+	GQuark			 property_id;
+	void const		*property;
+	ccss_property_spec_t	 property_spec;
+	GSList			*removals;
+
+	/* Check which properties from the `inherit' set can be resolved. */
+	removals = NULL;
+	g_hash_table_iter_init (&iter, inherit);
+	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, NULL)) {
+
+		/* Look up property in the container's style. */
+		property = g_hash_table_lookup (container_style->properties,
+						(gpointer) property_id);
+		if (property) {
+			property_spec = * (ccss_property_spec_t *) property;
+			if (CCSS_PROPERTY_SPEC_NONE == property_spec ||
+			    CCSS_PROPERTY_SPEC_SET == property_spec ) {
+
+				g_hash_table_insert (style->properties,
+						     (gpointer) property_id,
+						     (gpointer) property);
+
+				/* Remember inherited properties, we can't
+				 * modify the hash while iterating. */
+				removals = g_slist_prepend (removals,
+							    (gpointer) property_id);
+			}
+		}
+		
+	}
+
+	while (removals) {
+		property_id = (GQuark) removals->data;
+		removals = g_slist_remove (removals, (gpointer) property_id);
+		g_hash_table_remove (inherit, (gpointer) property_id);
+	}
+}
+
+/**
+ * query_container_r:
+ * @self:	a #ccss_style_t.
+ * @node:	the document's node instance this style is associated to.
+ * @inherit:	a #GHashTable of properties to inherit.
+ * @style:	a #ccss_style_t that the results of the query are applied to.
+ *
+ * Inherit style properties from the container if specified in the CSS.
+ *
+ * Returns: %TRUE if looking up inherited styles from the container was 
+ * successful or if no inheritance is required.
+ **/
+static bool
+query_container_r (ccss_stylesheet_t const	*self,
+		   ccss_node_t const		*node,
+		   GHashTable			*inherit,
+		   ccss_style_t			*style)
+{
+	ccss_node_class_t const	*node_class;
+	ccss_node_t		*container;
+	ccss_style_t		*container_style;
+	bool			 have_styling;
+	bool			 ret;
+
+	g_return_val_if_fail (style && node, false);
+
+	/* Actually inherit. */
+	node_class = node->node_class;
+	container = node_class->get_container (node);
+	if (!container)
+		return false;
+
+	container_style = ccss_style_new ();
+	have_styling = query_shallow (self, container, container_style);
+	if (have_styling) {
+		inherit_container_style (container_style, inherit, style);
+	}
+	ccss_style_free (container_style), container_style = NULL;
+
+	if (0 == g_hash_table_size (inherit)) {
+		/* Nothing more to inherit, good! */
+		ret = true;
+	} else {
+		/* Recurse. */
+		ret = query_container_r (self, container, inherit, style);
+	}
+
+	node_class->release (container), container = NULL;
+
+	return ret;
+}
+
+/**
+ * ccss_stylesheet_query:
+ * @self:	a #ccss_stylesheet_t.
+ * @node:	a #ccss_node_t implementation that is used by libccss to retrieve information about the underlying document.
+ * @style:	a #ccss_style_t that the results of the query are applied to.
+ *
+ * Query the stylesheet for styling information regarding a document node and apply the results to a #ccss_style_t object.
+ *
+ * Returns: %TRUE if styling information has been found.
+ **/
+bool
+ccss_stylesheet_query (ccss_stylesheet_t const	*self,
+		       ccss_node_t const	*node, 
+		       ccss_style_t		*style)
+{
+	GHashTable		*inherit;
+	GHashTableIter		 iter;
+	GQuark			 property_id;
+	void const		*property;
+	ccss_property_spec_t	 property_spec;
+	bool			 ret;
+
+	/* Apply this node's styling. */
+	ret = query_shallow (self, node, style);
+
+	/* Handle inherited styling. */
+	inherit = g_hash_table_new ((GHashFunc) g_direct_hash, 
+				    (GEqualFunc) g_direct_equal);
+
+	g_hash_table_iter_init (&iter, style->properties);
+	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id,
+				       (gpointer *) &property)) {
+
+		property_spec = * (ccss_property_spec_t *) property;
+		if (CCSS_PROPERTY_SPEC_INHERIT == property_spec) {
+			g_hash_table_insert (inherit,
+					     (gpointer) property_spec,
+					     (gpointer) property_spec);
+		}
+	}
+
+	if (0 == g_hash_table_size (inherit)) {
+		/* Nothing to inherit, good! */
+		ret &= true;
+	} else {
+		ret &= query_container_r (self, node, inherit, style);
+	}
+
+	g_hash_table_destroy (inherit), inherit = NULL;
 
 	return ret;
 }

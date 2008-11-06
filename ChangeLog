@@ -1,3 +1,10 @@
+2008-11-06  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-stylesheet.c (query_type_r), (query_shallow),
+	(inherit_container_style), (query_container_r),
+	(ccss_stylesheet_query):
+	Basic support for inheriting style from the container.
+
 2008-11-05  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/ccss-selector-group.c (traverse_merge),
