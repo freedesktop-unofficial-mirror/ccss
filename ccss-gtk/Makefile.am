@@ -17,7 +17,7 @@ libccss_gtk_1_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO)
 
 if CCSS_DEBUG
 else
-libccss_gtk_1_la_LDFLAGS += -export-symbols $(srcdir)/ccss-gtk.sym
+libccss_gtk_1_la_LDFLAGS += -export-symbols ./ccss-gtk.sym
 endif
 
 headersdir = $(includedir)/libccss-1/ccss-gtk
@@ -30,6 +30,12 @@ libccss_gtk_1_la_SOURCES = \
 	$(headers_DATA) \
 	ccss-gtk-style.c
 
-EXTRA_DIST = \
+CLEANFILES = \
 	ccss-gtk.sym
+
+EXTRA_DIST = \
+	ccss-gtk.sym.in
+
+ccss-gtk.sym: $(top_srcdir)/ccss/ccss.sym ccss-gtk.sym.in
+	cat $^ > $@
 

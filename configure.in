@@ -295,6 +295,7 @@ AC_SUBST([CCSS_GTK_CFLAGS])
 AC_CONFIG_FILES([
   Makefile
   libccss-1.pc
+  libccss-gtk-1.pc
   cccss/Makefile
   ccss/Makefile
   ccss-gtk/Makefile

@@ -31,10 +31,6 @@ CCSS_BEGIN_DECLS
 #include <ccss/ccss-style.h>
 #include <ccss/ccss-stylesheet.h>
 
-#ifdef CCSS_WITH_GTK
-#include <ccss/ccss-gtk-style.h>
-#endif /* CCSS_WITH_GTK */
-
 void 		ccss_init	(ccss_function_t const *vtable);
 void 		ccss_shutdown	(void);
 

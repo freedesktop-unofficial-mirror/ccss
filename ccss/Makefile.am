@@ -79,5 +79,5 @@ libccssproperty_la_SOURCES = \
 
 EXTRA_DIST = \
 	ccss-features.h.in \
-	ccss.sym.in
+	ccss.sym
 

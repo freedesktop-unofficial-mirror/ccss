@@ -1,5 +1,33 @@
 2008-11-07  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-gtk/Makefile.am:
+	* ccss-gtk/ccss-gtk.sym:
+	* ccss-gtk/ccss-gtk.sym.in:
+	Also export the base libraries' symbols.
+
+2008-11-07  Robert Staudinger  <robsta@gnome.org>
+
+	* Makefile.am:
+	* cccss/Makefile.am:
+	* ccss-gtk/Makefile.am:
+	* ccss-gtk/ccss-gtk-style.c (ccss_style_draw_gap),
+	(ccss_style_draw_polygon):
+	* ccss-gtk/ccss-gtk-style.h:
+	* ccss-gtk/ccss-gtk.h:
+	* ccss-gtk/ccss-gtk.sym:
+	* ccss/Makefile.am:
+	* ccss/ccss-gtk-style.c:
+	* ccss/ccss-gtk-style.h:
+	* ccss/ccss-gtk.sym.in:
+	* ccss/ccss.sym:
+	* ccss/ccss.sym.in:
+	* configure.in:
+	* examples/Makefile.am:
+	* libccss-gtk-1.pc.in:
+	Library split-up, step 2: split out gtk dependent code into separate library.
+
+2008-11-07  Robert Staudinger  <robsta@gnome.org>
+
 	* configure.in: library split-up, step 1.
 
 2008-11-06  Robert Staudinger  <robsta@gnome.org>

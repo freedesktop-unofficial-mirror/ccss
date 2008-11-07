@@ -17,31 +17,3 @@ ccss_style_t Gtk+ Support
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### FUNCTION ccss_style_draw_gap ##### -->
-<para>
-
-</para>
-
-@self: 
-@cr: 
-@x: 
-@y: 
-@width: 
-@height: 
-@gap_side: 
-@gap_x: 
-@gap_width: 
-
-
-<!-- ##### FUNCTION ccss_style_draw_polygon ##### -->
-<para>
-
-</para>
-
-@self: 
-@cr: 
-@points: 
-@n_points: 
-@fill: 
-
-
