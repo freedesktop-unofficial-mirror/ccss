@@ -20,16 +20,14 @@
 #ifndef CCSS_H
 #define CCSS_H
 
-#include <ccss/ccss-macros.h>
-
-CCSS_BEGIN_DECLS
-
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-function.h>
-#include <ccss/ccss-function.h>
+#include <ccss/ccss-macros.h>
 #include <ccss/ccss-node.h>
 #include <ccss/ccss-style.h>
 #include <ccss/ccss-stylesheet.h>
+
+CCSS_BEGIN_DECLS
 
 void 		ccss_init	(ccss_function_t const *vtable);
 void 		ccss_shutdown	(void);

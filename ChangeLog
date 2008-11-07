@@ -1,5 +1,9 @@
 2008-11-07  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss.h: small cleanup.
+
+2008-11-07  Robert Staudinger  <robsta@gnome.org>
+
 	* Makefile.am:
 	* TODO:
 	* ccss-clutter/Makefile.am:
