@@ -94,9 +94,10 @@ AM_CONDITIONAL(GTK_DOC_INSTALLED, $gtk_doc_installed)
 
 ### Checks for libraries. ######################################################
 
+### ccss ###
 
-pkgs='libcroco-0.6'
-
+ccss_reqs='glib-2.0 libcroco-0.6'
+ccss_pkgs=
 
 # See http://bugzilla.gnome.org/show_bug.cgi?id=553937 .
 PKG_CHECK_EXISTS([ libcroco-0.6 >= 0.6.2 ],
@@ -109,13 +110,26 @@ if test "$enable_libcroco_workaround" = "yes"; then
   AC_DEFINE([CCSS_ENABLE_LIBCROCO_WORKAROUND], [1], [Work around libcroco issue #553937])
 fi
 
+# Unconditional requirement.
+ccss_pkgs=${ccss_reqs}
+
+PKG_CHECK_MODULES(CCSS, $ccss_pkgs)
+
+# AC_SUBST([CCSS_CFLAGS]) # set further down
+AC_SUBST([CCSS_LIBS])
+AC_SUBST([CCSS_DEPS], $ccss_pkgs)
+
+
+### ccss-cairo ###
 
 # Guessing a version.
-cairo_req='cairo >= 1.4'
-PKG_CHECK_EXISTS([ $cairo_req ],
+ccss_cairo_reqs='cairo >= 1.4'
+ccss_cairo_pkgs=
+
+PKG_CHECK_EXISTS([ $ccss_cairo_reqs ],
 [
   with_cairo="yes"
-  pkgs="$pkgs $cairo_req"
+  ccss_cairo_pkgs="$ccss_cairo_pkgs $ccss_cairo_reqs"
 ],[
   with_cairo="no"
 ])
@@ -128,11 +142,11 @@ AC_SUBST([ccss_with_cairo], [$with_cairo])
 
 
 # Guessing a version.
-rsvg_req='librsvg-2.0 >= 2.16'
-PKG_CHECK_EXISTS([ $rsvg_req ],
+rsvg_reqs='librsvg-2.0 >= 2.16'
+PKG_CHECK_EXISTS([ $rsvg_reqs ],
 [
   with_rsvg="yes"
-  pkgs="$pkgs $rsvg_req"
+  ccss_cairo_pkgs="$ccss_cairo_pkgs $rsvg_reqs"
 ],[
   with_rsvg="no"
 ])
@@ -144,28 +158,11 @@ AM_CONDITIONAL([CCSS_WITH_RSVG], [test "$with_rsvg" = "yes"])
 AC_SUBST([ccss_with_rsvg], [$with_rsvg])
 
 
-# Gtk+ 2.10 was the first with color scheme support, so we want it.
-gtk_req='gtk+-2.0 >= 2.10.0'
-PKG_CHECK_EXISTS([ $gtk_req ],
-[
-  with_gtk="yes"
-  pkgs="$pkgs $gtk_req"
-],[
-  with_gtk="no"
-])
-
-if test "$with_gtk" = "yes"; then
-  AC_DEFINE([CCSS_WITH_GTK], [1], [SVG support through libgtk])
-fi
-AM_CONDITIONAL([CCSS_WITH_GTK], [test "$with_gtk" = "yes"])
-AC_SUBST([ccss_with_gtk], [$with_gtk])
-
-
-soup_req='libsoup-2.4'
-PKG_CHECK_EXISTS([ $soup_req ],
+soup_reqs='libsoup-2.4'
+PKG_CHECK_EXISTS([ $soup_reqs ],
 [
   with_soup="yes"
-  pkgs="$pkgs $soup_req"
+  ccss_cairo_pkgs="$ccss_cairo_pkgs $soup_reqs"
 ],[
   with_soup="no"
 ])
@@ -176,11 +173,24 @@ fi
 AM_CONDITIONAL([CCSS_WITH_SOUP], [test "$with_soup" = "yes"])
 
 
-clutter_req='clutter-cairo-0.8'
-PKG_CHECK_EXISTS([ $clutter_req ],
+if test "$with_cairo" = "yes"; then
+  ccss_cairo_pkgs="$ccss_pkgs $ccss_cairo_pkgs"
+  PKG_CHECK_MODULES(CCSS_CAIRO, $ccss_cairo_pkgs)
+fi
+# AC_SUBST([CCSS_CAIRO_CFLAGS]) # set further down
+AC_SUBST([CCSS_CAIRO_LIBS])
+AC_SUBST([CCSS_CAIRO_DEPS], $ccss_cairo_pkgs)
+
+
+### ccss-clutter ###
+
+ccss_clutter_reqs='clutter-cairo-0.8'
+ccss_clutter_pkgs=
+
+PKG_CHECK_EXISTS([ $ccss_clutter_reqs ],
 [
   with_clutter="yes"
-  pkgs="$pkgs $clutter_req"
+  ccss_clutter_pkgs="$ccss_clutter_pkgs $ccss_clutter_reqs"
 ],[
   with_clutter="no"
 ])
@@ -191,18 +201,42 @@ fi
 AM_CONDITIONAL([CCSS_WITH_CLUTTER], [test "$with_clutter" = "yes"])
 AC_SUBST([ccss_with_clutter], [$with_clutter])
 
+if test "$with_clutter" = "yes"; then
+  ccss_clutter_pkgs="$ccss_cairo_pkgs $ccss_clutter_pkgs"
+  PKG_CHECK_MODULES(CCSS_CLUTTER, $ccss_clutter_pkgs)
+fi
+# AC_SUBST([CCSS_CLUTTER_CFLAGS]) # set further down
+AC_SUBST([CCSS_CLUTTER_LIBS])
+AC_SUBST([CCSS_CLUTTER_DEPS], $ccss_clutter_pkgs)
 
-PKG_CHECK_MODULES(CCSS, $pkgs)
 
-# AC_SUBST([CCSS_CFLAGS]) # set further down
-AC_SUBST([CCSS_LIBS])
-AC_SUBST([CCSS_DEPS], $pkgs)
+### ccss-gtk ###
 
-AC_DEFINE([CCSS_WITH_GTK], [1], [Support for drawing Gtk+ primitives like `box-gap'])
-AM_CONDITIONAL([CCSS_WITH_GTK], [test "yes" = "yes"])
+# Gtk+ 2.10 was the first with color scheme support, so we want it.
+ccss_gtk_reqs='gtk+-2.0 >= 2.10.0'
+ccss_gtk_pkgs=
 
-GTK_VERSION=`$PKG_CONFIG --variable=gtk_binary_version gtk+-2.0`
-AC_SUBST(GTK_VERSION)
+PKG_CHECK_EXISTS([ $ccss_gtk_reqs ],
+[
+  with_gtk="yes"
+  ccss_gtk_pkgs="$ccss_gtk_pkgs $ccss_gtk_reqs"
+],[
+  with_gtk="no"
+])
+
+if test "$with_gtk" = "yes"; then
+  AC_DEFINE([CCSS_WITH_GTK], [1], [Support for drawing Gtk+ primitives like `box-gap'])
+fi
+AM_CONDITIONAL([CCSS_WITH_GTK], [test "$with_gtk" = "yes"])
+AC_SUBST([ccss_with_gtk], [$with_gtk])
+
+if test "$with_gtk" = "yes"; then
+  ccss_gtk_pkgs="$ccss_cairo_pkgs $ccss_gtk_pkgs"
+  PKG_CHECK_MODULES(CCSS_GTK, $ccss_gtk_pkgs)
+fi
+# AC_SUBST([CCSS_GTK_CFLAGS]) # set further down
+AC_SUBST([CCSS_GTK_LIBS])
+AC_SUBST([CCSS_GTK_DEPS], $ccss_gtk_pkgs)
 
 
 ### Checks for header files. ###################################################
@@ -247,6 +281,15 @@ AC_SUBST([CCSS_CFLAGS])
 CCSS_COMPAT_CFLAGS=$(echo ${CCSS_CFLAGS} | sed 's,-pedantic,,g')
 AC_SUBST([CCSS_COMPAT_CFLAGS])
 
+CCSS_CAIRO_CFLAGS="${CCSS_CAIRO_CFLAGS} ${extra_cflags}"
+AC_SUBST([CCSS_CAIRO_CFLAGS])
+
+CCSS_CLUTTER_CFLAGS="${CCSS_CLUTTER_CFLAGS} ${extra_cflags}"
+AC_SUBST([CCSS_CLUTTER_CFLAGS])
+
+CCSS_GTK_CFLAGS="${CCSS_GTK_CFLAGS} ${extra_cflags}"
+AC_SUBST([CCSS_GTK_CFLAGS])
+
 AC_CONFIG_FILES([
   Makefile
   libccss-1.pc
@@ -262,14 +305,18 @@ echo "
 Configuration
 -------------
 
-Libccss:
-    CFLAGS                       ${CCSS_CFLAGS}
+Configuration:
     Build debugging code         $enable_debug
-    Cairo drawing support        $with_cairo
-    Support for SVG images       $with_rsvg (requires $rsvg_req)
-    Support for Gtk+ primitives  $with_gtk (requires $gtk_req)
 
-WIP Support for SVG fragments    $with_soup (requires libsoup)
-WIP Clutter-cairo support        $with_clutter
+ccss:                            yes
+    Workaround for #553937       $enable_libcroco_workaround (see bugzilla.gnome.org)
+
+ccss-cairo:                      $with_cairo
+    Support for SVG images       $with_rsvg (requires $rsvg_reqs)
+    Support for SVG fragments    $with_soup (WIP, requires $soup_reqs)
+
+ccss-clutter:                    $with_clutter (experimental, requires $ccss_clutter_reqs)
+
+ccss-gtk:                        $with_gtk
 "
 
