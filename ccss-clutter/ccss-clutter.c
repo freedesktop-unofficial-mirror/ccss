@@ -17,7 +17,7 @@
  * MA 02110-1301, USA.
  */
 
-#include "cccss.h"
+#include "ccss-clutter.h"
 
 typedef struct {
 	ccss_node_t	 parent;
@@ -50,13 +50,13 @@ static ccss_node_class_t _node_class = {
 	.release		= NULL
 };
 
-gboolean
-cccss_paint (ccss_stylesheet_t const	*stylesheet,
-	     ClutterCairo		*actor,
-	     gint			 x,
-	     gint			 y,
-	     gint			 width,
-	     gint			 height)
+bool
+ccss_clutter_paint (ccss_stylesheet_t const	*stylesheet,
+		    ClutterCairo		*actor,
+		    int				 x,
+		    int				 y,
+		    int				 width,
+		    int				 height)
 {
 	cairo_t			*cr;
 	ccss_style_t		*style;

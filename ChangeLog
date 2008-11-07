@@ -1,5 +1,39 @@
 2008-11-07  Robert Staudinger  <robsta@gnome.org>
 
+	* Makefile.am:
+	* TODO:
+	* ccss-clutter/Makefile.am:
+	* ccss-clutter/ccss-clutter.c (ccss_clutter_paint):
+	* ccss-clutter/ccss-clutter.h:
+	* ccss-clutter/example-2.c (create_actor):
+	* ccss-gtk/Makefile.am:
+	* ccss/Makefile.am:
+	* configure.in:
+	Fix linking.
+
+2008-11-07  Robert Staudinger  <robsta@gnome.org>
+
+	* cccss/Makefile.am:
+	* cccss/cccss.c:
+	* cccss/cccss.h:
+	* cccss/example-1.c:
+	* cccss/example-1.css:
+	* cccss/example-2.c:
+	* cccss/example-2.css:
+	* cccss/foo.svg:
+	* ccss-clutter/Makefile.am:
+	* ccss-clutter/ccss-clutter.c (get_type), (get_id),
+	(ccss_clutter_paint):
+	* ccss-clutter/ccss-clutter.h:
+	* ccss-clutter/example-1.c (paint_css), (main):
+	* ccss-clutter/example-1.css:
+	* ccss-clutter/example-2.c (url), (create_actor), (main):
+	* ccss-clutter/example-2.css:
+	* ccss-clutter/foo.svg:
+	Use new naming scheme for the experimental clutter code.
+
+2008-11-07  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-gtk/Makefile.am:
 	* ccss-gtk/ccss-gtk.sym:
 	* ccss-gtk/ccss-gtk.sym.in:

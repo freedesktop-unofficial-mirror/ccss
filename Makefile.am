@@ -8,7 +8,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libccss-1.pc
 
 if CCSS_WITH_CLUTTER
-SUBDIRS += cccss
+SUBDIRS += ccss-clutter
 endif
 
 if CCSS_WITH_GTK

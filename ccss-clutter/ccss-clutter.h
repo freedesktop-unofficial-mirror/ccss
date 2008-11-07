@@ -17,14 +17,20 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCCSS_H
-#define CCCSS_H
+#ifndef CCSS_CLUTTER_H
+#define CCSS_CLUTTER_H
 
-#include <ccss/ccss.h>
+#include <stdbool.h>
 #include <clutter-cairo/clutter-cairo.h>
+#include <ccss/ccss.h>
 
-gboolean cccss_paint (ccss_stylesheet_t const *stylesheet, ClutterCairo *actor,
-		      gint x, gint y, gint width, gint height);
+bool
+ccss_clutter_paint (ccss_stylesheet_t const	*stylesheet,
+		    ClutterCairo		*actor,
+		    int				 x,
+		    int				 y,
+		    int				 width,
+		    int				 height);
 
-#endif /* CCCSS_H */
+#endif /* CCSS_CLUTTER_H */
 

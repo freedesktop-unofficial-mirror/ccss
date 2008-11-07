@@ -11,7 +11,7 @@ libccss_gtk_1_la_DEPENDENCIES = \
 
 libccss_gtk_1_la_LIBADD = \
 	$(CCSS_GTK_LIBS) \
-	../ccss/.libs/libccss.lai
+	../ccss/libccss-static.la
 
 libccss_gtk_1_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO)
 

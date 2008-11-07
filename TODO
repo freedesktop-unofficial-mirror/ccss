@@ -24,3 +24,8 @@ Also see gtk-css-engine's TODO for now.
 * Callback-based stylesheet-iteration API, then selector-group can be totally internal. Get rid of <glib.h> in all public headers.
 * There is currently no way to free inline blocks, e.g. when a document is dynamically creating and deleting nodes with inline styling. In this case the inline styles will live as long as the stylesheet they are associated to.
 
+0.3
+---
+
+* Separate cairo-dependent code.
+

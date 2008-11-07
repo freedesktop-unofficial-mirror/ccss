@@ -1,38 +1,21 @@
 
-lib_LTLIBRARIES = libccss-1.la
+### Build in `noinst' manner so in can be statically ###########################
+### linked into -cairo et al variants. #########################################
 
-libccss_1_la_CPPFLAGS = \
+noinst_LTLIBRARIES = libccss-static.la libccssproperty.la
+
+libccss_static_la_CPPFLAGS = \
 	$(CCSS_CFLAGS) \
 	-I$(top_srcdir) \
 	-I$(top_builddir)
 
-libccss_1_la_DEPENDENCIES = \
-	ccss.sym \
+libccss_static_la_DEPENDENCIES = \
 	libccssproperty.la
 
-libccss_1_la_LIBADD = \
-	$(CCSS_LIBS) \
+libccss_static_la_LIBADD = \
 	libccssproperty.la
 
-libccss_1_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO)
-
-if CCSS_DEBUG
-else
-libccss_1_la_LDFLAGS += -export-symbols $(srcdir)/ccss.sym
-endif
-
-headersdir = $(includedir)/libccss-1/ccss
-
-headers_DATA = \
-	ccss-function.h \
-	ccss.h \
-	ccss-macros.h \
-	ccss-node.h \
-	ccss-style.h \
-	ccss-stylesheet.h
-
-libccss_1_la_SOURCES = \
-	$(headers_DATA) \
+libccss_static_la_SOURCES = \
 	ccss-background.c \
 	ccss-background.h \
 	ccss-background-parser.c \
@@ -63,10 +46,39 @@ libccss_1_la_SOURCES = \
 	ccss-style-priv.h \
 	ccss-stylesheet.c
 
+### The actual shared lib. #####################################################
+
+lib_LTLIBRARIES = libccss-1.la
+
+libccss_1_la_DEPENDENCIES = \
+	ccss.sym \
+	libccss-static.la
+
+libccss_1_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO)
+if CCSS_DEBUG
+else
+libccss_1_la_LDFLAGS += -export-symbols $(srcdir)/ccss.sym
+endif
+
+libccss_1_la_LIBADD = \
+	$(CCSS_LIBS) \
+	libccss-static.la
+
+libccss_1_la_SOURCES = \
+	$(headers_DATA)
+
+headersdir = $(includedir)/libccss-1/ccss
+
+headers_DATA = \
+	ccss-function.h \
+	ccss.h \
+	ccss-macros.h \
+	ccss-node.h \
+	ccss-style.h \
+	ccss-stylesheet.h
+
 # Messing with function pointers in a non-ISO way needs some extra love
 # to prevent warnings (not using ISO C).
-
-noinst_LTLIBRARIES = libccssproperty.la
 
 libccssproperty_la_CPPFLAGS = \
 	$(CCSS_COMPAT_CFLAGS) \

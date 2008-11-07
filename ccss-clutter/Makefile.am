@@ -4,19 +4,19 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir) \
 	-I$(top_builddir)
 
-noinst_LTLIBRARIES = libcccss.la
+noinst_LTLIBRARIES = libccss-clutter.la
 
-libcccss_la_LIBADD = \
+libccss_clutter_la_LIBADD = \
 	$(CCSS_CLUTTER_LIBS) \
 	./../ccss/libccss-1.la
 
-libcccss_la_SOURCES = \
-	cccss.c \
-	cccss.h
+libccss_clutter_la_SOURCES = \
+	ccss-clutter.c \
+	ccss-clutter.h
 
 LDADD = \
-	$(libcccss_la_LIBADD) \
-	./libcccss.la
+	$(libccss_clutter_la_LIBADD) \
+	./libccss-clutter.la
 
 noinst_PROGRAMS = \
 	example-1 \

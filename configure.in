@@ -296,8 +296,8 @@ AC_CONFIG_FILES([
   Makefile
   libccss-1.pc
   libccss-gtk-1.pc
-  cccss/Makefile
   ccss/Makefile
+  ccss-clutter/Makefile
   ccss-gtk/Makefile
   doc/Makefile
   doc/version.xml

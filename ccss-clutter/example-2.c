@@ -18,8 +18,8 @@
  */
 
 #include <stdlib.h>
-#include <cccss/cccss.h>
 #include <clutter/clutter.h>
+#include <ccss-clutter/ccss-clutter.h>
 
 /* FIXME put your prefix here or fix the `url' functin below to resolve it. */
 #define PREFIX "/home/rstaudinger/Desktop/Devel/gtk-css-engine-build/libccss/cccss"
@@ -57,7 +57,7 @@ create_actor (ccss_stylesheet_t	const	*stylesheet,
 	clutter_actor_show (actor);
 	/* Set name tag and paint. */
 	clutter_actor_set_name (actor, name);
-	cccss_paint (stylesheet, CLUTTER_CAIRO (actor), 0, 0, 150, 30);
+	ccss_clutter_paint (stylesheet, CLUTTER_CAIRO (actor), 0, 0, 150, 30);
 }
 
 int
