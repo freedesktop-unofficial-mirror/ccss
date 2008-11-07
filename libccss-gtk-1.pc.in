@@ -1,0 +1,17 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+ccss_with_cairo=@ccss_with_cairo@
+ccss_with_gtk=@ccss_with_gtk@
+ccss_with_rsvg=@ccss_with_rsvg@
+ccss_with_clutter=@ccss_with_clutter@
+
+Name: libccss-1
+Description: The Cairo CSS Library
+Version: @VERSION@
+Requires: @CCSS_DEPS@
+Libs: -L${libdir} -lccss-1
+Cflags: -I${includedir}/libccss-1
+

@@ -18,7 +18,7 @@ libccss_1_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO)
 
 if CCSS_DEBUG
 else
-libccss_1_la_LDFLAGS += -export-symbols ./ccss.sym
+libccss_1_la_LDFLAGS += -export-symbols $(srcdir)/ccss.sym
 endif
 
 headersdir = $(includedir)/libccss-1/ccss
@@ -30,11 +30,6 @@ headers_DATA = \
 	ccss-node.h \
 	ccss-style.h \
 	ccss-stylesheet.h
-
-if CCSS_WITH_GTK
-headers_DATA += \
-	ccss-gtk-style.h
-endif
 
 libccss_1_la_SOURCES = \
 	$(headers_DATA) \
@@ -68,15 +63,6 @@ libccss_1_la_SOURCES = \
 	ccss-style-priv.h \
 	ccss-stylesheet.c
 
-opt_src =
-
-if CCSS_WITH_GTK
-libccss_1_la_SOURCES += \
-	ccss-gtk-style.c \
-	ccss-gtk-style.h
-opt_src += $(libccss_1_la_SOURCES)
-endif
-
 # Messing with function pointers in a non-ISO way needs some extra love
 # to prevent warnings (not using ISO C).
 
@@ -91,24 +77,7 @@ libccssproperty_la_SOURCES = \
 	ccss-property.c \
 	ccss-property.h
 
-BUILT_SOURCES = \
-	ccss.sym
-
-CLEANFILES = \
-	ccss.sym
-
 EXTRA_DIST = \
-	$(opt_src) \
 	ccss-features.h.in \
-	ccss.sym.in \
-	ccss-gtk.sym.in
-
-ccss_sym_in = $(srcdir)/ccss.sym.in
-
-if CCSS_WITH_GTK
-ccss_sym_in += $(srcdir)/ccss-gtk.sym.in
-endif
-
-ccss.sym: $(ccss_sym_in)
-	cat $^ > $@
+	ccss.sym.in
 

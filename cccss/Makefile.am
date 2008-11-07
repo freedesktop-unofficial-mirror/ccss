@@ -1,13 +1,13 @@
 
 AM_CPPFLAGS = \
-	$(CCSS_CFLAGS) \
+	$(CCSS_CLUTTER_CFLAGS) \
 	-I$(top_srcdir) \
 	-I$(top_builddir)
 
 noinst_LTLIBRARIES = libcccss.la
 
 libcccss_la_LIBADD = \
-	$(CCSS_LIBS) \
+	$(CCSS_CLUTTER_LIBS) \
 	./../ccss/libccss-1.la
 
 libcccss_la_SOURCES = \

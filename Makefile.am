@@ -9,7 +9,7 @@ SUBDIRS += cccss
 endif
 
 if CCSS_WITH_GTK
-SUBDIRS += examples
+SUBDIRS += ccss-gtk examples
 endif
 
 pkgconfigdir = $(libdir)/pkgconfig

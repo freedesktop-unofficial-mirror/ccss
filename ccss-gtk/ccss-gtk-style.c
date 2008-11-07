@@ -17,8 +17,8 @@
  * MA 02110-1301, USA.
  */
 
+#include "ccss/ccss-style-priv.h"
 #include "ccss-gtk-style.h"
-#include "ccss-style-priv.h"
 
 /**
  * ccss_style_draw_gap:

@@ -1,11 +1,11 @@
 
 AM_CPPFLAGS = \
-	$(CCSS_CFLAGS) \
+	$(CCSS_GTK_CFLAGS) \
 	-I$(top_srcdir) \
 	-I$(top_builddir)
 
 AM_LDFLAGS = \
-	$(CCSS_LIBS) \
+	$(CCSS_GTK_LIBS) \
 	../ccss/libccss-1.la
 
 noinst_PROGRAMS = \
