@@ -7,7 +7,8 @@ AM_CPPFLAGS = \
 lib_LTLIBRARIES = libccss-gtk-1.la
 
 libccss_gtk_1_la_DEPENDENCIES = \
-	ccss-gtk.sym
+	ccss-gtk.sym \
+	../ccss/libccss-static.la
 
 libccss_gtk_1_la_LIBADD = \
 	$(CCSS_GTK_LIBS) \

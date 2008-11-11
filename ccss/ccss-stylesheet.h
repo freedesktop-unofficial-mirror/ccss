@@ -45,25 +45,29 @@ typedef enum {
 
 typedef struct ccss_stylesheet_ ccss_stylesheet_t;
 
-ccss_stylesheet_t *	ccss_stylesheet_new_from_buffer	(char const *buffer,
-							 size_t size);
-ccss_stylesheet_t *	ccss_stylesheet_new_from_file	(char const *css_file);
+ccss_stylesheet_t *
+ccss_stylesheet_new_from_buffer	(char const			*buffer,
+				 size_t				 size);
+ccss_stylesheet_t *
+ccss_stylesheet_new_from_file	(char const			*css_file);
 
-ccss_stylesheet_t *	ccss_stylesheet_load_from_file	(ccss_stylesheet_t *self,
-							 char const *css_file,
-							 ccss_stylesheet_precedence_t precedence);
+ccss_stylesheet_t *
+ccss_stylesheet_add_from_file	(ccss_stylesheet_t		*self,
+				 char const			*css_file,
+				 ccss_stylesheet_precedence_t	 precedence);
 
-void			ccss_stylesheet_free		(ccss_stylesheet_t *self);
+void
+ccss_stylesheet_free		(ccss_stylesheet_t		*self);
 
 bool
-ccss_stylesheet_query_type (ccss_stylesheet_t const	*self,
-			    char const			*type_name,
-			    ccss_style_t		*style);
+ccss_stylesheet_query_type	(ccss_stylesheet_t const	*self,
+				 char const			*type_name,
+				 ccss_style_t			*style);
 
 bool
-ccss_stylesheet_query (ccss_stylesheet_t const	*self,
-		       ccss_node_t const	*node, 
-		       ccss_style_t		*style);
+ccss_stylesheet_query		(ccss_stylesheet_t const	*self,
+				 ccss_node_t const		*node, 
+				 ccss_style_t			*style);
 
 /**
  * ccss_stylesheet_iterator_f:
@@ -83,7 +87,10 @@ ccss_stylesheet_foreach (ccss_stylesheet_t const	*self,
 			 void				*user_data);
 
 #ifdef CCSS_DEBUG
-void ccss_stylesheet_dump (ccss_stylesheet_t const *self);
+
+void
+ccss_stylesheet_dump (ccss_stylesheet_t const *self);
+
 #endif
 
 CCSS_END_DECLS

@@ -1,3 +1,14 @@
+2008-11-11  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_add_from_file),
+	(query_node), (query_container_r), (ccss_stylesheet_query):
+	* ccss/ccss-stylesheet.h:
+	* ccss/ccss.sym:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/ccss-unused.sgml:
+	* doc/tmpl/stylesheet.sgml:
+	Better naming consistency.
+
 2008-11-07  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/ccss.h: small cleanup.

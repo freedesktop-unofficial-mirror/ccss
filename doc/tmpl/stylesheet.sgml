@@ -61,7 +61,7 @@ ccss_stylesheet_t
 @Returns: 
 
 
-<!-- ##### FUNCTION ccss_stylesheet_load_from_file ##### -->
+<!-- ##### FUNCTION ccss_stylesheet_add_from_file ##### -->
 <para>
 
 </para>

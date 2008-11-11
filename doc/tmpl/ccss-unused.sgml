@@ -145,6 +145,16 @@ ccss_selector_group_t
 </para>
 
 
+<!-- ##### FUNCTION ccss_stylesheet_load_from_file ##### -->
+<para>
+
+</para>
+
+@self: 
+@css_file: 
+@precedence: 
+@Returns: 
+
 <!-- ##### FUNCTION ccss_stylesheet_query_apply ##### -->
 <para>
 

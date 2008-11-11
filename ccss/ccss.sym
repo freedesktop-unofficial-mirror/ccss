@@ -10,7 +10,7 @@ ccss_style_get_double
 ccss_style_get_string
 ccss_stylesheet_new_from_buffer
 ccss_stylesheet_new_from_file
-ccss_stylesheet_load_from_file
+ccss_stylesheet_add_from_file
 ccss_stylesheet_foreach
 ccss_stylesheet_free
 ccss_stylesheet_query_type

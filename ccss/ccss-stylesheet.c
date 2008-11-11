@@ -150,7 +150,7 @@ ccss_stylesheet_new_from_file (char const *css_file)
 }
 
 /**
- * ccss_stylesheet_load_from_file:
+ * ccss_stylesheet_add_from_file:
  * @self:	#ccss_stylesheet_t instance or %NULL.
  * @css_file:	file to parse.
  * @precedence:	see #ccss_stylesheet_precedence_t.
@@ -160,9 +160,9 @@ ccss_stylesheet_new_from_file (char const *css_file)
  * Returns: a #ccss_stylesheet_t representation of the CSS file.
  **/
 ccss_stylesheet_t *
-ccss_stylesheet_load_from_file (ccss_stylesheet_t		*self,
-				char const			*css_file,
-				ccss_stylesheet_precedence_t	 precedence)
+ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
+			       char const			*css_file,
+			       ccss_stylesheet_precedence_t	 precedence)
 {
 	enum CRStatus ret;
 
@@ -281,9 +281,9 @@ query_type_r (ccss_stylesheet_t const	*self,
  * Do not recurse containers.
  */
 static bool
-query_shallow (ccss_stylesheet_t const	*self,
-	       ccss_node_t const	*node, 
-	       ccss_style_t		*style)
+query_node (ccss_stylesheet_t const	*self,
+	    ccss_node_t const		*node, 
+	    ccss_style_t		*style)
 {
 	ccss_node_class_t const		*node_class;
 	ccss_selector_group_t const	*universal_group;
@@ -411,7 +411,7 @@ query_container_r (ccss_stylesheet_t const	*self,
 		return false;
 
 	container_style = ccss_style_new ();
-	have_styling = query_shallow (self, container, container_style);
+	have_styling = query_node (self, container, container_style);
 	if (have_styling) {
 		inherit_container_style (container_style, inherit, style);
 	}
@@ -453,7 +453,7 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 	bool			 ret;
 
 	/* Apply this node's styling. */
-	ret = query_shallow (self, node, style);
+	ret = query_node (self, node, style);
 
 	/* Handle inherited styling. */
 	inherit = g_hash_table_new ((GHashFunc) g_direct_hash, 
