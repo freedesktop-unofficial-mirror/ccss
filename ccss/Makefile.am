@@ -24,6 +24,8 @@ libccss_static_la_SOURCES = \
 	ccss-block.h \
 	ccss-border.c \
 	ccss-border.h \
+	ccss-border-image.c \
+	ccss-border-image.h \
 	ccss-border-parser.c \
 	ccss-border-parser.h \
 	ccss-color.c \

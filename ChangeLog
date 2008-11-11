@@ -1,5 +1,12 @@
 2008-11-11  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/Makefile.am:
+	* ccss/ccss-border-image.c:
+	* ccss/ccss-border-image.h:
+	Add `border-image' skeleton.
+
+2008-11-11  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-stylesheet.c (ccss_stylesheet_add_from_file),
 	(query_node), (query_container_r), (ccss_stylesheet_query):
 	* ccss/ccss-stylesheet.h:
