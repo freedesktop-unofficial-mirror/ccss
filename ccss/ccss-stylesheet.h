@@ -24,7 +24,6 @@
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-node.h>
 #include <ccss/ccss-macros.h>
-#include <ccss/ccss-selector-group.h>
 #include <ccss/ccss-style.h>
 
 CCSS_BEGIN_DECLS

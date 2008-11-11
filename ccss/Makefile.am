@@ -74,6 +74,7 @@ libccss_1_la_SOURCES = \
 headersdir = $(includedir)/libccss-1/ccss
 
 headers_DATA = \
+	ccss-features.h \
 	ccss-function.h \
 	ccss.h \
 	ccss-macros.h \
