@@ -1,6 +1,4 @@
-2008-11-11  Robert Staudinger  <robsta@gnome.org>
-
-	patch by: Thomas Wood <thomas@linux.intel.com>
+2008-11-11  Thomas Wood <thomas@linux.intel.com>
 
 	* ccss/Makefile.am:
 	* ccss/ccss-stylesheet.h:
@@ -726,9 +724,7 @@
 	* src/gce-theme.c:
 	Fix `make distcheck'.
 
-2008-10-06  Robert Staudinger  <robsta@gnome.org>
-
-	patch by: Thomas Wood <thomas@linux.intel.com>
+2008-10-06  Thomas Wood <thomas@linux.intel.com>
 
 	* doc/Makefile.am: fix input path.
 
