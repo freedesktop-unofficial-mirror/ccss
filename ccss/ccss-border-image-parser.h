@@ -17,45 +17,23 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_BORDER_IMAGE_H
-#define CCSS_BORDER_IMAGE_H
+#ifndef CCSS_BORDER_IMAGE_PARSER_H
+#define CCSS_BORDER_IMAGE_PARSER_H
 
-#include <stdint.h>
-#include <cairo.h>
+#include <stdbool.h>
+#include <libcroco/libcroco.h>
+#include <ccss/ccss-block.h>
 #include <ccss/ccss-features.h>
-#include <ccss/ccss-image.h>
 #include <ccss/ccss-macros.h>
-#include <ccss/ccss-position.h>
-#include <ccss/ccss-property.h>
 
 CCSS_BEGIN_DECLS
 
-typedef enum {
-	CCSS_BORDER_TILE_REPEAT = 0,
-	CCSS_BORDER_TILE_ROUND,
-	CCSS_BORDER_TILE_STRETCH
-} ccss_border_tile_t;
-
-typedef struct {
-	ccss_property_spec_t	spec;
-	ccss_image_t		image;
-	ccss_position_t		top;
-	ccss_position_t		right;
-	ccss_position_t		bottom;
-	ccss_position_t		left;
-	ccss_border_tile_t	vertical_tile;
-	ccss_border_tile_t	horizontal_tile;
-} ccss_border_image_t;
-
-void
-ccss_border_image_draw (ccss_border_image_t const	*self,
-			cairo_t				*cr, 
-			double				 x,
-			double				 y,
-			double				 width,
-			double				 height);
+bool
+ccss_block_parse_border_image (ccss_block_t	*self,
+			       char const	*property, 
+			       CRTerm const	*values);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_BORDER_IMAGE_H */
+#endif /* CCSS_BORDER_IMAGE_PARSER_H */
 

@@ -1,6 +1,13 @@
 2008-11-11  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/Makefile.am:
+	* ccss/ccss-border-image-parser.c:
+	* ccss/ccss-border-image-parser.h:
+	More `border-image' skeleton code.
+
+2008-11-11  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/Makefile.am:
 	* ccss/ccss-border-image.c:
 	* ccss/ccss-border-image.h:
 	Add `border-image' skeleton.
