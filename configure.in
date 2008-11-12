@@ -117,8 +117,8 @@ ccss_pkgs=${ccss_reqs}
 PKG_CHECK_MODULES(CCSS, $ccss_pkgs)
 
 # AC_SUBST([CCSS_CFLAGS]) # set further down
-AC_SUBST([CCSS_LIBS])
-AC_SUBST([CCSS_DEPS], $ccss_pkgs)
+# AC_SUBST([CCSS_LIBS]) # set further down
+# AC_SUBST([CCSS_DEPS], $ccss_pkgs) # set further down
 
 
 ### ccss-cairo ###
@@ -271,9 +271,13 @@ if test "$GCC" = "yes"; then
 fi
 
 #CCSS_CFLAGS="${CCSS_CFLAGS} ${extra_cflags}"
-# FIXME: use above line when cairo split is complete.
+# FIXME: use above line when cairo split is complete and don't set libs and deps here.
 CCSS_CFLAGS="${CCSS_CAIRO_CFLAGS} ${extra_cflags}"
+CCSS_LIBS="${CCSS_CAIRO_LIBS}"
+CCSS_DEPS="${ccss_cairo_pkgs}"
 AC_SUBST([CCSS_CFLAGS])
+AC_SUBST([CCSS_LIBS])
+AC_SUBST([CCSS_DEPS])
 
 CCSS_COMPAT_CFLAGS=$(echo ${CCSS_CFLAGS} | sed 's,-pedantic,,g')
 AC_SUBST([CCSS_COMPAT_CFLAGS])

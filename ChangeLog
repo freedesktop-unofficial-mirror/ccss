@@ -1,5 +1,11 @@
 2008-11-12  Robert Staudinger  <robsta@gnome.org>
 
+	reported by: Thomas Wood <thomas@linux.intel.com>
+
+	* configure.in: link ccss against ccss-cairo libs until cairo split-out is complete.
+
+2008-11-12  Robert Staudinger  <robsta@gnome.org>
+
 	* configure.in: try to use librsvg unless explicitly disabled.
 
 2008-11-12  Robert Staudinger  <robsta@gnome.org>
