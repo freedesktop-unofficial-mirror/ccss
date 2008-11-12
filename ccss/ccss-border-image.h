@@ -31,20 +31,20 @@
 CCSS_BEGIN_DECLS
 
 typedef enum {
-	CCSS_BORDER_TILE_REPEAT = 0,
-	CCSS_BORDER_TILE_ROUND,
-	CCSS_BORDER_TILE_STRETCH
-} ccss_border_tile_t;
+	CCSS_BORDER_IMAGE_TILING_REPEAT = 0,
+	CCSS_BORDER_IMAGE_TILING_ROUND,
+	CCSS_BORDER_IMAGE_TILING_STRETCH
+} ccss_border_image_tiling_t;
 
 typedef struct {
-	ccss_property_spec_t	spec;
-	ccss_image_t		image;
-	ccss_position_t		top;
-	ccss_position_t		right;
-	ccss_position_t		bottom;
-	ccss_position_t		left;
-	ccss_border_tile_t	vertical_tile;
-	ccss_border_tile_t	horizontal_tile;
+	ccss_property_spec_t		spec;
+	ccss_image_t			image;
+	ccss_position_t			top;
+	ccss_position_t			right;
+	ccss_position_t			bottom;
+	ccss_position_t			left;
+	ccss_border_image_tiling_t	vertical_tiling;
+	ccss_border_image_tiling_t	horizontal_tiling;
 } ccss_border_image_t;
 
 void

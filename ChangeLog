@@ -1,3 +1,15 @@
+2008-11-12  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-block.c (ccss_block_new_border_image),
+	(ccss_block_get_border_image):
+	* ccss/ccss-block.h:
+	* ccss/ccss-border-image-parser.c (parse_tiling),
+	(ccss_block_parse_border_image):
+	* ccss/ccss-border-image.h:
+	* ccss/ccss-property.c (ccss_property_border_image):
+	* ccss/ccss-property.h:
+	Parsing of `border-image' properties.
+
 2008-11-11  Thomas Wood <thomas@linux.intel.com>
 
 	* ccss/Makefile.am:

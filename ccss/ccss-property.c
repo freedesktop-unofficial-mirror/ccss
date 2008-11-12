@@ -56,6 +56,8 @@ static GQuark _BORDER_TOP_RIGHT_RADIUS		= 0;
 static GQuark _BORDER_BOTTOM_RIGHT_RADIUS	= 0;
 static GQuark _BORDER_BOTTOM_LEFT_RADIUS	= 0;
 
+static GQuark _BORDER_IMAGE			= 0;
+
 static GQuark _COLOR				= 0;
 
 
@@ -365,6 +367,15 @@ ccss_property_color (void)
 		_COLOR = g_quark_from_static_string ("color");
 
 	return _COLOR;
+}
+
+GQuark
+ccss_property_border_image (void)
+{
+	if (0 == _BORDER_IMAGE)
+		_BORDER_IMAGE = g_quark_from_static_string ("border-image");
+
+	return _BORDER_IMAGE;
 }
 
 #ifdef CCSS_DEBUG

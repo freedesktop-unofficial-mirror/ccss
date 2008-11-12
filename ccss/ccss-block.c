@@ -643,6 +643,26 @@ ccss_block_new_border_top_right_radius (ccss_block_t *self)
 	return join;
 }
 
+ccss_border_image_t *
+ccss_block_new_border_image (ccss_block_t *self)
+{
+	ccss_border_image_t *border_image;
+
+	g_return_val_if_fail (self && self->properties, NULL);
+
+	border_image = (ccss_border_image_t *) g_hash_table_lookup (
+				self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_IMAGE);
+	if (!border_image) {
+		border_image = g_new0 (ccss_border_image_t, 1);
+		g_hash_table_insert (self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_IMAGE,
+				(gpointer) border_image);
+	}
+	
+	return border_image;
+}
+
 ccss_color_t *
 ccss_block_new_color (ccss_block_t *self)
 {
@@ -969,6 +989,17 @@ ccss_block_get_border_top_right_radius (ccss_block_t const *self)
 			g_hash_table_lookup (
 				self->properties,
 				(gpointer) CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS);
+}
+
+ccss_border_image_t const *
+ccss_block_get_border_image (ccss_block_t const *self)
+{
+	g_return_val_if_fail (self && self->properties, NULL);
+
+	return (ccss_border_image_t const *) 
+			g_hash_table_lookup (
+				self->properties,
+				(gpointer) CCSS_PROPERTY_BORDER_IMAGE);
 }
 
 ccss_color_t const *

@@ -25,6 +25,7 @@
 #include <ccss/ccss-color.h>
 #include <ccss/ccss-background.h>
 #include <ccss/ccss-border.h>
+#include <ccss/ccss-border-image.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
@@ -75,6 +76,8 @@ ccss_border_join_t * 		ccss_block_new_border_bottom_right_radius	(ccss_block_t *
 ccss_border_join_t * 		ccss_block_new_border_top_left_radius		(ccss_block_t *self);
 ccss_border_join_t * 		ccss_block_new_border_top_right_radius		(ccss_block_t *self);
 
+ccss_border_image_t *		ccss_block_new_border_image			(ccss_block_t *self);
+
 ccss_color_t *			ccss_block_new_color				(ccss_block_t *self);
 
 
@@ -113,6 +116,8 @@ ccss_border_join_t const * 		ccss_block_get_border_bottom_left_radius	(ccss_bloc
 ccss_border_join_t const * 		ccss_block_get_border_bottom_right_radius	(ccss_block_t const *self);
 ccss_border_join_t const * 		ccss_block_get_border_top_left_radius		(ccss_block_t const *self);
 ccss_border_join_t const * 		ccss_block_get_border_top_right_radius		(ccss_block_t const *self);
+
+ccss_border_image_t const *		ccss_block_get_border_image			(ccss_block_t const *self);
 
 ccss_color_t const *			ccss_block_get_color				(ccss_block_t const *self);
 

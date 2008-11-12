@@ -61,6 +61,8 @@ CCSS_BEGIN_DECLS
 #define CCSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS	ccss_property_border_bottom_right_radius()
 #define CCSS_PROPERTY_BORDER_BOTTOM_LEFT_RADIUS		ccss_property_border_bottom_left_radius()
 
+#define CCSS_PROPERTY_BORDER_IMAGE			ccss_property_border_image()
+
 #define CCSS_PROPERTY_COLOR				ccss_property_color()
 
 #define CCSS_PROPERTY_DUMP_PREFIX "    "
@@ -137,6 +139,8 @@ GQuark ccss_property_border_top_left_radius (void);
 GQuark ccss_property_border_top_right_radius (void);
 GQuark ccss_property_border_bottom_right_radius (void);
 GQuark ccss_property_border_bottom_left_radius (void);
+
+GQuark ccss_property_border_image (void);
 
 GQuark ccss_property_color (void);
 
