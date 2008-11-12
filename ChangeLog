@@ -1,5 +1,9 @@
 2008-11-12  Robert Staudinger  <robsta@gnome.org>
 
+	* configure.in: try to use librsvg unless explicitly disabled.
+
+2008-11-12  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-block.c (ccss_block_new_border_image),
 	(ccss_block_get_border_image):
 	* ccss/ccss-block.h:

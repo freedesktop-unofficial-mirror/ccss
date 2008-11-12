@@ -96,7 +96,8 @@ AM_CONDITIONAL(GTK_DOC_INSTALLED, $gtk_doc_installed)
 
 ### ccss ###
 
-ccss_reqs='glib-2.0 libcroco-0.6'
+# GObject is needed for GValue.
+ccss_reqs='glib-2.0 gobject-2.0 libcroco-0.6'
 ccss_pkgs=
 
 # See http://bugzilla.gnome.org/show_bug.cgi?id=553937 .
@@ -126,12 +127,15 @@ AC_SUBST([CCSS_DEPS], $ccss_pkgs)
 ccss_cairo_reqs='cairo >= 1.4'
 ccss_cairo_pkgs=
 
+
 PKG_CHECK_EXISTS([ $ccss_cairo_reqs ],
 [
   with_cairo="yes"
   ccss_cairo_pkgs="$ccss_cairo_pkgs $ccss_cairo_reqs"
 ],[
   with_cairo="no"
+  # FIXME: conditionalise after ccss-cairo split out.
+  AC_MSG_ERROR([Missing dependency: \`$ccss_cairo_reqs' is required to build libccss.])
 ])
 
 if test "$with_cairo" = "yes"; then
@@ -140,46 +144,37 @@ fi
 AM_CONDITIONAL([CCSS_WITH_CAIRO], [test "$with_cairo" = "yes"])
 AC_SUBST([ccss_with_cairo], [$with_cairo])
 
-
-# Guessing a version.
+### SVG support, guessing a good librsvg version.
 rsvg_reqs='librsvg-2.0 >= 2.16'
-PKG_CHECK_EXISTS([ $rsvg_reqs ],
-[
-  with_rsvg="yes"
+#with_librsvg="yes"
+AC_ARG_WITH([librsvg],
+            [AS_HELP_STRING([--without-librsvg], [ccss-cairo: do not build SVG image support.])])
+if test "$with_librsvg" != "no"; then
   ccss_cairo_pkgs="$ccss_cairo_pkgs $rsvg_reqs"
-],[
-  with_rsvg="no"
-])
-
-if test "$with_rsvg" = "yes"; then
-  AC_DEFINE([CCSS_WITH_RSVG], [1], [SVG support through librsvg])
+  AC_DEFINE([CCSS_with_librsvg], [1], [SVG support through librsvg])
 fi
-AM_CONDITIONAL([CCSS_WITH_RSVG], [test "$with_rsvg" = "yes"])
-AC_SUBST([ccss_with_rsvg], [$with_rsvg])
+AM_CONDITIONAL([CCSS_with_librsvg], [test "$with_librsvg" = "yes"])
+AC_SUBST([ccss_with_librsvg], [$with_librsvg])
 
-
+### SVG fragment support using libsoup.
+### FIXME: activate after fragment-dimension API landed in librsvg.
+with_libsoup="no"
 soup_reqs='libsoup-2.4'
-PKG_CHECK_EXISTS([ $soup_reqs ],
-[
-  with_soup="yes"
-  ccss_cairo_pkgs="$ccss_cairo_pkgs $soup_reqs"
-],[
-  with_soup="no"
-])
-
-if test "$with_soup" = "yes"; then
-  AC_DEFINE([CCSS_WITH_SOUP], [1], [URI parsing support through libsoup])
-fi
-AM_CONDITIONAL([CCSS_WITH_SOUP], [test "$with_soup" = "yes"])
+AM_CONDITIONAL([CCSS_with_libsoup], [test "$with_libsoup" = "yes"])
 
 
-if test "$with_cairo" = "yes"; then
+with_cairo="yes"
+AC_ARG_WITH([cairo],
+            [AS_HELP_STRING([--without-cairo], [do not build ccss-cairo.])])
+if test "$with_cairo" != "no"; then
   ccss_cairo_pkgs="$ccss_pkgs $ccss_cairo_pkgs"
   PKG_CHECK_MODULES(CCSS_CAIRO, $ccss_cairo_pkgs)
+  # AC_SUBST([CCSS_CAIRO_CFLAGS]) ... set further down
+  AC_SUBST([CCSS_CAIRO_LIBS])
+  AC_SUBST([CCSS_CAIRO_DEPS], $ccss_cairo_pkgs)
+else
+  AC_MSG_ERROR([FIXME: cairo is not yet optional.])
 fi
-# AC_SUBST([CCSS_CAIRO_CFLAGS]) # set further down
-AC_SUBST([CCSS_CAIRO_LIBS])
-AC_SUBST([CCSS_CAIRO_DEPS], $ccss_cairo_pkgs)
 
 
 ### ccss-clutter ###
@@ -316,8 +311,8 @@ ccss:                            yes
     Workaround for #553937       $enable_libcroco_workaround (see bugzilla.gnome.org)
 
 ccss-cairo:                      $with_cairo
-    Support for SVG images       $with_rsvg (requires $rsvg_reqs)
-    Support for SVG fragments    $with_soup (WIP, requires $soup_reqs)
+    Support for SVG images       $with_librsvg (requires $rsvg_reqs)
+    Support for SVG fragments    $with_libsoup (WIP, requires $soup_reqs)
 
 ccss-clutter:                    $with_clutter (experimental, requires $ccss_clutter_reqs)
 
