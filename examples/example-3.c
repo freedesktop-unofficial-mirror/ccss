@@ -24,13 +24,32 @@ expose_cb (GtkWidget		*widget,
 	return FALSE;
 }
 
-static char const _css[] = "			\
-	box { 					\
-		border: 3px solid black;	\
-		border-top: 3px dotted red;	\
-		border-radius: 3px;		\
-	}					\
+static char const _css[] = "				\
+	box { 						\
+		border-image: url(example-3.png) 5;	\
+	}						\
 ";
+
+static char *
+url (GSList const *args)
+{
+	char *cwd;
+	char *path;
+
+	g_return_val_if_fail (args && args->data, NULL);
+
+	cwd = g_get_current_dir ();
+	path = g_build_filename (cwd, args->data, NULL);
+	g_free (cwd), cwd = NULL;
+
+	return path;
+}
+
+static ccss_function_t const _functions[] = 
+{
+  { "url",	url },
+  { NULL }
+};
 
 int
 main (int	  argc,
@@ -42,7 +61,7 @@ main (int	  argc,
 	gboolean			 ret;
 
 	gtk_init (&argc, &argv);
-	ccss_init (NULL);
+	ccss_init (_functions);
 
 	stylesheet = ccss_stylesheet_new_from_buffer (_css, sizeof (_css));
 	/* stylesheet = ccss_stylesheet_new_from_file ("example-1.css"); */

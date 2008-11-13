@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
+#include "ccss-border-image-parser.h"
 #include "ccss-border-parser.h"
 
 
@@ -200,6 +201,11 @@ ccss_block_parse_border (ccss_block_t	*self,
 	ccss_border_style_t	*style, s;
 	ccss_border_width_t	*width, w;
 	bool			 ret;
+
+	/* Image */
+	if (0 == strcmp ("border-image", property)) {
+		return ccss_block_parse_border_image (self, property, values);
+	}
 
 	/* Radius */
 	iter = values;

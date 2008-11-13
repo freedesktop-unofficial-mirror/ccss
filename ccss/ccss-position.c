@@ -238,13 +238,41 @@ ccss_position_get_vsize (ccss_position_t const	*self,
 	return 0;
 }
 
-#ifdef CCSS_DEBUG
 
-void
-ccss_position_dump (ccss_position_t const *self)
+char *
+ccss_position_serialize (ccss_position_t const *self)
 {
+	g_return_val_if_fail (self, NULL);
 
+	switch (self->type) {
+	case CCSS_POSITION_LENGTH:
+		return g_strdup_printf ("%.3f", self->value);
+	case CCSS_POSITION_PERCENTAGE:
+		return g_strdup_printf ("%.3fpx", self->value);
+	case CCSS_POSITION_LEFT:
+		return g_strdup ("left");
+	case CCSS_POSITION_TOP:
+		return g_strdup ("top");
+	case CCSS_POSITION_RIGHT:
+		return g_strdup ("right");
+	case CCSS_POSITION_BOTTOM:
+		return g_strdup ("bottom");
+	case CCSS_POSITION_CENTER:
+		return g_strdup ("center");
+	case CCSS_POSITION_AUTO:
+		return g_strdup ("auto");
+	case CCSS_POSITION_CONTAIN:
+		return g_strdup ("containe");
+	case CCSS_POSITION_COVER:
+		return g_strdup ("cover");
+	case CCSS_POSITION_MASK_NUMERIC:
+	case CCSS_POSITION_MASK_HORIZONTAL:
+	case CCSS_POSITION_MASK_VERTICAL:
+	case CCSS_POSITION_MASK_AUTO:
+		/* Fall thru. */
+		break;
+	}
+
+	return NULL;
 }
-
-#endif /* CCSS_DEBUG */
 

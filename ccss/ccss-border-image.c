@@ -53,8 +53,8 @@ create_tile (ccss_image_t const		*image,
 
 	/* Drawing. */
 	cairo_pattern_set_extend (image->pattern, CAIRO_EXTEND_NONE);
+	cairo_translate (cr, -1 * x, -1 * y);
 	cairo_set_source (cr, image->pattern);
-	cairo_translate (cr, x, y);
 	cairo_paint (cr);
 		
 	/* Cleanup. */
@@ -105,16 +105,16 @@ create_border (ccss_image_t const		*image,
 	/* Drawing. */
 	/* FIXME: support more tiling variants. s*/
 	g_warn_if_fail (tiling == CCSS_BORDER_IMAGE_TILING_STRETCH);
-	cairo_pattern_set_extend (tile, CAIRO_EXTEND_NONE);
-	cairo_set_source (cr, tile);
+	cairo_pattern_set_extend (tile, CAIRO_EXTEND_PAD);
 	switch (orientation) {
 	case ORIENTATION_HORIZONTAL:
-		cairo_scale (cr, tile_width / width, 1);
+		cairo_scale (cr, width / tile_width, 1);
 		break;
 	case ORIENTATION_VERTICAL:
-		cairo_scale (cr, 1, tile_height / height);
+		cairo_scale (cr, 1, height / tile_height);
 		break;	
 	}
+	cairo_set_source (cr, tile);
 	cairo_paint (cr);
 		
 	/* Cleanup. */
@@ -167,9 +167,9 @@ create_middle (ccss_image_t const		*image,
 	/* FIXME: support more tiling variants. s*/
 	g_warn_if_fail (horizontal_tiling == CCSS_BORDER_IMAGE_TILING_STRETCH &&
 			vertical_tiling == CCSS_BORDER_IMAGE_TILING_STRETCH);
-	cairo_pattern_set_extend (tile, CAIRO_EXTEND_NONE);
+	cairo_pattern_set_extend (tile, CAIRO_EXTEND_PAD);
+	cairo_scale (cr, width / tile_width, height / tile_height);
 	cairo_set_source (cr, tile);
-	cairo_scale (cr, tile_width / width, tile_height / height);
 	cairo_paint (cr);
 		
 	/* Cleanup. */
@@ -187,9 +187,14 @@ paint (cairo_pattern_t		*tile,
        double			 x,
        double			 y)
 {
+	cairo_save (cr);
+	cairo_translate (cr, x, y);
+
 	cairo_pattern_set_extend (tile, CAIRO_EXTEND_NONE);
 	cairo_set_source (cr, tile);
 	cairo_paint (cr);
+
+	cairo_restore (cr);
 }
 
 void
@@ -259,7 +264,7 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 			    left_width + top_width, 0,
 			    right_width, top_height);
 	if (tile) {
-		xoff = x + left_width + top_width;
+		xoff = x + width - left_width;
 		yoff = y;
 		paint (tile, cr, xoff, yoff);
 		cairo_pattern_destroy (tile), tile = NULL;
@@ -271,7 +276,7 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 			      right_width, height - top_height - bottom_height,
 			      left_width + middle_width, top_height, right_width, right_height);
 	if (tile) {
-		xoff = x + left_width + middle_width;
+		xoff = x + width - left_width;
 		yoff = y + top_height;
 		paint (tile, cr, xoff, yoff);
 		cairo_pattern_destroy (tile), tile = NULL;
@@ -282,8 +287,8 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 			    left_width + bottom_width, top_height + right_height,
 			    right_width, bottom_height);
 	if (tile) {
-		xoff = x + left_width + bottom_width;
-		yoff = y + top_height + right_height;
+		xoff = x + width - left_width;
+		yoff = y + height - bottom_height;
 		paint (tile, cr, xoff, yoff);
 		cairo_pattern_destroy (tile), tile = NULL;
 	}
@@ -295,7 +300,7 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 			      left_width, top_height + middle_height, bottom_width, bottom_height);
 	if (tile) {
 		xoff = x + left_width;
-		yoff = y + top_height + middle_height;
+		yoff = y + height - bottom_height;
 		paint (tile, cr, xoff, yoff);
 		cairo_pattern_destroy (tile), tile = NULL;
 	}
@@ -306,7 +311,7 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 			    left_width, bottom_height);
 	if (tile) {
 		xoff = x;
-		yoff = y + top_height + right_height;
+		yoff = y + height - bottom_height;
 		paint (tile, cr, xoff, yoff);
 		cairo_pattern_destroy (tile), tile = NULL;
 	}
@@ -327,13 +332,13 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 	tile = create_middle (&self->image, 
 			      self->top_middle_bottom_horizontal_tiling,
 			      self->left_middle_right_vertical_tiling,
-			      width - left_width - bottom_width,
+			      width - left_width - right_width,
 			      height - top_height - bottom_height,
 			      left_width, top_height,
 			      middle_width, middle_height);
 	if (tile) {
 		xoff = x + left_width;
-		yoff = y + top_width;
+		yoff = y + top_height;
 		paint (tile, cr, xoff, yoff);
 		cairo_pattern_destroy (tile), tile = NULL;
 	}

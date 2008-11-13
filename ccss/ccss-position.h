@@ -92,12 +92,8 @@ ccss_position_get_vsize	(ccss_position_t const	*self,
 			 double			 width,
 			 double			 height);
 
-#ifdef CCSS_DEBUG
-
-void
-ccss_position_dump (ccss_position_t const *self);
-
-#endif
+char *
+ccss_position_serialize (ccss_position_t const *self);
 
 CCSS_END_DECLS
 

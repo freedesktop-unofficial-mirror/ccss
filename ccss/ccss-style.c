@@ -309,6 +309,61 @@ convert_border_radius (ccss_border_join_t const	*property,
 }
 
 static bool
+convert_border_image (ccss_border_image_t const	*property,
+		      ccss_property_type_t	 target,
+		      void			*value)
+{
+	char *top, *right, *bottom, *left;
+	char const *horizontal_tiling, *vertical_tiling;
+
+	g_return_val_if_fail (property && value, false);
+
+	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
+		return false;
+
+	top = ccss_position_serialize (&property->top);
+	right = ccss_position_serialize (&property->right);
+	bottom = ccss_position_serialize (&property->bottom);
+	left = ccss_position_serialize (&property->left);
+
+	switch (property->top_middle_bottom_horizontal_tiling) {
+	case CCSS_BORDER_IMAGE_TILING_REPEAT:
+		horizontal_tiling = "repeat";
+		break;
+	case CCSS_BORDER_IMAGE_TILING_ROUND:
+		horizontal_tiling = "round";
+		break;
+	case CCSS_BORDER_IMAGE_TILING_STRETCH:
+		horizontal_tiling = "stretch";
+		break;
+	}
+
+	switch (property->left_middle_right_vertical_tiling) {
+	case CCSS_BORDER_IMAGE_TILING_REPEAT:
+		vertical_tiling = "repeat";
+		break;
+	case CCSS_BORDER_IMAGE_TILING_ROUND:
+		vertical_tiling = "round";
+		break;
+	case CCSS_BORDER_IMAGE_TILING_STRETCH:
+		vertical_tiling = "stretch";
+		break;
+	}
+
+	* (char **) value = g_strdup_printf ("url(%s) %s %s %s %s %s %s", 
+				property->image.uri,
+				top, right, bottom, left,
+				horizontal_tiling, vertical_tiling);
+
+	g_free (top), top = NULL;
+	g_free (right), right = NULL;
+	g_free (bottom), bottom = NULL;
+	g_free (left), left = NULL;
+
+	return true;
+}
+
+static bool
 convert_color (ccss_color_t const	*property,
 	       ccss_property_type_t	 target,
 	       void			*value)
@@ -399,6 +454,8 @@ ccss_style_init (void)
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS, (ccss_property_convert_f) convert_border_radius);
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS, (ccss_property_convert_f) convert_border_radius);
 	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_LEFT_RADIUS, (ccss_property_convert_f) convert_border_radius);
+
+	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_IMAGE, (ccss_property_convert_f) convert_border_image);
 
 	ccss_property_register_conversion_function (CCSS_PROPERTY_COLOR, (ccss_property_convert_f) convert_color);
 }
@@ -788,6 +845,7 @@ ccss_style_draw_rectangle (ccss_style_t const	*self,
 	ccss_border_join_t const	*bottom_right;
 	ccss_border_join_t const	*top_left;
 	ccss_border_join_t const	*top_right;
+	ccss_border_image_t const	*border_image;
 
 	ccss_background_attachment_t const	*bg_attachment;
 	ccss_color_t const			*bg_color;
@@ -829,12 +887,26 @@ ccss_style_draw_rectangle (ccss_style_t const	*self,
 
 	cairo_new_path (cr);
 
-	ccss_border_draw (&left, top_left, 
-			  &top, top_right,
-			  &right, bottom_right,
-			  &bottom, bottom_left,
-			  CCSS_BORDER_VISIBILITY_SHOW_ALL,
-			  cr, x, y, width, height);
+	/* PONDERING: should border-image vs. border be resolved at style application time, 
+	 * i.e. should a higher-priority border override border-image? */
+	border_image = 	(ccss_border_image_t const *) 
+		g_hash_table_lookup (
+			self->properties,
+			(gpointer) CCSS_PROPERTY_BORDER_IMAGE);
+
+	if (border_image) {
+
+		ccss_border_image_draw (border_image, cr,
+					x, y, width, height);
+
+	} else {
+		ccss_border_draw (&left, top_left, 
+				  &top, top_right,
+				  &right, bottom_right,
+				  &bottom, bottom_left,
+				  CCSS_BORDER_VISIBILITY_SHOW_ALL,
+				  cr, x, y, width, height);
+	}
 }
 
 #ifdef CCSS_DEBUG

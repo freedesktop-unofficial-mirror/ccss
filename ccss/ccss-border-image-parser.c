@@ -113,22 +113,22 @@ ccss_block_parse_border_image (ccss_block_t	*self,
 	bimg.top_middle_bottom_horizontal_tiling = CCSS_BORDER_IMAGE_TILING_STRETCH;
 	bimg.left_middle_right_vertical_tiling = CCSS_BORDER_IMAGE_TILING_STRETCH;
 
-	if (values) {
+	if (iter) {
 		/* vertical */
-		ret = parse_tiling (&values, &bimg.top_middle_bottom_horizontal_tiling);
+		ret = parse_tiling (&iter, &bimg.top_middle_bottom_horizontal_tiling);
 		if (!ret)
 			return false;
 	}
 
-	if (!values) {
+	if (!iter) {
 		/* Only one tiling param, so both are equal. */
 		bimg.left_middle_right_vertical_tiling = bimg.top_middle_bottom_horizontal_tiling;
 	}
 		
 
-	if (values) {
+	if (iter) {
 		/* horizontal */
-		ret = parse_tiling (&values, &bimg.left_middle_right_vertical_tiling);
+		ret = parse_tiling (&iter, &bimg.left_middle_right_vertical_tiling);
 		if (!ret)
 			return false;
 	}
