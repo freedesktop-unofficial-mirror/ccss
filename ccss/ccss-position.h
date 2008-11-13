@@ -64,26 +64,39 @@ typedef struct {
 	double			value;
 } ccss_position_t;
 
-bool ccss_position_parse	(ccss_position_t *self, uint32_t flags, 
-			 CRTerm const **value);
+bool
+ccss_position_parse	(ccss_position_t	 *self,
+			 uint32_t		  flags, 
+			 CRTerm const		**value);
 
-double ccss_position_get_pos (ccss_position_t const *self,
-			     double extent, double size);
+double
+ccss_position_get_pos	(ccss_position_t const	*self,
+			 double			 extent,
+			 double			 size);
 
-double ccss_position_get_vpos (ccss_position_t const *self,
-			      double extent_x, double extent_y,
-			      double width, double height);
+double
+ccss_position_get_size	(ccss_position_t const	*self,
+			 double			 extent);
 
-double ccss_position_get_hsize (ccss_position_t const *self,
-			       double extent_x, double extent_y,
-			       double width, double height);
+double
+ccss_position_get_hsize	(ccss_position_t const	*self,
+			 double			 extent_x,
+			 double			 extent_y,
+			 double			 width,
+			 double			 height);
 
-double ccss_position_get_vsize (ccss_position_t const *self,
-			       double extent_x, double extent_y,
-			       double width, double height);
+double
+ccss_position_get_vsize	(ccss_position_t const	*self,
+			 double			 extent_x,
+			 double			 extent_y,
+			 double			 width,
+			 double			 height);
 
 #ifdef CCSS_DEBUG
-void ccss_position_dump (ccss_position_t const *self);
+
+void
+ccss_position_dump (ccss_position_t const *self);
+
 #endif
 
 CCSS_END_DECLS

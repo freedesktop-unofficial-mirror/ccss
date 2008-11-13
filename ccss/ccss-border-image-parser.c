@@ -48,6 +48,9 @@ parse_tiling (CRTerm const			**value,
 	return false;
 }
 
+/*
+ * FIXME: create all the border-image tiles here and save some time while painting.
+ */
 bool
 ccss_block_parse_border_image (ccss_block_t	*self,
 			       char const	*property, 
@@ -107,25 +110,25 @@ ccss_block_parse_border_image (ccss_block_t	*self,
 	}
 
 	/* Tiling. */
-	bimg.vertical_tiling = CCSS_BORDER_IMAGE_TILING_STRETCH;
-	bimg.horizontal_tiling = CCSS_BORDER_IMAGE_TILING_STRETCH;
+	bimg.top_middle_bottom_horizontal_tiling = CCSS_BORDER_IMAGE_TILING_STRETCH;
+	bimg.left_middle_right_vertical_tiling = CCSS_BORDER_IMAGE_TILING_STRETCH;
 
 	if (values) {
 		/* vertical */
-		ret = parse_tiling (&values, &bimg.vertical_tiling);
+		ret = parse_tiling (&values, &bimg.top_middle_bottom_horizontal_tiling);
 		if (!ret)
 			return false;
 	}
 
 	if (!values) {
 		/* Only one tiling param, so both are equal. */
-		bimg.horizontal_tiling = bimg.vertical_tiling;
+		bimg.left_middle_right_vertical_tiling = bimg.top_middle_bottom_horizontal_tiling;
 	}
 		
 
 	if (values) {
 		/* horizontal */
-		ret = parse_tiling (&values, &bimg.horizontal_tiling);
+		ret = parse_tiling (&values, &bimg.left_middle_right_vertical_tiling);
 		if (!ret)
 			return false;
 	}

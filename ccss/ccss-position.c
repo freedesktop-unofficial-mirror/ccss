@@ -38,8 +38,8 @@ static const struct {
 
 bool
 ccss_position_parse (ccss_position_t	 *self,
-		    uint32_t		  flags,
-		    CRTerm const	**values)
+		     uint32_t		  flags,
+		     CRTerm const	**values)
 {
 	char const *name;
 
@@ -93,14 +93,35 @@ ccss_position_parse (ccss_position_t	 *self,
 
 double
 ccss_position_get_pos (ccss_position_t const	*self,
-		      double			 extent,
-		      double			 size)
+		       double			 extent,
+		       double			 size)
 {
 	switch (self->type) {
 	case CCSS_POSITION_LENGTH:
 		return self->value;
 	case CCSS_POSITION_PERCENTAGE:
 		return self->value / 100. * (extent - size);
+	case CCSS_POSITION_CONTAIN:
+	case CCSS_POSITION_COVER:
+	case CCSS_POSITION_AUTO:
+	default:
+		g_assert_not_reached ();
+		/* Need some code here when building w/o assertions. */
+		return 0;
+	}
+
+	return 0;
+}
+
+double
+ccss_position_get_size (ccss_position_t const	*self,
+		        double			 extent)
+{
+	switch (self->type) {
+	case CCSS_POSITION_LENGTH:
+		return self->value;
+	case CCSS_POSITION_PERCENTAGE:
+		return self->value / 100. * extent;
 	case CCSS_POSITION_CONTAIN:
 	case CCSS_POSITION_COVER:
 	case CCSS_POSITION_AUTO:
@@ -155,10 +176,10 @@ cover (double	 extent_x,
 
 double
 ccss_position_get_hsize (ccss_position_t const	*self,
-		        double			 extent_x,
-		        double			 extent_y,
-		        double			 width,
-		        double			 height)
+			 double			 extent_x,
+			 double			 extent_y,
+			 double			 width,
+			 double			 height)
 {
 	double x;
 	double y;
@@ -187,10 +208,10 @@ ccss_position_get_hsize (ccss_position_t const	*self,
 
 double
 ccss_position_get_vsize (ccss_position_t const	*self,
-		        double			 extent_x,
-		        double			 extent_y,
-		        double			 width,
-		        double			 height)
+			 double			 extent_x,
+			 double			 extent_y,
+			 double			 width,
+			 double			 height)
 {
 	double x;
 	double y;

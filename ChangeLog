@@ -1,3 +1,13 @@
+2008-11-13  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-border-image-parser.c (ccss_block_parse_border_image):
+	* ccss/ccss-border-image.c (create_tile), (create_border),
+	(create_middle), (paint), (ccss_border_image_draw):
+	* ccss/ccss-border-image.h:
+	* ccss/ccss-position.c (ccss_position_get_size):
+	* ccss/ccss-position.h:
+	Basic `border-image' drawing code.
+
 2008-11-12  Robert Staudinger  <robsta@gnome.org>
 
 	reported by: Thomas Wood <thomas@linux.intel.com>

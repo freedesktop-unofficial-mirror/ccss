@@ -43,8 +43,8 @@ typedef struct {
 	ccss_position_t			right;
 	ccss_position_t			bottom;
 	ccss_position_t			left;
-	ccss_border_image_tiling_t	vertical_tiling;
-	ccss_border_image_tiling_t	horizontal_tiling;
+	ccss_border_image_tiling_t	top_middle_bottom_horizontal_tiling;
+	ccss_border_image_tiling_t	left_middle_right_vertical_tiling;
 } ccss_border_image_t;
 
 void
