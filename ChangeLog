@@ -1,3 +1,18 @@
+2008-11-17  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/ccss-parser.c (property_cb), (ccss_parser_parse_file),
+	(ccss_parser_parse_buffer), (ccss_parser_parse_inline):
+	* ccss/ccss-parser.h:
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_new),
+	(ccss_stylesheet_new_from_buffer), (ccss_stylesheet_new_from_file),
+	(ccss_stylesheet_add_from_file), (ccss_stylesheet_free),
+	(query_node), (ccss_stylesheet_invalidate_node):
+	* ccss/ccss-stylesheet.h:
+	* ccss/ccss.sym:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/stylesheet.sgml:
+	New API `ccss_stylesheet_invalidate_node' to invalidate inline CSS when using dynamically created document nodes.
+
 2008-11-13  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/ccss-border-image-parser.c (ccss_block_parse_border_image):

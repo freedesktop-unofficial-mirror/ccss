@@ -38,7 +38,7 @@ typedef struct {
 
 typedef struct {
 	ccss_stylesheet_precedence_t	 precedence;
-	GSList				*block_list;
+	GHashTable			*blocks;
 	GHashTable			*groups;
 	ccss_block_t			*block;
 	ccss_block_t			*important_block;
@@ -292,15 +292,17 @@ property_cb (CRDocHandler	*handler,
 	if (is_important) {
 		if (NULL == info->important_block) {
 			info->important_block = ccss_block_new ();
-			info->block_list = g_slist_prepend (info->block_list,
-							    info->important_block);
+			g_hash_table_insert (info->blocks,
+					     (gpointer) info->important_block,
+					     (gpointer) info->important_block);
 		}
 		block = info->important_block;
 	} else {
 		if (NULL == info->block) {
 			info->block = ccss_block_new ();
-			info->block_list = g_slist_prepend (info->block_list,
-							    info->block);
+			g_hash_table_insert (info->blocks,
+					     (gpointer) info->block,
+					     (gpointer) info->block);
 		}
 		block = info->block;
 	}
@@ -388,10 +390,10 @@ end_selector_cb (CRDocHandler	*handler,
 }
 
 enum CRStatus
-ccss_parser_parse_file (char const			 *css_file,
-			ccss_stylesheet_precedence_t	  precedence,
-			GHashTable			 *groups,
-			GSList				**block_list)
+ccss_parser_parse_file (char const			*css_file,
+			ccss_stylesheet_precedence_t	 precedence,
+			GHashTable			*groups,
+			GHashTable			*blocks)
 {
 	CRParser		*parser;
 	CRDocHandler		*handler;
@@ -405,7 +407,7 @@ ccss_parser_parse_file (char const			 *css_file,
 	handler = cr_doc_handler_new ();
 	handler->app_data = (gpointer) &info;
 	info.precedence = precedence;
-	info.block_list = *block_list;
+	info.blocks = blocks;
 	info.groups = groups;
 	info.block = NULL;
 	info.important_block = NULL;
@@ -429,17 +431,15 @@ ccss_parser_parse_file (char const			 *css_file,
 #endif
 	cr_parser_destroy (parser), parser = NULL;
 
-	*block_list = info.block_list;
-
 	return ret;
 }
 
 enum CRStatus
-ccss_parser_parse_buffer (char const			 *buffer,
-			  size_t			  size,
-			  ccss_stylesheet_precedence_t	  precedence,
-			  GHashTable			 *groups,
-			  GSList			**block_list)
+ccss_parser_parse_buffer (char const			*buffer,
+			  size_t			 size,
+			  ccss_stylesheet_precedence_t	 precedence,
+			  GHashTable			*groups,
+			  GHashTable			*blocks)
 {
 	CRParser		*parser;
 	CRDocHandler		*handler;
@@ -454,7 +454,7 @@ ccss_parser_parse_buffer (char const			 *buffer,
 	handler = cr_doc_handler_new ();
 	handler->app_data = (gpointer) &info;
 	info.precedence = precedence;
-	info.block_list = *block_list;
+	info.blocks = blocks;
 	info.groups = groups;
 	info.block = NULL;
 	info.important_block = NULL;
@@ -473,17 +473,15 @@ ccss_parser_parse_buffer (char const			 *buffer,
 #endif
 	cr_parser_destroy (parser);
 
-	*block_list = info.block_list;
-
 	return ret;
 }
 
 enum CRStatus
-ccss_parser_parse_inline (char const			 *buffer,
-			  ccss_stylesheet_precedence_t	  precedence,
-			  ptrdiff_t			  instance,
-			  ccss_selector_group_t		 *result_group,
-			  GSList			**block_list)
+ccss_parser_parse_inline (char const			*buffer,
+			  ccss_stylesheet_precedence_t	 precedence,
+			  ptrdiff_t			 instance,
+			  ccss_selector_group_t		*result_group,
+			  GHashTable			*blocks)
 {
 	CRParser		*parser;
 	CRDocHandler		*handler;
@@ -504,7 +502,7 @@ ccss_parser_parse_inline (char const			 *buffer,
 	handler = cr_doc_handler_new ();
 	handler->app_data = (gpointer) &info;
 	info.precedence = precedence;
-	info.block_list = *block_list;
+	info.blocks = blocks;
 	info.groups = NULL;
 	info.block = NULL;
 	info.important_block = NULL;
@@ -525,8 +523,6 @@ ccss_parser_parse_inline (char const			 *buffer,
 #endif
 	cr_parser_destroy (parser);
 	g_string_free (stmt, true), stmt = NULL;
-
-	*block_list = info.block_list;
 
 	return ret;	
 }

@@ -90,6 +90,15 @@ ccss_stylesheet_t
 @self: 
 
 
+<!-- ##### FUNCTION ccss_stylesheet_invalidate_node ##### -->
+<para>
+
+</para>
+
+@self: 
+@instance: 
+
+
 <!-- ##### FUNCTION ccss_stylesheet_query_type ##### -->
 <para>
 

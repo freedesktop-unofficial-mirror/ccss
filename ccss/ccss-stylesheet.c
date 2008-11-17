@@ -35,7 +35,7 @@
  * Represents a parsed instance of a stylesheet.
  **/
 struct ccss_stylesheet_ {
-	GSList		*blocks;
+	GHashTable	*blocks;
 	GHashTable	*groups;
 };
 
@@ -45,6 +45,8 @@ ccss_stylesheet_new (void)
 	ccss_stylesheet_t *self;
 
 	self = g_new0 (ccss_stylesheet_t, 1);
+	self->blocks = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+					      NULL, (GDestroyNotify) ccss_block_free);
 	self->groups = g_hash_table_new (g_str_hash, g_str_equal);
 
 	return self;
@@ -114,7 +116,7 @@ ccss_stylesheet_new_from_buffer (char const	*buffer,
 
 	ret = ccss_parser_parse_buffer (buffer, size, 
 					CCSS_STYLESHEET_AUTHOR,
-					self->groups, &self->blocks);
+					self->groups, self->blocks);
 
 	fix_dangling_selectors (self);
 
@@ -140,7 +142,7 @@ ccss_stylesheet_new_from_file (char const *css_file)
 	self = ccss_stylesheet_new ();
 
 	ret = ccss_parser_parse_file (css_file, CCSS_STYLESHEET_AUTHOR,
-				      self->groups, &self->blocks);
+				      self->groups, self->blocks);
 
 	fix_dangling_selectors (self);
 
@@ -171,7 +173,7 @@ ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
 	}
 
 	ret = ccss_parser_parse_file (css_file, precedence,
-				      self->groups, &self->blocks);
+				      self->groups, self->blocks);
 
 	fix_dangling_selectors (self);
 
@@ -189,18 +191,9 @@ ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
 void
 ccss_stylesheet_free (ccss_stylesheet_t *self)
 {
-	GSList		*iter;
-	ccss_block_t	*block;
-
 	g_assert (self);
 
-	iter = self->blocks;
-	while (iter) {
-		block = (ccss_block_t *) iter->data;
-		iter = g_slist_remove (iter, block);
-		ccss_block_free (block);
-	}
-
+	g_hash_table_destroy (self->blocks);
 	g_hash_table_destroy (self->groups);
 	g_free (self);
 }
@@ -289,7 +282,6 @@ query_node (ccss_stylesheet_t const	*self,
 	ccss_selector_group_t const	*universal_group;
 	ccss_selector_group_t		*result_group;
 	char const			*inline_css;
-	GSList				*block_list;
 	enum CRStatus			 status;
 	bool				 ret;
 
@@ -311,7 +303,6 @@ query_node (ccss_stylesheet_t const	*self,
 	/* Handle inline styling. */
 	node_class = node->node_class;
 	inline_css = node_class->get_style (node);
-	block_list = NULL;
 	if (inline_css) {
 		ptrdiff_t instance;
 		instance = node_class->get_instance (node);
@@ -321,7 +312,7 @@ query_node (ccss_stylesheet_t const	*self,
 			status = ccss_parser_parse_inline (inline_css, 
 							   CCSS_STYLESHEET_AUTHOR,
 							   instance, result_group,
-							   &block_list);
+							   self->blocks);
 			ret &= (status == CR_OK);
 		}
 	}
@@ -486,6 +477,22 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 	g_hash_table_destroy (inherit), inherit = NULL;
 
 	return ret;
+}
+
+/**
+ * ccss_stylesheet_invalidate_node:
+ * @self:	a #ccss_stylesheet_t.
+ * @instance:	an instance identifyer, as returned by #ccss_node_get_instance_f.
+ * 
+ * Frees parsed inline CSS asocciated to a document node.
+ **/
+void
+ccss_stylesheet_invalidate_node (ccss_stylesheet_t const	*self,
+				 ptrdiff_t			 instance)
+{
+	g_assert (self && self->blocks);
+
+	g_hash_table_remove (self->blocks, (gconstpointer) instance);
 }
 
 /**

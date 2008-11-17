@@ -68,6 +68,10 @@ ccss_stylesheet_query		(ccss_stylesheet_t const	*self,
 				 ccss_node_t const		*node, 
 				 ccss_style_t			*style);
 
+void
+ccss_stylesheet_invalidate_node	(ccss_stylesheet_t const	*self,
+				 ptrdiff_t			 instance);
+
 /**
  * ccss_stylesheet_iterator_f:
  * @self:	a #ccss_stylesheet_t.
