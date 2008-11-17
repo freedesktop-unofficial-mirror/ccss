@@ -22,6 +22,7 @@
 
 #include <cairo.h>
 #include <libcroco/libcroco.h>
+#include <ccss/ccss-block.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
@@ -37,6 +38,7 @@ typedef struct {
 
 ccss_property_spec_t
 ccss_image_parse (ccss_image_t	 *self,
+		  ccss_block_t	 *block,
 		  char const	 *property_name,
 		  CRTerm const	**value);
 

@@ -26,7 +26,8 @@
 
 /* Implementation of the CSS url() function. */
 static char *
-url (char const		*property_name,
+url (ccss_block_t	*block,
+     char const		*property_name,
      char const		*function_name,
      GSList const	*args)
 {

@@ -31,7 +31,8 @@ static char const _css[] = "				\
 ";
 
 static char *
-url (char const		*property_name,
+url (ccss_block_t	*block,
+     char const		*property_name,
      char const		*function_name,
      GSList const	*args)
 {

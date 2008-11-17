@@ -20,6 +20,7 @@
 #ifndef CCSS_FUNCTION_H
 #define CCSS_FUNCTION_H
 
+#include <ccss/ccss-block.h>
 #include <ccss/ccss-macros.h>
 
 CCSS_BEGIN_DECLS
@@ -29,6 +30,7 @@ struct _GSList;
 
 /**
  * ccss_function_f:
+ * @block:		the CSS block context of the invoked function.
  * @property_name:	property that the function is associated with, e.g. `background-image'.
  * @function_name:	name of the function, e.g. `url'.
  * @args:		argument-list passed to the function.
@@ -37,9 +39,10 @@ struct _GSList;
  *
  * Returns: the function's result as a string.
  **/
-typedef char * (*ccss_function_f) (char const			*property_name,
-				   char const			*function_name,
-				   struct _GSList const		*values);
+typedef char * (*ccss_function_f) (ccss_block_t		*block,
+				   char const		*property_name,
+				   char const		*function_name,
+				   struct _GSList const	*values);
 
 /**
  * ccss_function_t:

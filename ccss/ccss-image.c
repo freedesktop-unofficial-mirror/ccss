@@ -166,6 +166,7 @@ load_image (ccss_image_t *self)
 
 ccss_property_spec_t
 ccss_image_parse (ccss_image_t	 *self,
+		  ccss_block_t	 *block,
 		  char const	 *property_name,
 		  CRTerm const	**value)
 {
@@ -173,7 +174,7 @@ ccss_image_parse (ccss_image_t	 *self,
 	case TERM_IDENT:
 		return ccss_property_parse_spec (value);
 	case TERM_URI:
-		self->uri = ccss_function_invoke (property_name, "url", *value);
+		self->uri = ccss_function_invoke (block, property_name, "url", *value);
 		*value = (*value)->next;
 		return load_image (self) ? 
 			CCSS_PROPERTY_SPEC_SET :

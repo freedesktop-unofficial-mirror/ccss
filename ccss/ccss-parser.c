@@ -321,7 +321,7 @@ property_cb (CRDocHandler	*handler,
 		ccss_color_t *color, c;
 		bool ret;
 
-		ret = ccss_color_parse (&c, property, (CRTerm const **) &values);
+		ret = ccss_color_parse (&c, block, property, (CRTerm const **) &values);
 		if (ret) {
 			color = ccss_block_new_color (block);
 			*color = c;

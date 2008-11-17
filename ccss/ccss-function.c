@@ -143,7 +143,8 @@ parse_args_r (GSList		 *args,
 }
 
 char *
-ccss_function_invoke (char const	*property_name,
+ccss_function_invoke (ccss_block_t	*block,
+		      char const	*property_name,
 		      char const	*function_name,
 		      CRTerm const	*values)
 {
@@ -172,7 +173,7 @@ ccss_function_invoke (char const	*property_name,
 	args = g_slist_reverse (args);
 
 	/* dispatch */
-	ret = function (property_name, function_name, args);
+	ret = function (block, property_name, function_name, args);
 
 	/* free args */
 	while (args) {

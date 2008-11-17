@@ -21,6 +21,7 @@
 #define CCSS_FUNCTION_PRIV_H
 
 #include <libcroco/libcroco.h>
+#include <ccss/ccss-block.h>
 #include <ccss/ccss-function.h>
 #include <ccss/ccss-macros.h>
 
@@ -29,7 +30,8 @@ CCSS_BEGIN_DECLS
 void ccss_function_set_vtable (ccss_function_t const *vtable);
 
 char *
-ccss_function_invoke (char const	*property_name,
+ccss_function_invoke (ccss_block_t	*block,
+		      char const	*property_name,
 		      char const	*function_name,
 		      CRTerm const	*args);
 

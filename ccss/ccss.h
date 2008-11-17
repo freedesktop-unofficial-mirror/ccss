@@ -20,6 +20,7 @@
 #ifndef CCSS_H
 #define CCSS_H
 
+#include <ccss/ccss-block.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-function.h>
 #include <ccss/ccss-macros.h>

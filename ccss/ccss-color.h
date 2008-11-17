@@ -22,6 +22,7 @@
 
 #include <stdbool.h>
 #include <libcroco/libcroco.h>
+#include <ccss/ccss-block.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
 
@@ -46,6 +47,7 @@ ccss_color_init (ccss_color_t *self);
 
 bool
 ccss_color_parse (ccss_color_t	 *self,
+		  ccss_block_t	 *block,
 		  char const	 *property_name,
 		  CRTerm const	**values);
 

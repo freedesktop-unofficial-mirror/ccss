@@ -100,11 +100,12 @@ parse_style (CRTerm const		**value,
 }
 
 static ccss_property_spec_t
-parse_color (char const		 *property_name,
+parse_color (ccss_block_t	 *self,
+	     char const		 *property_name,
 	     CRTerm const	**value,
 	     ccss_color_t	 *color)
 {
-	ccss_color_parse (color, property_name, value);
+	ccss_color_parse (color, self, property_name, value);
 
 	return color->spec;
 }
@@ -129,7 +130,8 @@ parse_radius (CRTerm const		**value,
 }
 
 static bool
-parse_stroke_property (ccss_color_t		*color,
+parse_stroke_property (ccss_block_t		*self,
+		       ccss_color_t		*color,
 		       ccss_border_style_t	*style,
 		       ccss_border_width_t	*width,
 		       char const		*property,
@@ -163,7 +165,7 @@ parse_stroke_property (ccss_color_t		*color,
 
 		ccss_color_t c;
 
-		c.spec = parse_color (property, &value, &c);
+		c.spec = parse_color (self, property, &value, &c);
 		if (CCSS_PROPERTY_SPEC_UNSET == c.spec) {
 			return false;
 		}
@@ -313,7 +315,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 	/* Test for specific properties first. */
 	if (g_str_has_prefix (property, "border-left-")) {
 
-		ret = parse_stroke_property (&c, &s, &w, property, values);
+		ret = parse_stroke_property (self, &c, &s, &w, property, values);
 		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_left_color (self); *color = c; }
 		if (s.spec != CCSS_PROPERTY_SPEC_UNSET) { style = ccss_block_new_border_left_style (self); *style = s; }
 		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_left_width (self); *width = w; }
@@ -321,7 +323,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 
 	} else if (g_str_has_prefix (property, "border-top-")) {
 
-		ret = parse_stroke_property (&c, &s, &w, property, values);
+		ret = parse_stroke_property (self, &c, &s, &w, property, values);
 		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_top_color (self); *color = c; }
 		if (s.spec != CCSS_PROPERTY_SPEC_UNSET) { style = ccss_block_new_border_top_style (self); *style = s; }
 		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_top_width (self); *width = w; }
@@ -329,7 +331,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 
 	} else if (g_str_has_prefix (property, "border-right-")) {
 
-		ret = parse_stroke_property (&c, &s, &w, property, values);
+		ret = parse_stroke_property (self, &c, &s, &w, property, values);
 		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_right_color (self); *color = c; }
 		if (s.spec != CCSS_PROPERTY_SPEC_UNSET) { style = ccss_block_new_border_right_style (self); *style = s; }
 		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_right_width (self); *width = w; }
@@ -337,7 +339,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 
 	} else if (g_str_has_prefix (property, "border-bottom-")) {
 
-		ret = parse_stroke_property (&c, &s, &w, property, values);
+		ret = parse_stroke_property (self, &c, &s, &w, property, values);
 		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_bottom_color (self); *color = c; }
 		if (s.spec != CCSS_PROPERTY_SPEC_UNSET) { style = ccss_block_new_border_bottom_style (self); *style = s; }
 		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_bottom_width (self); *width = w; }
@@ -351,10 +353,10 @@ ccss_block_parse_border (ccss_block_t	*self,
 
 		iter = values;
 		n_values = 0;
-		if (iter) { parse_color (property, &iter, &c0); n_values++; }
-		if (iter) { parse_color (property, &iter, &c1); n_values++; }
-		if (iter) { parse_color (property, &iter, &c2); n_values++; }
-		if (iter) { parse_color (property, &iter, &c3); n_values++; }
+		if (iter) { parse_color (self, property, &iter, &c0); n_values++; }
+		if (iter) { parse_color (self, property, &iter, &c1); n_values++; }
+		if (iter) { parse_color (self, property, &iter, &c2); n_values++; }
+		if (iter) { parse_color (self, property, &iter, &c3); n_values++; }
 
 		if (n_values == 0) {
 
@@ -499,7 +501,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 		c.spec = CCSS_PROPERTY_SPEC_NONE;
 	} else {
 		s.spec = parse_style (&iter, &s.style);
-		parse_color (property, &iter, &c);
+		parse_color (self, property, &iter, &c);
 	}
 
 	if (0 == strcmp ("border", property)) {
