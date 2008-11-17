@@ -1,5 +1,33 @@
 2008-11-17  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-clutter/example-2.c (url):
+	* ccss/ccss-background-parser.c (bg_image_parse),
+	(ccss_block_parse_background):
+	* ccss/ccss-block.c (ccss_block_add_property):
+	* ccss/ccss-block.h:
+	* ccss/ccss-border-image-parser.c (ccss_block_parse_border_image):
+	* ccss/ccss-border-parser.c (parse_color), (parse_stroke_property),
+	(ccss_block_parse_border):
+	* ccss/ccss-color.c (parse), (ccss_color_parse):
+	* ccss/ccss-color.h:
+	* ccss/ccss-function-priv.h:
+	* ccss/ccss-function.c (ccss_function_invoke):
+	* ccss/ccss-function.h:
+	* ccss/ccss-image.c (ccss_image_parse):
+	* ccss/ccss-image.h:
+	* ccss/ccss-parser.c (property_cb):
+	* ccss/ccss-style.c (ccss_style_get_property):
+	* ccss/ccss-style.h:
+	* ccss/ccss.sym:
+	* configure.in:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/function.sgml:
+	* doc/tmpl/style.sgml:
+	* examples/example-3.c (url):
+	Extend function interface to support custom properties.
+
+2008-11-17  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/Makefile.am:
 	* ccss/ccss-background-parser.c:
 	* ccss/ccss-block-priv.h:

@@ -70,7 +70,7 @@ ccss_block_parse_border_image (ccss_block_t	*self,
 	iter = values;
 
 	/* Image */
-	bimg.spec = ccss_image_parse (&bimg.image, &iter);
+	bimg.spec = ccss_image_parse (&bimg.image, property, &iter);
 	if (CCSS_PROPERTY_SPEC_NONE == bimg.spec) {
 		border_image = ccss_block_new_border_image (self);
 		*border_image = bimg;

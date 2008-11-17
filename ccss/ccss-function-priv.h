@@ -28,7 +28,10 @@ CCSS_BEGIN_DECLS
 
 void ccss_function_set_vtable (ccss_function_t const *vtable);
 
-char * ccss_function_invoke (char const *name, CRTerm const *args);
+char *
+ccss_function_invoke (char const	*property_name,
+		      char const	*function_name,
+		      CRTerm const	*args);
 
 CCSS_END_DECLS
 

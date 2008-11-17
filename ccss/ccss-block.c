@@ -20,6 +20,29 @@
 #include <glib.h>
 #include "ccss-block-priv.h"
 
+void *
+ccss_block_add_property (ccss_block_t	*self,
+			 char const	*property_name,
+			 void		*value)
+{
+	GQuark	 property_id;
+	void	*old_property;
+
+	property_id = g_quark_try_string (property_name);
+	if (0 == property_id) {
+		property_id = g_quark_from_string (property_name);
+		/* FIXME: also hook into conversion mechanism? */
+	}
+
+	old_property = g_hash_table_lookup (self->properties,
+					    (gpointer) property_id);
+
+	g_hash_table_insert (self->properties,
+			     (gpointer) property_id, value);
+
+	return old_property;
+}
+
 ccss_block_t *
 ccss_block_new (void)
 {

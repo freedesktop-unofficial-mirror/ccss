@@ -35,12 +35,19 @@ typedef struct {
 	double		 height;
 } ccss_image_t;
 
-ccss_property_spec_t ccss_image_parse (ccss_image_t *self, CRTerm const **value);
+ccss_property_spec_t
+ccss_image_parse (ccss_image_t	 *self,
+		  char const	 *property_name,
+		  CRTerm const	**value);
 
-void ccss_image_discard (ccss_image_t *self);
+void
+ccss_image_discard (ccss_image_t *self);
 
 #ifdef CCSS_DEBUG
-void ccss_image_dump (ccss_image_t const *self);
+
+void
+ccss_image_dump (ccss_image_t const *self);
+
 #endif
 
 CCSS_END_DECLS

@@ -143,25 +143,27 @@ parse_args_r (GSList		 *args,
 }
 
 char *
-ccss_function_invoke (char const	*name,
-		     CRTerm const	*values)
+ccss_function_invoke (char const	*property_name,
+		      char const	*function_name,
+		      CRTerm const	*values)
 {
 	ccss_function_f	 function;
 	GSList		*args;
 	char		*ret;
 
-	g_return_val_if_fail (_vtable && name, NULL);
+	g_return_val_if_fail (_vtable && function_name, NULL);
 
 	function = NULL;
 	for (unsigned int i = 0; _vtable[i].name; i++) {
-		if (0 == strcmp (name, _vtable[i].name)) {
+		if (0 == strcmp (function_name, _vtable[i].name)) {
 			function = _vtable[i].function;
 			break;
 		}
 	}
 
 	if (!function) {
-		g_warning ("Function `%s' could not be resolved", name);
+		g_warning ("Property `%s': function `%s' could not be resolved",
+			   property_name, function_name);
 		return NULL;
 	}
 
@@ -170,7 +172,7 @@ ccss_function_invoke (char const	*name,
 	args = g_slist_reverse (args);
 
 	/* dispatch */
-	ret = function (args);
+	ret = function (property_name, function_name, args);
 
 	/* free args */
 	while (args) {

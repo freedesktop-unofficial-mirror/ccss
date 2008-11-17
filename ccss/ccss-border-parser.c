@@ -100,10 +100,11 @@ parse_style (CRTerm const		**value,
 }
 
 static ccss_property_spec_t
-parse_color (CRTerm const		**value,
-	     ccss_color_t		 *color)
+parse_color (char const		 *property_name,
+	     CRTerm const	**value,
+	     ccss_color_t	 *color)
 {
-	ccss_color_parse (color, value);
+	ccss_color_parse (color, property_name, value);
 
 	return color->spec;
 }
@@ -162,7 +163,7 @@ parse_stroke_property (ccss_color_t		*color,
 
 		ccss_color_t c;
 
-		c.spec = parse_color (&value, &c);
+		c.spec = parse_color (property, &value, &c);
 		if (CCSS_PROPERTY_SPEC_UNSET == c.spec) {
 			return false;
 		}
@@ -350,10 +351,10 @@ ccss_block_parse_border (ccss_block_t	*self,
 
 		iter = values;
 		n_values = 0;
-		if (iter) { parse_color (&iter, &c0); n_values++; }
-		if (iter) { parse_color (&iter, &c1); n_values++; }
-		if (iter) { parse_color (&iter, &c2); n_values++; }
-		if (iter) { parse_color (&iter, &c3); n_values++; }
+		if (iter) { parse_color (property, &iter, &c0); n_values++; }
+		if (iter) { parse_color (property, &iter, &c1); n_values++; }
+		if (iter) { parse_color (property, &iter, &c2); n_values++; }
+		if (iter) { parse_color (property, &iter, &c3); n_values++; }
 
 		if (n_values == 0) {
 
@@ -498,7 +499,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 		c.spec = CCSS_PROPERTY_SPEC_NONE;
 	} else {
 		s.spec = parse_style (&iter, &s.style);
-		parse_color (&iter, &c);
+		parse_color (property, &iter, &c);
 	}
 
 	if (0 == strcmp ("border", property)) {

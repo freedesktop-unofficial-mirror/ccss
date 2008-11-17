@@ -166,13 +166,14 @@ load_image (ccss_image_t *self)
 
 ccss_property_spec_t
 ccss_image_parse (ccss_image_t	 *self,
-		 CRTerm const	**value)
+		  char const	 *property_name,
+		  CRTerm const	**value)
 {
 	switch ((*value)->type) {
 	case TERM_IDENT:
 		return ccss_property_parse_spec (value);
 	case TERM_URI:
-		self->uri = ccss_function_invoke ("url", *value);
+		self->uri = ccss_function_invoke (property_name, "url", *value);
 		*value = (*value)->next;
 		return load_image (self) ? 
 			CCSS_PROPERTY_SPEC_SET :

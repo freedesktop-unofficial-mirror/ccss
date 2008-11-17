@@ -6,6 +6,7 @@ ccss_style_draw_outline
 ccss_style_draw_rectangle
 ccss_style_free
 ccss_style_get_double
+ccss_style_get_property
 ccss_style_get_string
 ccss_style_new
 ccss_stylesheet_add_from_file

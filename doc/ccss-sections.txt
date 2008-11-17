@@ -34,6 +34,7 @@ ccss_style_draw_line
 ccss_style_draw_outline
 ccss_style_draw_rectangle
 ccss_style_get_double
+ccss_style_get_property
 ccss_style_get_string
 ccss_style_dump
 </SECTION>

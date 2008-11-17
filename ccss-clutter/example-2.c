@@ -26,7 +26,9 @@
 
 /* Implementation of the CSS url() function. */
 static char *
-url (GSList const *args)
+url (char const		*property_name,
+     char const		*function_name,
+     GSList const	*args)
 {
 	g_return_val_if_fail (args, NULL);
 

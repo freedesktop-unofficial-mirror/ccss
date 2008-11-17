@@ -528,6 +528,8 @@ lookup_property_r (ccss_style_t const	*self,
  * @property_name:	name of the property.
  * @value:		location to store the converted property.
  *
+ * Query a numeric property.
+ *
  * Returns: %TRUE if the property was found and could be converted.
  **/
 bool 
@@ -560,6 +562,8 @@ ccss_style_get_double (ccss_style_t const	*self,
  * @property_name:	name of the property.
  * @value:		location to store the converted property.
  *
+ * Query a string property.
+ * 
  * Returns: %TRUE if the property was found and could be converted.
  **/
 bool 
@@ -584,6 +588,36 @@ ccss_style_get_string (ccss_style_t const	 *self,
 
 	return ccss_property_convert (property, property_id, 
 				      CCSS_PROPERTY_TYPE_STRING, value);
+}
+
+/**
+ * ccss_style_get_property:
+ * @self:		a #ccss_style_t.
+ * @property_name:	name of the property.
+ * @value:		location to store the raw property pointer.
+ * 
+ * Query a custom property.
+ *
+ * Returns: %TRUE if the property was found.
+ **/
+bool
+ccss_style_get_property	(ccss_style_t const	 *self,
+			 char const		 *property_name,
+			 void			**value)
+{
+	GQuark		 property_id;
+
+	g_return_val_if_fail (self && property_name && value, false);
+
+	property_id = g_quark_try_string (property_name);
+	if (0 == property_id) {
+		g_warning ("Unknown property `%s'", property_name);
+		return false;
+	}
+
+	return g_hash_table_lookup_extended (self->properties,
+					     (gconstpointer) property_id, NULL,
+					     value);
 }
 
 /**

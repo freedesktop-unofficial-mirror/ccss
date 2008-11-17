@@ -71,13 +71,14 @@ bg_attachment_parse (ccss_background_attachment_t	 *self,
 
 static bool
 bg_image_parse (ccss_background_image_t	 *self,
+		char const		 *property_name,
 		CRTerm const		**values)
 {
 	if (!*values) {
 		return false;
 	}
 
-	self->spec = ccss_image_parse (&self->image, values);
+	self->spec = ccss_image_parse (&self->image, property_name, values);
 	return self->spec == CCSS_PROPERTY_SPEC_SET;
 }
 
@@ -219,7 +220,7 @@ ccss_block_parse_background (ccss_block_t	*self,
 
 		/* FIXME: also support `background-size' here, but let's stick
 		 * to CSS2 for now. */
-		ret = ccss_color_parse (&bgc, &values);
+		ret = ccss_color_parse (&bgc, property, &values);
 		if (ret) {
 			bg_color = ccss_block_new_background_color (self);
 			*bg_color = bgc;
@@ -229,7 +230,7 @@ ccss_block_parse_background (ccss_block_t	*self,
 			return false;
 		}
 
-		ret = bg_image_parse (&bgi, &values);
+		ret = bg_image_parse (&bgi, property, &values);
 		if (ret) {
 			bg_image = ccss_block_new_background_image (self);
 			*bg_image = bgi;
@@ -285,7 +286,7 @@ ccss_block_parse_background (ccss_block_t	*self,
 
 	if (0 == strcmp ("background-color", property)) {
 
-		ret = ccss_color_parse (&bgc, &values);
+		ret = ccss_color_parse (&bgc, property, &values);
 		if (ret) {
 			bg_color = ccss_block_new_background_color (self);
 			*bg_color = bgc;
@@ -298,7 +299,7 @@ ccss_block_parse_background (ccss_block_t	*self,
 
 	if (0 == strcmp ("background-image", property)) {
 
-		ret = bg_image_parse (&bgi, &values);
+		ret = bg_image_parse (&bgi, property, &values);
 		if (ret) {
 			bg_image = ccss_block_new_background_image (self);
 			*bg_image = bgi;

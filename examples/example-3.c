@@ -31,7 +31,9 @@ static char const _css[] = "				\
 ";
 
 static char *
-url (GSList const *args)
+url (char const		*property_name,
+     char const		*function_name,
+     GSList const	*args)
 {
 	char *cwd;
 	char *path;

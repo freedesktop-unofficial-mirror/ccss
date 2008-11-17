@@ -68,14 +68,19 @@ ccss_style_draw_rectangle (ccss_style_t const	*self,
 			   int32_t		 height);
 
 bool
-ccss_style_get_double (ccss_style_t const	*self,
-		       char const		*property_name,
-		       double			*value);
+ccss_style_get_double	(ccss_style_t const	*self,
+			 char const		*property_name,
+			 double			*value);
 
 bool
-ccss_style_get_string (ccss_style_t const	 *self,
-		       char const		 *property_name,
-		       char			**value);
+ccss_style_get_string	(ccss_style_t const	 *self,
+			 char const		 *property_name,
+			 char			**value);
+
+bool
+ccss_style_get_property	(ccss_style_t const	 *self,
+			 char const		 *property_name,
+			 void			**value);
 
 #ifdef CCSS_DEBUG
 

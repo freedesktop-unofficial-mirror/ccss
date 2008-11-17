@@ -89,6 +89,17 @@ ccss_style_t
 @Returns: 
 
 
+<!-- ##### FUNCTION ccss_style_get_property ##### -->
+<para>
+
+</para>
+
+@self: 
+@property_name: 
+@value: 
+@Returns: 
+
+
 <!-- ##### FUNCTION ccss_style_get_string ##### -->
 <para>
 

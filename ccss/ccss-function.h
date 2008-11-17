@@ -29,13 +29,17 @@ struct _GSList;
 
 /**
  * ccss_function_f:
- * @args:	argument-list passed to the function.
+ * @property_name:	property that the function is associated with, e.g. `background-image'.
+ * @function_name:	name of the function, e.g. `url'.
+ * @args:		argument-list passed to the function.
  * 
  * Prototype for a custom `CSS function' handler.
  *
  * Returns: the function's result as a string.
  **/
-typedef char * (*ccss_function_f) (struct _GSList const *args);
+typedef char * (*ccss_function_f) (char const			*property_name,
+				   char const			*function_name,
+				   struct _GSList const		*values);
 
 /**
  * ccss_function_t:

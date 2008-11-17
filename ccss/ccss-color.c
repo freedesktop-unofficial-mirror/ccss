@@ -266,7 +266,8 @@ parse_hex (ccss_color_t	*self,
 
 static ccss_property_spec_t
 parse (ccss_color_t	 *self,
-       CRTerm	const	**value)
+       char const	 *property_name,
+       CRTerm const	**value)
 {
 	ccss_property_spec_t	 type;
 	char const		*function;
@@ -310,7 +311,8 @@ parse (ccss_color_t	 *self,
 		return CCSS_PROPERTY_SPEC_SET;
 	case TERM_FUNCTION:
 		function = cr_string_peek_raw_str ((*value)->content.str);
-		color = ccss_function_invoke (function, (*value)->ext_content.func_param);
+		color = ccss_function_invoke (function, property_name,
+					      (*value)->ext_content.func_param);
 		if (color) {
 			if (g_str_has_prefix (color, "rgb(")) {
 
@@ -350,13 +352,14 @@ bail:
 
 bool
 ccss_color_parse (ccss_color_t	 *self,
-		 CRTerm const	**values)
+		  char const	 *property_name,
+		  CRTerm const	**values)
 {
 	if (!*values) {
 		return false;
 	}
 
-	self->spec = parse (self, values);
+	self->spec = parse (self, property_name, values);
 	return self->spec != CCSS_PROPERTY_SPEC_UNSET;
 }
 

@@ -41,12 +41,19 @@ typedef struct {
 	double			blue;
 } ccss_color_t;
 
-void ccss_color_init (ccss_color_t *self);
+void
+ccss_color_init (ccss_color_t *self);
 
-bool ccss_color_parse (ccss_color_t *self, CRTerm const **values);
+bool
+ccss_color_parse (ccss_color_t	 *self,
+		  char const	 *property_name,
+		  CRTerm const	**values);
 
 #ifdef CCSS_DEBUG
-void ccss_color_dump (ccss_color_t const *self);
+
+void
+ccss_color_dump (ccss_color_t const *self);
+
 #endif
 
 CCSS_END_DECLS
