@@ -18,6 +18,7 @@
  */
 
 #include <string.h>
+#include "ccss-block-priv.h"
 #include "ccss-border-image.h"
 #include "ccss-border-image-parser.h"
 

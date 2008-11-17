@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
+#include "ccss-block-priv.h"
 #include "ccss-border-image-parser.h"
 #include "ccss-border-parser.h"
 

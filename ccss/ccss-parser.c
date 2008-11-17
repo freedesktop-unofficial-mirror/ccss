@@ -23,7 +23,7 @@
 #include <libcroco/libcroco.h>
 #include "config.h"
 #include "ccss-background-parser.h"
-#include "ccss-block.h"
+#include "ccss-block-priv.h"
 #include "ccss-border-parser.h"
 #include "ccss-color.h"
 #include "ccss-parser.h"

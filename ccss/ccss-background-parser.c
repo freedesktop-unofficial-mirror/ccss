@@ -22,6 +22,7 @@
 #include <glib.h>
 #include "ccss-background-parser.h"
 #include "ccss-background.h"
+#include "ccss-block-priv.h"
 
 static const struct {
 	char const				*name;

@@ -23,15 +23,19 @@
 #include <stdbool.h>
 #include <libcroco/libcroco.h>
 #include <ccss/ccss-block.h>
+#include <ccss/ccss-border.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
 
 CCSS_BEGIN_DECLS
 
-bool ccss_block_parse_border (ccss_block_t *self, char const *property, 
-			      CRTerm const *values);
+bool
+ccss_block_parse_border	(ccss_block_t			*self,
+			 char const			*property, 
+			 CRTerm const			*values);
 
-char const * ccss_border_lookup_name (ccss_border_style_type_t border_style);
+char const *
+ccss_border_lookup_name	(ccss_border_style_type_t	 border_style);
 
 CCSS_END_DECLS
 

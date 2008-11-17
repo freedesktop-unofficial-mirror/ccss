@@ -21,7 +21,7 @@ libccss_static_la_SOURCES = \
 	ccss-background-parser.c \
 	ccss-background-parser.h \
 	ccss-block.c \
-	ccss-block.h \
+	ccss-block-priv.h \
 	ccss-border.c \
 	ccss-border.h \
 	ccss-border-image.c \
@@ -74,6 +74,7 @@ libccss_1_la_SOURCES = \
 headersdir = $(includedir)/libccss-1/ccss
 
 headers_DATA = \
+	ccss-block.h \
 	ccss-features.h \
 	ccss-function.h \
 	ccss.h \

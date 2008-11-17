@@ -19,7 +19,7 @@
 
 #include <string.h>
 #include <glib.h>
-#include "ccss-block.h"
+#include "ccss-block-priv.h"
 #include "ccss-node.h"
 #include "ccss-parser.h"
 #include "ccss-selector-group.h"

@@ -18,7 +18,7 @@
  */
 
 #include <glib.h>
-#include "ccss-block.h"
+#include "ccss-block-priv.h"
 
 ccss_block_t *
 ccss_block_new (void)

@@ -1,5 +1,22 @@
 2008-11-17  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/Makefile.am:
+	* ccss/ccss-background-parser.c:
+	* ccss/ccss-block-priv.h:
+	* ccss/ccss-block.c:
+	* ccss/ccss-block.h:
+	* ccss/ccss-border-image-parser.c:
+	* ccss/ccss-border-parser.c:
+	* ccss/ccss-border-parser.h:
+	* ccss/ccss-parser.c:
+	* ccss/ccss-selector-group.c:
+	* ccss/ccss-selector.c:
+	* ccss/ccss-style.c:
+	* ccss/ccss-stylesheet.c:
+	Split out public ccss-block.h for custom property API.
+
+2008-11-17  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-parser.c (property_cb), (ccss_parser_parse_file),
 	(ccss_parser_parse_buffer), (ccss_parser_parse_inline):
 	* ccss/ccss-parser.h:
