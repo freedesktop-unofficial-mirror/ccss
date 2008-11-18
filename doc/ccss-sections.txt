@@ -57,6 +57,18 @@ ccss_stylesheet_dump
 </SECTION>
 
 <SECTION>
+<TITLE>ccss_property_t</TITLE>
+<FILE>property</FILE>
+ccss_property_state_t
+ccss_property_type_t
+ccss_property_t
+ccss_property_new_f
+ccss_property_free_f
+ccss_property_convert_f
+ccss_property_impl_t
+</SECTION>
+
+<SECTION>
 <TITLE>ccss_function_t</TITLE>
 <FILE>function</FILE>
 ccss_function_f

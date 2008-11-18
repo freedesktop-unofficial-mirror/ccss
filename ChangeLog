@@ -1,5 +1,12 @@
 2008-11-18  Robert Staudinger  <robsta@gnome.org>
 
+	* doc/ccss-docs.sgml:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/property.sgml:
+	Update docs.
+
+2008-11-18  Robert Staudinger  <robsta@gnome.org>
+
 	reviewed by: <delete if not using a buddy>
 
 	* ccss/Makefile.am:

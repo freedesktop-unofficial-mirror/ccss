@@ -1,0 +1,83 @@
+<!-- ##### SECTION Title ##### -->
+ccss_property_t
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### ENUM ccss_property_state_t ##### -->
+<para>
+
+</para>
+
+@CCSS_PROPERTY_STATE_UNSET: 
+@CCSS_PROPERTY_STATE_NONE: 
+@CCSS_PROPERTY_STATE_INHERIT: 
+@CCSS_PROPERTY_STATE_SET: 
+
+<!-- ##### ENUM ccss_property_type_t ##### -->
+<para>
+
+</para>
+
+@CCSS_PROPERTY_TYPE_DOUBLE: 
+@CCSS_PROPERTY_TYPE_STRING: 
+
+<!-- ##### STRUCT ccss_property_t ##### -->
+<para>
+
+</para>
+
+@state: 
+@type: 
+
+<!-- ##### USER_FUNCTION ccss_property_new_f ##### -->
+<para>
+
+</para>
+
+@values: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION ccss_property_free_f ##### -->
+<para>
+
+</para>
+
+@self: 
+
+
+<!-- ##### USER_FUNCTION ccss_property_convert_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@target: 
+@value: 
+@Returns: 
+
+
+<!-- ##### STRUCT ccss_property_impl_t ##### -->
+<para>
+
+</para>
+
+@name: 
+@ctor: 
+@dtor: 
+@convert: 
+
