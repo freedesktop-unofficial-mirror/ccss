@@ -114,12 +114,6 @@ void ccss_border_draw (ccss_border_stroke_t const *left,
 		      uint32_t visibility_flags, cairo_t *cr, 
 		      double x, double y, double width, double height);
 
-#ifdef CCSS_DEBUG
-void ccss_border_dump		(ccss_border_t const *self);
-void ccss_border_join_dump	(ccss_border_join_t const *self);
-void ccss_border_stroke_dump	(ccss_border_stroke_t const *self);
-#endif
-
 CCSS_END_DECLS
 
 #endif /* CCSS_BORDER_H */

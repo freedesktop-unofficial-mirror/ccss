@@ -1,5 +1,15 @@
 2008-11-18  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-background.h:
+	* ccss/ccss-border.h:
+	* ccss/ccss-color.h:
+	* ccss/ccss-image.c:
+	* ccss/ccss-image.h:
+	* ccss/ccss-selector.c (ccss_selector_apply):
+	Clean up of debugging code.
+
+2008-11-18  Robert Staudinger  <robsta@gnome.org>
+
 	* doc/ccss-docs.sgml:
 	* doc/ccss-sections.txt:
 	* doc/tmpl/property.sgml:

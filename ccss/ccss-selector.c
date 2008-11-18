@@ -1010,7 +1010,9 @@ ccss_selector_apply (ccss_selector_t const	*self,
 
 	g_return_val_if_fail (self && self->block && style, false);
 
-	/* Apply css properties to the style. */
+	/* Apply css properties to the style.
+	 * FIXME: this simple merge strategy doesn't work for `border-image',
+	 * as they should be overridden by a higher specificity `border'. */
 	g_hash_table_iter_init (&iter, self->block->properties);
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
 

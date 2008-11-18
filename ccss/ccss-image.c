@@ -185,13 +185,3 @@ ccss_image_parse (ccss_image_t	 *self,
 	}
 }
 
-#ifdef CCSS_DEBUG
-
-void
-ccss_image_dump (ccss_image_t const *self)
-{
-	printf ("%s", self->uri);
-}
-
-#endif /* CCSS_DEBUG */
-

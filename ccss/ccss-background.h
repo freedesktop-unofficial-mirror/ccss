@@ -86,11 +86,6 @@ void ccss_background_fill (ccss_background_attachment_t const *bg_attachment,
 			  cairo_t *cr, int32_t x, int32_t y, 
 			  int32_t width, int32_t height);
 
-#ifdef CCSS_DEBUG
-void ccss_background_dump	(ccss_background_t const *self);
-void ccss_background_image_dump	(ccss_background_image_t const *self);
-#endif
-
 CCSS_END_DECLS
 
 #endif /* CCSS_BACKGROUND_H */

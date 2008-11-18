@@ -51,13 +51,6 @@ ccss_color_parse (ccss_color_t	 *self,
 		  char const	 *property_name,
 		  CRTerm const	**values);
 
-#ifdef CCSS_DEBUG
-
-void
-ccss_color_dump (ccss_color_t const *self);
-
-#endif
-
 CCSS_END_DECLS
 
 #endif /* CCSS_COLOR_H */
