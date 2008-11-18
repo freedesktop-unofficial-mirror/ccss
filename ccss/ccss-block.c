@@ -19,6 +19,7 @@
 
 #include <glib.h>
 #include "ccss-block-priv.h"
+#include "ccss-cairo-property.h"
 
 void *
 ccss_block_add_property (ccss_block_t	*self,

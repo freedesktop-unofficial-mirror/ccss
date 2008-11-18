@@ -21,6 +21,7 @@
 #include <glib.h>
 #include "ccss-border-image.h"
 #include "ccss-border-parser.h"
+#include "ccss-cairo-property.h"
 #include "ccss-property.h"
 #include "ccss-style-priv.h"
 

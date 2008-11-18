@@ -48,7 +48,10 @@ libccss_static_la_SOURCES = \
 	ccss-selector.h \
 	ccss-style.c \
 	ccss-style-priv.h \
-	ccss-stylesheet.c
+	ccss-stylesheet.c \
+	\
+	ccss-cairo-property.c \
+	ccss-cairo-property.h
 
 ### The actual shared lib. #####################################################
 

@@ -1,3 +1,34 @@
+2008-11-18  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss/Makefile.am:
+	* ccss/ccss-block.c:
+	* ccss/ccss-cairo-property.c (ccss_property_background_attachment),
+	(ccss_property_background_color), (ccss_property_background_image),
+	(ccss_property_background_position),
+	(ccss_property_background_repeat), (ccss_property_background_size),
+	(ccss_property_border_color), (ccss_property_border_style),
+	(ccss_property_border_width), (ccss_property_border_bottom_color),
+	(ccss_property_border_bottom_style),
+	(ccss_property_border_bottom_width),
+	(ccss_property_border_left_color),
+	(ccss_property_border_left_style),
+	(ccss_property_border_left_width),
+	(ccss_property_border_right_color),
+	(ccss_property_border_right_style),
+	(ccss_property_border_right_width),
+	(ccss_property_border_top_color), (ccss_property_border_top_style),
+	(ccss_property_border_top_width), (ccss_property_border_radius),
+	(ccss_property_border_top_left_radius),
+	(ccss_property_border_top_right_radius),
+	(ccss_property_border_bottom_right_radius),
+	(ccss_property_border_bottom_left_radius), (ccss_property_color),
+	(ccss_property_border_image):
+	* ccss/ccss-cairo-property.h:
+	* ccss/ccss-property.c:
+	* ccss/ccss-property.h:
+	* ccss/ccss-style.c:
+	Split out ccss-cairo specific properties into their own file.
+
 2008-11-17  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss-clutter/example-2.c (url):
