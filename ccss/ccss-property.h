@@ -48,21 +48,29 @@ typedef struct {
 	}			content;
 } ccss_property_t;
 
-typedef bool (*ccss_property_convert_f) (void const *property,
-					 ccss_property_type_t target,
-					 void *value);
+typedef bool (*ccss_property_convert_f)	(void const		*property,
+					 ccss_property_type_t	 target,
+					 void			*value);
 
-void ccss_property_init		(void);
-void ccss_property_shutdown	(void);
+void
+ccss_property_subsystem_init		(void);
+
+void
+ccss_property_subsystem_shutdown	(void);
 
 
-void ccss_property_register_conversion_function (GQuark property,
-						 ccss_property_convert_f function);
+void
+ccss_property_register_conversion_function	(GQuark				property,
+						 ccss_property_convert_f	function);
 
-bool ccss_property_convert (void const *property, GQuark property_id,
-			    ccss_property_type_t target, void *value);
+bool
+ccss_property_convert				(void const			*property,
+						 GQuark				 property_id,
+						 ccss_property_type_t		 target,
+						 void				*value);
 
-ccss_property_spec_t ccss_property_parse_spec (CRTerm const **value);
+ccss_property_spec_t
+ccss_property_parse_spec			(CRTerm const			**value);
 
 CCSS_END_DECLS
 

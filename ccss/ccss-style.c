@@ -390,7 +390,7 @@ typedef struct {
 fallback_map_t *_fallback_map = NULL;
 
 void
-ccss_style_init (void)
+ccss_style_subsystem_init (void)
 {
 	fallback_map_t fm[] = {
 		{ CCSS_PROPERTY_BORDER_COLOR, CCSS_PROPERTY_COLOR },
@@ -463,7 +463,7 @@ ccss_style_init (void)
 }
 
 void
-ccss_style_shutdown (void)
+ccss_style_subsystem_shutdown (void)
 {
 	g_assert (_fallback_map != NULL);
 

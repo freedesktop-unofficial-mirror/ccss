@@ -1,5 +1,16 @@
 2008-11-18  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-property.c (ccss_property_subsystem_init),
+	(ccss_property_subsystem_shutdown):
+	* ccss/ccss-property.h:
+	* ccss/ccss-style-priv.h:
+	* ccss/ccss-style.c (ccss_style_subsystem_init),
+	(ccss_style_subsystem_shutdown):
+	* ccss/ccss.c (ccss_init), (ccss_shutdown):
+	Better internal naming consistency.
+
+2008-11-18  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/Makefile.am:
 	* ccss/ccss-block.c:
 	* ccss/ccss-cairo-property.c (ccss_property_background_attachment),

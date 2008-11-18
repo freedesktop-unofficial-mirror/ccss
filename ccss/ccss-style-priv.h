@@ -42,10 +42,10 @@ struct ccss_style_ {
 };
 
 void
-ccss_style_init		(void);
+ccss_style_subsystem_init	(void);
 
 void
-ccss_style_shutdown	(void);
+ccss_style_subsystem_shutdown	(void);
 
 void
 ccss_style_gather_outline (ccss_style_t const		 *self,

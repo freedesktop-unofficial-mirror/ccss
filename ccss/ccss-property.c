@@ -25,7 +25,7 @@
 static GHashTable *_conversion_funcs = NULL;
 
 void
-ccss_property_init (void)
+ccss_property_subsystem_init (void)
 {
 	g_assert (NULL == _conversion_funcs);
 
@@ -33,7 +33,7 @@ ccss_property_init (void)
 }
 
 void
-ccss_property_shutdown	(void)
+ccss_property_subsystem_shutdown (void)
 {
 	g_hash_table_destroy (_conversion_funcs), _conversion_funcs = NULL;
 }

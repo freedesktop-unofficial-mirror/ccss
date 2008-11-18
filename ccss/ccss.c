@@ -33,8 +33,8 @@ ccss_init (ccss_function_t const *vtable)
 {
 	ccss_function_set_vtable (vtable);
 
-	ccss_property_init ();
-	ccss_style_init ();
+	ccss_property_subsystem_init ();
+	ccss_style_subsystem_init ();
 }
 
 /**
@@ -45,7 +45,7 @@ ccss_init (ccss_function_t const *vtable)
 void
 ccss_shutdown (void)
 {
-	ccss_style_shutdown ();
-	ccss_property_shutdown ();
+	ccss_style_subsystem_shutdown ();
+	ccss_property_subsystem_shutdown ();
 }
 
