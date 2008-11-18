@@ -1,5 +1,13 @@
 2008-11-18  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-style.c (ccss_style_foreach):
+	* ccss/ccss-style.h:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/style.sgml:
+	API for iterating properties of a `ccss_style_t' object.
+
+2008-11-18  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-background.h:
 	* ccss/ccss-border.h:
 	* ccss/ccss-color.h:

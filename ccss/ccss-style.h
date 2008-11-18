@@ -82,6 +82,24 @@ ccss_style_get_property	(ccss_style_t const	 *self,
 			 char const		 *property_name,
 			 void			**value);
 
+/**
+ * ccss_style_iterator_f:
+ * @self:		a #ccss_style_t.
+ * @property_name:	property name , e.g. `background-color'.
+ * @user_data:	user data passed to #ccss_style_foreach.
+ *
+ * Specifies the type of the function passed to ccss_style_foreach().
+ **/
+typedef void (*ccss_style_iterator_f) (ccss_style_t const	*self,
+				       char const		*property_name,
+				       void			*user_data);
+
+void
+ccss_style_foreach (ccss_style_t const		*self,
+		    ccss_style_iterator_f	 func,
+		    void			*user_data);
+
+
 #ifdef CCSS_DEBUG
 
 void

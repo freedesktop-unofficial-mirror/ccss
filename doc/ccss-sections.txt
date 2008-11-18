@@ -36,6 +36,8 @@ ccss_style_draw_rectangle
 ccss_style_get_double
 ccss_style_get_property
 ccss_style_get_string
+ccss_style_iterator_f
+ccss_style_foreach
 ccss_style_dump
 </SECTION>
 

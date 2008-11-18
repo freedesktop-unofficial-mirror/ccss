@@ -945,6 +945,34 @@ ccss_style_draw_rectangle (ccss_style_t const	*self,
 	}
 }
 
+/**
+ * ccss_style_foreach:
+ * @self:	a #ccss_style_t.
+ * @func:	a #ccss_style_iterator_f.
+ * @user_data:	user data to pass to the iterator function.
+ *
+ * The iterator function @func is called for each type in the style.
+ **/
+void
+ccss_style_foreach (ccss_style_t const		*self,
+		    ccss_style_iterator_f	 func,
+		    void			*user_data)
+{
+	GHashTableIter 	 iter;
+	GQuark		 property_id;
+	gpointer	 value;
+	char const	*property_name;
+
+	g_return_if_fail (self && func);
+
+	g_hash_table_iter_init (&iter, self->properties);
+	while (g_hash_table_iter_next (&iter, (gpointer) &property_id, &value)) {
+
+		property_name = g_quark_to_string (property_id);
+		func (self, property_name, user_data);
+	}
+}
+
 #ifdef CCSS_DEBUG
 
 /**

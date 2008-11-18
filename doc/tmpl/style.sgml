@@ -111,6 +111,26 @@ ccss_style_t
 @Returns: 
 
 
+<!-- ##### USER_FUNCTION ccss_style_iterator_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@property_name: 
+@user_data: 
+
+
+<!-- ##### FUNCTION ccss_style_foreach ##### -->
+<para>
+
+</para>
+
+@self: 
+@func: 
+@user_data: 
+
+
 <!-- ##### FUNCTION ccss_style_dump ##### -->
 <para>
 
