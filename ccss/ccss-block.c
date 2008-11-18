@@ -20,6 +20,7 @@
 #include <glib.h>
 #include "ccss-block-priv.h"
 #include "ccss-cairo-property.h"
+#include "ccss-property-priv.h"
 
 void *
 ccss_block_add_property (ccss_block_t	*self,

@@ -23,6 +23,7 @@
 #include "ccss-background-parser.h"
 #include "ccss-background.h"
 #include "ccss-block-priv.h"
+#include "ccss-property-priv.h"
 
 static const struct {
 	char const				*name;
@@ -38,15 +39,15 @@ static bool
 bg_attachment_parse (ccss_background_attachment_t	 *self,
 		     CRTerm const			**values)
 {
-	ccss_property_spec_t spec;
+	ccss_property_state_t state;
 
 	if (!*values) {
 		return false;
 	}
 
-	spec = ccss_property_parse_spec (values);
-	if (CCSS_PROPERTY_SPEC_INHERIT == spec) {
-		self->spec = spec;
+	state = ccss_property_parse_state (values);
+	if (CCSS_PROPERTY_STATE_INHERIT == state) {
+		self->state = state;
 		return true;
 	}
 
@@ -55,12 +56,12 @@ bg_attachment_parse (ccss_background_attachment_t	 *self,
 		attachment = cr_string_peek_raw_str ((*values)->content.str);
 		if (0 == g_strcmp0 ("scroll", attachment)) {
 			self->attachment = CCSS_BACKGROUND_SCROLL;
-			self->spec = CCSS_PROPERTY_SPEC_SET;
+			self->state = CCSS_PROPERTY_STATE_SET;
 			*values = (*values)->next;
 			return true;
 		} else if (0 == g_strcmp0 ("fixed", attachment)) {
 			self->attachment = CCSS_BACKGROUND_FIXED;
-			self->spec = CCSS_PROPERTY_SPEC_SET;
+			self->state = CCSS_PROPERTY_STATE_SET;
 			*values = (*values)->next;
 			return true;
 		}
@@ -79,15 +80,15 @@ bg_image_parse (ccss_block_t		 *self,
 		return false;
 	}
 
-	image->spec = ccss_image_parse (&image->image, self, property_name, values);
-	return image->spec == CCSS_PROPERTY_SPEC_SET;
+	image->state = ccss_image_parse (&image->image, self, property_name, values);
+	return image->state == CCSS_PROPERTY_STATE_SET;
 }
 
 static bool
 bg_position_parse (ccss_background_position_t	 *self,
 		   CRTerm const			**values)
 {
-	ccss_property_spec_t	spec;
+	ccss_property_state_t	state;
 	uint32_t		flags;
 	bool			have_hpos;
 	bool			have_vpos;
@@ -96,16 +97,16 @@ bg_position_parse (ccss_background_position_t	 *self,
 		return false;
 	}
 
-	spec = ccss_property_parse_spec (values);
-	if (CCSS_PROPERTY_SPEC_INHERIT == spec) {
-		self->spec = CCSS_PROPERTY_SPEC_INHERIT;
+	state = ccss_property_parse_state (values);
+	if (CCSS_PROPERTY_STATE_INHERIT == state) {
+		self->state = CCSS_PROPERTY_STATE_INHERIT;
 		return true;
 	}
 
 	flags = CCSS_POSITION_MASK_NUMERIC | CCSS_POSITION_MASK_HORIZONTAL;
 	have_hpos = ccss_position_parse (&self->hpos, flags, values);
 	if (!have_hpos) {
-		self->spec = CCSS_PROPERTY_SPEC_UNSET;
+		self->state = CCSS_PROPERTY_STATE_UNSET;
 		return false;		
 	}
 
@@ -120,7 +121,7 @@ bg_position_parse (ccss_background_position_t	 *self,
 	
 	/* A bit fuzzy, but let's say we're satisfied with `hpos' only. */
 	if (have_hpos) {
-		self->spec = CCSS_PROPERTY_SPEC_SET;
+		self->state = CCSS_PROPERTY_STATE_SET;
 		return true;
 	}
 
@@ -132,7 +133,7 @@ bg_repeat_parse (ccss_background_repeat_t	 *self,
 		 CRTerm const			**values)
 {
 	char const		*repeat;
-	ccss_property_spec_t	 spec;
+	ccss_property_state_t	 state;
 
 	if (!*values || (*values)->type != TERM_IDENT) {
 		return false;
@@ -142,7 +143,7 @@ bg_repeat_parse (ccss_background_repeat_t	 *self,
 	for (unsigned int i = 0; i < G_N_ELEMENTS (_repeat_map); i++) {
 		if (0 == g_strcmp0 (_repeat_map[i].name, repeat)) {
 			self->repeat = _repeat_map[i].repeat;
-			self->spec = CCSS_PROPERTY_SPEC_SET;
+			self->state = CCSS_PROPERTY_STATE_SET;
 			*values = (*values)->next;
 			return true;
 		}
@@ -150,12 +151,12 @@ bg_repeat_parse (ccss_background_repeat_t	 *self,
 
 	/* Not found, maybe a generic property? 
 	 * Only `inherit' is allowed anyway. */
-	spec = ccss_property_parse_spec (values);
-	if (spec == CCSS_PROPERTY_SPEC_INHERIT) {
-		self->spec = spec;
+	state = ccss_property_parse_state (values);
+	if (state == CCSS_PROPERTY_STATE_INHERIT) {
+		self->state = state;
 		return true;
 	} else {
-		self->spec = CCSS_PROPERTY_SPEC_UNSET;
+		self->state = CCSS_PROPERTY_STATE_UNSET;
 		return false;
 	}
 }
@@ -180,7 +181,7 @@ bg_size_parse (ccss_background_size_t	 *self,
 	if (CCSS_POSITION_CONTAIN == self->width.type || 
 	    CCSS_POSITION_COVER == self->width.type) {
 		self->height.type = self->width.type;
-		self->spec = CCSS_PROPERTY_SPEC_SET;
+		self->state = CCSS_PROPERTY_STATE_SET;
 		return true;
 	}
 
@@ -189,11 +190,11 @@ bg_size_parse (ccss_background_size_t	 *self,
 		flags = CCSS_POSITION_MASK_NUMERIC | CCSS_POSITION_MASK_AUTO;
 		ret = ccss_position_parse (&self->height, flags, values);
 		if (ret) {
-			self->spec = CCSS_PROPERTY_SPEC_SET;
+			self->state = CCSS_PROPERTY_STATE_SET;
 			return true;
 		} else {
 			self->height.type =  CCSS_POSITION_AUTO;
-			self->spec = CCSS_PROPERTY_SPEC_SET;
+			self->state = CCSS_PROPERTY_STATE_SET;
 			return true;
 		}
 	}

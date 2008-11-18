@@ -57,12 +57,12 @@ typedef enum {
 } ccss_border_drawing_flags_t;
 
 typedef struct {
-	ccss_property_spec_t		spec;
+	ccss_property_state_t		state;
 	ccss_border_style_type_t	style;
 } ccss_border_style_t;
 
 typedef struct {
-	ccss_property_spec_t		spec;
+	ccss_property_state_t		state;
 	double				width;
 } ccss_border_width_t;
 
@@ -73,7 +73,7 @@ typedef struct {
 } ccss_border_stroke_t; 
 
 typedef struct {
-	ccss_property_spec_t	spec;	
+	ccss_property_state_t	state;	
 	double			radius;
 } ccss_border_join_t;
 

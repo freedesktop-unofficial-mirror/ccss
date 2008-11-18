@@ -334,7 +334,7 @@ property_cb (CRDocHandler	*handler,
 		memset (&p, 0, sizeof (p));
 		switch (values->type) {
 		case TERM_NUMBER:
-			p.spec = CCSS_PROPERTY_SPEC_SET;
+			p.state = CCSS_PROPERTY_STATE_SET;
 			p.type = CCSS_PROPERTY_TYPE_DOUBLE;
 			p.content.dval = values->content.num->val;
 			break;
@@ -342,11 +342,11 @@ property_cb (CRDocHandler	*handler,
 		case TERM_STRING:
 			s = cr_string_peek_raw_str (values->content.str);
 			if (0 == g_strcmp0 ("none", s)) {
-				p.spec = CCSS_PROPERTY_SPEC_NONE;
+				p.state = CCSS_PROPERTY_STATE_NONE;
 			} else if (0 == g_strcmp0 ("inherit", s)) {
-				p.spec = CCSS_PROPERTY_SPEC_INHERIT;
+				p.state = CCSS_PROPERTY_STATE_INHERIT;
 			} else {
-				p.spec = CCSS_PROPERTY_SPEC_SET;
+				p.state = CCSS_PROPERTY_STATE_SET;
 				p.type = CCSS_PROPERTY_TYPE_STRING;
 				p.content.sval = g_strdup (s);
 			}

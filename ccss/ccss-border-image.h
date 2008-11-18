@@ -37,7 +37,7 @@ typedef enum {
 } ccss_border_image_tiling_t;
 
 typedef struct {
-	ccss_property_spec_t		spec;
+	ccss_property_state_t		state;
 	ccss_image_t			image;
 	ccss_position_t			top;
 	ccss_position_t			right;

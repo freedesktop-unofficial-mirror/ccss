@@ -83,6 +83,7 @@ headers_DATA = \
 	ccss.h \
 	ccss-macros.h \
 	ccss-node.h \
+	ccss-property.h \
 	ccss-style.h \
 	ccss-stylesheet.h
 
@@ -96,7 +97,7 @@ libccssproperty_la_CPPFLAGS = \
 
 libccssproperty_la_SOURCES = \
 	ccss-property.c \
-	ccss-property.h
+	ccss-property-priv.h
 
 EXTRA_DIST = \
 	ccss-features.h.in \

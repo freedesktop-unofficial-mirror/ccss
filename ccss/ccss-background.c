@@ -174,7 +174,7 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 
 	cairo_save (cr);
 
-	if (bg_color && bg_color->spec == CCSS_PROPERTY_SPEC_SET) {
+	if (bg_color && bg_color->state == CCSS_PROPERTY_STATE_SET) {
 
 		cairo_set_source_rgb (cr, bg_color->red, 
 					  bg_color->green, 
@@ -182,7 +182,7 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 		cairo_fill_preserve (cr);
 	}
 
-	if (bg_image && bg_image->spec == CCSS_PROPERTY_SPEC_SET) {
+	if (bg_image && bg_image->state == CCSS_PROPERTY_STATE_SET) {
 
 		double tile_width;
 		double tile_height;

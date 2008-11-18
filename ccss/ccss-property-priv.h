@@ -17,35 +17,38 @@
  * MA 02110-1301, USA.
  */
 
-#include "ccss.h"
-#include "ccss-function-priv.h"
-#include "ccss-property-priv.h"
-#include "ccss-style-priv.h"
+#ifndef CCSS_PROPERTY_PRIV_H
+#define CCSS_PROPERTY_PRIV_H
 
-/**
- * ccss_init:
- * @functions:		table of functions that can be used in CSS or %NULL.
- * 
- * Initialize the CCSS library before making any calls to it.
- **/
+#include <stdbool.h>
+#include <libcroco/libcroco.h>
+#include <ccss/ccss-features.h>
+#include <ccss/ccss-macros.h>
+#include <ccss/ccss-property.h>
+
+CCSS_BEGIN_DECLS
+
 void
-ccss_init (ccss_function_t const *vtable)
-{
-	ccss_function_set_vtable (vtable);
+ccss_property_subsystem_init		(void);
 
-	ccss_property_subsystem_init ();
-	ccss_style_subsystem_init ();
-}
-
-/**
- * ccss_shutdown:
- *
- * Shut down the CCSS library.
- **/
 void
-ccss_shutdown (void)
-{
-	ccss_style_subsystem_shutdown ();
-	ccss_property_subsystem_shutdown ();
-}
+ccss_property_subsystem_shutdown	(void);
+
+
+void
+ccss_property_register_conversion_function	(GQuark				property,
+						 ccss_property_convert_f	function);
+
+bool
+ccss_property_convert				(void const			*property,
+						 GQuark				 property_id,
+						 ccss_property_type_t		 target,
+						 void				*value);
+
+ccss_property_state_t
+ccss_property_parse_state			(CRTerm const			**value);
+
+CCSS_END_DECLS
+
+#endif /* CCSS_PROPERTY_PRIV_H */
 

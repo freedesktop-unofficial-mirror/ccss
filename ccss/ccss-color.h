@@ -29,14 +29,14 @@
 CCSS_BEGIN_DECLS
 
 #define CCSS_COLOR_ASSIGN(lhs_, rhs_) {		\
-	(lhs_).spec = (rhs_).spec;		\
+	(lhs_).state = (rhs_).state;		\
 	(lhs_).red = (rhs_).red;		\
 	(lhs_).green = (rhs_).green;		\
 	(lhs_).blue = (rhs_).blue;		\
 }
 
 typedef struct {
-	ccss_property_spec_t	spec;
+	ccss_property_state_t	state;
 	double			red;
 	double			green;
 	double			blue;

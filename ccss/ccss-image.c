@@ -22,6 +22,7 @@
 #include <glib.h>
 #include "ccss-function-priv.h"
 #include "ccss-image.h"
+#include "ccss-property-priv.h"
 
 #ifdef CCSS_WITH_SOUP
 #include <libsoup/soup.h>
@@ -164,7 +165,7 @@ load_image (ccss_image_t *self)
 	return matched && self->pattern;
 }
 
-ccss_property_spec_t
+ccss_property_state_t
 ccss_image_parse (ccss_image_t	 *self,
 		  ccss_block_t	 *block,
 		  char const	 *property_name,
@@ -172,15 +173,15 @@ ccss_image_parse (ccss_image_t	 *self,
 {
 	switch ((*value)->type) {
 	case TERM_IDENT:
-		return ccss_property_parse_spec (value);
+		return ccss_property_parse_state (value);
 	case TERM_URI:
 		self->uri = ccss_function_invoke (block, property_name, "url", *value);
 		*value = (*value)->next;
 		return load_image (self) ? 
-			CCSS_PROPERTY_SPEC_SET :
-			CCSS_PROPERTY_SPEC_UNSET;
+			CCSS_PROPERTY_STATE_SET :
+			CCSS_PROPERTY_STATE_UNSET;
 	default:
-		return CCSS_PROPERTY_SPEC_UNSET;
+		return CCSS_PROPERTY_STATE_UNSET;
 	}
 }
 

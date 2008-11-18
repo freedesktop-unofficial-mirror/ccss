@@ -25,6 +25,7 @@
 #include <ccss/ccss-function.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-node.h>
+#include <ccss/ccss-property.h>
 #include <ccss/ccss-style.h>
 #include <ccss/ccss-stylesheet.h>
 

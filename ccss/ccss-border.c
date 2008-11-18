@@ -25,13 +25,13 @@
 
 #define STROKE_IS_SET(stroke_)						\
 		(stroke_ && 						\
-		 stroke_->color->spec == CCSS_PROPERTY_SPEC_SET &&	\
-		 stroke_->style->spec == CCSS_PROPERTY_SPEC_SET &&	\
-		 stroke_->width->spec == CCSS_PROPERTY_SPEC_SET)
+		 stroke_->color->state == CCSS_PROPERTY_STATE_SET &&	\
+		 stroke_->style->state == CCSS_PROPERTY_STATE_SET &&	\
+		 stroke_->width->state == CCSS_PROPERTY_STATE_SET)
 
 #define JOIN_IS_SET(join_)						\
 		(join_ &&						\
-		 join_->spec == CCSS_PROPERTY_SPEC_SET)
+		 join_->state == CCSS_PROPERTY_STATE_SET)
 
 #define _PI (_pi ())
 
@@ -159,8 +159,8 @@ get_line_draw_func (ccss_border_stroke_t const	*stroke,
 		return line;
 	}
 
-	if (CCSS_PROPERTY_SPEC_UNSET == stroke->style->spec ||
-	    CCSS_PROPERTY_SPEC_NONE == stroke->style->spec) {
+	if (CCSS_PROPERTY_STATE_UNSET == stroke->style->state ||
+	    CCSS_PROPERTY_STATE_NONE == stroke->style->state) {
 		return draw_none_line;
 	}
 
@@ -322,10 +322,10 @@ border (ccss_border_stroke_t const	*left,
 	double		rlt, rtr, rrb, rbl;
 	bool		have_segment;
 
-	rlt = left_top && left_top->spec ? left_top->radius : 0;
-	rtr = top_right && top_right->spec ? top_right->radius : 0;
-	rrb = right_bottom && right_bottom->spec ? right_bottom->radius : 0;
-	rbl = bottom_left && bottom_left->spec ? bottom_left->radius : 0;
+	rlt = left_top && left_top->state ? left_top->radius : 0;
+	rtr = top_right && top_right->state ? top_right->radius : 0;
+	rrb = right_bottom && right_bottom->state ? right_bottom->radius : 0;
+	rbl = bottom_left && bottom_left->state ? bottom_left->radius : 0;
 	if (!(CCSS_BORDER_ROUNDING_UNRESTRICTED & visibility_flags)) {
 		ccss_border_clamp_radii (x, y, width, height, 
 					&rlt, &rtr, &rrb, &rbl);

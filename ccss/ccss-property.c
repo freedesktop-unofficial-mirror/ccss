@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include "ccss-property.h"
+#include "ccss-property-priv.h"
 
 static GHashTable *_conversion_funcs = NULL;
 
@@ -65,24 +65,24 @@ ccss_property_convert (void const		*property,
 	return convert (property, target, value);
 }
 
-ccss_property_spec_t
-ccss_property_parse_spec (CRTerm const **value)
+ccss_property_state_t
+ccss_property_parse_state (CRTerm const **value)
 {
 	char const *str;
 
 	if (!*value) {
-		return CCSS_PROPERTY_SPEC_UNSET;
+		return CCSS_PROPERTY_STATE_UNSET;
 	} else if (TERM_IDENT == (*value)->type) {
 		str = cr_string_peek_raw_str ((*value)->content.str);
 		if (0 == strcmp ("none", str)) {
 			*value = (*value)->next;
-			return CCSS_PROPERTY_SPEC_NONE;
+			return CCSS_PROPERTY_STATE_NONE;
 		} else if (0 == strcmp ("inherit", str)) {
 			*value = (*value)->next;
-			return CCSS_PROPERTY_SPEC_INHERIT;
+			return CCSS_PROPERTY_STATE_INHERIT;
 		}
 	}
 
-	return CCSS_PROPERTY_SPEC_SET;
+	return CCSS_PROPERTY_STATE_SET;
 }
 

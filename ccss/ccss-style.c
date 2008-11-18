@@ -22,60 +22,60 @@
 #include "ccss-border-image.h"
 #include "ccss-border-parser.h"
 #include "ccss-cairo-property.h"
-#include "ccss-property.h"
+#include "ccss-property-priv.h"
 #include "ccss-style-priv.h"
 
 static const ccss_background_attachment_t const _bg_attachment = {
-	.spec = CCSS_PROPERTY_SPEC_SET,
+	.state = CCSS_PROPERTY_STATE_SET,
 	.attachment = CCSS_BACKGROUND_SCROLL
 };
 
 static const ccss_color_t const _bg_color = {
-	.spec = CCSS_PROPERTY_SPEC_SET,
+	.state = CCSS_PROPERTY_STATE_SET,
 	.red = 1.,
 	.green = 1.,
 	.blue = 1.
 };
 
 static const ccss_background_image_t const _bg_image = {
-	.spec = CCSS_PROPERTY_SPEC_NONE
+	.state = CCSS_PROPERTY_STATE_NONE
 };
 
 static const ccss_background_position_t const _bg_position = {
-	.spec = CCSS_PROPERTY_SPEC_SET,
+	.state = CCSS_PROPERTY_STATE_SET,
 	.hpos = { CCSS_POSITION_LENGTH, 0 },
 	.vpos = { CCSS_POSITION_LENGTH, 0 }
 };
 
 static const ccss_background_repeat_t const _bg_repeat = {
-	.spec = CCSS_PROPERTY_SPEC_SET,
+	.state = CCSS_PROPERTY_STATE_SET,
 	.repeat = CCSS_BACKGROUND_REPEAT
 };
 
 static const ccss_background_size_t const _bg_size = {
-	.spec = CCSS_PROPERTY_SPEC_SET,
+	.state = CCSS_PROPERTY_STATE_SET,
 	.width = { CCSS_POSITION_AUTO, 0 },
 	.height = { CCSS_POSITION_AUTO, 0 }
 };
 
 /* FIXME: don't draw borders by default? */
 static const ccss_border_style_t const _border_style = {
-	.spec = CCSS_PROPERTY_SPEC_UNSET,
+	.state = CCSS_PROPERTY_STATE_UNSET,
 	.style = CCSS_BORDER_STYLE_SOLID
 };
 
 static const ccss_border_width_t const _border_width = {
-	.spec = CCSS_PROPERTY_SPEC_SET,
+	.state = CCSS_PROPERTY_STATE_SET,
 	.width = 1.
 };
 
 static const ccss_border_join_t const _border_join = {
-	.spec = CCSS_PROPERTY_SPEC_UNSET,
+	.state = CCSS_PROPERTY_STATE_UNSET,
 	.radius = 0
 };
 
 static const ccss_color_t const _color = {
-	.spec = CCSS_PROPERTY_SPEC_SET,
+	.state = CCSS_PROPERTY_STATE_SET,
 	.red = 0.,
 	.green = 0.,
 	.blue = 0.

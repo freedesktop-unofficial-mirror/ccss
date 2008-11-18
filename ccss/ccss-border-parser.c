@@ -24,6 +24,7 @@
 #include "ccss-block-priv.h"
 #include "ccss-border-image-parser.h"
 #include "ccss-border-parser.h"
+#include "ccss-property-priv.h"
 
 
 /*!
@@ -60,46 +61,46 @@ match_style (char const		*css_border_style,
 	return false;
 }
 
-static ccss_property_spec_t
+static ccss_property_state_t
 parse_width (CRTerm const		**value,
 	     double			 *width)
 {
-	ccss_property_spec_t spec;
+	ccss_property_state_t state;
 
-	spec = ccss_property_parse_spec (value);
-	if (CCSS_PROPERTY_SPEC_SET == spec &&
+	state = ccss_property_parse_state (value);
+	if (CCSS_PROPERTY_STATE_SET == state &&
 	    *value && 
 	    TERM_NUMBER == (*value)->type) {
 
 		*width = (*value)->content.num->val;
 		(*value) = (*value)->next;
-		spec = CCSS_PROPERTY_SPEC_SET;
+		state = CCSS_PROPERTY_STATE_SET;
 	}
 
-	return spec;
+	return state;
 }
 
-static ccss_property_spec_t
+static ccss_property_state_t
 parse_style (CRTerm const		**value,
 	     ccss_border_style_type_t		 *style)
 {
-	ccss_property_spec_t spec;
+	ccss_property_state_t state;
 
-	spec = ccss_property_parse_spec (value);
+	state = ccss_property_parse_state (value);
 	*style = CCSS_BORDER_STYLE_SOLID;
-	if (CCSS_PROPERTY_SPEC_SET == spec &&
+	if (CCSS_PROPERTY_STATE_SET == state &&
 	    *value && 
 	    TERM_IDENT == (*value)->type &&
 	    match_style (cr_string_peek_raw_str ((*value)->content.str), style)) {
 
 		(*value) = (*value)->next;
-		spec = CCSS_PROPERTY_SPEC_SET;
+		state = CCSS_PROPERTY_STATE_SET;
 	}
 
-	return spec;
+	return state;
 }
 
-static ccss_property_spec_t
+static ccss_property_state_t
 parse_color (ccss_block_t	 *self,
 	     char const		 *property_name,
 	     CRTerm const	**value,
@@ -107,26 +108,26 @@ parse_color (ccss_block_t	 *self,
 {
 	ccss_color_parse (color, self, property_name, value);
 
-	return color->spec;
+	return color->state;
 }
 
-static ccss_property_spec_t
+static ccss_property_state_t
 parse_radius (CRTerm const		**value,
 	      double			 *radius)
 {
-	ccss_property_spec_t spec;
+	ccss_property_state_t state;
 
-	spec = ccss_property_parse_spec (value);
-	if (CCSS_PROPERTY_SPEC_SET == spec &&
+	state = ccss_property_parse_state (value);
+	if (CCSS_PROPERTY_STATE_SET == state &&
 	    *value && 
 	    TERM_NUMBER == (*value)->type) {
 
 		*radius = (*value)->content.num->val;
 		(*value) = (*value)->next;
-		spec = CCSS_PROPERTY_SPEC_SET;
+		state = CCSS_PROPERTY_STATE_SET;
 	}
 
-	return spec;
+	return state;
 }
 
 static bool
@@ -141,44 +142,44 @@ parse_stroke_property (ccss_block_t		*self,
 
 		ccss_border_width_t w;
 
-		w.spec = parse_width (&value, &w.width);
-		if (CCSS_PROPERTY_SPEC_UNSET == w.spec) {
+		w.state = parse_width (&value, &w.width);
+		if (CCSS_PROPERTY_STATE_UNSET == w.state) {
 			return false;
 		}
 		*width = w;
-		color->spec = CCSS_PROPERTY_SPEC_UNSET;
-		style->spec = CCSS_PROPERTY_SPEC_UNSET;
+		color->state = CCSS_PROPERTY_STATE_UNSET;
+		style->state = CCSS_PROPERTY_STATE_UNSET;
 
 	} else if (g_str_has_suffix ("style", property)) {
 
 		ccss_border_style_t s;
 
-		s.spec = parse_style (&value, &s.style);
-		if (CCSS_PROPERTY_SPEC_UNSET == s.spec) {
+		s.state = parse_style (&value, &s.style);
+		if (CCSS_PROPERTY_STATE_UNSET == s.state) {
 			return false;
 		}
 		*style = s;
-		color->spec = CCSS_PROPERTY_SPEC_UNSET;
-		width->spec = CCSS_PROPERTY_SPEC_UNSET;
+		color->state = CCSS_PROPERTY_STATE_UNSET;
+		width->state = CCSS_PROPERTY_STATE_UNSET;
 
 	} else if (g_str_has_suffix ("color", property)) {
 
 		ccss_color_t c;
 
-		c.spec = parse_color (self, property, &value, &c);
-		if (CCSS_PROPERTY_SPEC_UNSET == c.spec) {
+		c.state = parse_color (self, property, &value, &c);
+		if (CCSS_PROPERTY_STATE_UNSET == c.state) {
 			return false;
 		}
 		*color = c;
-		style->spec = CCSS_PROPERTY_SPEC_UNSET;
-		width->spec = CCSS_PROPERTY_SPEC_UNSET;
+		style->state = CCSS_PROPERTY_STATE_UNSET;
+		width->state = CCSS_PROPERTY_STATE_UNSET;
 
 	} else {
 		g_assert_not_reached ();
 		g_warning ("Unknown property `%s'", property);
-		color->spec = CCSS_PROPERTY_SPEC_UNSET;
-		style->spec = CCSS_PROPERTY_SPEC_UNSET;
-		width->spec = CCSS_PROPERTY_SPEC_UNSET;
+		color->state = CCSS_PROPERTY_STATE_UNSET;
+		style->state = CCSS_PROPERTY_STATE_UNSET;
+		width->state = CCSS_PROPERTY_STATE_UNSET;
 		return false;
 	}
 
@@ -218,8 +219,8 @@ ccss_block_parse_border (ccss_block_t	*self,
 		ccss_border_join_t *radius, r;
 
 		memset (&r, 0, sizeof (r));
-		r.spec = parse_radius (&iter, &r.radius);
-		if (CCSS_PROPERTY_SPEC_UNSET == r.spec) {
+		r.state = parse_radius (&iter, &r.radius);
+		if (CCSS_PROPERTY_STATE_UNSET == r.state) {
 			return false;
 		}
 		radius = ccss_block_new_border_top_right_radius (self);
@@ -231,8 +232,8 @@ ccss_block_parse_border (ccss_block_t	*self,
 		ccss_border_join_t *radius, r;
 
 		memset (&r, 0, sizeof (r));
-		r.spec = parse_radius (&iter, &r.radius);
-		if (CCSS_PROPERTY_SPEC_UNSET == r.spec) {
+		r.state = parse_radius (&iter, &r.radius);
+		if (CCSS_PROPERTY_STATE_UNSET == r.state) {
 			return false;
 		}
 		radius = ccss_block_new_border_bottom_right_radius (self);
@@ -244,8 +245,8 @@ ccss_block_parse_border (ccss_block_t	*self,
 		ccss_border_join_t *radius, r;
 
 		memset (&r, 0, sizeof (r));
-		r.spec = parse_radius (&iter, &r.radius);
-		if (CCSS_PROPERTY_SPEC_UNSET == r.spec) {
+		r.state = parse_radius (&iter, &r.radius);
+		if (CCSS_PROPERTY_STATE_UNSET == r.state) {
 			return false;
 		}
 		radius = ccss_block_new_border_bottom_left_radius (self);
@@ -257,8 +258,8 @@ ccss_block_parse_border (ccss_block_t	*self,
 		ccss_border_join_t *radius, r;
 
 		memset (&r, 0, sizeof (r));
-		r.spec = parse_radius (&iter, &r.radius);
-		if (CCSS_PROPERTY_SPEC_UNSET == r.spec) {
+		r.state = parse_radius (&iter, &r.radius);
+		if (CCSS_PROPERTY_STATE_UNSET == r.state) {
 			return false;
 		}
 		radius = ccss_block_new_border_top_left_radius (self);
@@ -274,34 +275,34 @@ ccss_block_parse_border (ccss_block_t	*self,
 		memset (&r2, 0, sizeof (r2));
 		memset (&r3, 0, sizeof (r3));
 		iter = values;
-		if (iter) { r0.spec = parse_radius (&iter, &r0.radius); }
-		if (iter) { r1.spec = parse_radius (&iter, &r1.radius); }
-		if (iter) { r2.spec = parse_radius (&iter, &r2.radius); }
-		if (iter) { r3.spec = parse_radius (&iter, &r3.radius); }
+		if (iter) { r0.state = parse_radius (&iter, &r0.radius); }
+		if (iter) { r1.state = parse_radius (&iter, &r1.radius); }
+		if (iter) { r2.state = parse_radius (&iter, &r2.radius); }
+		if (iter) { r3.state = parse_radius (&iter, &r3.radius); }
 
-		if (CCSS_PROPERTY_SPEC_UNSET == r0.spec) {
+		if (CCSS_PROPERTY_STATE_UNSET == r0.state) {
 
 			return false;
 
-		} else if (CCSS_PROPERTY_SPEC_UNSET == r1.spec) {
+		} else if (CCSS_PROPERTY_STATE_UNSET == r1.state) {
 
 			radius = ccss_block_new_border_radius (self); *radius = r0;
 
-		} else if (CCSS_PROPERTY_SPEC_UNSET == r2.spec) {
+		} else if (CCSS_PROPERTY_STATE_UNSET == r2.state) {
 
 			radius = ccss_block_new_border_top_left_radius (self); *radius = r0;
 			radius = ccss_block_new_border_top_right_radius (self); *radius = r1;
 			radius = ccss_block_new_border_bottom_right_radius (self); *radius = r0;
 			radius = ccss_block_new_border_bottom_left_radius (self); *radius = r1;
 
-		} else if (CCSS_PROPERTY_SPEC_UNSET == r3.spec) {
+		} else if (CCSS_PROPERTY_STATE_UNSET == r3.state) {
 
 			radius = ccss_block_new_border_top_left_radius (self); *radius = r0;
 			radius = ccss_block_new_border_top_right_radius (self); *radius = r1;
 			radius = ccss_block_new_border_bottom_right_radius (self); *radius = r2;
 			radius = ccss_block_new_border_bottom_left_radius (self); *radius = r1;
 
-		} else if (r3.spec != CCSS_PROPERTY_SPEC_UNSET) {
+		} else if (r3.state != CCSS_PROPERTY_STATE_UNSET) {
 
 			radius = ccss_block_new_border_top_left_radius (self); *radius = r0;
 			radius = ccss_block_new_border_top_right_radius (self); *radius = r1;
@@ -316,33 +317,33 @@ ccss_block_parse_border (ccss_block_t	*self,
 	if (g_str_has_prefix (property, "border-left-")) {
 
 		ret = parse_stroke_property (self, &c, &s, &w, property, values);
-		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_left_color (self); *color = c; }
-		if (s.spec != CCSS_PROPERTY_SPEC_UNSET) { style = ccss_block_new_border_left_style (self); *style = s; }
-		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_left_width (self); *width = w; }
+		if (c.state != CCSS_PROPERTY_STATE_UNSET) { color = ccss_block_new_border_left_color (self); *color = c; }
+		if (s.state != CCSS_PROPERTY_STATE_UNSET) { style = ccss_block_new_border_left_style (self); *style = s; }
+		if (w.state != CCSS_PROPERTY_STATE_UNSET) { width = ccss_block_new_border_left_width (self); *width = w; }
 		return ret;
 
 	} else if (g_str_has_prefix (property, "border-top-")) {
 
 		ret = parse_stroke_property (self, &c, &s, &w, property, values);
-		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_top_color (self); *color = c; }
-		if (s.spec != CCSS_PROPERTY_SPEC_UNSET) { style = ccss_block_new_border_top_style (self); *style = s; }
-		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_top_width (self); *width = w; }
+		if (c.state != CCSS_PROPERTY_STATE_UNSET) { color = ccss_block_new_border_top_color (self); *color = c; }
+		if (s.state != CCSS_PROPERTY_STATE_UNSET) { style = ccss_block_new_border_top_style (self); *style = s; }
+		if (w.state != CCSS_PROPERTY_STATE_UNSET) { width = ccss_block_new_border_top_width (self); *width = w; }
 		return ret;
 
 	} else if (g_str_has_prefix (property, "border-right-")) {
 
 		ret = parse_stroke_property (self, &c, &s, &w, property, values);
-		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_right_color (self); *color = c; }
-		if (s.spec != CCSS_PROPERTY_SPEC_UNSET) { style = ccss_block_new_border_right_style (self); *style = s; }
-		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_right_width (self); *width = w; }
+		if (c.state != CCSS_PROPERTY_STATE_UNSET) { color = ccss_block_new_border_right_color (self); *color = c; }
+		if (s.state != CCSS_PROPERTY_STATE_UNSET) { style = ccss_block_new_border_right_style (self); *style = s; }
+		if (w.state != CCSS_PROPERTY_STATE_UNSET) { width = ccss_block_new_border_right_width (self); *width = w; }
 		return ret;
 
 	} else if (g_str_has_prefix (property, "border-bottom-")) {
 
 		ret = parse_stroke_property (self, &c, &s, &w, property, values);
-		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_bottom_color (self); *color = c; }
-		if (s.spec != CCSS_PROPERTY_SPEC_UNSET) { style = ccss_block_new_border_bottom_style (self); *style = s; }
-		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_bottom_width (self); *width = w; }
+		if (c.state != CCSS_PROPERTY_STATE_UNSET) { color = ccss_block_new_border_bottom_color (self); *color = c; }
+		if (s.state != CCSS_PROPERTY_STATE_UNSET) { style = ccss_block_new_border_bottom_style (self); *style = s; }
+		if (w.state != CCSS_PROPERTY_STATE_UNSET) { width = ccss_block_new_border_bottom_width (self); *width = w; }
 		return ret;
 	}
 
@@ -402,20 +403,20 @@ ccss_block_parse_border (ccss_block_t	*self,
 		memset (&s2, 0, sizeof (s2));
 		memset (&s3, 0, sizeof (s3));
 		iter = values;
-		if (iter) { s0.spec = parse_style (&iter, &s0.style); }
-		if (iter) { s1.spec = parse_style (&iter, &s1.style); }
-		if (iter) { s2.spec = parse_style (&iter, &s2.style); }
-		if (iter) { s3.spec = parse_style (&iter, &s3.style); }
+		if (iter) { s0.state = parse_style (&iter, &s0.style); }
+		if (iter) { s1.state = parse_style (&iter, &s1.style); }
+		if (iter) { s2.state = parse_style (&iter, &s2.style); }
+		if (iter) { s3.state = parse_style (&iter, &s3.style); }
 
-		if (CCSS_PROPERTY_SPEC_UNSET == s0.spec) {
+		if (CCSS_PROPERTY_STATE_UNSET == s0.state) {
 
 			return false;
 
-		} else if (CCSS_PROPERTY_SPEC_UNSET == s1.spec) {
+		} else if (CCSS_PROPERTY_STATE_UNSET == s1.state) {
 
 			style = ccss_block_new_border_style (self); *style = s0;
 
-		} else if (CCSS_PROPERTY_SPEC_UNSET == s2.spec) {
+		} else if (CCSS_PROPERTY_STATE_UNSET == s2.state) {
 
 			style = ccss_block_new_border_bottom_style (self); *style = s0;
 			style = ccss_block_new_border_top_style (self); *style = s0;
@@ -423,7 +424,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 			style = ccss_block_new_border_left_style (self); *style = s1;
 			style = ccss_block_new_border_right_style (self); *style = s1;
 
-		} else if (CCSS_PROPERTY_SPEC_UNSET == s3.spec) {
+		} else if (CCSS_PROPERTY_STATE_UNSET == s3.state) {
 
 			style = ccss_block_new_border_top_style (self); *style = s0;
 
@@ -432,7 +433,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 
 			style = ccss_block_new_border_bottom_style (self); *style = s2;
 
-		} else if (s3.spec != CCSS_PROPERTY_SPEC_UNSET) {
+		} else if (s3.state != CCSS_PROPERTY_STATE_UNSET) {
 
 			style = ccss_block_new_border_top_style (self); *style = s0;
 			style = ccss_block_new_border_right_style (self); *style = s1;
@@ -451,20 +452,20 @@ ccss_block_parse_border (ccss_block_t	*self,
 		memset (&w2, 0, sizeof (w2));
 		memset (&w3, 0, sizeof (w3));
 		iter = values;
-		if (iter) { w0.spec = parse_width (&iter, &w0.width); }
-		if (iter) { w1.spec = parse_width (&iter, &w1.width); }
-		if (iter) { w2.spec = parse_width (&iter, &w2.width); }
-		if (iter) { w3.spec = parse_width (&iter, &w3.width); }
+		if (iter) { w0.state = parse_width (&iter, &w0.width); }
+		if (iter) { w1.state = parse_width (&iter, &w1.width); }
+		if (iter) { w2.state = parse_width (&iter, &w2.width); }
+		if (iter) { w3.state = parse_width (&iter, &w3.width); }
 
-		if (CCSS_PROPERTY_SPEC_UNSET == w0.spec) {
+		if (CCSS_PROPERTY_STATE_UNSET == w0.state) {
 
 			return false;
 
-		} else if (CCSS_PROPERTY_SPEC_UNSET == w1.spec) {
+		} else if (CCSS_PROPERTY_STATE_UNSET == w1.state) {
 
 			width = ccss_block_new_border_width (self); *width = w0;
 
-		} else if (CCSS_PROPERTY_SPEC_UNSET == w2.spec) {
+		} else if (CCSS_PROPERTY_STATE_UNSET == w2.state) {
 
 			width = ccss_block_new_border_bottom_width (self); *width = w0;
 			width = ccss_block_new_border_top_width (self); *width = w0;
@@ -472,7 +473,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 			width = ccss_block_new_border_left_width (self); *width = w1;
 			width = ccss_block_new_border_right_width (self); *width = w1;
 
-		} else if (CCSS_PROPERTY_SPEC_UNSET == w3.spec) {
+		} else if (CCSS_PROPERTY_STATE_UNSET == w3.state) {
 
 			width = ccss_block_new_border_top_width (self); *width = w0;
 
@@ -481,7 +482,7 @@ ccss_block_parse_border (ccss_block_t	*self,
 
 			width = ccss_block_new_border_bottom_width (self); *width = w2;
 
-		} else if (w3.spec != CCSS_PROPERTY_SPEC_UNSET) {
+		} else if (w3.state != CCSS_PROPERTY_STATE_UNSET) {
 
 			width = ccss_block_new_border_top_width (self); *width = w0;
 			width = ccss_block_new_border_right_width (self); *width = w1;
@@ -495,44 +496,44 @@ ccss_block_parse_border (ccss_block_t	*self,
 
 	/* Now try to parse multi-value properties. */
 	iter = values;
-	w.spec = parse_width (&iter, &w.width);
-	if (CCSS_PROPERTY_SPEC_NONE == w.spec && !iter) {
-		s.spec = CCSS_PROPERTY_SPEC_NONE;
-		c.spec = CCSS_PROPERTY_SPEC_NONE;
+	w.state = parse_width (&iter, &w.width);
+	if (CCSS_PROPERTY_STATE_NONE == w.state && !iter) {
+		s.state = CCSS_PROPERTY_STATE_NONE;
+		c.state = CCSS_PROPERTY_STATE_NONE;
 	} else {
-		s.spec = parse_style (&iter, &s.style);
+		s.state = parse_style (&iter, &s.style);
 		parse_color (self, property, &iter, &c);
 	}
 
 	if (0 == strcmp ("border", property)) {
 
-		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_color (self); *color = c; }
-		if (s.spec != CCSS_PROPERTY_SPEC_UNSET) { style = ccss_block_new_border_style (self); *style = s; }
-		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_width (self); *width = w; }
+		if (c.state != CCSS_PROPERTY_STATE_UNSET) { color = ccss_block_new_border_color (self); *color = c; }
+		if (s.state != CCSS_PROPERTY_STATE_UNSET) { style = ccss_block_new_border_style (self); *style = s; }
+		if (w.state != CCSS_PROPERTY_STATE_UNSET) { width = ccss_block_new_border_width (self); *width = w; }
 
 	} else if (0 == strcmp ("border-left", property)) {
 
-		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_left_color (self); *color = c; }
-		if (s.spec != CCSS_PROPERTY_SPEC_UNSET) { style = ccss_block_new_border_left_style (self); *style = s; }
-		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_left_width (self); *width = w; }
+		if (c.state != CCSS_PROPERTY_STATE_UNSET) { color = ccss_block_new_border_left_color (self); *color = c; }
+		if (s.state != CCSS_PROPERTY_STATE_UNSET) { style = ccss_block_new_border_left_style (self); *style = s; }
+		if (w.state != CCSS_PROPERTY_STATE_UNSET) { width = ccss_block_new_border_left_width (self); *width = w; }
 
 	} else if (0 == strcmp ("border-top", property)) {
 
-		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_top_color (self); *color = c; }
-		if (s.spec != CCSS_PROPERTY_SPEC_UNSET) { style = ccss_block_new_border_top_style (self); *style = s; }
-		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_top_width (self); *width = w; }
+		if (c.state != CCSS_PROPERTY_STATE_UNSET) { color = ccss_block_new_border_top_color (self); *color = c; }
+		if (s.state != CCSS_PROPERTY_STATE_UNSET) { style = ccss_block_new_border_top_style (self); *style = s; }
+		if (w.state != CCSS_PROPERTY_STATE_UNSET) { width = ccss_block_new_border_top_width (self); *width = w; }
 
 	} else if (0 == strcmp ("border-right", property)) {
 
-		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_right_color (self); *color = c; }
-		if (s.spec != CCSS_PROPERTY_SPEC_UNSET) { style = ccss_block_new_border_right_style (self); *style = s; }
-		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_right_width (self); *width = w; }
+		if (c.state != CCSS_PROPERTY_STATE_UNSET) { color = ccss_block_new_border_right_color (self); *color = c; }
+		if (s.state != CCSS_PROPERTY_STATE_UNSET) { style = ccss_block_new_border_right_style (self); *style = s; }
+		if (w.state != CCSS_PROPERTY_STATE_UNSET) { width = ccss_block_new_border_right_width (self); *width = w; }
 
 	} else if (0 == strcmp ("border-bottom", property)) {
 
-		if (c.spec != CCSS_PROPERTY_SPEC_UNSET) { color = ccss_block_new_border_bottom_color (self); *color = c; }
-		if (s.spec != CCSS_PROPERTY_SPEC_UNSET) { style = ccss_block_new_border_bottom_style (self); *style = s; }
-		if (w.spec != CCSS_PROPERTY_SPEC_UNSET) { width = ccss_block_new_border_bottom_width (self); *width = w; }
+		if (c.state != CCSS_PROPERTY_STATE_UNSET) { color = ccss_block_new_border_bottom_color (self); *color = c; }
+		if (s.state != CCSS_PROPERTY_STATE_UNSET) { style = ccss_block_new_border_bottom_style (self); *style = s; }
+		if (w.state != CCSS_PROPERTY_STATE_UNSET) { width = ccss_block_new_border_bottom_width (self); *width = w; }
 
 	} else {
 		return false;

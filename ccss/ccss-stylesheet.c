@@ -333,7 +333,7 @@ inherit_container_style (ccss_style_t const	*container_style,
 	GHashTableIter		 iter;
 	GQuark			 property_id;
 	void const		*property;
-	ccss_property_spec_t	 property_spec;
+	ccss_property_state_t	 property_state;
 	GSList			*removals;
 
 	/* Check which properties from the `inherit' set can be resolved. */
@@ -345,9 +345,9 @@ inherit_container_style (ccss_style_t const	*container_style,
 		property = g_hash_table_lookup (container_style->properties,
 						(gpointer) property_id);
 		if (property) {
-			property_spec = * (ccss_property_spec_t *) property;
-			if (CCSS_PROPERTY_SPEC_NONE == property_spec ||
-			    CCSS_PROPERTY_SPEC_SET == property_spec ) {
+			property_state = * (ccss_property_state_t *) property;
+			if (CCSS_PROPERTY_STATE_NONE == property_state ||
+			    CCSS_PROPERTY_STATE_SET == property_state ) {
 
 				g_hash_table_insert (style->properties,
 						     (gpointer) property_id,
@@ -440,7 +440,7 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 	GHashTableIter		 iter;
 	GQuark			 property_id;
 	void const		*property;
-	ccss_property_spec_t	 property_spec;
+	ccss_property_state_t	 property_state;
 	bool			 ret;
 
 	/* Apply this node's styling. */
@@ -453,8 +453,8 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 	g_hash_table_iter_init (&iter, style->properties);
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property)) {
 
-		property_spec = * (ccss_property_spec_t *) property;
-		if (CCSS_PROPERTY_SPEC_INHERIT == property_spec) {
+		property_state = * (ccss_property_state_t *) property;
+		if (CCSS_PROPERTY_STATE_INHERIT == property_state) {
 			g_hash_table_insert (inherit,
 					     (gpointer) property_id,
 					     (gpointer) property_id);

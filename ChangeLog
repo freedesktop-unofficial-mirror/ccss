@@ -1,5 +1,38 @@
 2008-11-18  Robert Staudinger  <robsta@gnome.org>
 
+	reviewed by: <delete if not using a buddy>
+
+	* ccss/Makefile.am:
+	* ccss/ccss-background-parser.c (bg_attachment_parse),
+	(bg_image_parse), (bg_position_parse), (bg_repeat_parse),
+	(bg_size_parse):
+	* ccss/ccss-background.c (ccss_background_fill):
+	* ccss/ccss-background.h:
+	* ccss/ccss-block.c:
+	* ccss/ccss-border-image-parser.c (ccss_block_parse_border_image):
+	* ccss/ccss-border-image.h:
+	* ccss/ccss-border-parser.c (parse_width), (parse_style),
+	(parse_color), (parse_radius), (parse_stroke_property),
+	(ccss_block_parse_border):
+	* ccss/ccss-border.c (get_line_draw_func), (border):
+	* ccss/ccss-border.h:
+	* ccss/ccss-color.c (ccss_color_init), (parse), (ccss_color_parse):
+	* ccss/ccss-color.h:
+	* ccss/ccss-image.c (ccss_image_parse):
+	* ccss/ccss-image.h:
+	* ccss/ccss-parser.c (property_cb):
+	* ccss/ccss-property-priv.h:
+	* ccss/ccss-property.c (ccss_property_parse_state):
+	* ccss/ccss-property.h:
+	* ccss/ccss-style.c:
+	* ccss/ccss-stylesheet.c (inherit_container_style),
+	(ccss_stylesheet_query):
+	* ccss/ccss.c:
+	* ccss/ccss.h:
+	Split out ccss-property-priv.h, parts property handling need to be public for custom properties.
+
+2008-11-18  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-property.c (ccss_property_subsystem_init),
 	(ccss_property_subsystem_shutdown):
 	* ccss/ccss-property.h:
