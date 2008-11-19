@@ -24,15 +24,16 @@
 
 /**
  * ccss_init:
+ * @properties:		table of properties that can be used in CSS or %NULL.
  * @functions:		table of functions that can be used in CSS or %NULL.
  * 
  * Initialize the CCSS library before making any calls to it.
  **/
 void
-ccss_init (ccss_function_t const *vtable)
+ccss_init (ccss_property_impl_t const	*properties,
+	   ccss_function_t const	*functions)
 {
-	ccss_function_set_vtable (vtable);
-
+	ccss_function_subsystem_init (functions);
 	ccss_property_subsystem_init ();
 	ccss_style_subsystem_init ();
 }

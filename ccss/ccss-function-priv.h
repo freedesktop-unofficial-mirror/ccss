@@ -27,7 +27,8 @@
 
 CCSS_BEGIN_DECLS
 
-void ccss_function_set_vtable (ccss_function_t const *vtable);
+void
+ccss_function_subsystem_init (ccss_function_t const *vtable);
 
 char *
 ccss_function_invoke (ccss_block_t	*block,

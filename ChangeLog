@@ -1,3 +1,21 @@
+2008-11-19  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss-clutter/example-1.c (main):
+	* ccss-clutter/example-2.c (main):
+	* ccss/ccss-function-priv.h:
+	* ccss/ccss-function.c (ccss_function_subsystem_init):
+	* ccss/ccss-parser.c (lookup_property_impl),
+	(ccss_parser_subsystem_init), (property_cb):
+	* ccss/ccss-parser.h:
+	* ccss/ccss.c (ccss_init):
+	* ccss/ccss.h:
+	* doc/tmpl/ccss.sgml:
+	* doc/tmpl/node.sgml:
+	* examples/example-1.c (main):
+	* examples/example-2.c (main):
+	* examples/example-3.c (main):
+	Some more work on custom properties.
+
 2008-11-18  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/ccss-style.c (ccss_style_foreach):
@@ -24,8 +42,6 @@
 	Update docs.
 
 2008-11-18  Robert Staudinger  <robsta@gnome.org>
-
-	reviewed by: <delete if not using a buddy>
 
 	* ccss/Makefile.am:
 	* ccss/ccss-background-parser.c (bg_attachment_parse),

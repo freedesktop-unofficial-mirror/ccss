@@ -75,7 +75,7 @@ main (int	  argc,
 	clutter_init (&argc, &argv);
 
 	/* Load the stylesheet. */
-	ccss_init (_functions);
+	ccss_init (NULL, _functions);
 	stylesheet = ccss_stylesheet_new_from_file ("example-2.css");
 
 	stage = clutter_stage_get_default ();

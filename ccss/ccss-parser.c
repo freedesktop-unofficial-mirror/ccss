@@ -31,6 +31,29 @@
 #include "ccss-selector.h"
 #include "ccss-selector-group.h"
 
+static ccss_property_impl_t const *_properties = NULL;
+
+static ccss_property_impl_t const *
+lookup_property_impl (char const *property_name)
+{
+	g_return_val_if_fail (_properties, NULL);
+
+	for (unsigned int i = 0; _properties[i].name; i++) {
+		if (0 == strcmp (property_name, _properties[i].name)) {
+			return &_properties[i];
+		}
+	}
+
+	return NULL;
+}
+
+void
+ccss_parser_subsystem_init (ccss_property_impl_t const *properties)
+{
+	/* PONDERING: weak ref ok, or duplicate (like done with functions)? */
+	_properties = properties;
+}
+
 typedef struct {
 	ptrdiff_t		 instance;
 	ccss_selector_group_t	*result_group;
@@ -279,9 +302,10 @@ property_cb (CRDocHandler	*handler,
 	     CRTerm		*values,
 	     gboolean	 	 is_important)
 {
-	info_t	*info;
-	ccss_block_t		*block;
-	char const 		*property;
+	info_t				*info;
+	ccss_block_t			*block;
+	char const 			*property;
+	ccss_property_impl_t const	*property_impl;
 
 	info = HANDLER_GET_INFO (handler);
 
@@ -326,6 +350,15 @@ property_cb (CRDocHandler	*handler,
 			color = ccss_block_new_color (block);
 			*color = c;
 		}
+	} else if (NULL != (property_impl = lookup_property_impl (property))) {
+
+		void *property_instance;
+
+		property_instance = property_impl->ctor (values);
+		// TODO 
+		// - need facilities for putting custom properties into a block.
+		// - probably need to embed a pointer to each property-impl at the start of each property, so it can be freed.
+
 	} else {
 		/* Generic property. */
 		ccss_property_t	*prop, p;

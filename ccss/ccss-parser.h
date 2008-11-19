@@ -32,6 +32,9 @@
 
 CCSS_BEGIN_DECLS
 
+void
+ccss_parser_subsystem_init (ccss_property_impl_t const	*properties);
+
 enum CRStatus
 ccss_parser_parse_file (char const			*css_file, 
 			ccss_stylesheet_precedence_t	 precedence,

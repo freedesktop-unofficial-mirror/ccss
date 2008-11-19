@@ -22,7 +22,8 @@ ccss_node_t
 
 </para>
 
-@vtable: 
+@properties: 
+@functions: 
 
 
 <!-- ##### FUNCTION ccss_shutdown ##### -->

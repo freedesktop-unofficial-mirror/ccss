@@ -22,7 +22,8 @@ Initialization
 
 </para>
 
-@vtable: 
+@properties: 
+@functions: 
 
 
 <!-- ##### FUNCTION ccss_shutdown ##### -->

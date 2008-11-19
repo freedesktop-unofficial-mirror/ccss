@@ -31,8 +31,12 @@
 
 CCSS_BEGIN_DECLS
 
-void 		ccss_init	(ccss_function_t const *vtable);
-void 		ccss_shutdown	(void);
+void
+ccss_init	(ccss_property_impl_t const	*properties,
+		 ccss_function_t const		*functions);
+
+void
+ccss_shutdown	(void);
 
 CCSS_END_DECLS
 
