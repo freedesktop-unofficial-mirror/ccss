@@ -90,3 +90,12 @@ ccss_property_t
 </para>
 
 
+<!-- ##### FUNCTION ccss_property_init ##### -->
+<para>
+
+</para>
+
+@self: 
+@property_class: 
+
+

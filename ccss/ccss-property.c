@@ -22,6 +22,24 @@
 #include <glib.h>
 #include "ccss-property-priv.h"
 
+/**
+ * ccss_property_init:
+ * @self:		a #ccss_property_base_t.
+ * @property_class:	a #ccss_property_class_t vtable.
+ *
+ * Initializes @self, needs to be called before the property is
+ * registered with ccss.
+ **/
+void
+ccss_property_init (ccss_property_base_t	*self,
+		    ccss_property_class_t const	*property_class)
+{
+	g_assert (self && property_class);
+
+	self->property_class = property_class;
+	self->state = CCSS_PROPERTY_STATE_UNSET;
+}
+
 ccss_property_state_t
 ccss_property_parse_state (CRTerm const **value)
 {

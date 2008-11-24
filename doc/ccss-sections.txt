@@ -80,6 +80,7 @@ ccss_property_factory_f
 ccss_property_class_t
 ccss_property_base_t
 ccss_property_generic_t
+ccss_property_init
 </SECTION>
 
 <SECTION>

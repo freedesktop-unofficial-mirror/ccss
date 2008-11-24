@@ -1,5 +1,16 @@
 2008-11-24  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-node.h:
+	* ccss/ccss-property.c (ccss_property_init):
+	* ccss/ccss-property.h:
+	* ccss/ccss.sym:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/property.sgml:
+	* examples/Makefile.am:
+	API for initialising custom properties.
+
+2008-11-24  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-background-parser.c:
 	* ccss/ccss-border-parser.c (border_factory_impl):
 	* ccss/ccss-color.c (ccss_color_parse), (ccss_color_new),
