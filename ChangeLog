@@ -1,5 +1,9 @@
 2008-11-24  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/Makefile.am: link with correct version info.
+
+2008-11-24  Robert Staudinger  <robsta@gnome.org>
+
 	* Makefile.am:
 	* doc/tmpl/ccss-unused.sgml:
 	* doc/tmpl/style.sgml:

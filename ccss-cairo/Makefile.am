@@ -9,8 +9,8 @@ lib_LTLIBRARIES = libccss-cairo-1.la
 libccss_cairo_1_la_DEPENDENCIES = \
 	ccss-cairo.sym
 
-libccss_cairo_1_la_LDFLAGS =  \
-	-no-undefined
+libccss_cairo_1_la_LDFLAGS = \
+	-no-undefined \
 	-version-info $(VERSION_INFO) \
 	-export-symbols $(srcdir)/ccss-cairo.sym
 
