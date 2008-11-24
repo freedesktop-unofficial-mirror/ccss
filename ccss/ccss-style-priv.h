@@ -47,6 +47,10 @@ ccss_style_subsystem_init (void);
 void
 ccss_style_subsystem_shutdown (void);
 
+ccss_property_base_t const *
+ccss_style_lookup_property (ccss_style_t const	*self,
+			    GQuark		 property_id);
+
 void
 ccss_style_gather_outline (ccss_style_t const		 *self,
 			   ccss_border_stroke_t		 *bottom,

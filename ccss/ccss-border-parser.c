@@ -31,8 +31,8 @@
 	property_.base.property_class = peek_property_class (property_name_);  \
 	color = g_new0 (ccss_color_t, 1);				       \
 	*color = property_;						       \
-	ccss_block_insert_property (block_, property_name_,		       \
-				    (ccss_property_base_t *) color);	       \
+	ccss_block_add_property (block_, property_name_,		       \
+				 (ccss_property_base_t *) color);	       \
 	} G_STMT_END
 
 #define INSERT_BORDER_STYLE(block_, property_name_, property_)		       \
@@ -41,8 +41,8 @@
 	property_.base.property_class = peek_property_class (property_name_);  \
 	style = g_new0 (ccss_border_style_t, 1);			       \
 	*style = property_;						       \
-	ccss_block_insert_property (block_, property_name_,		       \
-				    (ccss_property_base_t *) style);	       \
+	ccss_block_add_property (block_, property_name_,		       \
+				 (ccss_property_base_t *) style);	       \
 	} G_STMT_END
 
 #define INSERT_BORDER_WIDTH(block_, property_name_, property_)		       \
@@ -51,8 +51,8 @@
 	property_.base.property_class = peek_property_class (property_name_);  \
 	width = g_new0 (ccss_border_width_t, 1);			       \
 	*width = property_;						       \
-	ccss_block_insert_property (block_, property_name_,		       \
-				    (ccss_property_base_t *) width);	       \
+	ccss_block_add_property (block_, property_name_,		       \
+				 (ccss_property_base_t *) width);	       \
 	} G_STMT_END
 
 #define INSERT_BORDER_RADIUS(block_, property_name_, property_)		       \
@@ -61,8 +61,8 @@
 	property_.base.property_class = peek_property_class (property_name_);  \
 	join = g_new0 (ccss_border_join_t, 1);			       \
 	*join = property_;						       \
-	ccss_block_insert_property (block_, property_name_,		       \
-				    (ccss_property_base_t *) join);	       \
+	ccss_block_add_property (block_, property_name_,		       \
+				 (ccss_property_base_t *) join);	       \
 	} G_STMT_END
 
 /*!

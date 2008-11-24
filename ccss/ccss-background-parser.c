@@ -221,8 +221,8 @@ background_factory (ccss_block_t		*self,
 		bgc.base.property_class = peek_property_class ("background-color");
 		bg_color = g_new0 (ccss_color_t, 1);
 		*bg_color = bgc;
-		ccss_block_insert_property (self, "background-color", 
-					    (ccss_property_base_t *) bg_color);
+		ccss_block_add_property (self, "background-color", 
+					 (ccss_property_base_t *) bg_color);
 		if (NULL == values)
 			return true;
 	} else {
@@ -234,7 +234,7 @@ background_factory (ccss_block_t		*self,
 		bgi.base.property_class = peek_property_class ("background-image");
 		bg_image = g_new0 (ccss_background_image_t, 1);
 		*bg_image = bgi;
-		ccss_block_insert_property (self, "background-image", 
+		ccss_block_add_property (self, "background-image", 
 					    (ccss_property_base_t *) bg_image);
 		if (NULL == values)
 			return true;
@@ -247,8 +247,8 @@ background_factory (ccss_block_t		*self,
 		bgr.base.property_class = peek_property_class ("background-repeat");
 		bg_repeat = g_new0 (ccss_background_repeat_t, 1);
 		*bg_repeat = bgr;
-		ccss_block_insert_property (self, "background-repeat", 
-					    (ccss_property_base_t *) bg_repeat);
+		ccss_block_add_property (self, "background-repeat", 
+					 (ccss_property_base_t *) bg_repeat);
 		if (NULL == values)
 			return true;
 	} else {
@@ -260,8 +260,8 @@ background_factory (ccss_block_t		*self,
 		bga.base.property_class = peek_property_class ("background-attachment");
 		bg_attachment = g_new0 (ccss_background_attachment_t, 1);
 		*bg_attachment = bga;
-		ccss_block_insert_property (self, "background-attachment", 
-					    (ccss_property_base_t *) bg_attachment);
+		ccss_block_add_property (self, "background-attachment", 
+					 (ccss_property_base_t *) bg_attachment);
 		if (NULL == values)
 			return true;
 	} else {
@@ -273,8 +273,8 @@ background_factory (ccss_block_t		*self,
 		bgp.base.property_class = peek_property_class ("background-position");
 		bg_position = g_new0 (ccss_background_position_t, 1);
 		*bg_position = bgp;
-		ccss_block_insert_property (self, "background-position", 
-					    (ccss_property_base_t *) bg_position);
+		ccss_block_add_property (self, "background-position", 
+					 (ccss_property_base_t *) bg_position);
 		if (NULL == values)
 			return true;
 	} else {

@@ -361,7 +361,7 @@ property_cb (CRDocHandler	*handler,
 	} else if (property_class->property_new) {
 		property = property_class->property_new (values);
 		if (property) {
-			ccss_block_insert_property (block, property_name, property);
+			ccss_block_add_property (block, property_name, property);
 		}
 	} else {
 		g_warning ("No factory or constructor for property `%s'", property_name);

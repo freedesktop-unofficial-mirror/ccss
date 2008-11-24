@@ -20,7 +20,6 @@
 #include "ccss.h"
 #include "ccss-function-priv.h"
 #include "ccss-parser.h"
-#include "ccss-property-priv.h"
 #include "ccss-style-priv.h"
 
 /* FIXME: split out */
@@ -36,7 +35,6 @@
 void
 ccss_init (void)
 {
-	ccss_property_subsystem_init ();
 	ccss_style_subsystem_init ();
 }
 
@@ -78,7 +76,6 @@ ccss_shutdown (void)
 	ccss_parser_subsystem_shutdown ();
 
 	ccss_style_subsystem_shutdown ();
-	ccss_property_subsystem_shutdown ();
 }
 
 /**

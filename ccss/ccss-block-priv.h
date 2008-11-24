@@ -33,6 +33,13 @@
 
 CCSS_BEGIN_DECLS
 
+/**
+ * ccss_block_t:
+ *
+ * Represents a block of CSS properties.
+ *
+ * TODO: add to docs.
+ **/
 struct ccss_block_ {
 	/*< private >*/
 	GHashTable *properties;
@@ -40,11 +47,6 @@ struct ccss_block_ {
 
 ccss_block_t *	ccss_block_new	(void);
 void		ccss_block_free	(ccss_block_t *self);
-
-void
-ccss_block_insert_property (ccss_block_t		*self,
-			    char const			*property_name,
-			    ccss_property_base_t	*property);
 
 #ifdef CCSS_DEBUG
 void ccss_block_dump (ccss_block_t const *self);

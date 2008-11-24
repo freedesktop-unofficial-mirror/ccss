@@ -2,18 +2,12 @@
 ### Build in `noinst' manner so in can be statically ###########################
 ### linked into -cairo et al variants. #########################################
 
-noinst_LTLIBRARIES = libccss-static.la libccssproperty.la
+noinst_LTLIBRARIES = libccss-static.la
 
 libccss_static_la_CPPFLAGS = \
 	$(CCSS_CFLAGS) \
 	-I$(top_srcdir) \
 	-I$(top_builddir)
-
-libccss_static_la_DEPENDENCIES = \
-	libccssproperty.la
-
-libccss_static_la_LIBADD = \
-	libccssproperty.la
 
 libccss_static_la_SOURCES = \
 	ccss-background.c \
@@ -42,8 +36,10 @@ libccss_static_la_SOURCES = \
 	ccss-parser.h \
 	ccss-position.c \
 	ccss-position.h \
+	ccss-property.c \
 	ccss-property-generic.c \
 	ccss-property-generic.h \
+	ccss-property-priv.h \
 	ccss-selector-group.c \
 	ccss-selector-group.h \
 	ccss-selector.c \
@@ -88,18 +84,6 @@ headers_DATA = \
 	ccss-property.h \
 	ccss-style.h \
 	ccss-stylesheet.h
-
-# Messing with function pointers in a non-ISO way needs some extra love
-# to prevent warnings (not using ISO C).
-
-libccssproperty_la_CPPFLAGS = \
-	$(CCSS_COMPAT_CFLAGS) \
-	-I$(top_srcdir) \
-	-I$(top_builddir)
-
-libccssproperty_la_SOURCES = \
-	ccss-property.c \
-	ccss-property-priv.h
 
 EXTRA_DIST = \
 	ccss-features.h.in \

@@ -21,15 +21,16 @@
 #define CCSS_BLOCK_H
 
 #include <ccss/ccss-macros.h>
+#include <ccss/ccss-property.h>
 
 CCSS_BEGIN_DECLS
 
 typedef struct ccss_block_ ccss_block_t;
 
-void *
-ccss_block_add_property (ccss_block_t	*self,
-			 char const	*property_name,
-			 void		*value);
+void
+ccss_block_add_property (ccss_block_t		*self,
+			 char const		*property_name,
+			 ccss_property_base_t	*value);
 
 CCSS_END_DECLS
 

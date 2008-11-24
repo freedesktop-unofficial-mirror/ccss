@@ -63,6 +63,16 @@ ccss_property_t
 @Returns: 
 
 
+<!-- ##### USER_FUNCTION ccss_property_factory_f ##### -->
+<para>
+
+</para>
+
+@block: 
+@values: 
+@Returns: 
+
+
 <!-- ##### STRUCT ccss_property_class_t ##### -->
 <para>
 
@@ -72,6 +82,7 @@ ccss_property_t
 @property_new: 
 @property_free: 
 @property_convert: 
+@property_factory: 
 
 <!-- ##### TYPEDEF ccss_property_base_t ##### -->
 <para>

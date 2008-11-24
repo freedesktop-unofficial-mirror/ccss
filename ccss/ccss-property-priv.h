@@ -28,25 +28,8 @@
 
 CCSS_BEGIN_DECLS
 
-void
-ccss_property_subsystem_init		(void);
-
-void
-ccss_property_subsystem_shutdown	(void);
-
-
-void
-ccss_property_register_conversion_function	(GQuark				property,
-						 ccss_property_convert_f	function);
-
-bool
-ccss_property_convert				(void const			*property,
-						 GQuark				 property_id,
-						 ccss_property_type_t		 target,
-						 void				*value);
-
 ccss_property_state_t
-ccss_property_parse_state			(CRTerm const			**value);
+ccss_property_parse_state (CRTerm const **value);
 
 CCSS_END_DECLS
 

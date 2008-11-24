@@ -330,11 +330,10 @@ inherit_container_style (ccss_style_t const	*container_style,
 			 GHashTable		*inherit,
 			 ccss_style_t		*style)
 {
-	GHashTableIter		 iter;
-	GQuark			 property_id;
-	void const		*property;
-	ccss_property_state_t	 property_state;
-	GSList			*removals;
+	GHashTableIter			 iter;
+	GQuark				 property_id;
+	ccss_property_base_t const	*property;
+	GSList				*removals;
 
 	/* Check which properties from the `inherit' set can be resolved. */
 	removals = NULL;
@@ -342,12 +341,11 @@ inherit_container_style (ccss_style_t const	*container_style,
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, NULL)) {
 
 		/* Look up property in the container's style. */
-		property = g_hash_table_lookup (container_style->properties,
-						(gpointer) property_id);
+		property = ccss_style_lookup_property (container_style,
+						       property_id);
 		if (property) {
-			property_state = * (ccss_property_state_t *) property;
-			if (CCSS_PROPERTY_STATE_NONE == property_state ||
-			    CCSS_PROPERTY_STATE_SET == property_state ) {
+			if (CCSS_PROPERTY_STATE_NONE == property->state ||
+			    CCSS_PROPERTY_STATE_SET == property->state ) {
 
 				g_hash_table_insert (style->properties,
 						     (gpointer) property_id,

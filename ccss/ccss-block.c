@@ -22,29 +22,6 @@
 #include "ccss-cairo-property.h"
 #include "ccss-property-priv.h"
 
-void *
-ccss_block_add_property (ccss_block_t	*self,
-			 char const	*property_name,
-			 void		*value)
-{
-	GQuark	 property_id;
-	void	*old_property;
-
-	property_id = g_quark_try_string (property_name);
-	if (0 == property_id) {
-		property_id = g_quark_from_string (property_name);
-		/* FIXME: also hook into conversion mechanism? */
-	}
-
-	old_property = g_hash_table_lookup (self->properties,
-					    (gpointer) property_id);
-
-	g_hash_table_insert (self->properties,
-			     (gpointer) property_id, value);
-
-	return old_property;
-}
-
 ccss_block_t *
 ccss_block_new (void)
 {
@@ -68,14 +45,23 @@ ccss_block_free (ccss_block_t *self)
 	g_free (self);
 }
 
-/* FIXME: only one mention of a property per block is supported ATM.
- * Need to store a list of properties instead and take care to apply in the correct order. */
+
+/**
+ * ccss_block_add_property:
+ * @self:		a #ccss_block_t.
+ * @property_name:	the property's name, e.g. `background-color'.
+ * @property		pointer to the property instance.
+ *
+ * Adds a property to a CSS block.
+ *
+ * TODO: add to docs.
+ **/
 void
-ccss_block_insert_property (ccss_block_t		*self,
-			    char const			*property_name,
-			    ccss_property_base_t	*property)
+ccss_block_add_property (ccss_block_t		*self,
+			 char const		*property_name,
+			 ccss_property_base_t	*property)
 {
-	GQuark			 property_id;
+	GQuark property_id;
 
 	property_id = g_quark_try_string (property_name);
 	if (0 == property_id) {
@@ -94,16 +80,26 @@ ccss_block_insert_property (ccss_block_t		*self,
 void
 ccss_block_dump (ccss_block_t const *self)
 {
-	GHashTableIter	 iter;
-	GQuark		 property_id;
-	void const	*property;
-	char		*strval;
+	GHashTableIter			 iter;
+	GQuark				 property_id;
+	ccss_property_base_t const	*property;
+	char				*strval;
+	bool				 ret;
 
 	g_hash_table_iter_init (&iter, self->properties);
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property))  {
 
-		if (ccss_property_convert (property, property_id, 
-		    CCSS_PROPERTY_TYPE_STRING, &strval)) {
+		if (NULL == property->property_class || 
+		    NULL == property->property_class->property_convert) {
+			g_warning ("No conversion function for property `%s'",
+				   g_quark_to_string (property_id));
+			continue;
+		}
+
+		ret = property->property_class->property_convert (property,
+								  CCSS_PROPERTY_TYPE_STRING,
+								  &strval);
+		if (ret) {
 			printf ("%s: %s;\n", g_quark_to_string (property_id), strval);
 			g_free (strval), strval = NULL;
 		} else {

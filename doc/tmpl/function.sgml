@@ -22,10 +22,7 @@ ccss_function_t
 
 </para>
 
-@block: 
-@property_name: 
-@function_name: 
-@values: 
+@args: 
 @Returns: 
 
 

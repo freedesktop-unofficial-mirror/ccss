@@ -22,11 +22,13 @@
 
 #include <stdbool.h>
 #include <libcroco/libcroco.h>
-#include <ccss/ccss-block.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
 
 CCSS_BEGIN_DECLS
+
+/* #include <ccss/ccss-block.h> avoid circular dependency. */
+struct ccss_block_;
 
 /**
  * ccss_property_state_t:
@@ -99,7 +101,7 @@ typedef bool (*ccss_property_convert_f) (ccss_property_base_t const	*self,
  *
  * Returns: %TRUE when sucessful.
  **/
-typedef bool (*ccss_property_factory_f) (ccss_block_t		*block,
+typedef bool (*ccss_property_factory_f) (struct ccss_block_	*block,
 					 CRTerm const		*values);
 /**
  * ccss_property_class_t:

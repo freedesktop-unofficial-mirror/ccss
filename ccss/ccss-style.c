@@ -231,14 +231,28 @@ ccss_style_free (ccss_style_t *self)
 	g_free (self);
 }
 
+ccss_property_base_t const *
+ccss_style_lookup_property (ccss_style_t const	*self,
+			    GQuark		 property_id)
+{
+	g_assert (self);
+
+	return (ccss_property_base_t const *)
+			g_hash_table_lookup (self->properties,
+					     (gpointer) property_id);
+
+}
+
 /* Look up a property, take fallback into account. */
-static void const *
+static ccss_property_base_t const *
 lookup_property_r (ccss_style_t const	*self,
 		   GQuark		 property_id)
 {
-	void const *property;
+	ccss_property_base_t const *property;
 
-	property = g_hash_table_lookup (self->properties, (gpointer) property_id);
+	property = (ccss_property_base_t const *) 
+			g_hash_table_lookup (self->properties,
+					     (gpointer) property_id);
 	if (property) {
 		return property;
 	}
@@ -267,8 +281,8 @@ ccss_style_get_double (ccss_style_t const	*self,
 		       char const		*property_name,
 		       double			*value)
 {
-	GQuark		 property_id;
-	void const	*property;
+	GQuark				 property_id;
+	ccss_property_base_t const	*property;
 
 	g_return_val_if_fail (self && property_name && value, false);
 
@@ -282,8 +296,15 @@ ccss_style_get_double (ccss_style_t const	*self,
 	if (NULL == property)
 		return false;
 
-	return ccss_property_convert (property, property_id, 
-				      CCSS_PROPERTY_TYPE_DOUBLE, value);
+	/* Have conversion function? */
+	g_return_val_if_fail (property->property_class, false);
+	if (NULL == property->property_class->property_convert) {
+		return false;
+	}
+
+	return property->property_class->property_convert (property,
+							   CCSS_PROPERTY_TYPE_DOUBLE,
+							   value);
 }
 
 /**
@@ -301,8 +322,8 @@ ccss_style_get_string (ccss_style_t const	 *self,
 		       char const		 *property_name,
 		       char			**value)
 {
-	GQuark		 property_id;
-	void const	*property;
+	GQuark				 property_id;
+	ccss_property_base_t const	*property;
 
 	g_return_val_if_fail (self && property_name && value, false);
 
@@ -316,8 +337,15 @@ ccss_style_get_string (ccss_style_t const	 *self,
 	if (NULL == property)
 		return false;
 
-	return ccss_property_convert (property, property_id, 
-				      CCSS_PROPERTY_TYPE_STRING, value);
+	/* Have conversion function? */
+	g_return_val_if_fail (property->property_class, false);
+	if (NULL == property->property_class->property_convert) {
+		return false;
+	}
+
+	return property->property_class->property_convert (property,
+							   CCSS_PROPERTY_TYPE_STRING,
+							   value);
 }
 
 /**
@@ -713,16 +741,26 @@ ccss_style_foreach (ccss_style_t const		*self,
 void
 ccss_style_dump (ccss_style_t const *self)
 {
-	GHashTableIter	 iter;
-	GQuark		 property_id;
-	void const	*property;
-	char		*strval;
+	GHashTableIter			 iter;
+	GQuark				 property_id;
+	ccss_property_base_t const	*property;
+	char				*strval;
+	bool				 ret;
 
 	g_hash_table_iter_init (&iter, self->properties);
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property))  {
 
-		if (ccss_property_convert (property, property_id, 
-		    CCSS_PROPERTY_TYPE_STRING, &strval)) {
+		if (NULL == property->property_class || 
+		    NULL == property->property_class->property_convert) {
+			g_warning ("No conversion function for property `%s'",
+				   g_quark_to_string (property_id));
+			continue;
+		}
+
+		ret = property->property_class->property_convert (property,
+								  CCSS_PROPERTY_TYPE_STRING,
+								  &strval);
+		if (ret) {
 			printf ("%s: %s;\n", g_quark_to_string (property_id), strval);
 			g_free (strval), strval = NULL;
 		} else {

@@ -1,5 +1,30 @@
 2008-11-24  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/Makefile.am:
+	* ccss/ccss-background-parser.c (background_factory):
+	* ccss/ccss-block-priv.h:
+	* ccss/ccss-block.c (ccss_block_add_property), (ccss_block_dump):
+	* ccss/ccss-block.h:
+	* ccss/ccss-border-parser.c:
+	* ccss/ccss-parser.c (property_cb):
+	* ccss/ccss-property-priv.h:
+	* ccss/ccss-property.c:
+	* ccss/ccss-property.h:
+	* ccss/ccss-style-priv.h:
+	* ccss/ccss-style.c (ccss_style_lookup_property),
+	(lookup_property_r), (ccss_style_get_double),
+	(ccss_style_get_string), (ccss_style_dump):
+	* ccss/ccss-stylesheet.c (inherit_container_style):
+	* ccss/ccss.c (ccss_init), (ccss_shutdown):
+	* ccss/ccss.sym:
+	* configure.in:
+	* doc/tmpl/function.sgml:
+	* doc/tmpl/property.sgml:
+	Clean up property handling.
+
+2008-11-24  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO:
 	* ccss-clutter/example-1.c (main):
 	* ccss-clutter/example-2.c (url), (main):
 	* ccss/Makefile.am:
@@ -56,6 +81,12 @@
 	(ccss_add_functions), (ccss_shutdown), (ccss_cairo_init),
 	(ccss_cairo_shutdown):
 	* ccss/ccss.h:
+	* ccss/ccss.sym:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/ccss-unused.sgml:
+	* doc/tmpl/ccss.sgml:
+	* doc/tmpl/node.sgml:
+	* doc/tmpl/property.sgml:
 	* examples/example-1.c (main):
 	* examples/example-2.c (main):
 	* examples/example-3.c (url), (main):
