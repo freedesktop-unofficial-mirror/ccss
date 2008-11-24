@@ -22,6 +22,7 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-border.h"
+#include "config.h"
 
 #define STROKE_IS_SET(stroke_)						       \
 		(stroke_ && 						       \

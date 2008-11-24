@@ -21,6 +21,7 @@
 #include "ccss-block-priv.h"
 #include "ccss-cairo-property.h"
 #include "ccss-property-priv.h"
+#include "config.h"
 
 ccss_block_t *
 ccss_block_new (void)
@@ -73,8 +74,6 @@ ccss_block_add_property (ccss_block_t		*self,
 
 }
 
-#ifdef CCSS_DEBUG
-
 void
 ccss_block_dump (ccss_block_t const *self)
 {
@@ -105,6 +104,4 @@ ccss_block_dump (ccss_block_t const *self)
 		}
 	}
 }
-
-#endif /* CCSS_DEBUG */
 

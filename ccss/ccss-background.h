@@ -25,7 +25,6 @@
 #include <cairo.h>
 #include <libcroco/libcroco.h>
 #include <ccss/ccss-color.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-image.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-position.h>

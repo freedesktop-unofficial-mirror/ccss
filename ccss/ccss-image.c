@@ -23,6 +23,7 @@
 #include "ccss-function-priv.h"
 #include "ccss-image.h"
 #include "ccss-property-priv.h"
+#include "config.h"
 
 #ifdef CCSS_WITH_SOUP
 #include <libsoup/soup.h>

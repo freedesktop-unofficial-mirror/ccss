@@ -23,7 +23,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-block.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-node.h>
@@ -121,9 +120,7 @@ ccss_selector_apply (ccss_selector_t const	*self,
 		     ccss_node_t const		*node,
 		     ccss_style_t		*style);
 
-#ifdef CCSS_DEBUG
 void ccss_selector_dump (ccss_selector_t const *self);
-#endif
 
 CCSS_END_DECLS
 

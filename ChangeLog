@@ -1,5 +1,54 @@
 2008-11-24  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/Makefile.am:
+	* ccss/ccss-background-parser.c:
+	* ccss/ccss-background-parser.h:
+	* ccss/ccss-background.c:
+	* ccss/ccss-background.h:
+	* ccss/ccss-block-priv.h:
+	* ccss/ccss-block.c:
+	* ccss/ccss-border-image-parser.c:
+	* ccss/ccss-border-image-parser.h:
+	* ccss/ccss-border-image.c:
+	* ccss/ccss-border-image.h:
+	* ccss/ccss-border-parser.c:
+	* ccss/ccss-border-parser.h:
+	* ccss/ccss-border.c:
+	* ccss/ccss-border.h:
+	* ccss/ccss-cairo-property.c:
+	* ccss/ccss-cairo-property.h:
+	* ccss/ccss-color.c:
+	* ccss/ccss-features.h.in:
+	* ccss/ccss-function.c:
+	* ccss/ccss-image.c:
+	* ccss/ccss-image.h:
+	* ccss/ccss-node.c:
+	* ccss/ccss-node.h:
+	* ccss/ccss-parser.c:
+	* ccss/ccss-parser.h:
+	* ccss/ccss-position.c:
+	* ccss/ccss-position.h:
+	* ccss/ccss-property-generic.c:
+	* ccss/ccss-property-generic.h:
+	* ccss/ccss-property-priv.h:
+	* ccss/ccss-property.c:
+	* ccss/ccss-property.h:
+	* ccss/ccss-selector-group.c:
+	* ccss/ccss-selector-group.h:
+	* ccss/ccss-selector.c:
+	* ccss/ccss-selector.h:
+	* ccss/ccss-style-priv.h:
+	* ccss/ccss-style.c:
+	* ccss/ccss-style.h:
+	* ccss/ccss-stylesheet.c:
+	* ccss/ccss-stylesheet.h:
+	* ccss/ccss.c:
+	* ccss/ccss.h:
+	* configure.in:
+	No more need to install ccss-features.h now that the library is split up.
+
+2008-11-24  Robert Staudinger  <robsta@gnome.org>
+
 	* examples/example-4.c (expose_cb): improve example.
 
 2008-11-24  Robert Staudinger  <robsta@gnome.org>

@@ -19,6 +19,7 @@
 
 #include <string.h>
 #include "ccss-property-generic.h"
+#include "config.h"
 
 /**
  * ccss_property_generic_t:

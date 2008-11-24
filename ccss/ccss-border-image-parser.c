@@ -21,6 +21,7 @@
 #include "ccss-block-priv.h"
 #include "ccss-border-image.h"
 #include "ccss-border-image-parser.h"
+#include "config.h"
 
 static ccss_property_class_t const *
 peek_property_class (void);

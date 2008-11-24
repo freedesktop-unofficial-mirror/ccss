@@ -22,7 +22,6 @@
 
 #include <stdint.h>
 #include <cairo.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
 
 CCSS_BEGIN_DECLS
@@ -100,12 +99,8 @@ ccss_style_foreach (ccss_style_t const		*self,
 		    void			*user_data);
 
 
-#ifdef CCSS_DEBUG
-
 void
 ccss_style_dump (ccss_style_t const *self);
-
-#endif
 
 CCSS_END_DECLS
 

@@ -20,7 +20,6 @@
 #ifndef CCSS_PROPERTY_GENERIC_H
 #define CCSS_PROPERTY_GENERIC_H
 
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
 

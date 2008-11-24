@@ -22,6 +22,7 @@
 #include "ccss-parser.h"
 #include "ccss-property-generic.h"
 #include "ccss-style-priv.h"
+#include "config.h"
 
 /* FIXME: split out */
 #include "ccss-color.h"

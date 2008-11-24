@@ -21,6 +21,7 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-background.h"
+#include "config.h"
 
 static cairo_pattern_t *
 create_pattern (ccss_background_image_t const	*bg_image,

@@ -27,7 +27,6 @@
 #include <ccss/ccss-background.h>
 #include <ccss/ccss-border.h>
 #include <ccss/ccss-border-image.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
 
@@ -46,9 +45,7 @@ struct ccss_block_ {
 ccss_block_t *	ccss_block_new	(void);
 void		ccss_block_free	(ccss_block_t *self);
 
-#ifdef CCSS_DEBUG
-void ccss_block_dump (ccss_block_t const *self);
-#endif
+void		ccss_block_dump	(ccss_block_t const *self);
 
 CCSS_END_DECLS
 

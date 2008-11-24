@@ -26,6 +26,7 @@
 #include "ccss-selector.h"
 #include "ccss-style-priv.h"
 #include "ccss-stylesheet.h"
+#include "config.h"
 
 /**
  * ccss_stylesheet_t:
@@ -519,8 +520,6 @@ ccss_stylesheet_foreach (ccss_stylesheet_t const	*self,
 	}
 }
 
-#ifdef CCSS_DEBUG
-
 /**
  * ccss_stylesheet_dump:
  * @self:	a #ccss_stylesheet_t.
@@ -539,6 +538,4 @@ ccss_stylesheet_dump (ccss_stylesheet_t const *self)
 		ccss_selector_group_dump (value);
 	}
 }
-
-#endif /* CCSS_DEBUG */
 

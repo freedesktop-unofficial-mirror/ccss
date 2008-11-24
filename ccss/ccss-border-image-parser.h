@@ -20,7 +20,6 @@
 #ifndef CCSS_BORDER_IMAGE_PARSER_H
 #define CCSS_BORDER_IMAGE_PARSER_H
 
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
 

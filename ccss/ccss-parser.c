@@ -30,6 +30,7 @@
 #include "ccss-property.h"
 #include "ccss-selector.h"
 #include "ccss-selector-group.h"
+#include "config.h"
 
 static GHashTable *_property_handlers = NULL;
 

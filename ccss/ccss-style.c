@@ -24,6 +24,7 @@
 #include "ccss-cairo-property.h"
 #include "ccss-property-priv.h"
 #include "ccss-style-priv.h"
+#include "config.h"
 
 static const ccss_background_attachment_t const _bg_attachment = {
 	.base.state = CCSS_PROPERTY_STATE_SET,
@@ -730,8 +731,6 @@ ccss_style_foreach (ccss_style_t const		*self,
 	}
 }
 
-#ifdef CCSS_DEBUG
-
 /**
  * ccss_style_dump:
  * @self:	a ccss_style_t.
@@ -768,6 +767,4 @@ ccss_style_dump (ccss_style_t const *self)
 		}
 	}
 }
-
-#endif /* CCSS_DEBUG */
 

@@ -22,7 +22,6 @@
 
 #include <stdbool.h>
 #include <glib.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-node.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-selector.h>
@@ -68,12 +67,8 @@ ccss_selector_group_query (ccss_selector_group_t const	*self,
 			   bool				 as_base,
 			   ccss_selector_group_t	*result_group);
 
-#ifdef CCSS_DEBUG
-
 void
 ccss_selector_group_dump (ccss_selector_group_t const *self);
-
-#endif
 
 CCSS_END_DECLS
 

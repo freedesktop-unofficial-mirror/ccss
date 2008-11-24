@@ -18,6 +18,7 @@
  */
 
 #include "ccss-cairo-property.h"
+#include "config.h"
 
 static GQuark _BACKGROUND_ATTACHMENT		= 0;
 static GQuark _BACKGROUND_COLOR			= 0;

@@ -24,7 +24,6 @@
 #include <libcroco/libcroco.h>
 #include <ccss/ccss-block.h>
 #include <ccss/ccss-border.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
 
 CCSS_BEGIN_DECLS

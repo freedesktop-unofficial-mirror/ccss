@@ -24,6 +24,7 @@
 #include "ccss-background.h"
 #include "ccss-block-priv.h"
 #include "ccss-property-priv.h"
+#include "config.h"
 
 static ccss_property_class_t const *
 peek_property_class (char const *property_name);

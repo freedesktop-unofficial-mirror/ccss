@@ -20,6 +20,7 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-function-priv.h"
+#include "config.h"
 
 static GHashTable *_function_handlers = NULL;
 

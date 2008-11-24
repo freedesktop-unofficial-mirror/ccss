@@ -19,6 +19,7 @@
 
 #include <glib.h>
 #include "ccss-position.h"
+#include "config.h"
 
 static const struct {
 	char const		*name;

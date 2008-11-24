@@ -25,7 +25,6 @@
 #include <stdlib.h>
 #include <glib.h>
 #include <libcroco/libcroco.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-selector-group.h>
 #include <ccss/ccss-stylesheet.h>

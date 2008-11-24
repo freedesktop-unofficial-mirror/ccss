@@ -18,6 +18,7 @@
  */
 
 #include "ccss-border-image.h"
+#include "config.h"
 
 typedef enum {
 	ORIENTATION_HORIZONTAL,

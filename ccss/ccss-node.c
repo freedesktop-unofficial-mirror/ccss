@@ -20,6 +20,7 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-node.h"
+#include "config.h"
 
 static bool
 is_a (ccss_node_t const	*self,

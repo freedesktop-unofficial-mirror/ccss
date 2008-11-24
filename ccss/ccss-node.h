@@ -23,7 +23,6 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
 
 CCSS_BEGIN_DECLS

@@ -21,6 +21,7 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-property-priv.h"
+#include "config.h"
 
 /**
  * ccss_property_init:

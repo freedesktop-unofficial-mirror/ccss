@@ -23,7 +23,6 @@
 #include <cairo.h>
 #include <libcroco/libcroco.h>
 #include <ccss/ccss-block.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
 

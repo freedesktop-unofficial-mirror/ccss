@@ -24,6 +24,7 @@
 #include "ccss-node.h"
 #include "ccss-selector.h"
 #include "ccss-style-priv.h"
+#include "config.h"
 
 typedef enum {
 	CCSS_SELECTOR_MODALITY_UNIVERSAL,	/* Universal selector. */
@@ -115,15 +116,11 @@ universal_selector_free (ccss_universal_selector_t *self)
 	g_free (self);
 }
 
-#ifdef CCSS_DEBUG
-
 static void
 universal_selector_dump (ccss_universal_selector_t const *self)
 {
 	printf (" *");
 }
-
-#endif /* CCSS_DEBUG */
 
 /*
  * Select by element type.
@@ -173,15 +170,11 @@ type_selector_free (ccss_type_selector_t *self)
 	g_free (self);
 }
 
-#ifdef CCSS_DEBUG
-
 static void
 type_selector_dump (ccss_type_selector_t const *self)
 {
 	printf (" %s", self->type_name);
 }
-
-#endif /* CCSS_DEBUG */
 
 /*
  * Select by element's base type.
@@ -256,15 +249,11 @@ class_selector_free (ccss_class_selector_t *self)
 	g_free (self);
 }
 
-#ifdef CCSS_DEBUG
-
 static void
 class_selector_dump (ccss_class_selector_t const *self)
 {
 	printf (".%s", self->class_name);
 }
-
-#endif /* CCSS_DEBUG */
 
 /*
  * Select by element ID.
@@ -314,15 +303,11 @@ id_selector_free (ccss_id_selector_t *self)
 	g_free (self);
 }
 
-#ifdef CCSS_DEBUG
-
 static void
 id_selector_dump (ccss_id_selector_t const *self)
 {
 	printf ("#%s", self->id);
 }
-
-#endif /* CCSS_DEBUG */
 
 /*
  * Select by attribute.
@@ -381,8 +366,6 @@ attribute_selector_free (ccss_attribute_selector_t *self)
 	g_free (self);
 }
 
-#ifdef CCSS_DEBUG
-
 static void
 attribute_selector_dump (ccss_attribute_selector_t const *self)
 {
@@ -397,8 +380,6 @@ attribute_selector_dump (ccss_attribute_selector_t const *self)
 		g_assert_not_reached ();
 	}
 }
-
-#endif /* CCSS_DEBUG */
 
 /*
  * Select by pseudo class.
@@ -448,15 +429,11 @@ pseudo_class_selector_free (ccss_pseudo_class_selector_t *self)
 	g_free (self);
 }
 
-#ifdef CCSS_DEBUG
-
 static void
 pseudo_class_selector_dump (ccss_pseudo_class_selector_t const *self)
 {
 	printf (":%s", self->pseudo_class);
 }
-
-#endif /* CCSS_DEBUG */
 
 /*
  * Select by unique instance.
@@ -505,15 +482,11 @@ instance_selector_free (ccss_instance_selector_t *self)
 	g_free (self);
 }
 
-#ifdef CCSS_DEBUG
-
 static void
 instance_selector_dump (ccss_instance_selector_t const *self)
 {
 	printf (":%x", self->instance);
 }
-
-#endif /* CCSS_DEBUG */
 
 ccss_selector_t *
 ccss_selector_copy (ccss_selector_t const *original)
@@ -1035,8 +1008,6 @@ ccss_selector_apply (ccss_selector_t const	*self,
 	return true;
 }
 
-#ifdef CCSS_DEBUG
-
 void 
 ccss_selector_dump (ccss_selector_t const *self)
 {
@@ -1104,6 +1075,4 @@ ccss_selector_dump (ccss_selector_t const *self)
 	printf (" # modality: %d, specificity: %d,%d,%d,%d,%d\n", 
 		self->modality, self->a, self->b, self->c, self->d, self->e);
 }
-
-#endif /* CCSS_DEBUG */
 

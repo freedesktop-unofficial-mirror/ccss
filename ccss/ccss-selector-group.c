@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <glib.h>
 #include "ccss-selector-group.h"
+#include "config.h"
 
 typedef struct {
 	GSList *selectors;
@@ -376,8 +377,6 @@ ccss_selector_group_apply_type (ccss_selector_group_t const	*self,
 	return info.ret;
 }
 
-#ifdef CCSS_DEBUG
-
 static bool
 traverse_dump (size_t			 specificity,
 	       ccss_selector_set_t	*set,
@@ -408,6 +407,4 @@ ccss_selector_group_dump (ccss_selector_group_t const *self)
 		ccss_selector_dump ((ccss_selector_t const *) iter->data);
 	}
 }
-
-#endif /* CCSS_DEBUG */
 

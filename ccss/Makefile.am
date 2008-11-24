@@ -76,7 +76,6 @@ headersdir = $(includedir)/libccss-1/ccss
 
 headers_DATA = \
 	ccss-block.h \
-	ccss-features.h \
 	ccss-function.h \
 	ccss.h \
 	ccss-macros.h \
@@ -86,6 +85,5 @@ headers_DATA = \
 	ccss-stylesheet.h
 
 EXTRA_DIST = \
-	ccss-features.h.in \
 	ccss.sym
 

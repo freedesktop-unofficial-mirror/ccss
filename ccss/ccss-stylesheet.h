@@ -21,7 +21,6 @@
 #define CCSS_STYLESHEET_H
 
 #include <stdbool.h>
-#include <ccss/ccss-features.h>
 #include <ccss/ccss-node.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-style.h>
@@ -89,12 +88,8 @@ ccss_stylesheet_foreach (ccss_stylesheet_t const	*self,
 			 ccss_stylesheet_iterator_f	 func,
 			 void				*user_data);
 
-#ifdef CCSS_DEBUG
-
 void
 ccss_stylesheet_dump (ccss_stylesheet_t const *self);
-
-#endif
 
 CCSS_END_DECLS
 
