@@ -1,5 +1,11 @@
 2008-11-24  Robert Staudinger  <robsta@gnome.org>
 
+	* examples/example-4.c (font_family_new), (font_family_free),
+	(font_family_convert), (peek_property_class), (expose_cb), (main):
+	Illustrate use of custom properties.
+
+2008-11-24  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-node.h:
 	* ccss/ccss-property.c (ccss_property_init):
 	* ccss/ccss-property.h:
