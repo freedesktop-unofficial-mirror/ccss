@@ -26,24 +26,6 @@
 
 CCSS_BEGIN_DECLS
 
-/**
- * ccss_property_generic_t:
- * @state:	see #ccss_property_state_t.
- * @type:	see #ccss_property_type_t.
- * @content:	container for the actual property value.
- *
- * Implementation of a generic, single-value property.
- **/
-typedef struct {
-	ccss_property_base_t	base;
-
-	ccss_property_type_t	type;
-	union {
-		double	 dval;
-		char	*sval;
-	}			content;
-} ccss_property_generic_t;
-
 ccss_property_class_t const *
 ccss_property_generic_get_ptable (void);
 

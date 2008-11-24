@@ -35,6 +35,11 @@
 void
 ccss_init (void)
 {
+	ccss_property_class_t const *properties;
+
+	properties = ccss_property_generic_get_ptable ();
+	ccss_add_properties (properties);
+
 	ccss_style_subsystem_init ();
 }
 
@@ -72,10 +77,10 @@ ccss_add_functions (ccss_function_t const *functions)
 void
 ccss_shutdown (void)
 {
+	ccss_style_subsystem_shutdown ();
+
 	ccss_function_subsystem_shutdown ();
 	ccss_parser_subsystem_shutdown ();
-
-	ccss_style_subsystem_shutdown ();
 }
 
 /**
@@ -90,13 +95,13 @@ ccss_cairo_init (void)
 
 	ccss_init ();
 
-	properties = ccss_color_get_ptable ();
-	ccss_add_properties (properties);
-
 	properties = ccss_background_get_ptable ();
 	ccss_add_properties (properties);
 
 	properties = ccss_border_image_get_ptable ();
+	ccss_add_properties (properties);
+
+	properties = ccss_color_get_ptable ();
 	ccss_add_properties (properties);
 }
 

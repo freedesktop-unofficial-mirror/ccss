@@ -1,5 +1,22 @@
 2008-11-24  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-property-generic.c:
+	* ccss/ccss-property-generic.h:
+	Structure can be private to the .c file.
+
+	* ccss/ccss.c (ccss_init), (ccss_shutdown), (ccss_cairo_init):
+	Correctly initialise ccss so generic properties work.
+
+	* doc/tmpl/block.sgml:
+	* doc/tmpl/ccss-unused.sgml:
+	* doc/tmpl/property.sgml:
+	Doc tweaks.
+
+	* examples/example-1.c (main):
+	Initialise ccss-cairo.
+
+2008-11-24  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-block-priv.h:
 	* ccss/ccss-block.c:
 	* doc/ccss-docs.sgml:
