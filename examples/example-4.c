@@ -1,5 +1,6 @@
 
 #include <stdlib.h>
+#include <string.h>
 #include <cairo.h>
 #include <ccss/ccss.h>
 #include <gtk/gtk.h>
@@ -91,14 +92,20 @@ expose_cb (GtkWidget		*widget,
 {
 	cairo_t			*cr;
 	font_family_t const	*font_family;
-	//PangoLayout*
+	PangoContext		*context;
+	PangoLayout		*layout;
 
 	cr = gdk_cairo_create (widget->window);
 
 	font_family = NULL;
 	ccss_style_get_property (style, "font-family", (void **) &font_family);
 	if (font_family) {
-		printf ("%s\n", font_family->font_family);
+		context = gtk_widget_get_pango_context (widget);
+		layout = pango_layout_new (context);
+		pango_layout_set_text (layout, font_family->font_family,
+				       strlen (font_family->font_family));
+		pango_cairo_show_layout (cr, layout);
+		g_object_unref (G_OBJECT (layout)), layout = NULL;
 	}
 
 	cairo_destroy (cr);
