@@ -1,5 +1,18 @@
 2008-11-24  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-background-parser.c:
+	* ccss/ccss-border-parser.c (border_factory_impl):
+	* ccss/ccss-color.c (ccss_color_parse), (ccss_color_new),
+	(peek_property_class):
+	* ccss/ccss-parser.c (property_cb):
+	* ccss/ccss.c (ccss_cairo_init):
+	* ccss/ccss.sym:
+	* examples/example-2.c (main):
+	* examples/example-3.c (main):
+	Fix creation of color properties.
+
+2008-11-24  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-property-generic.c:
 	* ccss/ccss-property-generic.h:
 	Structure can be private to the .c file.

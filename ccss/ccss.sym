@@ -1,8 +1,9 @@
+ccss_init
+ccss_shutdown
 ccss_add_functions
 ccss_add_properties
-ccss_init
+ccss_cairo_init
 ccss_node_init
-ccss_shutdown
 ccss_block_add_property
 ccss_style_draw_line
 ccss_style_draw_outline

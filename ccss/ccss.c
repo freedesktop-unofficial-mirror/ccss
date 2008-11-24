@@ -20,11 +20,13 @@
 #include "ccss.h"
 #include "ccss-function-priv.h"
 #include "ccss-parser.h"
+#include "ccss-property-generic.h"
 #include "ccss-style-priv.h"
 
 /* FIXME: split out */
 #include "ccss-color.h"
 #include "ccss-background-parser.h"
+#include "ccss-border-parser.h"
 #include "ccss-border-image-parser.h"
 
 /**
@@ -99,6 +101,9 @@ ccss_cairo_init (void)
 	ccss_add_properties (properties);
 
 	properties = ccss_border_image_get_ptable ();
+	ccss_add_properties (properties);
+
+	properties = ccss_border_get_ptable ();
 	ccss_add_properties (properties);
 
 	properties = ccss_color_get_ptable ();

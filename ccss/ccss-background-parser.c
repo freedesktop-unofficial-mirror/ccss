@@ -481,6 +481,12 @@ static ccss_property_class_t const _ptable[] = {
 	.property_convert = (ccss_property_convert_f) background_attachment_convert,
 	.property_factory = NULL
     }, {
+	.name = "background-color",
+	.property_new = (ccss_property_new_f) ccss_color_new,
+	.property_free = (ccss_property_free_f) g_free,
+	.property_convert = (ccss_property_convert_f) ccss_color_convert,
+	.property_factory = NULL
+    }, {
 	.name = "background-image",
 	.property_new = (ccss_property_new_f) background_image_new,
 	.property_free = (ccss_property_free_f) g_free,

@@ -28,6 +28,9 @@
 #include "ccss-function-priv.h"
 #include "ccss-property-priv.h"
 
+static ccss_property_class_t const *
+peek_property_class (void);
+
 /* PONDERING: point to property_class with no-op free()? */
 
 static const struct {
@@ -259,9 +262,9 @@ parse_hex (ccss_color_t	*self,
 	return true;
 }
 
-static bool
-parse (ccss_color_t	 *self,
-       CRTerm const	**value)
+bool
+ccss_color_parse (ccss_color_t	 *self,
+		  CRTerm const	**value)
 {
 	char const		*function;
 	char const		*str;
@@ -353,8 +356,9 @@ ccss_color_new (CRTerm const *value)
 	ccss_color_t	*self, c;
 	bool		 ret;
 
-	ret = parse (&c, &value);
+	ret = ccss_color_parse (&c, &value);
 	if (ret) {
+		c.base.property_class = peek_property_class ();
 		self = g_new0 (ccss_color_t, 1);
 		*self = c;
 		return self;
@@ -388,18 +392,6 @@ ccss_color_convert (ccss_color_t const		*property,
 	return true;
 }
 
-bool
-ccss_color_parse (ccss_color_t	 *self,
-		  CRTerm const	**values)
-{
-	if (!*values) {
-		return false;
-	}
-
-	parse (self, values);
-	return self->base.state != CCSS_PROPERTY_STATE_UNSET;
-}
-
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "color",
@@ -415,6 +407,12 @@ static ccss_property_class_t const _ptable[] = {
 	.property_factory = NULL
     }
 };
+
+static ccss_property_class_t const *
+peek_property_class (void)
+{
+	return &_ptable[0];
+}
 
 ccss_property_class_t const *
 ccss_color_get_ptable (void)

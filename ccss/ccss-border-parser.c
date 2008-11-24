@@ -351,9 +351,9 @@ border_factory_impl (ccss_block_t	*self,
 		     CRTerm const	*values)
 {
 	CRTerm const		*iter;
-	ccss_color_t		*color, c;
-	ccss_border_style_t	*style, s;
-	ccss_border_width_t	*width, w;
+	ccss_color_t		 c;
+	ccss_border_style_t	 s;
+	ccss_border_width_t	 w;
 	char			*property_name;
 
 	memset (&c, 0, sizeof (c));
@@ -361,14 +361,14 @@ border_factory_impl (ccss_block_t	*self,
 	memset (&w, 0, sizeof (w));
 
 	iter = values;
-	parse_width (&iter, width);
+	parse_width (&iter, &w);
 
 	if (iter) {
-		parse_style (&iter, style);		
+		parse_style (&iter, &s);
 	}
 
 	if (iter) {
-		ccss_color_parse (color, &iter);
+		ccss_color_parse (&c, &iter);
 	}
 
 	if (c.base.state != CCSS_PROPERTY_STATE_UNSET) { 
@@ -724,19 +724,19 @@ static ccss_property_class_t const _ptable[] = {
 	.name = "border-color",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
-	.property_convert = NULL,
+	.property_convert = (ccss_property_convert_f) ccss_color_convert,
 	.property_factory = (ccss_property_factory_f) border_color_factory
     }, {
 	.name = "border-style",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
-	.property_convert = NULL,
+	.property_convert = (ccss_property_convert_f) border_style_convert,
 	.property_factory = (ccss_property_factory_f) border_style_factory
     }, {
 	.name = "border-width",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
-	.property_convert = NULL,
+	.property_convert = (ccss_property_convert_f) border_width_convert,
 	.property_factory = (ccss_property_factory_f) border_width_factory
     }, {
 	.name = "border",

@@ -355,7 +355,6 @@ property_cb (CRDocHandler	*handler,
 							     "*");
 	}
 
-
 	if (property_class->property_factory) {
 		property_class->property_factory (block, values);
 	} else if (property_class->property_new) {
