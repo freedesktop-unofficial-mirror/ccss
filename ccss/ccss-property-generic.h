@@ -17,27 +17,37 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_FUNCTION_PRIV_H
-#define CCSS_FUNCTION_PRIV_H
+#ifndef CCSS_PROPERTY_GENERIC_H
+#define CCSS_PROPERTY_GENERIC_H
 
-#include <libcroco/libcroco.h>
-#include <ccss/ccss-block.h>
-#include <ccss/ccss-function.h>
+#include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
+#include <ccss/ccss-property.h>
 
 CCSS_BEGIN_DECLS
 
-void
-ccss_function_subsystem_add_functions	(ccss_function_t const *functions);
+/**
+ * ccss_property_generic_t:
+ * @state:	see #ccss_property_state_t.
+ * @type:	see #ccss_property_type_t.
+ * @content:	container for the actual property value.
+ *
+ * Implementation of a generic, single-value property.
+ **/
+typedef struct {
+	ccss_property_base_t	base;
 
-void
-ccss_function_subsystem_shutdown	(void);
+	ccss_property_type_t	type;
+	union {
+		double	 dval;
+		char	*sval;
+	}			content;
+} ccss_property_generic_t;
 
-char *
-ccss_function_invoke (char const	*function_name,
-		      CRTerm const	*args);
+ccss_property_class_t const *
+ccss_property_generic_get_ptable (void);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_FUNCTION_PRIV_H */
+#endif /* CCSS_PROPERTY_GENERIC_H */
 

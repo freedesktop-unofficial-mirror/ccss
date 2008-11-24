@@ -55,7 +55,7 @@ main (int	  argc,
 	ClutterColor		 stage_color = { 0x00, 0x00, 0x00, 0xff };
 
 	clutter_init (&argc, &argv);
-	ccss_init (NULL, NULL);
+	ccss_init ();
 
 	/* Load the stylesheet. */
 	stylesheet = ccss_stylesheet_new_from_file ("example-1.css");

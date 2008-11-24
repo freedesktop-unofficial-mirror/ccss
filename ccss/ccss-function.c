@@ -21,30 +21,34 @@
 #include <glib.h>
 #include "ccss-function-priv.h"
 
-static ccss_function_t *_vtable = NULL;
+static GHashTable *_function_handlers = NULL;
 
 void
-ccss_function_subsystem_init (ccss_function_t const *vtable)
+ccss_function_subsystem_add_functions (ccss_function_t const *functions)
 {
-	ccss_function_t const	*iter;
-	unsigned int		 i;
+	g_return_if_fail (functions);
 
-	if (_vtable) {
-		g_free (_vtable);
-		_vtable = NULL;
+	if (NULL == _function_handlers) {
+		_function_handlers = g_hash_table_new (g_str_hash, g_str_equal);
 	}
 
-	if (vtable) {
+	for (unsigned int i = 0; functions[i].name != NULL; i++) {
 
-		iter = vtable;
-		for (i = 0; iter->name; iter++, i++)
-			;
+		/* Handler already exists? */
+		g_warn_if_fail (NULL == g_hash_table_lookup (_function_handlers, functions[i].name));
 
-		/* also copy NULL-terminator */
-		i++;
+		g_hash_table_insert (_function_handlers,
+				     (gpointer) functions[i].name,
+				     (gpointer) &functions[i]);
+	}
+}
 
-		_vtable = g_new0 (ccss_function_t, i);
-		memcpy (_vtable, vtable, sizeof (*vtable) * i);
+void
+ccss_function_subsystem_shutdown (void)
+{
+	if (_function_handlers) {
+		g_hash_table_destroy (_function_handlers);
+		_function_handlers = NULL;
 	}
 }
 
@@ -143,28 +147,21 @@ parse_args_r (GSList		 *args,
 }
 
 char *
-ccss_function_invoke (ccss_block_t	*block,
-		      char const	*property_name,
-		      char const	*function_name,
+ccss_function_invoke (char const	*function_name,
 		      CRTerm const	*values)
 {
-	ccss_function_f	 function;
-	GSList		*args;
-	char		*ret;
+	ccss_function_t const	*handler;
+	GSList			*args;
+	char			*ret;
 
-	g_return_val_if_fail (_vtable && function_name, NULL);
+	g_return_val_if_fail (_function_handlers && function_name, NULL);
 
-	function = NULL;
-	for (unsigned int i = 0; _vtable[i].name; i++) {
-		if (0 == strcmp (function_name, _vtable[i].name)) {
-			function = _vtable[i].function;
-			break;
-		}
-	}
+	handler = (ccss_function_t const *)
+			g_hash_table_lookup (_function_handlers,
+					     function_name);
 
-	if (!function) {
-		g_warning ("Property `%s': function `%s' could not be resolved",
-			   property_name, function_name);
+	if (!handler) {
+		g_warning ("Function `%s' could not be resolved.", function_name);
 		return NULL;
 	}
 
@@ -173,7 +170,7 @@ ccss_function_invoke (ccss_block_t	*block,
 	args = g_slist_reverse (args);
 
 	/* dispatch */
-	ret = function (block, property_name, function_name, args);
+	ret = handler->function (args);
 
 	/* free args */
 	while (args) {

@@ -75,7 +75,7 @@ main (int	  argc,
 	gboolean			 ret;
 
 	gtk_init (&argc, &argv);
-	ccss_init (NULL, NULL);
+	ccss_init ();
 
 	stylesheet = ccss_stylesheet_new_from_buffer (_css, sizeof (_css));
 

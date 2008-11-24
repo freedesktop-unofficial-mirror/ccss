@@ -29,13 +29,8 @@
 
 CCSS_BEGIN_DECLS
 
-bool
-ccss_block_parse_border	(ccss_block_t			*self,
-			 char const			*property, 
-			 CRTerm const			*values);
-
-char const *
-ccss_border_lookup_name	(ccss_border_style_type_t	 border_style);
+ccss_property_class_t const *
+ccss_border_get_ptable (void);
 
 CCSS_END_DECLS
 

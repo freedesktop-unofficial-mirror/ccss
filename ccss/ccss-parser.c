@@ -31,27 +31,35 @@
 #include "ccss-selector.h"
 #include "ccss-selector-group.h"
 
-static ccss_property_impl_t const *_properties = NULL;
+static GHashTable *_property_handlers = NULL;
 
-static ccss_property_impl_t const *
-lookup_property_impl (char const *property_name)
+void
+ccss_parser_subsystem_add_properties (ccss_property_class_t const *properties)
 {
-	g_return_val_if_fail (_properties, NULL);
+	g_return_if_fail (properties);
 
-	for (unsigned int i = 0; _properties[i].name; i++) {
-		if (0 == strcmp (property_name, _properties[i].name)) {
-			return &_properties[i];
-		}
+	if (NULL == _property_handlers) {
+		_property_handlers = g_hash_table_new (g_str_hash, g_str_equal);
 	}
 
-	return NULL;
+	for (unsigned int i = 0; properties[i].name != NULL; i++) {
+
+		/* Handler already exists? */
+		g_warn_if_fail (NULL == g_hash_table_lookup (_property_handlers, properties[i].name));
+
+		g_hash_table_insert (_property_handlers,
+				     (gpointer) properties[i].name,
+				     (gpointer) &properties[i]);
+	}
 }
 
 void
-ccss_parser_subsystem_init (ccss_property_impl_t const *properties)
+ccss_parser_subsystem_shutdown (void)
 {
-	/* PONDERING: weak ref ok, or duplicate (like done with functions)? */
-	_properties = properties;
+	if (_property_handlers) {
+		g_hash_table_destroy (_property_handlers);
+		_property_handlers = NULL;
+	}
 }
 
 typedef struct {
@@ -304,8 +312,9 @@ property_cb (CRDocHandler	*handler,
 {
 	info_t				*info;
 	ccss_block_t			*block;
-	char const 			*property;
-	ccss_property_impl_t const	*property_impl;
+	char const 			*property_name;
+	ccss_property_class_t const	*property_class;
+	ccss_property_base_t		*property;
 
 	info = HANDLER_GET_INFO (handler);
 
@@ -331,67 +340,31 @@ property_cb (CRDocHandler	*handler,
 		block = info->block;
 	}
 
-	property = cr_string_peek_raw_str (name);
-	if (g_str_has_prefix (property, "background")) {
+	property_name = cr_string_peek_raw_str (name);
 
-		ccss_block_parse_background (block, property, values);
+	/* Assume the generic property handler is registered. */
+	g_assert (_property_handlers);
 
-	} else if (g_str_has_prefix (property, "border")) {
+	property_class = (ccss_property_class_t const *)
+				g_hash_table_lookup (_property_handlers,
+						     property_name);
 
-		 ccss_block_parse_border (block, property, values);
+	if (NULL == property_class) {
+		property_class = (ccss_property_class_t const *)
+					g_hash_table_lookup (_property_handlers,
+							     "*");
+	}
 
-	} else if (0 == g_strcmp0 ("color", property)) {
 
-		ccss_color_t *color, c;
-		bool ret;
-
-		ret = ccss_color_parse (&c, block, property, (CRTerm const **) &values);
-		if (ret) {
-			color = ccss_block_new_color (block);
-			*color = c;
+	if (property_class->property_factory) {
+		property_class->property_factory (block, values);
+	} else if (property_class->property_new) {
+		property = property_class->property_new (values);
+		if (property) {
+			ccss_block_insert_property (block, property_name, property);
 		}
-	} else if (NULL != (property_impl = lookup_property_impl (property))) {
-
-		void *property_instance;
-
-		property_instance = property_impl->ctor (values);
-		// TODO 
-		// - need facilities for putting custom properties into a block.
-		// - probably need to embed a pointer to each property-impl at the start of each property, so it can be freed.
-
 	} else {
-		/* Generic property. */
-		ccss_property_t	*prop, p;
-		char const	*s;
-
-		memset (&p, 0, sizeof (p));
-		switch (values->type) {
-		case TERM_NUMBER:
-			p.state = CCSS_PROPERTY_STATE_SET;
-			p.type = CCSS_PROPERTY_TYPE_DOUBLE;
-			p.content.dval = values->content.num->val;
-			break;
-		case TERM_IDENT:
-		case TERM_STRING:
-			s = cr_string_peek_raw_str (values->content.str);
-			if (0 == g_strcmp0 ("none", s)) {
-				p.state = CCSS_PROPERTY_STATE_NONE;
-			} else if (0 == g_strcmp0 ("inherit", s)) {
-				p.state = CCSS_PROPERTY_STATE_INHERIT;
-			} else {
-				p.state = CCSS_PROPERTY_STATE_SET;
-				p.type = CCSS_PROPERTY_TYPE_STRING;
-				p.content.sval = g_strdup (s);
-			}
-			break;
-		default:
-			g_warning ("Unknown property type %d", values->type);
-			return;
-		}
-
-		/*  Coming here means success. */
-		prop = ccss_block_new_property (block, property);
-		*prop = p;
+		g_warning ("No factory or constructor for property `%s'", property_name);
 	}
 }
 

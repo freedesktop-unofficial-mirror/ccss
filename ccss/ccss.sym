@@ -1,3 +1,5 @@
+ccss_add_functions
+ccss_add_properties
 ccss_init
 ccss_node_init
 ccss_shutdown

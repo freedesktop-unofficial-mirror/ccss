@@ -22,6 +22,7 @@
 
 #include <stdbool.h>
 #include <libcroco/libcroco.h>
+#include <ccss/ccss-block.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
 
@@ -55,22 +56,7 @@ typedef enum {
 	CCSS_PROPERTY_TYPE_STRING
 } ccss_property_type_t;
 
-/**
- * ccss_property_t:
- * @state:	see #ccss_property_state_t.
- * @type:	see #ccss_property_type_t.
- * @content:	container for the actual property value.
- *
- * Implementation of a generic, single-value property.
- **/
-typedef struct {
-	ccss_property_state_t	state;
-	ccss_property_type_t	type;
-	union {
-		double	 dval;
-		char	*sval;
-	}			content;
-} ccss_property_t;
+typedef struct ccss_property_base_ ccss_property_base_t;
 
 /**
  * ccss_property_new_f:
@@ -80,7 +66,7 @@ typedef struct {
  *
  * Returns: pointer to the allocated property instance or %NULL if parsing fails.
  **/
-typedef void *	(*ccss_property_new_f)		(CRTerm const		*values);
+typedef ccss_property_base_t * (*ccss_property_new_f) (CRTerm const *values);
 
 /**
  * ccss_property_free_f:
@@ -88,7 +74,7 @@ typedef void *	(*ccss_property_new_f)		(CRTerm const		*values);
  *
  * Hook function for deallocating a property instance.
  **/
-typedef void	(*ccss_property_free_f)		(void			*self);
+typedef void (*ccss_property_free_f) (ccss_property_base_t *self);
 
 /** 
  * ccss_property_convert_f:
@@ -100,25 +86,50 @@ typedef void	(*ccss_property_free_f)		(void			*self);
  *
  * Returns: %TRUE if the conversion was successful.
  **/
-typedef bool	(*ccss_property_convert_f)	(void const		*self,
-						 ccss_property_type_t	 target,
-						 void			*value);
+typedef bool (*ccss_property_convert_f) (ccss_property_base_t const	*self,
+					 ccss_property_type_t		 target,
+					 void				*value);
 
 /**
- * ccss_property_impl_t:
+ * ccss_property_factory_f:
+ * @block:	the #ccss_block_t the properties will be associated to.
+ * @values:	libcroco CSS values to parse for the property, see #CRTerm.
+ *
+ * Hook function to handle the creation of multiple properties from a single CSS property, e.g. `border'.
+ *
+ * Returns: %TRUE when sucessful.
+ **/
+typedef bool (*ccss_property_factory_f) (ccss_block_t		*block,
+					 CRTerm const		*values);
+/**
+ * ccss_property_class_t:
  * @name:	property name.
- * @ctor:	allocation hook, see #ccss_property_new_f.
- * @dtor:	deallocation hook, see #ccss_property_free_f.
+ * @alloc:	allocation hook, see #ccss_property_new_f.
+ * @dealloc:	deallocation hook, see #ccss_property_free_f.
  * @convert:	conversion hook, see #ccss_property_convert_f.
+ * @factory:	factory hook, see #ccss_property_factory_f.
  *
  * Entry in the table of property implementations passed when initialising ccss, see #ccss_init.
  **/
 typedef struct {
 	char const		*name;
-	ccss_property_new_f	 ctor;
-	ccss_property_free_f	 dtor;
-	ccss_property_convert_f	 convert;
-} ccss_property_impl_t;
+	ccss_property_new_f	 property_new;
+	ccss_property_free_f	 property_free;
+	ccss_property_convert_f	 property_convert;
+	ccss_property_factory_f	 property_factory;
+} ccss_property_class_t;
+
+/**
+ * ccss_property_base_t:
+ * @property_class:	class descriptor, see #ccss_property_class_t.
+ * @state:		property state, see #ccss_property_state_t.
+ *
+ * This structure has to be embedded at the beginning of every custom property.
+ **/
+struct ccss_property_base_ {
+	ccss_property_class_t const	*property_class;
+	ccss_property_state_t		 state;
+};
 
 CCSS_END_DECLS
 

@@ -26,10 +26,7 @@
 
 /* Implementation of the CSS url() function. */
 static char *
-url (ccss_block_t	*block,
-     char const		*property_name,
-     char const		*function_name,
-     GSList const	*args)
+url (GSList const *args)
 {
 	g_return_val_if_fail (args, NULL);
 
@@ -75,7 +72,8 @@ main (int	  argc,
 	clutter_init (&argc, &argv);
 
 	/* Load the stylesheet. */
-	ccss_init (NULL, _functions);
+	ccss_init ();
+	ccss_add_functions (_functions);
 	stylesheet = ccss_stylesheet_new_from_file ("example-2.css");
 
 	stage = clutter_stage_get_default ();

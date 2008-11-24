@@ -20,18 +20,14 @@
 #ifndef CCSS_BORDER_IMAGE_PARSER_H
 #define CCSS_BORDER_IMAGE_PARSER_H
 
-#include <stdbool.h>
-#include <libcroco/libcroco.h>
-#include <ccss/ccss-block.h>
 #include <ccss/ccss-features.h>
 #include <ccss/ccss-macros.h>
+#include <ccss/ccss-property.h>
 
 CCSS_BEGIN_DECLS
 
-bool
-ccss_block_parse_border_image (ccss_block_t	*self,
-			       char const	*property, 
-			       CRTerm const	*values);
+ccss_property_class_t const *
+ccss_border_image_get_ptable (void);
 
 CCSS_END_DECLS
 

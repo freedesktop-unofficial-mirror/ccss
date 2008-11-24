@@ -28,166 +28,160 @@
 #include "ccss-function-priv.h"
 #include "ccss-property-priv.h"
 
+/* PONDERING: point to property_class with no-op free()? */
+
 static const struct {
 	char const		*name;
 	const ccss_color_t	color;
 } _color_map[] = {
-  { "aliceblue",		{ CCSS_PROPERTY_STATE_SET, 0xf0/255., 0xf8/255., 0xff/255. } },
-  { "antiquewhite",		{ CCSS_PROPERTY_STATE_SET, 0xfa/255., 0xeb/255., 0xd7/255. } },
-  { "aqua",			{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0xff/255., 0xff/255. } },
-  { "aquamarine",		{ CCSS_PROPERTY_STATE_SET, 0x7f/255., 0xff/255., 0xd4/255. } },
-  { "azure",			{ CCSS_PROPERTY_STATE_SET, 0xf0/255., 0xff/255., 0xff/255. } },
-  { "beige",			{ CCSS_PROPERTY_STATE_SET, 0xf5/255., 0xf5/255., 0xdc/255. } },
-  { "bisque",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xe4/255., 0xc4/255. } },
-  { "black",			{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0x00/255., 0x00/255. } },
-  { "blanchedalmond",		{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xeb/255., 0xcd/255. } },
-  { "blue",			{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0x00/255., 0xff/255. } },
-  { "blueviolet",		{ CCSS_PROPERTY_STATE_SET, 0x8a/255., 0x2b/255., 0xe2/255. } },
-  { "brown",			{ CCSS_PROPERTY_STATE_SET, 0xa5/255., 0x2a/255., 0x2a/255. } },
-  { "burlywood",		{ CCSS_PROPERTY_STATE_SET, 0xde/255., 0xb8/255., 0x87/255. } },
-  { "cadetblue",		{ CCSS_PROPERTY_STATE_SET, 0x5f/255., 0x9e/255., 0xa0/255. } },
-  { "chartreuse",		{ CCSS_PROPERTY_STATE_SET, 0x7f/255., 0xff/255., 0x00/255. } },
-  { "chocolate",		{ CCSS_PROPERTY_STATE_SET, 0xd2/255., 0x69/255., 0x1e/255. } },
-  { "coral",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0x7f/255., 0x50/255. } },
-  { "cornflowerblue",		{ CCSS_PROPERTY_STATE_SET, 0x64/255., 0x95/255., 0xed/255. } },
-  { "cornsilk",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xf8/255., 0xdc/255. } },
-  { "crimson",			{ CCSS_PROPERTY_STATE_SET, 0xdc/255., 0x14/255., 0x3c/255. } },
-  { "cyan",			{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0xff/255., 0xff/255. } },
-  { "darkblue",			{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0x00/255., 0x8b/255. } },
-  { "darkcyan",			{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0x8b/255., 0x8b/255. } },
-  { "darkgoldenrod",		{ CCSS_PROPERTY_STATE_SET, 0xb8/255., 0x86/255., 0x0b/255. } },
-  { "darkgray",			{ CCSS_PROPERTY_STATE_SET, 0xa9/255., 0xa9/255., 0xa9/255. } },
-  { "darkgrey",			{ CCSS_PROPERTY_STATE_SET, 0xa9/255., 0xa9/255., 0xa9/255. } },
-  { "darkgreen",		{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0x64/255., 0x00/255. } },
-  { "darkkhaki",		{ CCSS_PROPERTY_STATE_SET, 0xbd/255., 0xb7/255., 0x6b/255. } },
-  { "darkmagenta",		{ CCSS_PROPERTY_STATE_SET, 0x8b/255., 0x00/255., 0x8b/255. } },
-  { "darkolivegreen",		{ CCSS_PROPERTY_STATE_SET, 0x55/255., 0x6b/255., 0x2f/255. } },
-  { "darkorange",		{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0x8c/255., 0x00/255. } },
-  { "darkorchid",		{ CCSS_PROPERTY_STATE_SET, 0x99/255., 0x32/255., 0xcc/255. } },
-  { "darkred",			{ CCSS_PROPERTY_STATE_SET, 0x8b/255., 0x00/255., 0x00/255. } },
-  { "darksalmon",		{ CCSS_PROPERTY_STATE_SET, 0xe9/255., 0x96/255., 0x7a/255. } },
-  { "darkseagreen",		{ CCSS_PROPERTY_STATE_SET, 0x8f/255., 0xbc/255., 0x8f/255. } },
-  { "darkslateblue",		{ CCSS_PROPERTY_STATE_SET, 0x48/255., 0x3d/255., 0x8b/255. } },
-  { "darkslategray",		{ CCSS_PROPERTY_STATE_SET, 0x2f/255., 0x4f/255., 0x4f/255. } },
-  { "darkslategrey",		{ CCSS_PROPERTY_STATE_SET, 0x2f/255., 0x4f/255., 0x4f/255. } },
-  { "darkturquoise",		{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0xce/255., 0xd1/255. } },
-  { "darkviolet",		{ CCSS_PROPERTY_STATE_SET, 0x94/255., 0x00/255., 0xd3/255. } },
-  { "deeppink",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0x14/255., 0x93/255. } },
-  { "deepskyblue",		{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0xbf/255., 0xff/255. } },
-  { "dimgray",			{ CCSS_PROPERTY_STATE_SET, 0x69/255., 0x69/255., 0x69/255. } },
-  { "dimgrey",			{ CCSS_PROPERTY_STATE_SET, 0x69/255., 0x69/255., 0x69/255. } },
-  { "dodgerblue",		{ CCSS_PROPERTY_STATE_SET, 0x1e/255., 0x90/255., 0xff/255. } },
-  { "firebrick",		{ CCSS_PROPERTY_STATE_SET, 0xb2/255., 0x22/255., 0x22/255. } },
-  { "floralwhite",		{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xfa/255., 0xf0/255. } },
-  { "forestgreen",		{ CCSS_PROPERTY_STATE_SET, 0x22/255., 0x8b/255., 0x22/255. } },
-  { "fuchsia",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0x00/255., 0xff/255. } },
-  { "gainsboro",		{ CCSS_PROPERTY_STATE_SET, 0xdc/255., 0xdc/255., 0xdc/255. } },
-  { "ghostwhite",		{ CCSS_PROPERTY_STATE_SET, 0xf8/255., 0xf8/255., 0xff/255. } },
-  { "gold",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xd7/255., 0x00/255. } },
-  { "goldenrod",		{ CCSS_PROPERTY_STATE_SET, 0xda/255., 0xa5/255., 0x20/255. } },
-  { "gray",			{ CCSS_PROPERTY_STATE_SET, 0x80/255., 0x80/255., 0x80/255. } },
-  { "grey",			{ CCSS_PROPERTY_STATE_SET, 0x80/255., 0x80/255., 0x80/255. } },
-  { "green",			{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0x80/255., 0x00/255. } },
-  { "greenyellow",		{ CCSS_PROPERTY_STATE_SET, 0xad/255., 0xff/255., 0x2f/255. } },
-  { "honeydew",			{ CCSS_PROPERTY_STATE_SET, 0xf0/255., 0xff/255., 0xf0/255. } },
-  { "hotpink",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0x69/255., 0xb4/255. } },
-  { "indianred",		{ CCSS_PROPERTY_STATE_SET, 0xcd/255., 0x5c/255., 0x5c/255. } },
-  { "indigo",			{ CCSS_PROPERTY_STATE_SET, 0x4b/255., 0x00/255., 0x82/255. } },
-  { "ivory",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xff/255., 0xf0/255. } },
-  { "khaki",			{ CCSS_PROPERTY_STATE_SET, 0xf0/255., 0xe6/255., 0x8c/255. } },
-  { "lavender",			{ CCSS_PROPERTY_STATE_SET, 0xe6/255., 0xe6/255., 0xfa/255. } },
-  { "lavenderblush",		{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xf0/255., 0xf5/255. } },
-  { "lawngreen",		{ CCSS_PROPERTY_STATE_SET, 0x7c/255., 0xfc/255., 0x00/255. } },
-  { "lemonchiffon",		{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xfa/255., 0xcd/255. } },
-  { "lightblue",		{ CCSS_PROPERTY_STATE_SET, 0xad/255., 0xd8/255., 0xe6/255. } },
-  { "lightcoral",		{ CCSS_PROPERTY_STATE_SET, 0xf0/255., 0x80/255., 0x80/255. } },
-  { "lightcyan",		{ CCSS_PROPERTY_STATE_SET, 0xe0/255., 0xff/255., 0xff/255. } },
-  { "lightgoldenrodyellow",	{ CCSS_PROPERTY_STATE_SET, 0xfa/255., 0xfa/255., 0xd2/255. } },
-  { "lightgray",		{ CCSS_PROPERTY_STATE_SET, 0xd3/255., 0xd3/255., 0xd3/255. } },
-  { "lightgrey",		{ CCSS_PROPERTY_STATE_SET, 0xd3/255., 0xd3/255., 0xd3/255. } },
-  { "lightgreen",		{ CCSS_PROPERTY_STATE_SET, 0x90/255., 0xee/255., 0x90/255. } },
-  { "lightpink",		{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xb6/255., 0xc1/255. } },
-  { "lightsalmon",		{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xa0/255., 0x7a/255. } },
-  { "lightseagreen",		{ CCSS_PROPERTY_STATE_SET, 0x20/255., 0xb2/255., 0xaa/255. } },
-  { "lightskyblue",		{ CCSS_PROPERTY_STATE_SET, 0x87/255., 0xce/255., 0xfa/255. } },
-  { "lightslategray",		{ CCSS_PROPERTY_STATE_SET, 0x77/255., 0x88/255., 0x99/255. } },
-  { "lightslategrey",		{ CCSS_PROPERTY_STATE_SET, 0x77/255., 0x88/255., 0x99/255. } },
-  { "lightsteelblue",		{ CCSS_PROPERTY_STATE_SET, 0xb0/255., 0xc4/255., 0xde/255. } },
-  { "lightyellow",		{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xff/255., 0xe0/255. } },
-  { "lime",			{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0xff/255., 0x00/255. } },
-  { "limegreen",		{ CCSS_PROPERTY_STATE_SET, 0x32/255., 0xcd/255., 0x32/255. } },
-  { "linen",			{ CCSS_PROPERTY_STATE_SET, 0xfa/255., 0xf0/255., 0xe6/255. } },
-  { "magenta",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0x00/255., 0xff/255. } },
-  { "maroon",			{ CCSS_PROPERTY_STATE_SET, 0x80/255., 0x00/255., 0x00/255. } },
-  { "mediumaquamarine",		{ CCSS_PROPERTY_STATE_SET, 0x66/255., 0xcd/255., 0xaa/255. } },
-  { "mediumblue",		{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0x00/255., 0xcd/255. } },
-  { "mediumorchid",		{ CCSS_PROPERTY_STATE_SET, 0xba/255., 0x55/255., 0xd3/255. } },
-  { "mediumpurple",		{ CCSS_PROPERTY_STATE_SET, 0x93/255., 0x70/255., 0xd8/255. } },
-  { "mediumseagreen",		{ CCSS_PROPERTY_STATE_SET, 0x3c/255., 0xb3/255., 0x71/255. } },
-  { "mediumslateblue",		{ CCSS_PROPERTY_STATE_SET, 0x7b/255., 0x68/255., 0xee/255. } },
-  { "mediumspringgreen",	{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0xfa/255., 0x9a/255. } },
-  { "mediumturquoise",		{ CCSS_PROPERTY_STATE_SET, 0x48/255., 0xd1/255., 0xcc/255. } },
-  { "mediumvioletred",		{ CCSS_PROPERTY_STATE_SET, 0xc7/255., 0x15/255., 0x85/255. } },
-  { "midnightblue",		{ CCSS_PROPERTY_STATE_SET, 0x19/255., 0x19/255., 0x70/255. } },
-  { "mintcream",		{ CCSS_PROPERTY_STATE_SET, 0xf5/255., 0xff/255., 0xfa/255. } },
-  { "mistyrose",		{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xe4/255., 0xe1/255. } },
-  { "moccasin",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xe4/255., 0xb5/255. } },
-  { "navajowhite",		{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xde/255., 0xad/255. } },
-  { "navy",			{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0x00/255., 0x80/255. } },
-  { "oldlace",			{ CCSS_PROPERTY_STATE_SET, 0xfd/255., 0xf5/255., 0xe6/255. } },
-  { "olive",			{ CCSS_PROPERTY_STATE_SET, 0x80/255., 0x80/255., 0x00/255. } },
-  { "olivedrab",		{ CCSS_PROPERTY_STATE_SET, 0x6b/255., 0x8e/255., 0x23/255. } },
-  { "orange",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xa5/255., 0x00/255. } },
-  { "orangered",		{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0x45/255., 0x00/255. } },
-  { "orchid",			{ CCSS_PROPERTY_STATE_SET, 0xda/255., 0x70/255., 0xd6/255. } },
-  { "palegoldenrod",		{ CCSS_PROPERTY_STATE_SET, 0xee/255., 0xe8/255., 0xaa/255. } },
-  { "palegreen",		{ CCSS_PROPERTY_STATE_SET, 0x98/255., 0xfb/255., 0x98/255. } },
-  { "paleturquoise",		{ CCSS_PROPERTY_STATE_SET, 0xaf/255., 0xee/255., 0xee/255. } },
-  { "palevioletred",		{ CCSS_PROPERTY_STATE_SET, 0xd8/255., 0x70/255., 0x93/255. } },
-  { "papayawhip",		{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xef/255., 0xd5/255. } },
-  { "peachpuff",		{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xda/255., 0xb9/255. } },
-  { "peru",			{ CCSS_PROPERTY_STATE_SET, 0xcd/255., 0x85/255., 0x3f/255. } },
-  { "pink",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xc0/255., 0xcb/255. } },
-  { "plum",			{ CCSS_PROPERTY_STATE_SET, 0xdd/255., 0xa0/255., 0xdd/255. } },
-  { "powderblue",		{ CCSS_PROPERTY_STATE_SET, 0xb0/255., 0xe0/255., 0xe6/255. } },
-  { "purple",			{ CCSS_PROPERTY_STATE_SET, 0x80/255., 0x00/255., 0x80/255. } },
-  { "red",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0x00/255., 0x00/255. } },
-  { "rosybrown",		{ CCSS_PROPERTY_STATE_SET, 0xbc/255., 0x8f/255., 0x8f/255. } },
-  { "royalblue",		{ CCSS_PROPERTY_STATE_SET, 0x41/255., 0x69/255., 0xe1/255. } },
-  { "saddlebrown",		{ CCSS_PROPERTY_STATE_SET, 0x8b/255., 0x45/255., 0x13/255. } },
-  { "salmon",			{ CCSS_PROPERTY_STATE_SET, 0xfa/255., 0x80/255., 0x72/255. } },
-  { "sandybrown",		{ CCSS_PROPERTY_STATE_SET, 0xf4/255., 0xa4/255., 0x60/255. } },
-  { "seagreen",			{ CCSS_PROPERTY_STATE_SET, 0x2e/255., 0x8b/255., 0x57/255. } },
-  { "seashell",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xf5/255., 0xee/255. } },
-  { "sienna",			{ CCSS_PROPERTY_STATE_SET, 0xa0/255., 0x52/255., 0x2d/255. } },
-  { "silver",			{ CCSS_PROPERTY_STATE_SET, 0xc0/255., 0xc0/255., 0xc0/255. } },
-  { "skyblue",			{ CCSS_PROPERTY_STATE_SET, 0x87/255., 0xce/255., 0xeb/255. } },
-  { "slateblue",		{ CCSS_PROPERTY_STATE_SET, 0x6a/255., 0x5a/255., 0xcd/255. } },
-  { "slategray",		{ CCSS_PROPERTY_STATE_SET, 0x70/255., 0x80/255., 0x90/255. } },
-  { "slategrey",		{ CCSS_PROPERTY_STATE_SET, 0x70/255., 0x80/255., 0x90/255. } },
-  { "snow",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xfa/255., 0xfa/255. } },
-  { "springgreen",		{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0xff/255., 0x7f/255. } },
-  { "steelblue",		{ CCSS_PROPERTY_STATE_SET, 0x46/255., 0x82/255., 0xb4/255. } },
-  { "tan",			{ CCSS_PROPERTY_STATE_SET, 0xd2/255., 0xb4/255., 0x8c/255. } },
-  { "teal",			{ CCSS_PROPERTY_STATE_SET, 0x00/255., 0x80/255., 0x80/255. } },
-  { "thistle",			{ CCSS_PROPERTY_STATE_SET, 0xd8/255., 0xbf/255., 0xd8/255. } },
-  { "tomato",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0x63/255., 0x47/255. } },
-  { "turquoise",		{ CCSS_PROPERTY_STATE_SET, 0x40/255., 0xe0/255., 0xd0/255. } },
-  { "violet",			{ CCSS_PROPERTY_STATE_SET, 0xee/255., 0x82/255., 0xee/255. } },
-  { "wheat",			{ CCSS_PROPERTY_STATE_SET, 0xf5/255., 0xde/255., 0xb3/255. } },
-  { "white",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xff/255., 0xff/255. } },
-  { "whitesmoke",		{ CCSS_PROPERTY_STATE_SET, 0xf5/255., 0xf5/255., 0xf5/255. } },
-  { "yellow",			{ CCSS_PROPERTY_STATE_SET, 0xff/255., 0xff/255., 0x00/255. } },
-  { "yellowgreen",		{ CCSS_PROPERTY_STATE_SET, 0x9a/255., 0xcd/255., 0x32/255. } },
+  { "aliceblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xf0/255., 0xf8/255., 0xff/255. } },
+  { "antiquewhite",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xfa/255., 0xeb/255., 0xd7/255. } },
+  { "aqua",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0xff/255., 0xff/255. } },
+  { "aquamarine",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x7f/255., 0xff/255., 0xd4/255. } },
+  { "azure",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xf0/255., 0xff/255., 0xff/255. } },
+  { "beige",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xf5/255., 0xf5/255., 0xdc/255. } },
+  { "bisque",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xe4/255., 0xc4/255. } },
+  { "black",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0x00/255., 0x00/255. } },
+  { "blanchedalmond",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xeb/255., 0xcd/255. } },
+  { "blue",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0x00/255., 0xff/255. } },
+  { "blueviolet",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x8a/255., 0x2b/255., 0xe2/255. } },
+  { "brown",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xa5/255., 0x2a/255., 0x2a/255. } },
+  { "burlywood",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xde/255., 0xb8/255., 0x87/255. } },
+  { "cadetblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x5f/255., 0x9e/255., 0xa0/255. } },
+  { "chartreuse",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x7f/255., 0xff/255., 0x00/255. } },
+  { "chocolate",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xd2/255., 0x69/255., 0x1e/255. } },
+  { "coral",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0x7f/255., 0x50/255. } },
+  { "cornflowerblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x64/255., 0x95/255., 0xed/255. } },
+  { "cornsilk",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xf8/255., 0xdc/255. } },
+  { "crimson",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xdc/255., 0x14/255., 0x3c/255. } },
+  { "cyan",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0xff/255., 0xff/255. } },
+  { "darkblue",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0x00/255., 0x8b/255. } },
+  { "darkcyan",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0x8b/255., 0x8b/255. } },
+  { "darkgoldenrod",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xb8/255., 0x86/255., 0x0b/255. } },
+  { "darkgray",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xa9/255., 0xa9/255., 0xa9/255. } },
+  { "darkgrey",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xa9/255., 0xa9/255., 0xa9/255. } },
+  { "darkgreen",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0x64/255., 0x00/255. } },
+  { "darkkhaki",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xbd/255., 0xb7/255., 0x6b/255. } },
+  { "darkmagenta",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x8b/255., 0x00/255., 0x8b/255. } },
+  { "darkolivegreen",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x55/255., 0x6b/255., 0x2f/255. } },
+  { "darkorange",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0x8c/255., 0x00/255. } },
+  { "darkorchid",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x99/255., 0x32/255., 0xcc/255. } },
+  { "darkred",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x8b/255., 0x00/255., 0x00/255. } },
+  { "darksalmon",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xe9/255., 0x96/255., 0x7a/255. } },
+  { "darkseagreen",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x8f/255., 0xbc/255., 0x8f/255. } },
+  { "darkslateblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x48/255., 0x3d/255., 0x8b/255. } },
+  { "darkslategray",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x2f/255., 0x4f/255., 0x4f/255. } },
+  { "darkslategrey",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x2f/255., 0x4f/255., 0x4f/255. } },
+  { "darkturquoise",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0xce/255., 0xd1/255. } },
+  { "darkviolet",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x94/255., 0x00/255., 0xd3/255. } },
+  { "deeppink",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0x14/255., 0x93/255. } },
+  { "deepskyblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0xbf/255., 0xff/255. } },
+  { "dimgray",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x69/255., 0x69/255., 0x69/255. } },
+  { "dimgrey",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x69/255., 0x69/255., 0x69/255. } },
+  { "dodgerblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x1e/255., 0x90/255., 0xff/255. } },
+  { "firebrick",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xb2/255., 0x22/255., 0x22/255. } },
+  { "floralwhite",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xfa/255., 0xf0/255. } },
+  { "forestgreen",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x22/255., 0x8b/255., 0x22/255. } },
+  { "fuchsia",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0x00/255., 0xff/255. } },
+  { "gainsboro",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xdc/255., 0xdc/255., 0xdc/255. } },
+  { "ghostwhite",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xf8/255., 0xf8/255., 0xff/255. } },
+  { "gold",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xd7/255., 0x00/255. } },
+  { "goldenrod",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xda/255., 0xa5/255., 0x20/255. } },
+  { "gray",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x80/255., 0x80/255., 0x80/255. } },
+  { "grey",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x80/255., 0x80/255., 0x80/255. } },
+  { "green",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0x80/255., 0x00/255. } },
+  { "greenyellow",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xad/255., 0xff/255., 0x2f/255. } },
+  { "honeydew",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xf0/255., 0xff/255., 0xf0/255. } },
+  { "hotpink",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0x69/255., 0xb4/255. } },
+  { "indianred",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xcd/255., 0x5c/255., 0x5c/255. } },
+  { "indigo",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x4b/255., 0x00/255., 0x82/255. } },
+  { "ivory",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xff/255., 0xf0/255. } },
+  { "khaki",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xf0/255., 0xe6/255., 0x8c/255. } },
+  { "lavender",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xe6/255., 0xe6/255., 0xfa/255. } },
+  { "lavenderblush",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xf0/255., 0xf5/255. } },
+  { "lawngreen",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x7c/255., 0xfc/255., 0x00/255. } },
+  { "lemonchiffon",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xfa/255., 0xcd/255. } },
+  { "lightblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xad/255., 0xd8/255., 0xe6/255. } },
+  { "lightcoral",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xf0/255., 0x80/255., 0x80/255. } },
+  { "lightcyan",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xe0/255., 0xff/255., 0xff/255. } },
+  { "lightgoldenrodyellow",	{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xfa/255., 0xfa/255., 0xd2/255. } },
+  { "lightgray",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xd3/255., 0xd3/255., 0xd3/255. } },
+  { "lightgrey",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xd3/255., 0xd3/255., 0xd3/255. } },
+  { "lightgreen",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x90/255., 0xee/255., 0x90/255. } },
+  { "lightpink",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xb6/255., 0xc1/255. } },
+  { "lightsalmon",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xa0/255., 0x7a/255. } },
+  { "lightseagreen",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x20/255., 0xb2/255., 0xaa/255. } },
+  { "lightskyblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x87/255., 0xce/255., 0xfa/255. } },
+  { "lightslategray",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x77/255., 0x88/255., 0x99/255. } },
+  { "lightslategrey",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x77/255., 0x88/255., 0x99/255. } },
+  { "lightsteelblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xb0/255., 0xc4/255., 0xde/255. } },
+  { "lightyellow",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xff/255., 0xe0/255. } },
+  { "lime",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0xff/255., 0x00/255. } },
+  { "limegreen",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x32/255., 0xcd/255., 0x32/255. } },
+  { "linen",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xfa/255., 0xf0/255., 0xe6/255. } },
+  { "magenta",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0x00/255., 0xff/255. } },
+  { "maroon",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x80/255., 0x00/255., 0x00/255. } },
+  { "mediumaquamarine",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x66/255., 0xcd/255., 0xaa/255. } },
+  { "mediumblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0x00/255., 0xcd/255. } },
+  { "mediumorchid",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xba/255., 0x55/255., 0xd3/255. } },
+  { "mediumpurple",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x93/255., 0x70/255., 0xd8/255. } },
+  { "mediumseagreen",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x3c/255., 0xb3/255., 0x71/255. } },
+  { "mediumslateblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x7b/255., 0x68/255., 0xee/255. } },
+  { "mediumspringgreen",	{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0xfa/255., 0x9a/255. } },
+  { "mediumturquoise",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x48/255., 0xd1/255., 0xcc/255. } },
+  { "mediumvioletred",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xc7/255., 0x15/255., 0x85/255. } },
+  { "midnightblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x19/255., 0x19/255., 0x70/255. } },
+  { "mintcream",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xf5/255., 0xff/255., 0xfa/255. } },
+  { "mistyrose",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xe4/255., 0xe1/255. } },
+  { "moccasin",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xe4/255., 0xb5/255. } },
+  { "navajowhite",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xde/255., 0xad/255. } },
+  { "navy",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0x00/255., 0x80/255. } },
+  { "oldlace",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xfd/255., 0xf5/255., 0xe6/255. } },
+  { "olive",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x80/255., 0x80/255., 0x00/255. } },
+  { "olivedrab",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x6b/255., 0x8e/255., 0x23/255. } },
+  { "orange",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xa5/255., 0x00/255. } },
+  { "orangered",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0x45/255., 0x00/255. } },
+  { "orchid",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xda/255., 0x70/255., 0xd6/255. } },
+  { "palegoldenrod",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xee/255., 0xe8/255., 0xaa/255. } },
+  { "palegreen",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x98/255., 0xfb/255., 0x98/255. } },
+  { "paleturquoise",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xaf/255., 0xee/255., 0xee/255. } },
+  { "palevioletred",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xd8/255., 0x70/255., 0x93/255. } },
+  { "papayawhip",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xef/255., 0xd5/255. } },
+  { "peachpuff",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xda/255., 0xb9/255. } },
+  { "peru",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xcd/255., 0x85/255., 0x3f/255. } },
+  { "pink",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xc0/255., 0xcb/255. } },
+  { "plum",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xdd/255., 0xa0/255., 0xdd/255. } },
+  { "powderblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xb0/255., 0xe0/255., 0xe6/255. } },
+  { "purple",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x80/255., 0x00/255., 0x80/255. } },
+  { "red",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0x00/255., 0x00/255. } },
+  { "rosybrown",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xbc/255., 0x8f/255., 0x8f/255. } },
+  { "royalblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x41/255., 0x69/255., 0xe1/255. } },
+  { "saddlebrown",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x8b/255., 0x45/255., 0x13/255. } },
+  { "salmon",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xfa/255., 0x80/255., 0x72/255. } },
+  { "sandybrown",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xf4/255., 0xa4/255., 0x60/255. } },
+  { "seagreen",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x2e/255., 0x8b/255., 0x57/255. } },
+  { "seashell",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xf5/255., 0xee/255. } },
+  { "sienna",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xa0/255., 0x52/255., 0x2d/255. } },
+  { "silver",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xc0/255., 0xc0/255., 0xc0/255. } },
+  { "skyblue",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x87/255., 0xce/255., 0xeb/255. } },
+  { "slateblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x6a/255., 0x5a/255., 0xcd/255. } },
+  { "slategray",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x70/255., 0x80/255., 0x90/255. } },
+  { "slategrey",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x70/255., 0x80/255., 0x90/255. } },
+  { "snow",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xfa/255., 0xfa/255. } },
+  { "springgreen",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0xff/255., 0x7f/255. } },
+  { "steelblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x46/255., 0x82/255., 0xb4/255. } },
+  { "tan",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xd2/255., 0xb4/255., 0x8c/255. } },
+  { "teal",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x00/255., 0x80/255., 0x80/255. } },
+  { "thistle",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xd8/255., 0xbf/255., 0xd8/255. } },
+  { "tomato",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0x63/255., 0x47/255. } },
+  { "turquoise",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x40/255., 0xe0/255., 0xd0/255. } },
+  { "violet",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xee/255., 0x82/255., 0xee/255. } },
+  { "wheat",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xf5/255., 0xde/255., 0xb3/255. } },
+  { "white",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xff/255., 0xff/255. } },
+  { "whitesmoke",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xf5/255., 0xf5/255., 0xf5/255. } },
+  { "yellow",			{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xff/255., 0xff/255., 0x00/255. } },
+  { "yellowgreen",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0x9a/255., 0xcd/255., 0x32/255. } },
 };
-
-void
-ccss_color_init (ccss_color_t *self)
-{
-	memset (self, 0, sizeof (*self));
-
-	self->state = CCSS_PROPERTY_STATE_UNSET;
-}
 
 static bool
 parse_name (ccss_color_t	*self,
@@ -265,56 +259,57 @@ parse_hex (ccss_color_t	*self,
 	return true;
 }
 
-static ccss_property_state_t
+static bool
 parse (ccss_color_t	 *self,
-       ccss_block_t	 *block,
-       char const	 *property_name,
        CRTerm const	**value)
 {
-	ccss_property_state_t	 type;
 	char const		*function;
 	char const		*str;
 	char			*color;
 	bool			 ret;
 
-	g_return_val_if_fail (self, CCSS_PROPERTY_STATE_UNSET);
+	g_return_val_if_fail (self, false);
 
 	if (!*value) {
-		return CCSS_PROPERTY_STATE_UNSET;
+		return false;
 	}
 
 	switch ((*value)->type) {
 	case TERM_IDENT:
-		type = ccss_property_parse_state (value);
-		if (type != CCSS_PROPERTY_STATE_SET) {
-			/* Value already advanced. */
-			return type;
+		self->base.state = ccss_property_parse_state (value);
+		switch (self->base.state) {
+		case CCSS_PROPERTY_STATE_UNSET:
+			return false;
+		case CCSS_PROPERTY_STATE_NONE:
+		case CCSS_PROPERTY_STATE_INHERIT:
+			return true;
+		case CCSS_PROPERTY_STATE_SET:
+			break;
 		}
 		str = cr_string_peek_raw_str ((*value)->content.str);
 		ret = parse_name (self, str);
 		if (ret) {
 			*value = (*value)->next;
-			return CCSS_PROPERTY_STATE_SET;
+			return true;
 		}
-		return CCSS_PROPERTY_STATE_UNSET;
+		return false;
 	case TERM_HASH:
 		str = cr_string_peek_raw_str ((*value)->content.str);
 		ret = parse_hex (self, str);
 		if (ret) {
 			*value = (*value)->next;
-			return CCSS_PROPERTY_STATE_SET;
+			return true;
 		}
-		return CCSS_PROPERTY_STATE_UNSET;
+		return false;
 	case TERM_RGB:
 		self->red = (*value)->content.rgb->red;
 		self->green = (*value)->content.rgb->green;
 		self->blue = (*value)->content.rgb->blue;
 		*value = (*value)->next;
-		return CCSS_PROPERTY_STATE_SET;
+		return true;
 	case TERM_FUNCTION:
 		function = cr_string_peek_raw_str ((*value)->content.str);
-		color = ccss_function_invoke (block, function, property_name,
-					      (*value)->ext_content.func_param);
+		color = ccss_function_invoke (function, (*value)->ext_content.func_param);
 		if (color) {
 			if (g_str_has_prefix (color, "rgb(")) {
 
@@ -333,36 +328,97 @@ parse (ccss_color_t	 *self,
 
 				g_free (color), color = NULL;
 				*value = (*value)->next;
-				return CCSS_PROPERTY_STATE_SET;
+				return true;
 			}
 			/* FIXME recognize "rgba". */
 bail:
 			g_free (color), color = NULL;
 		}
-		return CCSS_PROPERTY_STATE_UNSET;
+		return false;
 	/* fall thru for all other enum values to prevent compiler warnings */
 	case TERM_NO_TYPE:
 	case TERM_NUMBER:
 	case TERM_STRING:
 	case TERM_URI:
 	case TERM_UNICODERANGE:
-	default:
-		g_assert_not_reached ();
-		return CCSS_PROPERTY_STATE_UNSET;
+		break;
 	}
+
+	return false;
+}
+
+ccss_color_t *
+ccss_color_new (CRTerm const *value)
+{
+	ccss_color_t	*self, c;
+	bool		 ret;
+
+	ret = parse (&c, &value);
+	if (ret) {
+		self = g_new0 (ccss_color_t, 1);
+		*self = c;
+		return self;
+	}
+
+	return NULL;
+}
+
+void
+ccss_color_free (ccss_color_t *self)
+{
+	g_return_if_fail (self);
+
+	g_free (self);
+}
+
+bool
+ccss_color_convert (ccss_color_t const		*property,
+		    ccss_property_type_t	 target,
+		    void			*value)
+{
+	g_return_val_if_fail (property && value, false);
+
+	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
+		return false;
+
+	* (char **) value = g_strdup_printf ("#%02x%02x%02x", 
+						(int) (property->red * 255),
+						(int) (property->green * 255),
+						(int) (property->blue * 255));
+	return true;
 }
 
 bool
 ccss_color_parse (ccss_color_t	 *self,
-		  ccss_block_t	 *block,
-		  char const	 *property_name,
 		  CRTerm const	**values)
 {
 	if (!*values) {
 		return false;
 	}
 
-	self->state = parse (self, block, property_name, values);
-	return self->state != CCSS_PROPERTY_STATE_UNSET;
+	parse (self, values);
+	return self->base.state != CCSS_PROPERTY_STATE_UNSET;
+}
+
+static ccss_property_class_t const _ptable[] = {
+    {
+	.name = "color",
+	.property_new = (ccss_property_new_f) ccss_color_new,
+	.property_free = (ccss_property_free_f) g_free,
+	.property_convert = (ccss_property_convert_f) ccss_color_convert,
+	.property_factory = NULL
+    }, {
+	.name = NULL,
+	.property_new = NULL,
+	.property_free = NULL,
+	.property_convert = NULL,
+	.property_factory = NULL
+    }
+};
+
+ccss_property_class_t const *
+ccss_color_get_ptable (void)
+{
+	return _ptable;
 }
 

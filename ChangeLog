@@ -1,3 +1,66 @@
+2008-11-24  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss-clutter/example-1.c (main):
+	* ccss-clutter/example-2.c (url), (main):
+	* ccss/Makefile.am:
+	* ccss/ccss-background-parser.c (bg_attachment_parse),
+	(bg_image_parse), (bg_position_parse), (bg_repeat_parse),
+	(bg_size_parse), (background_factory), (background_attachment_new),
+	(background_attachment_convert), (background_image_new),
+	(background_image_convert), (background_position_new),
+	(background_position_convert), (background_repeat_new),
+	(background_repeat_convert), (background_size_new),
+	(background_size_convert), (peek_property_class),
+	(ccss_background_get_ptable):
+	* ccss/ccss-background-parser.h:
+	* ccss/ccss-background.c (ccss_background_fill):
+	* ccss/ccss-background.h:
+	* ccss/ccss-block-priv.h:
+	* ccss/ccss-block.c (ccss_block_insert_property):
+	* ccss/ccss-border-image-parser.c (border_image_new),
+	(border_image_convert), (peek_property_class),
+	(ccss_border_image_get_ptable):
+	* ccss/ccss-border-image-parser.h:
+	* ccss/ccss-border-image.h:
+	* ccss/ccss-border-parser.c (lookup_style), (parse_width),
+	(parse_style), (parse_radius), (border_color_factory),
+	(border_style_factory), (border_width_factory),
+	(border_factory_impl), (border_factory), (border_left_factory),
+	(border_top_factory), (border_right_factory),
+	(border_bottom_factory), (border_radius_new),
+	(border_radius_factory), (border_radius_convert),
+	(border_style_new), (border_style_convert), (border_width_new),
+	(border_width_convert), (peek_property_class),
+	(ccss_border_get_ptable):
+	* ccss/ccss-border-parser.h:
+	* ccss/ccss-border.c (get_line_draw_func), (border):
+	* ccss/ccss-border.h:
+	* ccss/ccss-color.c (parse), (ccss_color_new), (ccss_color_free),
+	(ccss_color_convert), (ccss_color_parse), (ccss_color_get_ptable):
+	* ccss/ccss-color.h:
+	* ccss/ccss-function-priv.h:
+	* ccss/ccss-function.c (ccss_function_subsystem_add_functions),
+	(ccss_function_subsystem_shutdown), (ccss_function_invoke):
+	* ccss/ccss-function.h:
+	* ccss/ccss-image.c (ccss_image_parse):
+	* ccss/ccss-image.h:
+	* ccss/ccss-parser.c (ccss_parser_subsystem_add_properties),
+	(ccss_parser_subsystem_shutdown), (property_cb):
+	* ccss/ccss-parser.h:
+	* ccss/ccss-property-generic.c (property_new), (property_convert),
+	(peek_property_class), (ccss_property_generic_get_ptable):
+	* ccss/ccss-property-generic.h:
+	* ccss/ccss-property.h:
+	* ccss/ccss-style.c (ccss_style_subsystem_init):
+	* ccss/ccss.c (ccss_init), (ccss_add_properties),
+	(ccss_add_functions), (ccss_shutdown), (ccss_cairo_init),
+	(ccss_cairo_shutdown):
+	* ccss/ccss.h:
+	* examples/example-1.c (main):
+	* examples/example-2.c (main):
+	* examples/example-3.c (url), (main):
+	Use dynamically registered property handlers.
+
 2008-11-19  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss-clutter/example-1.c (main):

@@ -42,6 +42,8 @@ libccss_static_la_SOURCES = \
 	ccss-parser.h \
 	ccss-position.c \
 	ccss-position.h \
+	ccss-property-generic.c \
+	ccss-property-generic.h \
 	ccss-selector-group.c \
 	ccss-selector-group.h \
 	ccss-selector.c \

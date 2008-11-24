@@ -19,23 +19,51 @@
 
 #include "ccss.h"
 #include "ccss-function-priv.h"
+#include "ccss-parser.h"
 #include "ccss-property-priv.h"
 #include "ccss-style-priv.h"
 
+/* FIXME: split out */
+#include "ccss-color.h"
+#include "ccss-background-parser.h"
+#include "ccss-border-image-parser.h"
+
 /**
  * ccss_init:
- * @properties:		table of properties that can be used in CSS or %NULL.
- * @functions:		table of functions that can be used in CSS or %NULL.
  * 
  * Initialize the CCSS library before making any calls to it.
  **/
 void
-ccss_init (ccss_property_impl_t const	*properties,
-	   ccss_function_t const	*functions)
+ccss_init (void)
 {
-	ccss_function_subsystem_init (functions);
 	ccss_property_subsystem_init ();
 	ccss_style_subsystem_init ();
+}
+
+/**
+ * ccss_add_properties:
+ * @properties:	Null-terminated array of #ccss_property_class_t to register.
+ *
+ * Register a set of custom css properties. This function must be between
+ * #ccss_init() and instatiation of #ccss_stylesheet_t.
+ **/
+void
+ccss_add_properties (ccss_property_class_t const *properties)
+{
+	ccss_parser_subsystem_add_properties (properties);
+}
+
+/**
+ * ccss_add_functions:
+ * @properties:	Null-terminated array of #ccss_function_t to register.
+ *
+ * Register a set of custom css function handlers, like e.g. `url'.
+ * This function must be between #ccss_init() and instatiation of #ccss_stylesheet_t.
+ **/
+void
+ccss_add_functions (ccss_function_t const *functions)
+{
+	ccss_function_subsystem_add_functions (functions);
 }
 
 /**
@@ -46,7 +74,43 @@ ccss_init (ccss_property_impl_t const	*properties,
 void
 ccss_shutdown (void)
 {
+	ccss_function_subsystem_shutdown ();
+	ccss_parser_subsystem_shutdown ();
+
 	ccss_style_subsystem_shutdown ();
 	ccss_property_subsystem_shutdown ();
+}
+
+/**
+ * ccss_cairo_init:
+ * 
+ * Initialize the ccss-cairo library before making any calls to it.
+ **/
+void
+ccss_cairo_init (void)
+{
+	ccss_property_class_t const *properties;
+
+	ccss_init ();
+
+	properties = ccss_color_get_ptable ();
+	ccss_add_properties (properties);
+
+	properties = ccss_background_get_ptable ();
+	ccss_add_properties (properties);
+
+	properties = ccss_border_image_get_ptable ();
+	ccss_add_properties (properties);
+}
+
+/**
+ * ccss_cairo_shutdown:
+ *
+ * Shut down the ccss-cairo library.
+ **/
+void
+ccss_cairo_shutdown (void)
+{
+	ccss_shutdown ();
 }
 

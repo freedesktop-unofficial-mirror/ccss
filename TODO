@@ -29,3 +29,7 @@ Also see gtk-css-engine's TODO for now.
 
 * Separate cairo-dependent code.
 
+Blue Sky
+--------
+
+Transitions / animations? http://ejohn.org/blog/css-animations-and-javascript/

@@ -36,20 +36,30 @@ CCSS_BEGIN_DECLS
 }
 
 typedef struct {
-	ccss_property_state_t	state;
+	ccss_property_base_t	base;
+
 	double			red;
 	double			green;
 	double			blue;
 } ccss_color_t;
 
+ccss_color_t *
+ccss_color_new (CRTerm const *value);
+
 void
-ccss_color_init (ccss_color_t *self);
+ccss_color_free (ccss_color_t *self);
+
+bool
+ccss_color_convert (ccss_color_t const		*property,
+		    ccss_property_type_t	 target,
+		    void			*value);
 
 bool
 ccss_color_parse (ccss_color_t	 *self,
-		  ccss_block_t	 *block,
-		  char const	 *property_name,
 		  CRTerm const	**values);
+
+ccss_property_class_t const *
+ccss_color_get_ptable (void);
 
 CCSS_END_DECLS
 

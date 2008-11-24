@@ -22,8 +22,22 @@ ccss_node_t
 
 </para>
 
-@properties: 
+
+
+<!-- ##### FUNCTION ccss_add_functions ##### -->
+<para>
+
+</para>
+
 @functions: 
+
+
+<!-- ##### FUNCTION ccss_add_properties ##### -->
+<para>
+
+</para>
+
+@properties: 
 
 
 <!-- ##### FUNCTION ccss_shutdown ##### -->
@@ -56,6 +70,16 @@ ccss_node_t
 @get_style: 
 @get_viewport: 
 @release: 
+
+<!-- ##### USER_FUNCTION ccss_node_is_a_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@type_name: 
+@Returns: 
+
 
 <!-- ##### USER_FUNCTION ccss_node_get_container_f ##### -->
 <para>

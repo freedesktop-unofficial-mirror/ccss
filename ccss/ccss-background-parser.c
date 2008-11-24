@@ -25,13 +25,16 @@
 #include "ccss-block-priv.h"
 #include "ccss-property-priv.h"
 
+static ccss_property_class_t const *
+peek_property_class (char const *property_name);
+
 static const struct {
 	char const				*name;
 	const enum ccss_background_repeat	 repeat;
 } _repeat_map[] = {
   { "repeat",		CCSS_BACKGROUND_REPEAT		},
-  { "repeat-x",		CCSS_BACKGROUND_REPEAT_X		},
-  { "repeat-y",		CCSS_BACKGROUND_REPEAT_Y		},
+  { "repeat-x",		CCSS_BACKGROUND_REPEAT_X	},
+  { "repeat-y",		CCSS_BACKGROUND_REPEAT_Y	},
   { "no-repeat",	CCSS_BACKGROUND_NO_REPEAT	}
 };
 
@@ -47,7 +50,7 @@ bg_attachment_parse (ccss_background_attachment_t	 *self,
 
 	state = ccss_property_parse_state (values);
 	if (CCSS_PROPERTY_STATE_INHERIT == state) {
-		self->state = state;
+		self->base.state = state;
 		return true;
 	}
 
@@ -56,12 +59,12 @@ bg_attachment_parse (ccss_background_attachment_t	 *self,
 		attachment = cr_string_peek_raw_str ((*values)->content.str);
 		if (0 == g_strcmp0 ("scroll", attachment)) {
 			self->attachment = CCSS_BACKGROUND_SCROLL;
-			self->state = CCSS_PROPERTY_STATE_SET;
+			self->base.state = CCSS_PROPERTY_STATE_SET;
 			*values = (*values)->next;
 			return true;
 		} else if (0 == g_strcmp0 ("fixed", attachment)) {
 			self->attachment = CCSS_BACKGROUND_FIXED;
-			self->state = CCSS_PROPERTY_STATE_SET;
+			self->base.state = CCSS_PROPERTY_STATE_SET;
 			*values = (*values)->next;
 			return true;
 		}
@@ -71,17 +74,15 @@ bg_attachment_parse (ccss_background_attachment_t	 *self,
 }
 
 static bool
-bg_image_parse (ccss_block_t		 *self,
-		ccss_background_image_t	 *image,
-		char const		 *property_name,
+bg_image_parse (ccss_background_image_t	 *image,
 		CRTerm const		**values)
 {
 	if (!*values) {
 		return false;
 	}
 
-	image->state = ccss_image_parse (&image->image, self, property_name, values);
-	return image->state == CCSS_PROPERTY_STATE_SET;
+	image->base.state = ccss_image_parse (&image->image, values);
+	return image->base.state == CCSS_PROPERTY_STATE_SET;
 }
 
 static bool
@@ -99,14 +100,14 @@ bg_position_parse (ccss_background_position_t	 *self,
 
 	state = ccss_property_parse_state (values);
 	if (CCSS_PROPERTY_STATE_INHERIT == state) {
-		self->state = CCSS_PROPERTY_STATE_INHERIT;
+		self->base.state = CCSS_PROPERTY_STATE_INHERIT;
 		return true;
 	}
 
 	flags = CCSS_POSITION_MASK_NUMERIC | CCSS_POSITION_MASK_HORIZONTAL;
 	have_hpos = ccss_position_parse (&self->hpos, flags, values);
 	if (!have_hpos) {
-		self->state = CCSS_PROPERTY_STATE_UNSET;
+		self->base.state = CCSS_PROPERTY_STATE_UNSET;
 		return false;		
 	}
 
@@ -121,7 +122,7 @@ bg_position_parse (ccss_background_position_t	 *self,
 	
 	/* A bit fuzzy, but let's say we're satisfied with `hpos' only. */
 	if (have_hpos) {
-		self->state = CCSS_PROPERTY_STATE_SET;
+		self->base.state = CCSS_PROPERTY_STATE_SET;
 		return true;
 	}
 
@@ -143,7 +144,7 @@ bg_repeat_parse (ccss_background_repeat_t	 *self,
 	for (unsigned int i = 0; i < G_N_ELEMENTS (_repeat_map); i++) {
 		if (0 == g_strcmp0 (_repeat_map[i].name, repeat)) {
 			self->repeat = _repeat_map[i].repeat;
-			self->state = CCSS_PROPERTY_STATE_SET;
+			self->base.state = CCSS_PROPERTY_STATE_SET;
 			*values = (*values)->next;
 			return true;
 		}
@@ -153,10 +154,10 @@ bg_repeat_parse (ccss_background_repeat_t	 *self,
 	 * Only `inherit' is allowed anyway. */
 	state = ccss_property_parse_state (values);
 	if (state == CCSS_PROPERTY_STATE_INHERIT) {
-		self->state = state;
+		self->base.state = state;
 		return true;
 	} else {
-		self->state = CCSS_PROPERTY_STATE_UNSET;
+		self->base.state = CCSS_PROPERTY_STATE_UNSET;
 		return false;
 	}
 }
@@ -181,7 +182,7 @@ bg_size_parse (ccss_background_size_t	 *self,
 	if (CCSS_POSITION_CONTAIN == self->width.type || 
 	    CCSS_POSITION_COVER == self->width.type) {
 		self->height.type = self->width.type;
-		self->state = CCSS_PROPERTY_STATE_SET;
+		self->base.state = CCSS_PROPERTY_STATE_SET;
 		return true;
 	}
 
@@ -190,11 +191,11 @@ bg_size_parse (ccss_background_size_t	 *self,
 		flags = CCSS_POSITION_MASK_NUMERIC | CCSS_POSITION_MASK_AUTO;
 		ret = ccss_position_parse (&self->height, flags, values);
 		if (ret) {
-			self->state = CCSS_PROPERTY_STATE_SET;
+			self->base.state = CCSS_PROPERTY_STATE_SET;
 			return true;
 		} else {
 			self->height.type =  CCSS_POSITION_AUTO;
-			self->state = CCSS_PROPERTY_STATE_SET;
+			self->base.state = CCSS_PROPERTY_STATE_SET;
 			return true;
 		}
 	}
@@ -202,156 +203,338 @@ bg_size_parse (ccss_background_size_t	 *self,
 	return false;
 }
 
-bool
-ccss_block_parse_background (ccss_block_t	*self,
-			     char const		*property,
-			     CRTerm const	*values)
+static bool
+background_factory (ccss_block_t		*self,
+		    CRTerm const		*values)
 {
 	ccss_background_attachment_t	*bg_attachment,	bga;
 	ccss_color_t			*bg_color,	bgc;
 	ccss_background_image_t		*bg_image,	bgi;
 	ccss_background_position_t	*bg_position,	bgp;
 	ccss_background_repeat_t	*bg_repeat,	bgr;
-	ccss_background_size_t		*bg_size,	bgs;
+	bool				 ret;
 
-	bool ret;
-
-	ret = false;
-
-	if (0 == strcmp ("background", property)) {
-
-		/* FIXME: also support `background-size' here, but let's stick
-		 * to CSS2 for now. */
-		ret = ccss_color_parse (&bgc, self, property, &values);
-		if (ret) {
-			bg_color = ccss_block_new_background_color (self);
-			*bg_color = bgc;
-			if (NULL == values)
-				return true;
-		} else {
-			return false;
-		}
-
-		ret = bg_image_parse (self, &bgi, property, &values);
-		if (ret) {
-			bg_image = ccss_block_new_background_image (self);
-			*bg_image = bgi;
-			if (NULL == values)
-				return true;
-		} else {
-			return false;
-		}
-
-		ret = bg_repeat_parse (&bgr, &values);
-		if (ret) {
-			bg_repeat = ccss_block_new_background_repeat (self);
-			*bg_repeat = bgr;
-			if (NULL == values)
-				return true;
-		} else {
-			return false;
-		}
-
-		ret = bg_attachment_parse (&bga, &values);
-		if (ret) {
-			bg_attachment = ccss_block_new_background_attachment (self);
-			*bg_attachment = bga;
-			if (NULL == values)
-				return true;
-		} else {
-			return false;
-		}
-
-		ret = bg_position_parse (&bgp, &values);
-		if (ret) {
-			bg_position = ccss_block_new_background_position (self);
-			*bg_position = bgp;
-			if (NULL == values)
-				return true;
-		} else {
-			return false;
-		}
+	/* FIXME: also support `background-size' here, but let's stick
+	 * to CSS2 for now. */
+	ret = ccss_color_parse (&bgc, &values);
+	if (ret) {
+		bgc.base.property_class = peek_property_class ("background-color");
+		bg_color = g_new0 (ccss_color_t, 1);
+		*bg_color = bgc;
+		ccss_block_insert_property (self, "background-color", 
+					    (ccss_property_base_t *) bg_color);
+		if (NULL == values)
+			return true;
+	} else {
+		return false;
 	}
 
-	if (0 == strcmp ("background-attachment", property)) {
-
-		ret = bg_attachment_parse (&bga, &values);
-		if (ret) {
-			bg_attachment = ccss_block_new_background_attachment (self);
-			*bg_attachment = bga;
-			if (NULL == values)
-				return true;
-		} else {
-			return false;
-		}
+	ret = bg_image_parse (&bgi, &values);
+	if (ret) {
+		bgi.base.property_class = peek_property_class ("background-image");
+		bg_image = g_new0 (ccss_background_image_t, 1);
+		*bg_image = bgi;
+		ccss_block_insert_property (self, "background-image", 
+					    (ccss_property_base_t *) bg_image);
+		if (NULL == values)
+			return true;
+	} else {
+		return false;
 	}
 
-	if (0 == strcmp ("background-color", property)) {
-
-		ret = ccss_color_parse (&bgc, self, property, &values);
-		if (ret) {
-			bg_color = ccss_block_new_background_color (self);
-			*bg_color = bgc;
-			if (NULL == values)
-				return true;
-		} else {
-			return false;
-		}
+	ret = bg_repeat_parse (&bgr, &values);
+	if (ret) {
+		bgr.base.property_class = peek_property_class ("background-repeat");
+		bg_repeat = g_new0 (ccss_background_repeat_t, 1);
+		*bg_repeat = bgr;
+		ccss_block_insert_property (self, "background-repeat", 
+					    (ccss_property_base_t *) bg_repeat);
+		if (NULL == values)
+			return true;
+	} else {
+		return false;
 	}
 
-	if (0 == strcmp ("background-image", property)) {
-
-		ret = bg_image_parse (self, &bgi, property, &values);
-		if (ret) {
-			bg_image = ccss_block_new_background_image (self);
-			*bg_image = bgi;
-			if (NULL == values)
-				return true;
-		} else {
-			return false;
-		}
+	ret = bg_attachment_parse (&bga, &values);
+	if (ret) {
+		bga.base.property_class = peek_property_class ("background-attachment");
+		bg_attachment = g_new0 (ccss_background_attachment_t, 1);
+		*bg_attachment = bga;
+		ccss_block_insert_property (self, "background-attachment", 
+					    (ccss_property_base_t *) bg_attachment);
+		if (NULL == values)
+			return true;
+	} else {
+		return false;
 	}
 
-	if (0 == strcmp ("background-position", property)) {
-
-		ret = bg_position_parse (&bgp, &values);
-		if (ret) {
-			bg_position = ccss_block_new_background_position (self);
-			*bg_position = bgp;
-			if (NULL == values)
-				return true;
-		} else {
-			return false;
-		}
+	ret = bg_position_parse (&bgp, &values);
+	if (ret) {
+		bgp.base.property_class = peek_property_class ("background-position");
+		bg_position = g_new0 (ccss_background_position_t, 1);
+		*bg_position = bgp;
+		ccss_block_insert_property (self, "background-position", 
+					    (ccss_property_base_t *) bg_position);
+		if (NULL == values)
+			return true;
+	} else {
+		return false;
 	}
 
-	if (0 == strcmp ("background-repeat", property)) {
+	/* All sub-properties have been parsed correctly. */
+	return true;
+}
 
-		ret = bg_repeat_parse (&bgr, &values);
-		if (ret) {
-			bg_repeat = ccss_block_new_background_repeat (self);
-			*bg_repeat = bgr;
-			if (NULL == values)
-				return true;
-		} else {
-			return false;
-		}
+static ccss_background_attachment_t *
+background_attachment_new (CRTerm const *values)
+{
+	ccss_background_attachment_t	*self;
+	bool				 ret;
+
+	g_return_val_if_fail (values, NULL);
+
+	self = g_new0 (ccss_background_attachment_t, 1);
+	ret = bg_attachment_parse (self, &values);
+	if (!ret) {
+		g_free (self), self = NULL;
 	}
 
-	if (0 == strcmp ("background-size", property)) {
+	return self;
+}
 
-		ret = bg_size_parse (&bgs, &values);
-		if (ret) {
-			bg_size = ccss_block_new_background_size (self);
-			*bg_size = bgs;
-			if (NULL == values)
-				return true;
-		} else {
-			return false;
-		}
+static bool
+background_attachment_convert (ccss_background_attachment_t const	*property,
+			       ccss_property_type_t			 target,
+			       void					*value)
+{
+	char *ret;
+
+	g_return_val_if_fail (property && value, false);
+
+	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
+		return false;
+
+	switch (property->attachment) {
+	case CCSS_BACKGROUND_SCROLL:
+		ret = g_strdup ("scroll");
+		break;
+	case CCSS_BACKGROUND_FIXED:
+		ret = g_strdup ("fixed");
+		break;
+	default:
+		g_assert_not_reached ();
+		return false;
 	}
 
-	g_warning ("Unknown property `%s'", property);
+	* (char **) value = ret;
+
+	return true;
+}
+
+static ccss_background_image_t *
+background_image_new (CRTerm const *values)
+{
+	ccss_background_image_t	*self;
+	bool			 ret;
+
+	g_return_val_if_fail (values, NULL);
+
+	self = g_new0 (ccss_background_image_t, 1);
+	ret = bg_image_parse (self, &values);
+	if (!ret) {
+		g_free (self), self = NULL;
+	}
+
+	return self;
+}
+
+static bool
+background_image_convert (ccss_background_image_t const	*property,
+			  ccss_property_type_t		 target,
+			  void				*value)
+{
+	char *ret;
+
+	g_return_val_if_fail (property && value, false);
+
+	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
+		return false;
+
+	ret = g_strdup (property->image.uri);
+
+	* (char **) value = ret;
+
+	return true;
+}
+
+static ccss_background_position_t *
+background_position_new (CRTerm const *values)
+{
+	ccss_background_position_t	*self;
+	bool				 ret;
+
+	g_return_val_if_fail (values, NULL);
+
+	self = g_new0 (ccss_background_position_t, 1);
+	ret = bg_position_parse (self, &values);
+	if (!ret) {
+		g_free (self), self = NULL;
+	}
+
+	return self;
+}
+
+static bool
+background_position_convert (ccss_background_position_t const	*property,
+			     ccss_property_type_t		 target,
+			     void				*value)
+{
+	// FIXME: this needs 2 return values.
+	g_return_val_if_fail (0, false);
 	return false;
+}
+
+static ccss_background_repeat_t *
+background_repeat_new (CRTerm const *values)
+{
+	ccss_background_repeat_t	*self;
+	bool				 ret;
+
+	g_return_val_if_fail (values, NULL);
+
+	self = g_new0 (ccss_background_repeat_t, 1);
+	ret = bg_repeat_parse (self, &values);
+	if (!ret) {
+		g_free (self), self = NULL;
+	}
+
+	return self;
+}
+
+static bool
+background_repeat_convert (ccss_background_repeat_t const	*property,
+			   ccss_property_type_t			 target,
+			   void					*value)
+{
+	char *ret;
+
+	g_return_val_if_fail (property && value, false);
+
+	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
+		return false;
+
+	switch (property->repeat) {
+	case CCSS_BACKGROUND_REPEAT:
+		ret = g_strdup ("repeat");
+		break;
+	case CCSS_BACKGROUND_REPEAT_X:
+		ret = g_strdup ("repeat-x");
+		break;
+	case CCSS_BACKGROUND_REPEAT_Y:
+		ret = g_strdup ("repeat-y");
+		break;
+	case CCSS_BACKGROUND_NO_REPEAT:
+		ret = g_strdup ("no-repeat");
+		break;
+	default:
+		g_assert_not_reached ();
+		return false;
+	}
+
+	* (char **) value = ret;
+
+	return true;
+}
+
+static ccss_background_size_t *
+background_size_new (CRTerm const *values)
+{
+	ccss_background_size_t	*self;
+	bool			 ret;
+
+	g_return_val_if_fail (values, NULL);
+
+	self = g_new0 (ccss_background_size_t, 1);
+	ret = bg_size_parse (self, &values);
+	if (!ret) {
+		g_free (self), self = NULL;
+	}
+
+	return self;
+}
+
+static bool
+background_size_convert (ccss_background_size_t const	*property,
+			 ccss_property_type_t		 target,
+			 void				*value)
+{
+	// FIXME: this needs 2 return values.
+	g_return_val_if_fail (0, false);
+	return false;
+}
+
+static ccss_property_class_t const _ptable[] = {
+    {
+	.name = "background-attachment",
+	.property_new = (ccss_property_new_f) background_attachment_new,
+	.property_free = (ccss_property_free_f) g_free,
+	.property_convert = (ccss_property_convert_f) background_attachment_convert,
+	.property_factory = NULL
+    }, {
+	.name = "background-image",
+	.property_new = (ccss_property_new_f) background_image_new,
+	.property_free = (ccss_property_free_f) g_free,
+	.property_convert = (ccss_property_convert_f) background_image_convert,
+	.property_factory = NULL
+    }, {
+	.name = "background-position",
+	.property_new = (ccss_property_new_f) background_position_new,
+	.property_free = (ccss_property_free_f) g_free,
+	.property_convert = (ccss_property_convert_f) background_position_convert,
+	.property_factory = NULL
+    }, {
+	.name = "background-repeat",
+	.property_new = (ccss_property_new_f) background_repeat_new,
+	.property_free = (ccss_property_free_f) g_free,
+	.property_convert = (ccss_property_convert_f) background_repeat_convert,
+	.property_factory = NULL
+    }, {
+	.name = "background-size",
+	.property_new = (ccss_property_new_f) background_size_new,
+	.property_free = (ccss_property_free_f) g_free,
+	.property_convert = (ccss_property_convert_f) background_size_convert,
+	.property_factory = NULL
+    }, {
+	.name = "background",
+	.property_new = NULL,
+	.property_free = (ccss_property_free_f) g_free,
+	.property_convert = NULL,
+	.property_factory = background_factory
+    }, {
+	.name = NULL,
+	.property_new = NULL,
+	.property_free = NULL,
+	.property_convert = NULL,
+	.property_factory = NULL
+    }
+};
+
+static ccss_property_class_t const *
+peek_property_class (char const *property_name)
+{
+	for (unsigned int i = 0; i < G_N_ELEMENTS (_ptable); i++) {
+		if (0 == g_strcmp0 (property_name, _ptable[i].name))
+			return &_ptable[i];
+	}
+
+	g_return_val_if_fail (0, NULL);
+
+	return NULL;
+}
+
+ccss_property_class_t const *
+ccss_background_get_ptable (void)
+{
+	return _ptable;
 }
 

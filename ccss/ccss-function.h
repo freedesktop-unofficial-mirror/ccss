@@ -39,10 +39,7 @@ struct _GSList;
  *
  * Returns: the function's result as a string.
  **/
-typedef char * (*ccss_function_f) (ccss_block_t		*block,
-				   char const		*property_name,
-				   char const		*function_name,
-				   struct _GSList const	*values);
+typedef char * (*ccss_function_f) (struct _GSList const	*args);
 
 /**
  * ccss_function_t:

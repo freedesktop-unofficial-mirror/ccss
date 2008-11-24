@@ -42,6 +42,24 @@ ccss_selector_group_t
 @y: 
 @Returns: 
 
+<!-- ##### STRUCT ccss_property_impl_t ##### -->
+<para>
+
+</para>
+
+@name: 
+@alloc: 
+@dealloc: 
+@convert: 
+
+<!-- ##### STRUCT ccss_property_t ##### -->
+<para>
+
+</para>
+
+@state: 
+@type: 
+
 <!-- ##### FUNCTION ccss_selector_group_apply ##### -->
 <para>
 

@@ -57,12 +57,14 @@ typedef enum {
 } ccss_border_drawing_flags_t;
 
 typedef struct {
-	ccss_property_state_t		state;
+	ccss_property_base_t		base;
+
 	ccss_border_style_type_t	style;
 } ccss_border_style_t;
 
 typedef struct {
-	ccss_property_state_t		state;
+	ccss_property_base_t		base;
+
 	double				width;
 } ccss_border_width_t;
 
@@ -73,20 +75,10 @@ typedef struct {
 } ccss_border_stroke_t; 
 
 typedef struct {
-	ccss_property_state_t	state;	
-	double			radius;
-} ccss_border_join_t;
+	ccss_property_base_t		base;
 
-typedef struct {
-	ccss_border_stroke_t	left;
-	ccss_border_join_t	left_top;
-	ccss_border_stroke_t	top;
-	ccss_border_join_t	top_right;
-	ccss_border_stroke_t	right;
-	ccss_border_join_t	right_bottom;
-	ccss_border_stroke_t	bottom;
-	ccss_border_join_t	bottom_left;
-} ccss_border_t;
+	double				radius;
+} ccss_border_join_t;	/* FIXME: rename to `border-radius'? */
 
 void ccss_border_clamp_radii (double x, double y, double width, double height,
 			     double *left_top, double *top_right,

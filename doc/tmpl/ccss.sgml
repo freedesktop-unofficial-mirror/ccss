@@ -22,8 +22,22 @@ Initialization
 
 </para>
 
-@properties: 
+
+
+<!-- ##### FUNCTION ccss_add_functions ##### -->
+<para>
+
+</para>
+
 @functions: 
+
+
+<!-- ##### FUNCTION ccss_add_properties ##### -->
+<para>
+
+</para>
+
+@properties: 
 
 
 <!-- ##### FUNCTION ccss_shutdown ##### -->

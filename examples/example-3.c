@@ -31,10 +31,7 @@ static char const _css[] = "				\
 ";
 
 static char *
-url (ccss_block_t	*block,
-     char const		*property_name,
-     char const		*function_name,
-     GSList const	*args)
+url (GSList const *args)
 {
 	char *cwd;
 	char *path;
@@ -64,7 +61,8 @@ main (int	  argc,
 	gboolean			 ret;
 
 	gtk_init (&argc, &argv);
-	ccss_init (NULL, _functions);
+	ccss_init ();
+	ccss_add_functions (_functions);
 
 	stylesheet = ccss_stylesheet_new_from_buffer (_css, sizeof (_css));
 	/* stylesheet = ccss_stylesheet_new_from_file ("example-1.css"); */

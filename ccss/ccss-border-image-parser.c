@@ -22,6 +22,9 @@
 #include "ccss-border-image.h"
 #include "ccss-border-image-parser.h"
 
+static ccss_property_class_t const *
+peek_property_class (void);
+
 static bool
 parse_tiling (CRTerm const			**value,
 	      ccss_border_image_tiling_t	 *tiling)
@@ -52,10 +55,8 @@ parse_tiling (CRTerm const			**value,
 /*
  * FIXME: create all the border-image tiles here and save some time while painting.
  */
-bool
-ccss_block_parse_border_image (ccss_block_t	*self,
-			       char const	*property, 
-			       CRTerm const	*values)
+static ccss_border_image_t *
+border_image_new (CRTerm const	*values)
 {
 	ccss_border_image_t	*border_image;
 	ccss_border_image_t	 bimg;
@@ -64,17 +65,17 @@ ccss_block_parse_border_image (ccss_block_t	*self,
 	unsigned int		 n_borders;
 	bool			 ret;
 
-	g_return_val_if_fail (0 == g_strcmp0 ("border-image", property), false);
-
 	memset (&bimg, 0, sizeof (bimg));
+	bimg.base.property_class = peek_property_class ();
+
 	iter = values;
 
 	/* Image */
-	bimg.state = ccss_image_parse (&bimg.image, self, property, &iter);
-	if (CCSS_PROPERTY_STATE_NONE == bimg.state) {
-		border_image = ccss_block_new_border_image (self);
+	bimg.base.state = ccss_image_parse (&bimg.image, &iter);
+	if (CCSS_PROPERTY_STATE_NONE == bimg.base.state) {
+		border_image = g_new0 (ccss_border_image_t, 1);
 		*border_image = bimg;
-		return true;
+		return border_image;
 	}
 
 	/* Border sizes. */
@@ -96,7 +97,7 @@ ccss_block_parse_border_image (ccss_block_t	*self,
 	switch (n_borders) {
 	case 0:
 		/* No valid size. */
-		return false;
+		return NULL;
 	case 1:
 		/* One valid size. */
 		*borders[1] = *borders[0];
@@ -118,7 +119,7 @@ ccss_block_parse_border_image (ccss_block_t	*self,
 		/* vertical */
 		ret = parse_tiling (&iter, &bimg.top_middle_bottom_horizontal_tiling);
 		if (!ret)
-			return false;
+			return NULL;
 	}
 
 	if (!iter) {
@@ -131,12 +132,95 @@ ccss_block_parse_border_image (ccss_block_t	*self,
 		/* horizontal */
 		ret = parse_tiling (&iter, &bimg.left_middle_right_vertical_tiling);
 		if (!ret)
-			return false;
+			return NULL;
 	}
 
 	/* Valid border-image. */
-	border_image = ccss_block_new_border_image (self);
+	border_image = g_new0 (ccss_border_image_t, 1);
 	*border_image = bimg;
+	return border_image;
+}
+
+static bool
+border_image_convert (ccss_border_image_t const	*property,
+		      ccss_property_type_t	 target,
+		      void			*value)
+{
+	char *top, *right, *bottom, *left;
+	char const *horizontal_tiling, *vertical_tiling;
+
+	g_return_val_if_fail (property && value, false);
+
+	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
+		return false;
+
+	top = ccss_position_serialize (&property->top);
+	right = ccss_position_serialize (&property->right);
+	bottom = ccss_position_serialize (&property->bottom);
+	left = ccss_position_serialize (&property->left);
+
+	switch (property->top_middle_bottom_horizontal_tiling) {
+	case CCSS_BORDER_IMAGE_TILING_REPEAT:
+		horizontal_tiling = "repeat";
+		break;
+	case CCSS_BORDER_IMAGE_TILING_ROUND:
+		horizontal_tiling = "round";
+		break;
+	case CCSS_BORDER_IMAGE_TILING_STRETCH:
+		horizontal_tiling = "stretch";
+		break;
+	}
+
+	switch (property->left_middle_right_vertical_tiling) {
+	case CCSS_BORDER_IMAGE_TILING_REPEAT:
+		vertical_tiling = "repeat";
+		break;
+	case CCSS_BORDER_IMAGE_TILING_ROUND:
+		vertical_tiling = "round";
+		break;
+	case CCSS_BORDER_IMAGE_TILING_STRETCH:
+		vertical_tiling = "stretch";
+		break;
+	}
+
+	* (char **) value = g_strdup_printf ("url(%s) %s %s %s %s %s %s", 
+				property->image.uri,
+				top, right, bottom, left,
+				horizontal_tiling, vertical_tiling);
+
+	g_free (top), top = NULL;
+	g_free (right), right = NULL;
+	g_free (bottom), bottom = NULL;
+	g_free (left), left = NULL;
+
 	return true;
+}
+
+static ccss_property_class_t const _ptable[] = {
+    {
+	.name = "border-image",
+	.property_new = (ccss_property_new_f) border_image_new,
+	.property_free = (ccss_property_free_f) g_free,
+	.property_convert = (ccss_property_convert_f) border_image_convert,
+	.property_factory = NULL
+    }, {
+	.name = NULL,
+	.property_new = NULL,
+	.property_free = NULL,
+	.property_convert = NULL,
+	.property_factory = NULL
+    }
+};
+
+static ccss_property_class_t const *
+peek_property_class (void)
+{
+	return &_ptable[0];
+}
+
+ccss_property_class_t const *
+ccss_border_image_get_ptable (void)
+{
+	return _ptable;
 }
 

@@ -3,6 +3,8 @@
 <TITLE>Initialization</TITLE>
 <FILE>ccss</FILE>
 ccss_init
+ccss_add_functions
+ccss_add_properties
 ccss_shutdown
 </SECTION>
 
@@ -10,6 +12,7 @@ ccss_shutdown
 <FILE>node</FILE>
 ccss_node_t
 ccss_node_class_t
+ccss_node_is_a_f
 ccss_node_get_container_f
 ccss_node_get_base_style_f
 ccss_node_get_instance_f
@@ -63,11 +66,13 @@ ccss_stylesheet_dump
 <FILE>property</FILE>
 ccss_property_state_t
 ccss_property_type_t
-ccss_property_t
 ccss_property_new_f
 ccss_property_free_f
 ccss_property_convert_f
-ccss_property_impl_t
+ccss_property_factory_f
+ccss_property_class_t
+ccss_property_base_t
+ccss_property_generic_t
 </SECTION>
 
 <SECTION>

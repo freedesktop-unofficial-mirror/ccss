@@ -35,14 +35,6 @@ ccss_property_t
 @CCSS_PROPERTY_TYPE_DOUBLE: 
 @CCSS_PROPERTY_TYPE_STRING: 
 
-<!-- ##### STRUCT ccss_property_t ##### -->
-<para>
-
-</para>
-
-@state: 
-@type: 
-
 <!-- ##### USER_FUNCTION ccss_property_new_f ##### -->
 <para>
 
@@ -71,13 +63,27 @@ ccss_property_t
 @Returns: 
 
 
-<!-- ##### STRUCT ccss_property_impl_t ##### -->
+<!-- ##### STRUCT ccss_property_class_t ##### -->
 <para>
 
 </para>
 
 @name: 
-@ctor: 
-@dtor: 
-@convert: 
+@property_new: 
+@property_free: 
+@property_convert: 
+
+<!-- ##### TYPEDEF ccss_property_base_t ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT ccss_property_generic_t ##### -->
+<para>
+
+</para>
+
+@base: 
+@type: 
 

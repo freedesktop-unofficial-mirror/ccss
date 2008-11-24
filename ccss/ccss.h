@@ -32,11 +32,24 @@
 CCSS_BEGIN_DECLS
 
 void
-ccss_init	(ccss_property_impl_t const	*properties,
-		 ccss_function_t const		*functions);
+ccss_init		(void);
+
+void
+ccss_add_properties	(ccss_property_class_t const	*properties);
+
+void
+ccss_add_functions	(ccss_function_t const		*functions);
 
 void
 ccss_shutdown	(void);
+
+/* FIXME: split out */
+
+void
+ccss_cairo_init (void);
+
+void
+ccss_cairo_shutdown (void);
 
 CCSS_END_DECLS
 

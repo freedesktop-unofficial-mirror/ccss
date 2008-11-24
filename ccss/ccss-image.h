@@ -38,8 +38,6 @@ typedef struct {
 
 ccss_property_state_t
 ccss_image_parse (ccss_image_t	 *self,
-		  ccss_block_t	 *block,
-		  char const	 *property_name,
 		  CRTerm const	**value);
 
 void

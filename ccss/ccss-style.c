@@ -26,56 +26,56 @@
 #include "ccss-style-priv.h"
 
 static const ccss_background_attachment_t const _bg_attachment = {
-	.state = CCSS_PROPERTY_STATE_SET,
+	.base.state = CCSS_PROPERTY_STATE_SET,
 	.attachment = CCSS_BACKGROUND_SCROLL
 };
 
 static const ccss_color_t const _bg_color = {
-	.state = CCSS_PROPERTY_STATE_SET,
+	.base.state = CCSS_PROPERTY_STATE_SET,
 	.red = 1.,
 	.green = 1.,
 	.blue = 1.
 };
 
 static const ccss_background_image_t const _bg_image = {
-	.state = CCSS_PROPERTY_STATE_NONE
+	.base.state = CCSS_PROPERTY_STATE_NONE
 };
 
 static const ccss_background_position_t const _bg_position = {
-	.state = CCSS_PROPERTY_STATE_SET,
+	.base.state = CCSS_PROPERTY_STATE_SET,
 	.hpos = { CCSS_POSITION_LENGTH, 0 },
 	.vpos = { CCSS_POSITION_LENGTH, 0 }
 };
 
 static const ccss_background_repeat_t const _bg_repeat = {
-	.state = CCSS_PROPERTY_STATE_SET,
+	.base.state = CCSS_PROPERTY_STATE_SET,
 	.repeat = CCSS_BACKGROUND_REPEAT
 };
 
 static const ccss_background_size_t const _bg_size = {
-	.state = CCSS_PROPERTY_STATE_SET,
+	.base.state = CCSS_PROPERTY_STATE_SET,
 	.width = { CCSS_POSITION_AUTO, 0 },
 	.height = { CCSS_POSITION_AUTO, 0 }
 };
 
 /* FIXME: don't draw borders by default? */
 static const ccss_border_style_t const _border_style = {
-	.state = CCSS_PROPERTY_STATE_UNSET,
+	.base.state = CCSS_PROPERTY_STATE_UNSET,
 	.style = CCSS_BORDER_STYLE_SOLID
 };
 
 static const ccss_border_width_t const _border_width = {
-	.state = CCSS_PROPERTY_STATE_SET,
+	.base.state = CCSS_PROPERTY_STATE_SET,
 	.width = 1.
 };
 
 static const ccss_border_join_t const _border_join = {
-	.state = CCSS_PROPERTY_STATE_UNSET,
+	.base.state = CCSS_PROPERTY_STATE_UNSET,
 	.radius = 0
 };
 
 static const ccss_color_t const _color = {
-	.state = CCSS_PROPERTY_STATE_SET,
+	.base.state = CCSS_PROPERTY_STATE_SET,
 	.red = 0.,
 	.green = 0.,
 	.blue = 0.
@@ -148,239 +148,6 @@ static const struct {
 
 /* FIXME: maybe they should also be in `block', where the generic conversion function is? */
 
-static bool
-convert_background_attachment (ccss_background_attachment_t const	*property,
-			       ccss_property_type_t			 target,
-			       void					*value)
-{
-	char *ret;
-
-	g_return_val_if_fail (property && value, false);
-
-	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
-		return false;
-
-	switch (property->attachment) {
-	case CCSS_BACKGROUND_SCROLL:
-		ret = g_strdup ("scroll");
-		break;
-	case CCSS_BACKGROUND_FIXED:
-		ret = g_strdup ("fixed");
-		break;
-	default:
-		g_assert_not_reached ();
-		return false;
-	}
-
-	* (char **) value = ret;
-
-	return true;
-}
-
-static bool
-convert_background_image (ccss_background_image_t const	*property,
-			  ccss_property_type_t		 target,
-			  void				*value)
-{
-	char *ret;
-
-	g_return_val_if_fail (property && value, false);
-
-	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
-		return false;
-
-	ret = g_strdup (property->image.uri);
-
-	* (char **) value = ret;
-
-	return true;
-}
-
-static bool
-convert_background_position (ccss_background_position_t const	*property,
-			     ccss_property_type_t		 target,
-			     void				*value)
-{
-	// FIXME: this needs 2 return values.
-	g_return_val_if_fail (0, false);
-	return false;
-}
-
-static bool
-convert_background_repeat (ccss_background_repeat_t const	*property,
-			   ccss_property_type_t			 target,
-			   void					*value)
-{
-	char *ret;
-
-	g_return_val_if_fail (property && value, false);
-
-	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
-		return false;
-
-	switch (property->repeat) {
-	case CCSS_BACKGROUND_REPEAT:
-		ret = g_strdup ("repeat");
-		break;
-	case CCSS_BACKGROUND_REPEAT_X:
-		ret = g_strdup ("repeat-x");
-		break;
-	case CCSS_BACKGROUND_REPEAT_Y:
-		ret = g_strdup ("repeat-y");
-		break;
-	case CCSS_BACKGROUND_NO_REPEAT:
-		ret = g_strdup ("no-repeat");
-		break;
-	default:
-		g_assert_not_reached ();
-		return false;
-	}
-
-	* (char **) value = ret;
-
-	return true;
-}
-
-static bool
-convert_background_size (ccss_background_size_t const	*property,
-			 ccss_property_type_t		 target,
-			 void				*value)
-{
-	// FIXME: this needs 2 return values.
-	g_return_val_if_fail (0, false);
-	return false;
-}
-
-static bool
-convert_border_style (ccss_border_style_t const	*property,
-		      ccss_property_type_t	 target,
-		      void			*value)
-{
-	g_return_val_if_fail (property && value, false);
-
-	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
-		return false;
-
-	* (char **) value = g_strdup (ccss_border_lookup_name (property->style));
-
-	return true;
-}
-
-static bool
-convert_border_width (ccss_border_width_t const	*property,
-		      ccss_property_type_t	 target,
-		      void			*value)
-{
-	g_return_val_if_fail (property && value, false);
-
-	switch (target) {
-	case CCSS_PROPERTY_TYPE_DOUBLE:
-		* (double *) value = property->width;
-		return true;
-	case CCSS_PROPERTY_TYPE_STRING:
-		* (char **) value = g_strdup_printf ("%f", property->width);
-		return true;
-	default:
-		g_assert_not_reached ();
-		return false;
-	}
-
-	return false;
-}
-
-static bool
-convert_border_radius (ccss_border_join_t const	*property,
-		       ccss_property_type_t	 target,
-		       void			*value)
-{
-	g_return_val_if_fail (property && value, false);
-
-	switch (target) {
-	case CCSS_PROPERTY_TYPE_DOUBLE:
-		* (double *) value = property->radius;
-		return true;
-	case CCSS_PROPERTY_TYPE_STRING:
-		* (char **) value = g_strdup_printf ("%f", property->radius);
-		return true;
-	default:
-		g_assert_not_reached ();
-		return false;
-	}
-
-	return false;
-}
-
-static bool
-convert_border_image (ccss_border_image_t const	*property,
-		      ccss_property_type_t	 target,
-		      void			*value)
-{
-	char *top, *right, *bottom, *left;
-	char const *horizontal_tiling, *vertical_tiling;
-
-	g_return_val_if_fail (property && value, false);
-
-	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
-		return false;
-
-	top = ccss_position_serialize (&property->top);
-	right = ccss_position_serialize (&property->right);
-	bottom = ccss_position_serialize (&property->bottom);
-	left = ccss_position_serialize (&property->left);
-
-	switch (property->top_middle_bottom_horizontal_tiling) {
-	case CCSS_BORDER_IMAGE_TILING_REPEAT:
-		horizontal_tiling = "repeat";
-		break;
-	case CCSS_BORDER_IMAGE_TILING_ROUND:
-		horizontal_tiling = "round";
-		break;
-	case CCSS_BORDER_IMAGE_TILING_STRETCH:
-		horizontal_tiling = "stretch";
-		break;
-	}
-
-	switch (property->left_middle_right_vertical_tiling) {
-	case CCSS_BORDER_IMAGE_TILING_REPEAT:
-		vertical_tiling = "repeat";
-		break;
-	case CCSS_BORDER_IMAGE_TILING_ROUND:
-		vertical_tiling = "round";
-		break;
-	case CCSS_BORDER_IMAGE_TILING_STRETCH:
-		vertical_tiling = "stretch";
-		break;
-	}
-
-	* (char **) value = g_strdup_printf ("url(%s) %s %s %s %s %s %s", 
-				property->image.uri,
-				top, right, bottom, left,
-				horizontal_tiling, vertical_tiling);
-
-	g_free (top), top = NULL;
-	g_free (right), right = NULL;
-	g_free (bottom), bottom = NULL;
-	g_free (left), left = NULL;
-
-	return true;
-}
-
-static bool
-convert_color (ccss_color_t const	*property,
-	       ccss_property_type_t	 target,
-	       void			*value)
-{
-	g_return_val_if_fail (property && value, false);
-
-	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
-		return false;
-
-	* (char **) value = g_strdup_printf ("#%02x%02x%02x", 
-						(int) (property->red * 255),
-						(int) (property->green * 255),
-						(int) (property->blue * 255));
-	return true;
-}
 
 typedef struct {
 	GQuark id;
@@ -422,44 +189,6 @@ ccss_style_subsystem_init (void)
 	g_assert (NULL == _fallback_map);
 
 	_fallback_map = g_memdup (&fm, sizeof (fm));
-
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_ATTACHMENT, (ccss_property_convert_f) convert_background_attachment);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_COLOR, (ccss_property_convert_f) convert_color);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_IMAGE, (ccss_property_convert_f) convert_background_image);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_POSITION, (ccss_property_convert_f) convert_background_position);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_REPEAT, (ccss_property_convert_f) convert_background_repeat);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BACKGROUND_SIZE, (ccss_property_convert_f) convert_background_size);
-
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_COLOR, (ccss_property_convert_f) convert_color);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_STYLE, (ccss_property_convert_f) convert_border_style);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_WIDTH, (ccss_property_convert_f) convert_border_width);
-
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_COLOR, (ccss_property_convert_f) convert_color);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_STYLE, (ccss_property_convert_f) convert_border_style);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_WIDTH, (ccss_property_convert_f) convert_border_width);
-
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_LEFT_COLOR, (ccss_property_convert_f) convert_color);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_LEFT_STYLE, (ccss_property_convert_f) convert_border_style);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_LEFT_WIDTH, (ccss_property_convert_f) convert_border_width);
-
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_RIGHT_COLOR, (ccss_property_convert_f) convert_color);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_RIGHT_STYLE, (ccss_property_convert_f) convert_border_style);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_RIGHT_WIDTH, (ccss_property_convert_f) convert_border_width);
-
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_COLOR, (ccss_property_convert_f) convert_color);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_STYLE, (ccss_property_convert_f) convert_border_style);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_WIDTH, (ccss_property_convert_f) convert_border_width);
-
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_RADIUS, (ccss_property_convert_f) convert_border_radius);
-
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_LEFT_RADIUS, (ccss_property_convert_f) convert_border_radius);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS, (ccss_property_convert_f) convert_border_radius);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS, (ccss_property_convert_f) convert_border_radius);
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_BOTTOM_LEFT_RADIUS, (ccss_property_convert_f) convert_border_radius);
-
-	ccss_property_register_conversion_function (CCSS_PROPERTY_BORDER_IMAGE, (ccss_property_convert_f) convert_border_image);
-
-	ccss_property_register_conversion_function (CCSS_PROPERTY_COLOR, (ccss_property_convert_f) convert_color);
 }
 
 void

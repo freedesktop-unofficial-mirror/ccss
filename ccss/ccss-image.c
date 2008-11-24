@@ -167,15 +167,13 @@ load_image (ccss_image_t *self)
 
 ccss_property_state_t
 ccss_image_parse (ccss_image_t	 *self,
-		  ccss_block_t	 *block,
-		  char const	 *property_name,
 		  CRTerm const	**value)
 {
 	switch ((*value)->type) {
 	case TERM_IDENT:
 		return ccss_property_parse_state (value);
 	case TERM_URI:
-		self->uri = ccss_function_invoke (block, property_name, "url", *value);
+		self->uri = ccss_function_invoke ("url", *value);
 		*value = (*value)->next;
 		return load_image (self) ? 
 			CCSS_PROPERTY_STATE_SET :
