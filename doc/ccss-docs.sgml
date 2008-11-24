@@ -2,10 +2,11 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
                "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 
+<!ENTITY ccss_block_t			SYSTEM "xml/block.xml">
 <!ENTITY ccss				SYSTEM "xml/ccss.xml">
-<!ENTITY ccss_property_t		SYSTEM "xml/property.xml">
 <!ENTITY ccss_function_t		SYSTEM "xml/function.xml">
 <!ENTITY ccss_node_t			SYSTEM "xml/node.xml">
+<!ENTITY ccss_property_t		SYSTEM "xml/property.xml">
 <!ENTITY ccss_style_t			SYSTEM "xml/style.xml">
 <!ENTITY ccss_stylesheet_t		SYSTEM "xml/stylesheet.xml">
 
@@ -101,11 +102,12 @@ TODO.
   <chapter id="basic">
     <title>Basic Usage</title>
     &ccss;
-    &ccss_property_t;
+    &ccss_block_t;
     &ccss_function_t;
     &ccss_node_t;
-    &ccss_stylesheet_t;
+    &ccss_property_t;
     &ccss_style_t;
+    &ccss_stylesheet_t;
   </chapter>
   <chapter id="gtk-support">
     <title>Gtk+ Support</title>

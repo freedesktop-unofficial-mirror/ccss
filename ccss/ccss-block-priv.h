@@ -37,8 +37,6 @@ CCSS_BEGIN_DECLS
  * ccss_block_t:
  *
  * Represents a block of CSS properties.
- *
- * TODO: add to docs.
  **/
 struct ccss_block_ {
 	/*< private >*/

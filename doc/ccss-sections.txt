@@ -1,4 +1,4 @@
-<SECTION>
+
 <SECTION>
 <TITLE>Initialization</TITLE>
 <FILE>ccss</FILE>
@@ -6,6 +6,13 @@ ccss_init
 ccss_add_functions
 ccss_add_properties
 ccss_shutdown
+</SECTION>
+
+<SECTION>
+<TITLE>ccss_block_t</TITLE>
+<FILE>block</FILE>
+ccss_block_t
+ccss_block_add_property
 </SECTION>
 
 <TITLE>ccss_node_t</TITLE>

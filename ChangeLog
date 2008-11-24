@@ -1,5 +1,16 @@
 2008-11-24  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-block-priv.h:
+	* ccss/ccss-block.c:
+	* doc/ccss-docs.sgml:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/block.sgml:
+	* doc/tmpl/ccss-unused.sgml:
+	* doc/tmpl/node.sgml:
+	Update docs.
+
+2008-11-24  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/Makefile.am:
 	* ccss/ccss-background-parser.c (background_factory):
 	* ccss/ccss-block-priv.h:

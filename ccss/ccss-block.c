@@ -53,8 +53,6 @@ ccss_block_free (ccss_block_t *self)
  * @property		pointer to the property instance.
  *
  * Adds a property to a CSS block.
- *
- * TODO: add to docs.
  **/
 void
 ccss_block_add_property (ccss_block_t		*self,

@@ -1,0 +1,37 @@
+<!-- ##### SECTION Title ##### -->
+ccss_block_t
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### TYPEDEF ccss_block_t ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION ccss_block_add_property ##### -->
+<para>
+
+</para>
+
+@self: 
+@property_name: 
+@value: 
+
+
