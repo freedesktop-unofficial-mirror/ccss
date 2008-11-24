@@ -17,11 +17,20 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_GTK_H
-#define CCSS_GTK_H
+#ifndef CCSS_BORDER_PARSER_H
+#define CCSS_BORDER_PARSER_H
 
-#include <ccss/ccss.h>
-#include <ccss-gtk/ccss-gtk-style.h>
+#include <stdbool.h>
+#include <libcroco/libcroco.h>
+#include <ccss/ccss-macros.h>
+#include <ccss/ccss-property.h>
 
-#endif /* CCSS_GTK_H */
+CCSS_BEGIN_DECLS
+
+ccss_property_class_t const *
+ccss_border_get_ptable (void);
+
+CCSS_END_DECLS
+
+#endif /* CCSS_BORDER_PARSER_H */
 

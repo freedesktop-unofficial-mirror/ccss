@@ -21,14 +21,7 @@
 #include "ccss-function-priv.h"
 #include "ccss-parser.h"
 #include "ccss-property-generic.h"
-#include "ccss-style-priv.h"
 #include "config.h"
-
-/* FIXME: split out */
-#include "ccss-color.h"
-#include "ccss-background-parser.h"
-#include "ccss-border-parser.h"
-#include "ccss-border-image-parser.h"
 
 /**
  * ccss_init:
@@ -42,8 +35,6 @@ ccss_init (void)
 
 	properties = ccss_property_generic_get_ptable ();
 	ccss_add_properties (properties);
-
-	ccss_style_subsystem_init ();
 }
 
 /**
@@ -80,45 +71,7 @@ ccss_add_functions (ccss_function_t const *functions)
 void
 ccss_shutdown (void)
 {
-	ccss_style_subsystem_shutdown ();
-
 	ccss_function_subsystem_shutdown ();
 	ccss_parser_subsystem_shutdown ();
-}
-
-/**
- * ccss_cairo_init:
- * 
- * Initialize the ccss-cairo library before making any calls to it.
- **/
-void
-ccss_cairo_init (void)
-{
-	ccss_property_class_t const *properties;
-
-	ccss_init ();
-
-	properties = ccss_background_get_ptable ();
-	ccss_add_properties (properties);
-
-	properties = ccss_border_image_get_ptable ();
-	ccss_add_properties (properties);
-
-	properties = ccss_border_get_ptable ();
-	ccss_add_properties (properties);
-
-	properties = ccss_color_get_ptable ();
-	ccss_add_properties (properties);
-}
-
-/**
- * ccss_cairo_shutdown:
- *
- * Shut down the ccss-cairo library.
- **/
-void
-ccss_cairo_shutdown (void)
-{
-	ccss_shutdown ();
 }
 

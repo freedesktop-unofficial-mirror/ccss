@@ -17,20 +17,21 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_PROPERTY_PRIV_H
-#define CCSS_PROPERTY_PRIV_H
+#ifndef CCSS_CAIRO_STYLE_PRIV_H
+#define CCSS_CAIRO_STYLE_PRIV_H
 
-#include <stdbool.h>
-#include <libcroco/libcroco.h>
 #include <ccss/ccss-macros.h>
-#include <ccss/ccss-property.h>
+#include <ccss-cairo/ccss-cairo-style.h>
 
 CCSS_BEGIN_DECLS
 
-ccss_property_state_t
-ccss_property_parse_state (CRTerm const **value);
+void
+ccss_style_subsystem_init (void);
+
+void
+ccss_style_subsystem_shutdown (void);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_PROPERTY_PRIV_H */
+#endif /* CCSS_CAIRO_STYLE_PRIV_H */
 

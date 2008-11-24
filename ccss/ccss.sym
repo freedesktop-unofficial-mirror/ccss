@@ -3,11 +3,10 @@ ccss_shutdown
 ccss_add_functions
 ccss_add_properties
 ccss_block_add_property
+ccss_function_invoke
 ccss_node_init
 ccss_property_init
-ccss_style_draw_line
-ccss_style_draw_outline
-ccss_style_draw_rectangle
+ccss_property_parse_state
 ccss_style_free
 ccss_style_get_double
 ccss_style_get_property
@@ -21,4 +20,3 @@ ccss_stylesheet_new_from_buffer
 ccss_stylesheet_new_from_file
 ccss_stylesheet_query
 ccss_stylesheet_query_type
-ccss_cairo_init

@@ -21,9 +21,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include "ccss-block-priv.h"
+#include "ccss-border.h"
 #include "ccss-border-parser.h"
-#include "ccss-property-priv.h"
 #include "config.h"
 
 #define INSERT_BORDER_COLOR(block_, property_name_, property_)		       \

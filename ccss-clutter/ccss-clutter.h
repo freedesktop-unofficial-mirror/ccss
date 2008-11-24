@@ -22,7 +22,7 @@
 
 #include <stdbool.h>
 #include <clutter-cairo/clutter-cairo.h>
-#include <ccss/ccss.h>
+#include <ccss-cairo/ccss-cairo.h>
 
 bool
 ccss_clutter_paint (ccss_stylesheet_t const	*stylesheet,

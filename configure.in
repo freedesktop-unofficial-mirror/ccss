@@ -209,35 +209,6 @@ AC_SUBST([CCSS_CLUTTER_LIBS])
 AC_SUBST([CCSS_CLUTTER_DEPS], $ccss_clutter_pkgs)
 
 
-### ccss-gtk ###
-
-# Gtk+ 2.10 was the first with color scheme support, so we want it.
-ccss_gtk_reqs='gtk+-2.0 >= 2.10.0'
-ccss_gtk_pkgs=
-
-PKG_CHECK_EXISTS([ $ccss_gtk_reqs ],
-[
-  with_gtk="yes"
-  ccss_gtk_pkgs="$ccss_gtk_pkgs $ccss_gtk_reqs"
-],[
-  with_gtk="no"
-])
-
-if test "$with_gtk" = "yes"; then
-  AC_DEFINE([CCSS_WITH_GTK], [1], [Support for drawing Gtk+ primitives like `box-gap'])
-fi
-AM_CONDITIONAL([CCSS_WITH_GTK], [test "$with_gtk" = "yes"])
-AC_SUBST([ccss_with_gtk], [$with_gtk])
-
-if test "$with_gtk" = "yes"; then
-  ccss_gtk_pkgs="$ccss_cairo_pkgs $ccss_gtk_pkgs"
-  PKG_CHECK_MODULES(CCSS_GTK, $ccss_gtk_pkgs)
-fi
-# AC_SUBST([CCSS_GTK_CFLAGS]) # set further down
-AC_SUBST([CCSS_GTK_LIBS])
-AC_SUBST([CCSS_GTK_DEPS], $ccss_gtk_pkgs)
-
-
 ### Checks for header files. ###################################################
 
 AC_HEADER_STDC
@@ -289,16 +260,12 @@ AC_SUBST([CCSS_CAIRO_CFLAGS])
 CCSS_CLUTTER_CFLAGS="${CCSS_CLUTTER_CFLAGS} ${extra_cflags}"
 AC_SUBST([CCSS_CLUTTER_CFLAGS])
 
-CCSS_GTK_CFLAGS="${CCSS_GTK_CFLAGS} ${extra_cflags}"
-AC_SUBST([CCSS_GTK_CFLAGS])
-
 AC_CONFIG_FILES([
   Makefile
   libccss-1.pc
-  libccss-gtk-1.pc
   ccss/Makefile
+  ccss-cairo/Makefile
   ccss-clutter/Makefile
-  ccss-gtk/Makefile
   doc/Makefile
   doc/version.xml
   examples/Makefile
@@ -320,7 +287,5 @@ ccss-cairo:                      $with_cairo
     Support for SVG fragments    $with_libsoup (WIP, requires $soup_reqs)
 
 ccss-clutter:                    $with_clutter (experimental, requires $ccss_clutter_reqs)
-
-ccss-gtk:                        $with_gtk
 "
 

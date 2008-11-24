@@ -33,10 +33,6 @@ ccss_function_subsystem_add_functions	(ccss_function_t const *functions);
 void
 ccss_function_subsystem_shutdown	(void);
 
-char *
-ccss_function_invoke (char const	*function_name,
-		      CRTerm const	*args);
-
 CCSS_END_DECLS
 
 #endif /* CCSS_FUNCTION_PRIV_H */

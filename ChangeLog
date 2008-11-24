@@ -1,5 +1,141 @@
 2008-11-24  Robert Staudinger  <robsta@gnome.org>
 
+	* Makefile.am:
+	* ccss-cairo/Makefile.am:
+	* ccss-cairo/ccss-background-parser.c (bg_attachment_parse),
+	(bg_image_parse), (bg_position_parse), (bg_repeat_parse),
+	(bg_size_parse), (background_factory), (background_attachment_new),
+	(background_attachment_convert), (background_image_new),
+	(background_image_convert), (background_position_new),
+	(background_position_convert), (background_repeat_new),
+	(background_repeat_convert), (background_size_new),
+	(background_size_convert), (peek_property_class),
+	(ccss_background_get_ptable):
+	* ccss-cairo/ccss-background-parser.h:
+	* ccss-cairo/ccss-background.c (create_pattern), (repeat),
+	(repeat_x), (repeat_y), (no_repeat), (ccss_background_fill):
+	* ccss-cairo/ccss-background.h:
+	* ccss-cairo/ccss-border-image-parser.c (parse_tiling),
+	(border_image_new), (border_image_convert), (peek_property_class),
+	(ccss_border_image_get_ptable):
+	* ccss-cairo/ccss-border-image-parser.h:
+	* ccss-cairo/ccss-border-image.c (create_tile), (create_border),
+	(create_middle), (paint), (ccss_border_image_draw):
+	* ccss-cairo/ccss-border-image.h:
+	* ccss-cairo/ccss-border-parser.c (match_style), (lookup_style),
+	(parse_width), (parse_style), (parse_radius),
+	(border_color_factory), (border_style_factory),
+	(border_width_factory), (border_factory_impl), (border_factory),
+	(border_left_factory), (border_top_factory),
+	(border_right_factory), (border_bottom_factory),
+	(border_radius_new), (border_radius_factory),
+	(border_radius_convert), (border_style_new),
+	(border_style_convert), (border_width_new), (border_width_convert),
+	(peek_property_class), (ccss_border_get_ptable):
+	* ccss-cairo/ccss-border-parser.h:
+	* ccss-cairo/ccss-border.c (_pi), (line), (draw_none_line),
+	(draw_dotted_line), (draw_dashed_line), (draw_solid_line),
+	(get_line_draw_func), (join), (draw_none_join), (draw_solid_join),
+	(get_join_draw_func), (ccss_border_clamp_radii), (border),
+	(ccss_border_path), (ccss_border_draw):
+	* ccss-cairo/ccss-border.h:
+	* ccss-cairo/ccss-cairo-property.c
+	(ccss_property_background_attachment),
+	(ccss_property_background_color), (ccss_property_background_image),
+	(ccss_property_background_position),
+	(ccss_property_background_repeat), (ccss_property_background_size),
+	(ccss_property_border_color), (ccss_property_border_style),
+	(ccss_property_border_width), (ccss_property_border_bottom_color),
+	(ccss_property_border_bottom_style),
+	(ccss_property_border_bottom_width),
+	(ccss_property_border_left_color),
+	(ccss_property_border_left_style),
+	(ccss_property_border_left_width),
+	(ccss_property_border_right_color),
+	(ccss_property_border_right_style),
+	(ccss_property_border_right_width),
+	(ccss_property_border_top_color), (ccss_property_border_top_style),
+	(ccss_property_border_top_width), (ccss_property_border_radius),
+	(ccss_property_border_top_left_radius),
+	(ccss_property_border_top_right_radius),
+	(ccss_property_border_bottom_right_radius),
+	(ccss_property_border_bottom_left_radius), (ccss_property_color),
+	(ccss_property_border_image):
+	* ccss-cairo/ccss-cairo-property.h:
+	* ccss-cairo/ccss-cairo-style-priv.h:
+	* ccss-cairo/ccss-cairo-style.c (ccss_style_subsystem_init),
+	(ccss_style_subsystem_shutdown), (lookup_property_r),
+	(ccss_style_draw_line), (gather_stroke), (gather_join),
+	(ccss_style_gather_outline), (ccss_style_gather_background),
+	(ccss_style_draw_outline), (ccss_style_draw_rectangle),
+	(ccss_style_draw_gap):
+	* ccss-cairo/ccss-cairo-style.h:
+	* ccss-cairo/ccss-cairo.c (ccss_cairo_init), (ccss_cairo_shutdown):
+	* ccss-cairo/ccss-cairo.h:
+	* ccss-cairo/ccss-cairo.sym:
+	* ccss-cairo/ccss-color.c (parse_name), (hex), (parse_hex),
+	(ccss_color_parse), (ccss_color_new), (ccss_color_free),
+	(ccss_color_convert), (peek_property_class),
+	(ccss_color_get_ptable):
+	* ccss-cairo/ccss-color.h:
+	* ccss-cairo/ccss-image.c (ccss_image_discard), (load_svg),
+	(load_png), (load_image), (ccss_image_parse):
+	* ccss-cairo/ccss-image.h:
+	* ccss-cairo/ccss-position.c (ccss_position_parse),
+	(ccss_position_get_pos), (ccss_position_get_size), (contain),
+	(cover), (ccss_position_get_hsize), (ccss_position_get_vsize),
+	(ccss_position_serialize):
+	* ccss-cairo/ccss-position.h:
+	* ccss-clutter/Makefile.am:
+	* ccss-clutter/ccss-clutter.h:
+	* ccss-clutter/example-1.c (main):
+	* ccss-gtk/Makefile.am:
+	* ccss-gtk/ccss-gtk-style.c:
+	* ccss-gtk/ccss-gtk-style.h:
+	* ccss-gtk/ccss-gtk.h:
+	* ccss-gtk/ccss-gtk.sym.in:
+	* ccss/Makefile.am:
+	* ccss/ccss-background-parser.c:
+	* ccss/ccss-background-parser.h:
+	* ccss/ccss-background.c:
+	* ccss/ccss-background.h:
+	* ccss/ccss-block-priv.h:
+	* ccss/ccss-block.c:
+	* ccss/ccss-border-image-parser.c:
+	* ccss/ccss-border-image-parser.h:
+	* ccss/ccss-border-image.c:
+	* ccss/ccss-border-image.h:
+	* ccss/ccss-border-parser.c:
+	* ccss/ccss-border-parser.h:
+	* ccss/ccss-border.c:
+	* ccss/ccss-border.h:
+	* ccss/ccss-cairo-property.c:
+	* ccss/ccss-cairo-property.h:
+	* ccss/ccss-color.c:
+	* ccss/ccss-color.h:
+	* ccss/ccss-function-priv.h:
+	* ccss/ccss-function.h:
+	* ccss/ccss-image.c:
+	* ccss/ccss-image.h:
+	* ccss/ccss-parser.c:
+	* ccss/ccss-position.c:
+	* ccss/ccss-position.h:
+	* ccss/ccss-priv.h:
+	* ccss/ccss-property-priv.h:
+	* ccss/ccss-property.c:
+	* ccss/ccss-property.h:
+	* ccss/ccss-style-priv.h:
+	* ccss/ccss-style.c (ccss_style_get_double),
+	(ccss_style_get_string):
+	* ccss/ccss-style.h:
+	* ccss/ccss.c (ccss_init), (ccss_shutdown):
+	* ccss/ccss.sym:
+	* configure.in:
+	* libccss-gtk-1.pc.in:
+	Split out the cairo-dependent code.
+
+2008-11-24  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/Makefile.am:
 	* ccss/ccss-background-parser.c:
 	* ccss/ccss-background-parser.h:

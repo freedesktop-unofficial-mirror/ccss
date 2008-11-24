@@ -53,6 +53,11 @@ typedef struct {
 	ccss_function_f	 function;
 } ccss_function_t;
 
+// TODO document
+char *
+ccss_function_invoke (char const	*function_name,
+		      CRTerm const	*args);
+
 CCSS_END_DECLS
 
 #endif /* CCSS_FUNCTION_H */

@@ -20,9 +20,8 @@
 #include <stdbool.h>
 #include <string.h>
 #include <glib.h>
-#include "ccss-function-priv.h"
+#include <ccss/ccss-function.h>
 #include "ccss-image.h"
-#include "ccss-property-priv.h"
 #include "config.h"
 
 #ifdef CCSS_WITH_SOUP

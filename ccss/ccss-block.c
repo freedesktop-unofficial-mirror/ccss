@@ -19,8 +19,6 @@
 
 #include <glib.h>
 #include "ccss-block-priv.h"
-#include "ccss-cairo-property.h"
-#include "ccss-property-priv.h"
 #include "config.h"
 
 ccss_block_t *

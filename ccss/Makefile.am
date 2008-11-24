@@ -1,76 +1,42 @@
 
-### Build in `noinst' manner so in can be statically ###########################
-### linked into -cairo et al variants. #########################################
-
-noinst_LTLIBRARIES = libccss-static.la
-
-libccss_static_la_CPPFLAGS = \
+AM_CPPFLAGS = \
 	$(CCSS_CFLAGS) \
 	-I$(top_srcdir) \
 	-I$(top_builddir)
 
-libccss_static_la_SOURCES = \
-	ccss-background.c \
-	ccss-background.h \
-	ccss-background-parser.c \
-	ccss-background-parser.h \
+lib_LTLIBRARIES = libccss-1.la
+
+libccss_1_la_DEPENDENCIES = \
+	ccss.sym
+
+libccss_1_la_LDFLAGS = \
+	-no-undefined \
+	-version-info $(VERSION_INFO) \
+	-export-symbols $(srcdir)/ccss.sym
+
+libccss_1_la_LIBADD = \
+	$(CCSS_LIBS)
+
+libccss_1_la_SOURCES = \
+	$(headers_DATA) \
 	ccss-block.c \
 	ccss-block-priv.h \
-	ccss-border.c \
-	ccss-border.h \
-	ccss-border-image.c \
-	ccss-border-image.h \
-	ccss-border-image-parser.c \
-	ccss-border-image-parser.h \
-	ccss-border-parser.c \
-	ccss-border-parser.h \
-	ccss-color.c \
-	ccss-color.h \
 	ccss-function.c \
 	ccss-function-priv.h \
 	ccss.c \
-	ccss-image.c \
-	ccss-image.h \
 	ccss-node.c \
 	ccss-parser.c \
 	ccss-parser.h \
-	ccss-position.c \
-	ccss-position.h \
 	ccss-property.c \
 	ccss-property-generic.c \
 	ccss-property-generic.h \
-	ccss-property-priv.h \
 	ccss-selector-group.c \
 	ccss-selector-group.h \
 	ccss-selector.c \
 	ccss-selector.h \
 	ccss-style.c \
 	ccss-style-priv.h \
-	ccss-stylesheet.c \
-	\
-	ccss-cairo-property.c \
-	ccss-cairo-property.h
-
-### The actual shared lib. #####################################################
-
-lib_LTLIBRARIES = libccss-1.la
-
-libccss_1_la_DEPENDENCIES = \
-	ccss.sym \
-	libccss-static.la
-
-libccss_1_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO)
-if CCSS_DEBUG
-else
-libccss_1_la_LDFLAGS += -export-symbols $(srcdir)/ccss.sym
-endif
-
-libccss_1_la_LIBADD = \
-	$(CCSS_LIBS) \
-	libccss-static.la
-
-libccss_1_la_SOURCES = \
-	$(headers_DATA)
+	ccss-stylesheet.c
 
 headersdir = $(includedir)/libccss-1/ccss
 

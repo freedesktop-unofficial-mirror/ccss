@@ -18,7 +18,7 @@
  */
 
 #include <stdlib.h>
-#include <ccss/ccss.h>
+#include <ccss-cairo/ccss-cairo.h>
 #include <clutter/clutter.h>
 #include <clutter-cairo/clutter-cairo.h>
 
@@ -55,7 +55,7 @@ main (int	  argc,
 	ClutterColor		 stage_color = { 0x00, 0x00, 0x00, 0xff };
 
 	clutter_init (&argc, &argv);
-	ccss_init ();
+	ccss_cairo_init ();
 
 	/* Load the stylesheet. */
 	stylesheet = ccss_stylesheet_new_from_file ("example-1.css");
@@ -77,6 +77,8 @@ main (int	  argc,
 	clutter_main ();
 
 	ccss_stylesheet_free (stylesheet);
+
+	ccss_cairo_shutdown ();
 
 	return EXIT_SUCCESS;
 }

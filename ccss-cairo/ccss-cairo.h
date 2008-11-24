@@ -17,45 +17,21 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_BORDER_IMAGE_H
-#define CCSS_BORDER_IMAGE_H
+#ifndef CCSS_CAIRO_H
+#define CCSS_CAIRO_H
 
-#include <stdint.h>
-#include <cairo.h>
-#include <ccss/ccss-image.h>
-#include <ccss/ccss-macros.h>
-#include <ccss/ccss-position.h>
-#include <ccss/ccss-property.h>
+#include <ccss/ccss.h>
+#include <ccss-cairo/ccss-cairo-style.h>
 
 CCSS_BEGIN_DECLS
 
-typedef enum {
-	CCSS_BORDER_IMAGE_TILING_REPEAT = 0,
-	CCSS_BORDER_IMAGE_TILING_ROUND,
-	CCSS_BORDER_IMAGE_TILING_STRETCH
-} ccss_border_image_tiling_t;
-
-typedef struct {
-	ccss_property_base_t		base;
-
-	ccss_image_t			image;
-	ccss_position_t			top;
-	ccss_position_t			right;
-	ccss_position_t			bottom;
-	ccss_position_t			left;
-	ccss_border_image_tiling_t	top_middle_bottom_horizontal_tiling;
-	ccss_border_image_tiling_t	left_middle_right_vertical_tiling;
-} ccss_border_image_t;
+void
+ccss_cairo_init (void);
 
 void
-ccss_border_image_draw (ccss_border_image_t const	*self,
-			cairo_t				*cr, 
-			double				 x,
-			double				 y,
-			double				 width,
-			double				 height);
+ccss_cairo_shutdown (void);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_BORDER_IMAGE_H */
+#endif /* CCSS_CAIRO_H */
 

@@ -8,7 +8,8 @@ noinst_LTLIBRARIES = libccss-clutter.la
 
 libccss_clutter_la_LIBADD = \
 	$(CCSS_CLUTTER_LIBS) \
-	./../ccss/libccss-1.la
+	./../ccss/libccss-1.la \
+	./../ccss-cairo/libccss-cairo-1.la
 
 libccss_clutter_la_SOURCES = \
 	ccss-clutter.c \

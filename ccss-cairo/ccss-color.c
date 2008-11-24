@@ -24,9 +24,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
+#include <ccss/ccss-function.h>
 #include "ccss-color.h"
-#include "ccss-function-priv.h"
-#include "ccss-property-priv.h"
 #include "config.h"
 
 static ccss_property_class_t const *

@@ -1,0 +1,6 @@
+ccss_cairo_init
+ccss_cairo_shutdown
+ccss_style_draw_gap
+ccss_style_draw_line
+ccss_style_draw_outline
+ccss_style_draw_rectangle

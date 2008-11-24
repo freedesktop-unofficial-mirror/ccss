@@ -17,27 +17,45 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_GTK_STYLE_H
-#define CCSS_GTK_STYLE_H
+#ifndef CCSS_BORDER_IMAGE_H
+#define CCSS_BORDER_IMAGE_H
 
-#include <stdbool.h>
 #include <stdint.h>
 #include <cairo.h>
-#include <gtk/gtk.h>
-#include <ccss/ccss-features.h>
+#include <ccss-cairo/ccss-image.h>
 #include <ccss/ccss-macros.h>
-#include <ccss/ccss-style.h>
+#include <ccss/ccss-property.h>
+#include <ccss-cairo/ccss-position.h>
 
 CCSS_BEGIN_DECLS
 
-void ccss_style_draw_gap (ccss_style_t const *self, cairo_t *cr, 
-			 int32_t x, int32_t y, int32_t width, int32_t height, 
-			 GtkPositionType gap_side, int32_t gap_x, int32_t gap_width);
+typedef enum {
+	CCSS_BORDER_IMAGE_TILING_REPEAT = 0,
+	CCSS_BORDER_IMAGE_TILING_ROUND,
+	CCSS_BORDER_IMAGE_TILING_STRETCH
+} ccss_border_image_tiling_t;
 
-void ccss_style_draw_polygon (ccss_style_t const *self, cairo_t *cr, 
-			     GdkPoint *points, int32_t n_points, bool fill);
+typedef struct {
+	ccss_property_base_t		base;
+
+	ccss_image_t			image;
+	ccss_position_t			top;
+	ccss_position_t			right;
+	ccss_position_t			bottom;
+	ccss_position_t			left;
+	ccss_border_image_tiling_t	top_middle_bottom_horizontal_tiling;
+	ccss_border_image_tiling_t	left_middle_right_vertical_tiling;
+} ccss_border_image_t;
+
+void
+ccss_border_image_draw (ccss_border_image_t const	*self,
+			cairo_t				*cr, 
+			double				 x,
+			double				 y,
+			double				 width,
+			double				 height);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_GTK_STYLE_H */
+#endif /* CCSS_BORDER_IMAGE_H */
 

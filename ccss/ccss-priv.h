@@ -17,21 +17,14 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_BORDER_PARSER_H
-#define CCSS_BORDER_PARSER_H
+#ifndef CCSS_H
+#define CCSS_H
 
-#include <stdbool.h>
-#include <libcroco/libcroco.h>
 #include <ccss/ccss-block.h>
-#include <ccss/ccss-border.h>
-#include <ccss/ccss-macros.h>
 
 CCSS_BEGIN_DECLS
 
-ccss_property_class_t const *
-ccss_border_get_ptable (void);
-
 CCSS_END_DECLS
 
-#endif /* CCSS_BORDER_PARSER_H */
+#endif /* CCSS_H */
 
