@@ -175,7 +175,7 @@ if test "$with_cairo" != "no"; then
   PKG_CHECK_MODULES(CCSS_CAIRO, $ccss_cairo_pkgs)
   # AC_SUBST([CCSS_CAIRO_CFLAGS]) ... set further down
   AC_SUBST([CCSS_CAIRO_LIBS])
-  AC_SUBST([CCSS_CAIRO_DEPS], $ccss_cairo_pkgs)
+  AC_SUBST([CCSS_CAIRO_DEPS], "$ccss_cairo_pkgs libccss-1")
 else
   AC_MSG_ERROR([FIXME: cairo is not yet optional.])
 fi
@@ -245,11 +245,8 @@ if test "$GCC" = "yes"; then
   CFLAGS=${orig_cflags}
 fi
 
-#CCSS_CFLAGS="${CCSS_CFLAGS} ${extra_cflags}"
-# FIXME: use above line when cairo split is complete and don't set libs and deps here.
-CCSS_CFLAGS="${CCSS_CAIRO_CFLAGS} ${extra_cflags}"
-CCSS_LIBS="${CCSS_CAIRO_LIBS}"
-CCSS_DEPS="${ccss_cairo_pkgs}"
+CCSS_CFLAGS="${CCSS_CFLAGS} ${extra_cflags}"
+CCSS_DEPS="${ccss_pkgs}"
 AC_SUBST([CCSS_CFLAGS])
 AC_SUBST([CCSS_LIBS])
 AC_SUBST([CCSS_DEPS])
@@ -263,6 +260,7 @@ AC_SUBST([CCSS_CLUTTER_CFLAGS])
 AC_CONFIG_FILES([
   Makefile
   libccss-1.pc
+  libccss-cairo-1.pc
   ccss/Makefile
   ccss-cairo/Makefile
   ccss-clutter/Makefile

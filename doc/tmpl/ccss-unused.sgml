@@ -153,6 +153,30 @@ ccss_selector_group_t
 @gap_x: 
 @gap_width: 
 
+<!-- ##### FUNCTION ccss_style_draw_line ##### -->
+<para>
+
+</para>
+
+@self: 
+@cr: 
+@x1: 
+@x2: 
+@y1: 
+@y2: 
+
+<!-- ##### FUNCTION ccss_style_draw_outline ##### -->
+<para>
+
+</para>
+
+@self: 
+@cr: 
+@x: 
+@y: 
+@width: 
+@height: 
+
 <!-- ##### FUNCTION ccss_style_draw_polygon ##### -->
 <para>
 
@@ -163,6 +187,18 @@ ccss_selector_group_t
 @points: 
 @n_points: 
 @fill: 
+
+<!-- ##### FUNCTION ccss_style_draw_rectangle ##### -->
+<para>
+
+</para>
+
+@self: 
+@cr: 
+@x: 
+@y: 
+@width: 
+@height: 
 
 <!-- ##### FUNCTION ccss_style_init ##### -->
 <para>

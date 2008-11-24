@@ -1,6 +1,15 @@
 2008-11-24  Robert Staudinger  <robsta@gnome.org>
 
 	* Makefile.am:
+	* doc/tmpl/ccss-unused.sgml:
+	* doc/tmpl/style.sgml:
+	* libccss-1.pc.in:
+	* libccss-cairo-1.pc.in:
+	Correctly build the standalone libccss-cairo.
+
+2008-11-24  Robert Staudinger  <robsta@gnome.org>
+
+	* Makefile.am:
 	* ccss-cairo/Makefile.am:
 	* ccss-cairo/ccss-background-parser.c (bg_attachment_parse),
 	(bg_image_parse), (bg_position_parse), (bg_repeat_parse),

@@ -10,6 +10,7 @@ pkgconfig_DATA = libccss-1.pc
 
 if CCSS_WITH_CAIRO
 SUBDIRS += ccss-cairo
+pkgconfig_DATA = libccss-cairo-1.pc
 endif
 
 if CCSS_WITH_CLUTTER
@@ -25,7 +26,8 @@ EXTRA_DIST = \
 	README \
 	TODO \
 	autogen.sh \
-	libccss-1.pc.in
+	libccss-1.pc.in \
+	libccss-cairo-1.pc.in
 
 distclean-local:
 	rm -rf *.cache *~
