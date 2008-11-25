@@ -156,7 +156,7 @@ main (int	  argc,
 	ccss_style_free (style);
 	ccss_stylesheet_free (stylesheet);
 
-	ccss_shutdown ();
+	ccss_cairo_shutdown ();
 
 	return EXIT_SUCCESS;
 }

@@ -1,5 +1,24 @@
 2008-11-25  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/ccss-border-image-parser.c (border_image_convert):
+	* ccss-cairo/ccss-cairo-style.c (gather_outline),
+	(gather_background), (ccss_cairo_style_draw_outline),
+	(ccss_cairo_style_draw_rectangle),
+	(ccss_cairo_style_draw_rectangle_with_gap):
+	Fix warnings.
+
+	* ccss/ccss-property-generic.c (property_free): free string payload.
+
+	* ccss/ccss.sym: export dump functions.
+
+	* examples/example-1.c (main):
+	* examples/example-2.c (main):
+	* examples/example-3.c (main):
+	* examples/example-4.c (main):
+	Correctly shutdown ccss-cairo.
+
+2008-11-25  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-function.h:
 	* ccss/ccss-property-generic.c:
 	* ccss/ccss-property.c:

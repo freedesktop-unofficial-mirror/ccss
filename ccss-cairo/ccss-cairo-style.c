@@ -28,28 +28,6 @@
 #include "ccss-cairo-property.h"
 #include "config.h"
 
-/* TODO make static. */
-void
-ccss_style_gather_outline (ccss_style_t const		 *self,
-			   ccss_border_stroke_t		 *bottom,
-			   ccss_border_stroke_t		 *left,
-			   ccss_border_stroke_t		 *right,
-			   ccss_border_stroke_t		 *top,
-			   ccss_border_join_t const	**bottom_left,
-			   ccss_border_join_t const	**bottom_right,
-			   ccss_border_join_t const	**top_left,
-			   ccss_border_join_t const	**top_right);
-
-/* TODO make static. */
-void
-ccss_style_gather_background (ccss_style_t const			 *self,
-			      ccss_background_attachment_t const	**bg_attachment, 
-			      ccss_color_t const			**bg_color,
-			      ccss_background_image_t const		**bg_image,
-			      ccss_background_position_t const		**bg_position,
-			      ccss_background_repeat_t const		**bg_repeat,
-			      ccss_background_size_t const		**bg_size);
-
 static const ccss_background_attachment_t const _bg_attachment = {
 	.base.state = CCSS_PROPERTY_STATE_SET,
 	.attachment = CCSS_BACKGROUND_SCROLL
@@ -345,16 +323,16 @@ gather_join (ccss_style_t const		*self,
 	return join;
 }
 
-void
-ccss_style_gather_outline (ccss_style_t const		 *self,
-			   ccss_border_stroke_t		 *bottom,
-			   ccss_border_stroke_t		 *left,
-			   ccss_border_stroke_t		 *right,
-			   ccss_border_stroke_t		 *top,
-			   ccss_border_join_t const	**bottom_left,
-			   ccss_border_join_t const	**bottom_right,
-			   ccss_border_join_t const	**top_left,
-			   ccss_border_join_t const	**top_right)
+static void
+gather_outline (ccss_style_t const		 *self,
+		ccss_border_stroke_t		 *bottom,
+		ccss_border_stroke_t		 *left,
+		ccss_border_stroke_t		 *right,
+		ccss_border_stroke_t		 *top,
+		ccss_border_join_t const	**bottom_left,
+		ccss_border_join_t const	**bottom_right,
+		ccss_border_join_t const	**top_left,
+		ccss_border_join_t const	**top_right)
 {
 	gather_stroke (self, 
 		CCSS_PROPERTY_BORDER_BOTTOM_COLOR, _default_style.bottom_color, 
@@ -394,14 +372,14 @@ ccss_style_gather_outline (ccss_style_t const		 *self,
 
 }
 
-void
-ccss_style_gather_background (ccss_style_t const			 *self,
-			      ccss_background_attachment_t const	**bg_attachment, 
-			      ccss_color_t const			**bg_color,
-			      ccss_background_image_t const		**bg_image,
-			      ccss_background_position_t const		**bg_position,
-			      ccss_background_repeat_t const		**bg_repeat,
-			      ccss_background_size_t const		**bg_size)
+static void
+gather_background (ccss_style_t const			 *self,
+		   ccss_background_attachment_t const	**bg_attachment, 
+		   ccss_color_t const			**bg_color,
+		   ccss_background_image_t const	**bg_image,
+		   ccss_background_position_t const	**bg_position,
+		   ccss_background_repeat_t const	**bg_repeat,
+		   ccss_background_size_t const		**bg_size)
 {
 	*bg_attachment = (ccss_background_attachment_t const *) 
 		g_hash_table_lookup (
@@ -472,8 +450,8 @@ ccss_cairo_style_draw_outline (ccss_style_t const	*self,
 	ccss_border_join_t const	*top_left;
 	ccss_border_join_t const	*top_right;
 
-	ccss_style_gather_outline (self, &bottom, &left, &right, &top,
-				   &bottom_left, &bottom_right, &top_left, &top_right);
+	gather_outline (self, &bottom, &left, &right, &top,
+			&bottom_left, &bottom_right, &top_left, &top_right);
 
 	ccss_border_draw (&left, top_left, 
 			  &top, top_right,
@@ -518,11 +496,11 @@ ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 
 	int32_t l, t, w, h;
 
-	ccss_style_gather_outline (self, &bottom, &left, &right, &top,
-				   &bottom_left, &bottom_right, &top_left, &top_right);
+	gather_outline (self, &bottom, &left, &right, &top,
+			&bottom_left, &bottom_right, &top_left, &top_right);
 
-	ccss_style_gather_background (self, &bg_attachment, &bg_color, &bg_image, 
-				      &bg_position, &bg_repeat, &bg_size);
+	gather_background (self, &bg_attachment, &bg_color, &bg_image, 
+			   &bg_position, &bg_repeat, &bg_size);
 
 	ccss_border_path (&left, top_left, 
 			  &top, top_right,
@@ -615,11 +593,11 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 	ccss_border_join_t top_right;
 	int32_t l, t, w, h;
 
-	ccss_style_gather_outline (self, &bottom, &left, &right, &top,
-				   &bl, &br, &tl, &tr);
+	gather_outline (self, &bottom, &left, &right, &top,
+			&bl, &br, &tl, &tr);
 
-	ccss_style_gather_background (self, &bg_attachment, &bg_color, &bg_image, 
-				      &bg_position, &bg_repeat, &bg_size);
+	gather_background (self, &bg_attachment, &bg_color, &bg_image, 
+			   &bg_position, &bg_repeat, &bg_size);
 
 
 	/* The rounding radii will have to be adjusted for certain gap

@@ -160,6 +160,7 @@ border_image_convert (ccss_border_image_t const	*property,
 	bottom = ccss_position_serialize (&property->bottom);
 	left = ccss_position_serialize (&property->left);
 
+	horizontal_tiling = NULL;
 	switch (property->top_middle_bottom_horizontal_tiling) {
 	case CCSS_BORDER_IMAGE_TILING_REPEAT:
 		horizontal_tiling = "repeat";
@@ -172,6 +173,7 @@ border_image_convert (ccss_border_image_t const	*property,
 		break;
 	}
 
+	vertical_tiling = NULL;
 	switch (property->left_middle_right_vertical_tiling) {
 	case CCSS_BORDER_IMAGE_TILING_REPEAT:
 		vertical_tiling = "repeat";

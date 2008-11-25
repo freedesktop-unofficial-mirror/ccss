@@ -81,6 +81,18 @@ property_new (CRTerm const *values)
 	return prop;
 }
 
+static void
+property_free (ccss_property_generic_t *self)
+{
+	g_return_if_fail (self);
+
+	if (CCSS_PROPERTY_TYPE_STRING == self->type) {
+		g_free (self->content.sval), self->content.sval = NULL;
+	}
+
+	g_free (self);
+}
+
 static bool
 property_convert (ccss_property_generic_t	*self,
 		  ccss_property_type_t		 target,
@@ -127,7 +139,7 @@ ccss_property_class_t const _ptable[] = {
   { 
 	.name			= "*",
 	.property_new		= (ccss_property_new_f) property_new,
-	.property_free		= (ccss_property_free_f) g_free,	// TODO free char* content if exists.
+	.property_free		= (ccss_property_free_f) property_free,
 	.property_convert	= (ccss_property_convert_f) property_convert,
 	.property_factory	= NULL
   },
