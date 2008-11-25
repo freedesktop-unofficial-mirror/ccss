@@ -63,7 +63,7 @@ static const ccss_background_size_t const _bg_size = {
 
 /* FIXME: don't draw borders by default? */
 static const ccss_border_style_t const _border_style = {
-	.base.state = CCSS_PROPERTY_STATE_UNSET,
+	.base.state = CCSS_PROPERTY_STATE_INVALID,
 	.style = CCSS_BORDER_STYLE_SOLID
 };
 
@@ -73,7 +73,7 @@ static const ccss_border_width_t const _border_width = {
 };
 
 static const ccss_border_join_t const _border_join = {
-	.base.state = CCSS_PROPERTY_STATE_UNSET,
+	.base.state = CCSS_PROPERTY_STATE_INVALID,
 	.radius = 0
 };
 

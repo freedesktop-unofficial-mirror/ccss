@@ -1,5 +1,23 @@
 2008-11-25  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/ccss-background-parser.c (bg_position_parse),
+	(bg_repeat_parse):
+	* ccss-cairo/ccss-border-parser.c (border_color_factory),
+	(border_style_factory), (border_width_factory),
+	(border_factory_impl), (border_radius_new),
+	(border_radius_factory), (border_style_new), (border_width_new):
+	* ccss-cairo/ccss-border.c (get_line_draw_func):
+	* ccss-cairo/ccss-cairo-style.c:
+	* ccss-cairo/ccss-color.c (ccss_color_parse):
+	* ccss-cairo/ccss-image.c (ccss_image_parse):
+	* ccss-doc/tmpl/property.sgml:
+	* ccss/ccss-property.c (ccss_property_init),
+	(ccss_property_parse_state):
+	* ccss/ccss-property.h:
+	Naming consistency: s,CCSS_PROPERTY_STATE_UNSET,CCSS_PROPERTY_STATE_INVALID.
+
+2008-11-25  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-doc/tmpl/function.sgml:
 	* ccss/ccss-function.c (ccss_function_invoke):
 	* ccss/ccss-function.h:

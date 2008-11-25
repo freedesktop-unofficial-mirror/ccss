@@ -107,7 +107,7 @@ bg_position_parse (ccss_background_position_t	 *self,
 	flags = CCSS_POSITION_MASK_NUMERIC | CCSS_POSITION_MASK_HORIZONTAL;
 	have_hpos = ccss_position_parse (&self->hpos, flags, values);
 	if (!have_hpos) {
-		self->base.state = CCSS_PROPERTY_STATE_UNSET;
+		self->base.state = CCSS_PROPERTY_STATE_INVALID;
 		return false;		
 	}
 
@@ -157,7 +157,7 @@ bg_repeat_parse (ccss_background_repeat_t	 *self,
 		self->base.state = state;
 		return true;
 	} else {
-		self->base.state = CCSS_PROPERTY_STATE_UNSET;
+		self->base.state = CCSS_PROPERTY_STATE_INVALID;
 		return false;
 	}
 }

@@ -38,7 +38,7 @@ ccss_property_init (ccss_property_base_t	*self,
 	g_assert (self && property_class);
 
 	self->property_class = property_class;
-	self->state = CCSS_PROPERTY_STATE_UNSET;
+	self->state = CCSS_PROPERTY_STATE_INVALID;
 }
 
 /**
@@ -56,7 +56,7 @@ ccss_property_parse_state (CRTerm const **value)
 	char const *str;
 
 	if (!*value) {
-		return CCSS_PROPERTY_STATE_UNSET;
+		return CCSS_PROPERTY_STATE_INVALID;
 	} else if (TERM_IDENT == (*value)->type) {
 		str = cr_string_peek_raw_str ((*value)->content.str);
 		if (0 == strcmp ("none", str)) {

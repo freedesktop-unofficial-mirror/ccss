@@ -180,9 +180,9 @@ ccss_image_parse (ccss_image_t	 *self,
 		*value = (*value)->next;
 		return load_image (self) ? 
 			CCSS_PROPERTY_STATE_SET :
-			CCSS_PROPERTY_STATE_UNSET;
+			CCSS_PROPERTY_STATE_INVALID;
 	default:
-		return CCSS_PROPERTY_STATE_UNSET;
+		return CCSS_PROPERTY_STATE_INVALID;
 	}
 }
 

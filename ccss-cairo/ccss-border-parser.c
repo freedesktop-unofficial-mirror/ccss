@@ -191,15 +191,15 @@ border_color_factory (ccss_block_t	*self,
 	if (iter) { ccss_color_parse (&c2, &iter); }
 	if (iter) { ccss_color_parse (&c3, &iter); }
 
-	if (CCSS_PROPERTY_STATE_UNSET == c0.base.state) {
+	if (CCSS_PROPERTY_STATE_INVALID == c0.base.state) {
 
 		return false;
 
-	} else if (CCSS_PROPERTY_STATE_UNSET == c1.base.state) {
+	} else if (CCSS_PROPERTY_STATE_INVALID == c1.base.state) {
 
 		INSERT_BORDER_COLOR (self, "border-color",  c0);
 
-	} else if (CCSS_PROPERTY_STATE_UNSET == c2.base.state) {
+	} else if (CCSS_PROPERTY_STATE_INVALID == c2.base.state) {
 
 		INSERT_BORDER_COLOR (self, "border-bottom-color",  c0);
 		INSERT_BORDER_COLOR (self, "border-top-color",  c0);
@@ -207,7 +207,7 @@ border_color_factory (ccss_block_t	*self,
 		INSERT_BORDER_COLOR (self, "border-left-color",  c1);
 		INSERT_BORDER_COLOR (self, "border-right-color",  c1);
 
-	} else if (CCSS_PROPERTY_STATE_UNSET == c3.base.state) {
+	} else if (CCSS_PROPERTY_STATE_INVALID == c3.base.state) {
 
 		INSERT_BORDER_COLOR (self, "border-top-color",  c0);
 
@@ -216,7 +216,7 @@ border_color_factory (ccss_block_t	*self,
 
 		INSERT_BORDER_COLOR (self, "border-bottom-color",  c2);
 
-	} else if (c3.base.state != CCSS_PROPERTY_STATE_UNSET) {
+	} else if (c3.base.state != CCSS_PROPERTY_STATE_INVALID) {
 
 		INSERT_BORDER_COLOR (self, "border-top-color",  c0);
 		INSERT_BORDER_COLOR (self, "border-right-color",  c1);
@@ -245,15 +245,15 @@ border_style_factory (ccss_block_t	*self,
 	if (iter) { parse_style (&iter, &s2); }
 	if (iter) { parse_style (&iter, &s3); }
 
-	if (CCSS_PROPERTY_STATE_UNSET == s0.base.state) {
+	if (CCSS_PROPERTY_STATE_INVALID == s0.base.state) {
 
 		return false;
 
-	} else if (CCSS_PROPERTY_STATE_UNSET == s1.base.state) {
+	} else if (CCSS_PROPERTY_STATE_INVALID == s1.base.state) {
 
 		INSERT_BORDER_STYLE (self, "border-style", s0);
 
-	} else if (CCSS_PROPERTY_STATE_UNSET == s2.base.state) {
+	} else if (CCSS_PROPERTY_STATE_INVALID == s2.base.state) {
 
 		INSERT_BORDER_STYLE (self, "border-bottom-style", s0);
 		INSERT_BORDER_STYLE (self, "border-top-style", s0);
@@ -261,7 +261,7 @@ border_style_factory (ccss_block_t	*self,
 		INSERT_BORDER_STYLE (self, "border-left-style", s1);
 		INSERT_BORDER_STYLE (self, "border-right-style", s1);
 
-	} else if (CCSS_PROPERTY_STATE_UNSET == s3.base.state) {
+	} else if (CCSS_PROPERTY_STATE_INVALID == s3.base.state) {
 
 		INSERT_BORDER_STYLE (self, "border-top-style", s0);
 
@@ -270,7 +270,7 @@ border_style_factory (ccss_block_t	*self,
 
 		INSERT_BORDER_STYLE (self, "border-bottom-style", s2);
 
-	} else if (s3.base.state != CCSS_PROPERTY_STATE_UNSET) {
+	} else if (s3.base.state != CCSS_PROPERTY_STATE_INVALID) {
 
 		INSERT_BORDER_STYLE (self, "border-top-style", s0);
 		INSERT_BORDER_STYLE (self, "border-right-style", s1);
@@ -299,15 +299,15 @@ border_width_factory (ccss_block_t	*self,
 	if (iter) { parse_width (&iter, &w2); }
 	if (iter) { parse_width (&iter, &w3); }
 
-	if (CCSS_PROPERTY_STATE_UNSET == w0.base.state) {
+	if (CCSS_PROPERTY_STATE_INVALID == w0.base.state) {
 
 		return false;
 
-	} else if (CCSS_PROPERTY_STATE_UNSET == w1.base.state) {
+	} else if (CCSS_PROPERTY_STATE_INVALID == w1.base.state) {
 
 		INSERT_BORDER_WIDTH (self, "border-width", w0);
 
-	} else if (CCSS_PROPERTY_STATE_UNSET == w2.base.state) {
+	} else if (CCSS_PROPERTY_STATE_INVALID == w2.base.state) {
 
 		INSERT_BORDER_WIDTH (self, "border-bottom-width", w0);
 		INSERT_BORDER_WIDTH (self, "border-top-width", w0);
@@ -315,7 +315,7 @@ border_width_factory (ccss_block_t	*self,
 		INSERT_BORDER_WIDTH (self, "border-left-width", w1);
 		INSERT_BORDER_WIDTH (self, "border-right-width", w1);
 
-	} else if (CCSS_PROPERTY_STATE_UNSET == w3.base.state) {
+	} else if (CCSS_PROPERTY_STATE_INVALID == w3.base.state) {
 
 		INSERT_BORDER_WIDTH (self, "border-top-width", w0);
 
@@ -324,7 +324,7 @@ border_width_factory (ccss_block_t	*self,
 
 		INSERT_BORDER_WIDTH (self, "border-bottom-width", w2);
 
-	} else if (w3.base.state != CCSS_PROPERTY_STATE_UNSET) {
+	} else if (w3.base.state != CCSS_PROPERTY_STATE_INVALID) {
 
 		INSERT_BORDER_WIDTH (self, "border-top-width", w0);
 		INSERT_BORDER_WIDTH (self, "border-right-width", w1);
@@ -371,21 +371,21 @@ border_factory_impl (ccss_block_t	*self,
 		ccss_color_parse (&c, &iter);
 	}
 
-	if (c.base.state != CCSS_PROPERTY_STATE_UNSET) { 
+	if (c.base.state != CCSS_PROPERTY_STATE_INVALID) { 
 
 		property_name = g_strdup_printf ("%s-color", property_prefix);
 		INSERT_BORDER_COLOR (self, property_name, c);
 		g_free (property_name), property_name = NULL;
 	}
 
-	if (s.base.state != CCSS_PROPERTY_STATE_UNSET) {
+	if (s.base.state != CCSS_PROPERTY_STATE_INVALID) {
 
 		property_name = g_strdup_printf ("%s-style", property_prefix);
 		INSERT_BORDER_STYLE (self, property_name, s);
 		g_free (property_name), property_name = NULL;
 	}
 
-	if (w.base.state != CCSS_PROPERTY_STATE_UNSET) {
+	if (w.base.state != CCSS_PROPERTY_STATE_INVALID) {
 
 		property_name = g_strdup_printf ("%s-width", property_prefix);
 		INSERT_BORDER_WIDTH (self, property_name, w);
@@ -439,7 +439,7 @@ border_radius_new (CRTerm const *value)
 
 	memset (&r, 0, sizeof (r));
 	parse_radius (&value, &r);
-	if (CCSS_PROPERTY_STATE_UNSET == r.base.state) {
+	if (CCSS_PROPERTY_STATE_INVALID == r.base.state) {
 		return NULL;
 	}
 
@@ -467,29 +467,29 @@ border_radius_factory (ccss_block_t	*self,
 	if (iter) { parse_radius (&iter, &r2); }
 	if (iter) { parse_radius (&iter, &r3); }
 
-	if (CCSS_PROPERTY_STATE_UNSET == r0.base.state) {
+	if (CCSS_PROPERTY_STATE_INVALID == r0.base.state) {
 
 		return false;
 
-	} else if (CCSS_PROPERTY_STATE_UNSET == r1.base.state) {
+	} else if (CCSS_PROPERTY_STATE_INVALID == r1.base.state) {
 
 		INSERT_BORDER_RADIUS (self, "border-radius", r0);
 
-	} else if (CCSS_PROPERTY_STATE_UNSET == r2.base.state) {
+	} else if (CCSS_PROPERTY_STATE_INVALID == r2.base.state) {
 
 		INSERT_BORDER_RADIUS (self, "border-top-left-radius", r0);
 		INSERT_BORDER_RADIUS (self, "border-top-right-radius", r1);
 		INSERT_BORDER_RADIUS (self, "border-bottom-right-radius", r0);
 		INSERT_BORDER_RADIUS (self, "border-bottom-left-radius", r1);
 
-	} else if (CCSS_PROPERTY_STATE_UNSET == r3.base.state) {
+	} else if (CCSS_PROPERTY_STATE_INVALID == r3.base.state) {
 
 		INSERT_BORDER_RADIUS (self, "border-top-left-radius", r0);
 		INSERT_BORDER_RADIUS (self, "border-top-right-radius", r1);
 		INSERT_BORDER_RADIUS (self, "border-bottom-right-radius", r2);
 		INSERT_BORDER_RADIUS (self, "border-bottom-left-radius", r1);
 
-	} else if (r3.base.state != CCSS_PROPERTY_STATE_UNSET) {
+	} else if (r3.base.state != CCSS_PROPERTY_STATE_INVALID) {
 
 		INSERT_BORDER_RADIUS (self, "border-top-left-radius", r0);
 		INSERT_BORDER_RADIUS (self, "border-top-right-radius", r1);
@@ -529,7 +529,7 @@ border_style_new (CRTerm const *value)
 
 	memset (&s, 0, sizeof (s));
 	parse_style (&value, &s);
-	if (CCSS_PROPERTY_STATE_UNSET == s.base.state) {
+	if (CCSS_PROPERTY_STATE_INVALID == s.base.state) {
 		return NULL;
 	}
 
@@ -561,7 +561,7 @@ border_width_new (CRTerm const *value)
 
 	memset (&w, 0, sizeof (w));
 	parse_width (&value, &w);
-	if (CCSS_PROPERTY_STATE_UNSET == w.base.state) {
+	if (CCSS_PROPERTY_STATE_INVALID == w.base.state) {
 		return NULL;
 	}
 

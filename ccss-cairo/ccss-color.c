@@ -281,7 +281,7 @@ ccss_color_parse (ccss_color_t	 *self,
 	case TERM_IDENT:
 		self->base.state = ccss_property_parse_state (value);
 		switch (self->base.state) {
-		case CCSS_PROPERTY_STATE_UNSET:
+		case CCSS_PROPERTY_STATE_INVALID:
 			return false;
 		case CCSS_PROPERTY_STATE_NONE:
 		case CCSS_PROPERTY_STATE_INHERIT:

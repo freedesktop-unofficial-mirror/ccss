@@ -160,7 +160,7 @@ get_line_draw_func (ccss_border_stroke_t const	*stroke,
 		return line;
 	}
 
-	if (CCSS_PROPERTY_STATE_UNSET == stroke->style->base.state ||
+	if (CCSS_PROPERTY_STATE_INVALID == stroke->style->base.state ||
 	    CCSS_PROPERTY_STATE_NONE == stroke->style->base.state) {
 		return draw_none_line;
 	}

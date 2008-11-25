@@ -31,7 +31,7 @@ struct ccss_block_;
 
 /**
  * ccss_property_state_t:
- * @CCSS_PROPERTY_STATE_UNSET:		error state, invalid property.
+ * @CCSS_PROPERTY_STATE_INVALID:		error state, invalid property.
  * @CCSS_PROPERTY_STATE_NONE:		property set to `none', switched off.
  * @CCSS_PROPERTY_STATE_INHERIT:	inherit property from container.
  * @CCSS_PROPERTY_STATE_SET:		property is valid and set.
@@ -39,7 +39,7 @@ struct ccss_block_;
  * This enum must be embedded as first field in every property implementation.
  **/
 typedef enum {
-	CCSS_PROPERTY_STATE_UNSET = 0,
+	CCSS_PROPERTY_STATE_INVALID = 0,
 	CCSS_PROPERTY_STATE_NONE,
 	CCSS_PROPERTY_STATE_INHERIT,
 	CCSS_PROPERTY_STATE_SET
