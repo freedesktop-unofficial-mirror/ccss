@@ -19,7 +19,7 @@
 
 #include <string.h>
 #include <glib.h>
-#include "ccss-node.h"
+#include "ccss-node-priv.h"
 #include "config.h"
 
 static bool

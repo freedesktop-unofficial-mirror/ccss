@@ -25,6 +25,7 @@ libccss_1_la_SOURCES = \
 	ccss-function-priv.h \
 	ccss.c \
 	ccss-node.c \
+	ccss-node-priv.h \
 	ccss-parser.c \
 	ccss-parser.h \
 	ccss-property.c \

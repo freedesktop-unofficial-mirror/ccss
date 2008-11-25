@@ -211,9 +211,6 @@ void
 ccss_node_init (ccss_node_t		*self,
 		ccss_node_class_t	*node_class);
 
-// TODO move to -priv header.
-bool ccss_node_is_a (ccss_node_t const *self, char const *type_name);
-
 CCSS_END_DECLS
 
 #endif /* CCSS_NODE_H */

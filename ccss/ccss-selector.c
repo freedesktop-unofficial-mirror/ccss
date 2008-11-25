@@ -21,7 +21,7 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-block-priv.h"
-#include "ccss-node.h"
+#include "ccss-node-priv.h"
 #include "ccss-selector.h"
 #include "ccss-style-priv.h"
 #include "config.h"
