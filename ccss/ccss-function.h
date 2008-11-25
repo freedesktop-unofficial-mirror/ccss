@@ -30,24 +30,28 @@ struct _GSList;
 
 /**
  * ccss_function_f:
- * @args: argument-list passed to the function.
+ * @args:	argument-list passed to the function.
+ * @user_data:	user data associated to the function handler.
  * 
  * Prototype for a custom `CSS function' handler.
  *
  * Returns: the function's result as a string.
  **/
-typedef char * (*ccss_function_f) (struct _GSList const	*args);
+typedef char * (*ccss_function_f) (struct _GSList const	*args,
+				   void			*user_data);
 
 /**
  * ccss_function_t:
  * @name:	identifier of the function, as used in CSS.
  * @function:	handler, see #ccss_function_f.
+ * @user_data:	data to pass to the function handler.
  *
  * This datastructure represents one line in the libccss' consumers vtable.
  **/
 typedef struct {
 	char const	*name;
 	ccss_function_f	 function;
+	void		*user_data;
 } ccss_function_t;
 
 /**

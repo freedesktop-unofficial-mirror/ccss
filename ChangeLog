@@ -1,5 +1,13 @@
 2008-11-25  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-doc/tmpl/function.sgml:
+	* ccss/ccss-function.c (ccss_function_invoke):
+	* ccss/ccss-function.h:
+	* examples/example-3.c (url):
+	Provide user-data to function handlers.
+
+2008-11-25  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/Makefile.am:
 	* ccss/ccss-node-priv.h:
 	* ccss/ccss-node.c:

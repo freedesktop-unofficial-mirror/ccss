@@ -171,7 +171,7 @@ ccss_function_invoke (char const	*function_name,
 	args = g_slist_reverse (args);
 
 	/* dispatch */
-	ret = handler->function (args);
+	ret = handler->function (args, handler->user_data);
 
 	/* free args */
 	while (args) {

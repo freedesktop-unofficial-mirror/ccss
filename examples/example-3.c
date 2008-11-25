@@ -31,7 +31,8 @@ static char const _css[] = "				\
 ";
 
 static char *
-url (GSList const *args)
+url (GSList const	*args,
+     void		*user_data)
 {
 	char *cwd;
 	char *path;
@@ -47,7 +48,7 @@ url (GSList const *args)
 
 static ccss_function_t const _functions[] = 
 {
-  { "url",	url },
+  { "url",	url,	NULL },
   { NULL }
 };
 
