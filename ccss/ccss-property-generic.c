@@ -127,7 +127,7 @@ ccss_property_class_t const _ptable[] = {
   { 
 	.name			= "*",
 	.property_new		= (ccss_property_new_f) property_new,
-	.property_free		= (ccss_property_free_f) g_free,
+	.property_free		= (ccss_property_free_f) g_free,	// TODO free char* content if exists.
 	.property_convert	= (ccss_property_convert_f) property_convert,
 	.property_factory	= NULL
   },

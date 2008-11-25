@@ -41,7 +41,15 @@ ccss_property_init (ccss_property_base_t	*self,
 	self->state = CCSS_PROPERTY_STATE_UNSET;
 }
 
-// TODO document
+/**
+ * ccss_property_parse_state:
+ * @value: iterater of type #CRTerm.
+ *
+ * Parse a libcroco term to see whether it contains any of the predefined values
+ * `none' or `inherit'.
+ *
+ * Returns: a #ccss_property_state_t.
+ **/
 ccss_property_state_t
 ccss_property_parse_state (CRTerm const **value)
 {

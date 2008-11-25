@@ -104,11 +104,11 @@ typedef bool (*ccss_property_factory_f) (struct ccss_block_	*block,
 					 CRTerm const		*values);
 /**
  * ccss_property_class_t:
- * @name:	property name.
- * @alloc:	allocation hook, see #ccss_property_new_f.
- * @dealloc:	deallocation hook, see #ccss_property_free_f.
- * @convert:	conversion hook, see #ccss_property_convert_f.
- * @factory:	factory hook, see #ccss_property_factory_f.
+ * @name:		property name.
+ * @property_new:	allocation hook, see #ccss_property_new_f.
+ * @property_free:	deallocation hook, see #ccss_property_free_f.
+ * @property_convert:	conversion hook, see #ccss_property_convert_f.
+ * @property_factory:	factory hook, see #ccss_property_factory_f.
  *
  * Entry in the table of property implementations passed when initialising ccss, see #ccss_init.
  **/

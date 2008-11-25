@@ -30,10 +30,7 @@ struct _GSList;
 
 /**
  * ccss_function_f:
- * @block:		the CSS block context of the invoked function.
- * @property_name:	property that the function is associated with, e.g. `background-image'.
- * @function_name:	name of the function, e.g. `url'.
- * @args:		argument-list passed to the function.
+ * @args: argument-list passed to the function.
  * 
  * Prototype for a custom `CSS function' handler.
  *
@@ -53,7 +50,16 @@ typedef struct {
 	ccss_function_f	 function;
 } ccss_function_t;
 
-// TODO document
+/**
+ * ccss_function_invoke:
+ * @function_name:	name of the function to invoke, e.g. `url'.
+ * @args:		arguments passed to the function handler.
+ *
+ * Invoke a registerd function handler. This API is meant to be used by property
+ * implementations, like when parsing properties like `background-image: url(foo.png)'.
+ *
+ * Returns: string value passed back by the ccss API consumer.
+ **/
 char *
 ccss_function_invoke (char const	*function_name,
 		      CRTerm const	*args);

@@ -52,7 +52,7 @@ ccss_add_properties (ccss_property_class_t const *properties)
 
 /**
  * ccss_add_functions:
- * @properties:	Null-terminated array of #ccss_function_t to register.
+ * @functions:	Null-terminated array of #ccss_function_t to register.
  *
  * Register a set of custom css function handlers, like e.g. `url'.
  * This function must be between #ccss_init() and instatiation of #ccss_stylesheet_t.

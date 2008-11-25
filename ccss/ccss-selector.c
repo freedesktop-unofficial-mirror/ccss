@@ -495,6 +495,7 @@ ccss_selector_copy (ccss_selector_t const *original)
 
 	g_assert (original);
 
+	self = NULL;
 	switch (original->modality) {
 	case CCSS_SELECTOR_MODALITY_UNIVERSAL:
 		self = universal_selector_dup ((ccss_universal_selector_t const *) original);
