@@ -262,10 +262,10 @@ AC_CONFIG_FILES([
   libccss-1.pc
   libccss-cairo-1.pc
   ccss/Makefile
+  ccss-doc/Makefile
+  ccss-doc/version.xml
   ccss-cairo/Makefile
   ccss-clutter/Makefile
-  doc/Makefile
-  doc/version.xml
   examples/Makefile
 ])
 AC_OUTPUT

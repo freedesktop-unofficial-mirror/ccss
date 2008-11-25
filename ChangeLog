@@ -1,5 +1,35 @@
 2008-11-25  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-doc/Makefile.am:
+	* ccss-doc/ccss-docs.sgml:
+	* ccss-doc/ccss-sections.txt:
+	* ccss-doc/tmpl/block.sgml:
+	* ccss-doc/tmpl/ccss-unused.sgml:
+	* ccss-doc/tmpl/ccss.sgml:
+	* ccss-doc/tmpl/ccss_gtk_style_functions.sgml:
+	* ccss-doc/tmpl/function.sgml:
+	* ccss-doc/tmpl/node.sgml:
+	* ccss-doc/tmpl/property.sgml:
+	* ccss-doc/tmpl/style.sgml:
+	* ccss-doc/tmpl/stylesheet.sgml:
+	* ccss-doc/version.xml.in:
+	* doc/Makefile.am:
+	* doc/ccss-docs.sgml:
+	* doc/ccss-sections.txt:
+	* doc/tmpl/block.sgml:
+	* doc/tmpl/ccss-unused.sgml:
+	* doc/tmpl/ccss.sgml:
+	* doc/tmpl/ccss_gtk_style_functions.sgml:
+	* doc/tmpl/function.sgml:
+	* doc/tmpl/node.sgml:
+	* doc/tmpl/property.sgml:
+	* doc/tmpl/style.sgml:
+	* doc/tmpl/stylesheet.sgml:
+	* doc/version.xml.in:
+	Prepare for documentation ccss/ccss-caior split-up.
+
+2008-11-25  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo/ccss-image.c (load_image): always require an image uri
 	  rather than a path.
 

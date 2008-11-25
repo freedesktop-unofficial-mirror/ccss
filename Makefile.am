@@ -2,8 +2,8 @@
 ACLOCAL_AMFLAGS = -I .
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --enable-werror
 
-DIST_SUBDIRS = ccss ccss-cairo ccss-clutter doc examples
-SUBDIRS = ccss doc
+DIST_SUBDIRS = ccss ccss-doc ccss-cairo ccss-clutter examples
+SUBDIRS = ccss ccss-doc
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libccss-1.pc
