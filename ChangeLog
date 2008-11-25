@@ -1,5 +1,15 @@
 2008-11-25  Robert Staudinger  <robsta@gnome.org>
 
+	* Makefile.am:
+	* ccss-cairo-doc/Makefile.am:
+	* ccss-cairo-doc/ccss-cairo-docs.sgml:
+	* ccss-cairo-doc/ccss-cairo-sections.txt:
+	* ccss-cairo-doc/version.xml.in:
+	* configure.in:
+	Add doc skeleton for ccss-cairo.
+
+2008-11-25  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-doc/Makefile.am:
 	* ccss-doc/ccss-docs.sgml:
 	* ccss-doc/ccss-sections.txt:

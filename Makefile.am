@@ -9,7 +9,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libccss-1.pc
 
 if CCSS_WITH_CAIRO
-SUBDIRS += ccss-cairo
+SUBDIRS += ccss-cairo ccss-cairo-doc
 pkgconfig_DATA += libccss-cairo-1.pc
 endif
 

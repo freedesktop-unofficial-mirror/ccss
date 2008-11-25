@@ -259,13 +259,19 @@ AC_SUBST([CCSS_CLUTTER_CFLAGS])
 
 AC_CONFIG_FILES([
   Makefile
+
   libccss-1.pc
-  libccss-cairo-1.pc
   ccss/Makefile
   ccss-doc/Makefile
   ccss-doc/version.xml
+
+  libccss-cairo-1.pc
   ccss-cairo/Makefile
+  ccss-cairo-doc/Makefile
+  ccss-cairo-doc/version.xml
+
   ccss-clutter/Makefile
+
   examples/Makefile
 ])
 AC_OUTPUT
