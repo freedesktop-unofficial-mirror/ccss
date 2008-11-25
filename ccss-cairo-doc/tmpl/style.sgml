@@ -1,0 +1,84 @@
+<!-- ##### SECTION Title ##### -->
+ccss_style_t
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### ENUM ccss_cairo_gap_side_t ##### -->
+<para>
+
+</para>
+
+@CCSS_CAIRO_GAP_SIDE_LEFT: 
+@CCSS_CAIRO_GAP_SIDE_RIGHT: 
+@CCSS_CAIRO_GAP_SIDE_TOP: 
+@CCSS_CAIRO_GAP_SIDE_BOTTOM: 
+
+<!-- ##### FUNCTION ccss_cairo_style_draw_line ##### -->
+<para>
+
+</para>
+
+@self: 
+@cr: 
+@x1: 
+@x2: 
+@y1: 
+@y2: 
+
+
+<!-- ##### FUNCTION ccss_cairo_style_draw_outline ##### -->
+<para>
+
+</para>
+
+@self: 
+@cr: 
+@x: 
+@y: 
+@width: 
+@height: 
+
+
+<!-- ##### FUNCTION ccss_cairo_style_draw_rectangle ##### -->
+<para>
+
+</para>
+
+@self: 
+@cr: 
+@x: 
+@y: 
+@width: 
+@height: 
+
+
+<!-- ##### FUNCTION ccss_cairo_style_draw_rectangle_with_gap ##### -->
+<para>
+
+</para>
+
+@self: 
+@cr: 
+@x: 
+@y: 
+@width: 
+@height: 
+@gap_side: 
+@gap_start: 
+@gap_width: 
+
+

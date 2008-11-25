@@ -13,11 +13,11 @@ expose_cb (GtkWidget		*widget,
 
 	cr = gdk_cairo_create (widget->window);
 
-	ccss_style_draw_rectangle (style, cr, 
-				  widget->allocation.x + 10,
-				  widget->allocation.y + 10,
-				  widget->allocation.width - 20, 
-				  widget->allocation.height - 20);
+	ccss_cairo_style_draw_rectangle (style, cr, 
+					 widget->allocation.x + 10,
+					 widget->allocation.y + 10,
+					 widget->allocation.width - 20, 
+					 widget->allocation.height - 20);
 
 	cairo_destroy (cr);
 

@@ -39,7 +39,7 @@ paint_css (ccss_stylesheet_t	*stylesheet,
 	g_return_if_fail (ret);
 
 	/* Draw the style covering the actor. */
-	ccss_style_draw_rectangle (style, cr, x, y, width, height);
+	ccss_cairo_style_draw_rectangle (style, cr, x, y, width, height);
 
 	ccss_style_free (style);
 }

@@ -1,5 +1,30 @@
 2008-11-25  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo-doc/ccss-cairo-docs.sgml:
+	* ccss-cairo-doc/ccss-cairo-sections.txt:
+	* ccss-cairo-doc/tmpl/ccss-cairo-unused.sgml:
+	* ccss-cairo-doc/tmpl/ccss.sgml:
+	* ccss-cairo-doc/tmpl/ccss_cairo.sgml:
+	* ccss-cairo-doc/tmpl/style.sgml:
+	* ccss-cairo/ccss-cairo-style.c (ccss_cairo_style_draw_line),
+	(ccss_cairo_style_draw_outline), (ccss_cairo_style_draw_rectangle),
+	(ccss_cairo_style_draw_rectangle_with_gap):
+	* ccss-cairo/ccss-cairo-style.h:
+	* ccss-cairo/ccss-cairo.sym:
+	* ccss-clutter/ccss-clutter.c (ccss_clutter_paint):
+	* ccss-clutter/example-1.c (paint_css):
+	* ccss-doc/ccss-docs.sgml:
+	* ccss-doc/ccss-sections.txt:
+	* ccss-doc/tmpl/ccss-unused.sgml:
+	* ccss-doc/tmpl/ccss.sgml:
+	* ccss-doc/tmpl/ccss_gtk_style_functions.sgml:
+	* examples/example-1.c (expose_cb):
+	* examples/example-2.c (expose_cb):
+	* examples/example-3.c (expose_cb):
+	Finish doc split-out, consistent API naming convention.
+
+2008-11-25  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo-doc/tmpl/ccss_cairo.sgml: add doc template.
 
 2008-11-25  Robert Staudinger  <robsta@gnome.org>

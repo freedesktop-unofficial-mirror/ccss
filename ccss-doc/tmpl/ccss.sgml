@@ -24,6 +24,13 @@ Initialization
 
 
 
+<!-- ##### FUNCTION ccss_shutdown ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### FUNCTION ccss_add_functions ##### -->
 <para>
 
@@ -38,12 +45,5 @@ Initialization
 </para>
 
 @properties: 
-
-
-<!-- ##### FUNCTION ccss_shutdown ##### -->
-<para>
-
-</para>
-
 
 

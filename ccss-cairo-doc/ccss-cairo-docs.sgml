@@ -2,7 +2,8 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
                "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 
-<!ENTITY ccss-cairo			SYSTEM "xml/ccss_cairo.xml">
+<!ENTITY ccss				SYSTEM "xml/ccss.xml">
+<!ENTITY ccss_style_t			SYSTEM "xml/style.xml">
 
 <!ENTITY TreeIndex			SYSTEM "xml/tree_index.sgml">
 
@@ -47,6 +48,13 @@ include OpenGL (through glitz), XCB, BeOS, OS/2, and DirectFB.
 </varlistentry>
 
 <varlistentry>
+<term><link linkend="librsvg" title="LibRSVG">LibRSVG (optional)</link></term>
+<listitem><para>
+The rsvg library is an efficient renderer for Scalable Vector Graphics (SVG) pictures.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
 <term><link linkend="libsoup" title="LibSoup">LibSoup (optional)</link></term>
 <listitem><para>
 LibSoup is an HTTP client/server library for GNOME. It uses GObjects and the glib main loop, to integrate well with GNOME applications. 
@@ -86,7 +94,8 @@ TODO.
     </partintro>
   <chapter id="basic">
     <title>Basic Usage</title>
-    &ccss_cairo;
+    &ccss;
+    &ccss_style_t;
   </chapter>
  </part>
 <index id="ccss-index">

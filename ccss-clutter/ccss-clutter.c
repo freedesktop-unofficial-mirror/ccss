@@ -79,7 +79,7 @@ ccss_clutter_paint (ccss_stylesheet_t const	*stylesheet,
 	}
 
 	cr = clutter_cairo_create (actor);
-	ccss_style_draw_rectangle (style, cr, x, y, width, height);
+	ccss_cairo_style_draw_rectangle (style, cr, x, y, width, height);
 	cairo_destroy (cr);
 	ccss_style_free (style);
 

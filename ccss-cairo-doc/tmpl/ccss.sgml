@@ -1,5 +1,5 @@
 <!-- ##### SECTION Title ##### -->
-ccss_style_t Gtk+ Support
+Initialization
 
 <!-- ##### SECTION Short_Description ##### -->
 
@@ -15,5 +15,19 @@ ccss_style_t Gtk+ Support
 </para>
 
 <!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION ccss_cairo_init ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION ccss_cairo_shutdown ##### -->
+<para>
+
+</para>
+
 
 

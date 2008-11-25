@@ -248,23 +248,23 @@ lookup_property_r (ccss_style_t const	*self,
 }
 
 /**
- * ccss_style_draw_horizontal_line:
- * @self:	a ccss_style_t.
+ * ccss_cairo_style_draw_line:
+ * @self:	a #ccss_style_t.
  * @cr:		the target to draw onto.
  * @x1:		the starting x coordinate.
  * @x2:		the ending x coordinate.
- * @y:		the y coordinate.
+ * @y1:		the starting y coordinate.
+ * @y2:		the ending y coordinate.
  *
- * Draw a horizontal line using this style instance. This takes the `top'
- * border from the CSS, if specified.
+ * Draw a line using the given style instance.
  **/
 void
-ccss_style_draw_line (ccss_style_t const	*self,
-		     cairo_t		*cr, 
-		     int32_t 		 x1,
-		     int32_t 		 x2,
-		     int32_t 		 y1,
-		     int32_t		 y2)
+ccss_cairo_style_draw_line (ccss_style_t const	*self,
+			    cairo_t		*cr, 
+			    int			 x1,
+			    int			 x2,
+			    int			 y1,
+			    int			 y2)
 {
 	ccss_border_stroke_t		 stroke;
 	double				 off;
@@ -447,8 +447,8 @@ ccss_style_gather_background (ccss_style_t const			 *self,
 }
 
 /**
- * ccss_style_draw_outline:
- * @self:	a ccss_style_t.
+ * ccss_cairo_style_draw_outline:
+ * @self:	a #ccss_style_t.
  * @cr:		the target to draw onto.
  * @x:		the starting x coordinate.
  * @y:		the starting y coordinate.
@@ -459,12 +459,12 @@ ccss_style_gather_background (ccss_style_t const			 *self,
  * this style's background is diregarded.
  **/
 void
-ccss_style_draw_outline (ccss_style_t const	*self, 
-			cairo_t			*cr, 
-			int32_t			 x,
-			int32_t			 y,
-			int32_t			 width,
-			int32_t			 height)
+ccss_cairo_style_draw_outline (ccss_style_t const	*self,
+			       cairo_t			*cr, 
+			       int			 x,
+			       int			 y,
+			       int			 width,
+			       int			 height)
 {
 	ccss_border_stroke_t		 bottom, left, right, top;
 	ccss_border_join_t const	*bottom_left;
@@ -484,8 +484,8 @@ ccss_style_draw_outline (ccss_style_t const	*self,
 }
 
 /**
- * ccss_style_draw_rectangle:
- * @self:	a ccss_style_t.
+ * ccss_cairo_style_draw_rectangle:
+ * @self:	a #ccss_style_t.
  * @cr:		the target to draw onto.
  * @x:		the starting x coordinate.
  * @y:		the starting y coordinate.
@@ -495,12 +495,12 @@ ccss_style_draw_outline (ccss_style_t const	*self,
  * Draw a rectangle using this style instance.
  **/
 void
-ccss_style_draw_rectangle (ccss_style_t const	*self,
-			  cairo_t		*cr, 
-			  int32_t		 x,
-			  int32_t		 y,
-			  int32_t		 width,
-			  int32_t		 height)
+ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
+				 cairo_t		*cr, 
+				 int			 x,
+				 int			 y,
+				 int			 width,
+				 int			 height)
 {
 	ccss_border_stroke_t		 bottom, left, right, top;
 	ccss_border_join_t const	*bottom_left;
@@ -572,7 +572,7 @@ ccss_style_draw_rectangle (ccss_style_t const	*self,
 }
 
 /**
- * ccss_style_draw_gap:
+ * ccss_cairo_style_draw_rectangle_with_gap:
  * @self:	a ccss_style_t.
  * @cr:		the target to draw onto.
  * @x:		the starting x coordinate.
@@ -586,15 +586,15 @@ ccss_style_draw_rectangle (ccss_style_t const	*self,
  * Draw a rectangle with gap using this style instance.
  **/
 void
-ccss_style_draw_gap (ccss_style_t const		*self,
-		     cairo_t			*cr, 
-		     int32_t			 x,
-		     int32_t			 y,
-		     int32_t			 width,
-		     int32_t			 height, 
-		     ccss_cairo_gap_side_t	 gap_side,
-		     int32_t			 gap_start,
-		     int32_t			 gap_width)
+ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
+					  cairo_t			*cr, 
+					  int				 x,
+					  int				 y,
+					  int				 width,
+					  int				 height, 
+					  ccss_cairo_gap_side_t		 gap_side,
+					  int				 gap_start,
+					  int				 gap_width)
 {
 	ccss_border_stroke_t		 bottom, left, right, top;
 	ccss_border_join_t const	*bl;
@@ -630,25 +630,25 @@ ccss_style_draw_gap (ccss_style_t const		*self,
 	top_right = *tr;
 
 	switch (gap_side) {
-	case CCSS_GAP_SIDE_LEFT:
+	case CCSS_CAIRO_GAP_SIDE_LEFT:
 		if (bottom_left.radius > height - gap_start - gap_width)
 			bottom_left.radius = height - gap_start - gap_width;
 		if (top_left.radius > gap_start)
 			top_left.radius = gap_start;
 		break;
-	case CCSS_GAP_SIDE_TOP:
+	case CCSS_CAIRO_GAP_SIDE_TOP:
 		if (top_left.radius > gap_start)
 			top_left.radius = gap_start;
 		if (top_right.radius > width - gap_start - gap_width)
 			top_right.radius = width - gap_start - gap_width;
 		break;
-	case CCSS_GAP_SIDE_RIGHT:
+	case CCSS_CAIRO_GAP_SIDE_RIGHT:
 		if (top_right.radius > gap_start)
 			top_right.radius = gap_start;
 		if (bottom_right.radius > height - gap_start - gap_width)
 			bottom_right.radius = height - gap_start - gap_width;
 		break;
-	case CCSS_GAP_SIDE_BOTTOM:
+	case CCSS_CAIRO_GAP_SIDE_BOTTOM:
 		if (bottom_left.radius > gap_start)
 			bottom_left.radius = gap_start;
 		if (bottom_right.radius > width - gap_start - gap_width)
@@ -696,7 +696,7 @@ ccss_style_draw_gap (ccss_style_t const		*self,
 	/* Drawing functions start at bottom-left corder and
 	 * proceed clock-wise. */
 	switch (gap_side) {
-	case CCSS_GAP_SIDE_LEFT:
+	case CCSS_CAIRO_GAP_SIDE_LEFT:
 		/* Draw gap only if it's not over the whole border. */
 		if (gap_start > y || gap_width < height) {
 			/* Rounding reaches until start of gap?
@@ -726,7 +726,7 @@ ccss_style_draw_gap (ccss_style_t const		*self,
 				 CCSS_BORDER_VISIBILITY_HIDE_LEFT,
 				 cr, x, y, width, height);
 		break;
-	case CCSS_GAP_SIDE_TOP:
+	case CCSS_CAIRO_GAP_SIDE_TOP:
 		/* Draw gap only if it's not over the whole border. */
 		if (gap_start > x || gap_width < width) {
 			/* Rounding reaches until start of gap? */
@@ -756,7 +756,7 @@ ccss_style_draw_gap (ccss_style_t const		*self,
 				 CCSS_BORDER_VISIBILITY_HIDE_TOP,
 				 cr, x, y, width, height);
 		break;
-	case CCSS_GAP_SIDE_RIGHT:
+	case CCSS_CAIRO_GAP_SIDE_RIGHT:
 		/* Draw gap only if it's not over the whole border. */
 		if (gap_start > y || gap_width < height) {
 			/* Rounding reaches until start of gap? */
@@ -786,7 +786,7 @@ ccss_style_draw_gap (ccss_style_t const		*self,
 				 CCSS_BORDER_VISIBILITY_HIDE_RIGHT,
 				 cr, x, y, width, height);
 		break;
-	case CCSS_GAP_SIDE_BOTTOM:
+	case CCSS_CAIRO_GAP_SIDE_BOTTOM:
 		/* Draw gap only if it's not over the whole border. */
 		if (gap_start > x || gap_width < width) {
 			/* Rounding reaches until start of gap? &&

@@ -26,49 +26,56 @@
 
 CCSS_BEGIN_DECLS
 
-// TODO document
-// this can be casted from GtkPositionType
+/**
+ * ccss_cairo_gap_side_t:
+ * @CCSS_CAIRO_GAP_SIDE_LEFT:	gap on the left.
+ * @CCSS_CAIRO_GAP_SIDE_RIGHT:	gap on the right.
+ * @CCSS_CAIRO_GAP_SIDE_TOP:	gap on top.
+ * @CCSS_CAIRO_GAP_SIDE_BOTTOM:	gap on the bottom.
+ *
+ * This enum mirrors #GtkPositionType.
+ **/
 typedef enum {
-	CCSS_GAP_SIDE_LEFT,
-	CCSS_GAP_SIDE_RIGHT,
-	CCSS_GAP_SIDE_TOP,
-	CCSS_GAP_SIDE_BOTTOM
+	CCSS_CAIRO_GAP_SIDE_LEFT,
+	CCSS_CAIRO_GAP_SIDE_RIGHT,
+	CCSS_CAIRO_GAP_SIDE_TOP,
+	CCSS_CAIRO_GAP_SIDE_BOTTOM
 } ccss_cairo_gap_side_t;
 
 void
-ccss_style_draw_line (ccss_style_t const	*self,
-		      cairo_t			*cr, 
-		      int32_t			 x1,
-		      int32_t			 x2,
-		      int32_t			 y1,
-		      int32_t			 y2);
+ccss_cairo_style_draw_line (ccss_style_t const	*self,
+			    cairo_t		*cr, 
+			    int			 x1,
+			    int			 x2,
+			    int			 y1,
+			    int			 y2);
 
 void
-ccss_style_draw_outline (ccss_style_t const	*self,
-			 cairo_t		*cr, 
-			 int32_t		 x,
-			 int32_t		 y,
-			 int32_t		 width,
-			 int32_t		 height);
+ccss_cairo_style_draw_outline (ccss_style_t const	*self,
+			       cairo_t			*cr, 
+			       int			 x,
+			       int			 y,
+			       int			 width,
+			       int			 height);
 
 void
-ccss_style_draw_rectangle (ccss_style_t const	*self,
-			   cairo_t		*cr, 
-			   int32_t		 x,
-			   int32_t		 y,
-			   int32_t		 width,
-			   int32_t		 height);
+ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
+				 cairo_t		*cr, 
+				 int			 x,
+				 int			 y,
+				 int			 width,
+				 int			 height);
 
 void
-ccss_style_draw_gap (ccss_style_t const		*self,
-		     cairo_t			*cr, 
-		     int32_t			 x,
-		     int32_t			 y,
-		     int32_t			 width,
-		     int32_t			 height, 
-		     ccss_cairo_gap_side_t	 gap_side,
-		     int32_t			 gap_start,
-		     int32_t			 gap_width);
+ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
+					  cairo_t			*cr, 
+					  int				 x,
+					  int				 y,
+					  int				 width,
+					  int				 height, 
+					  ccss_cairo_gap_side_t		 gap_side,
+					  int				 gap_start,
+					  int				 gap_width);
 
 CCSS_END_DECLS
 

@@ -22,6 +22,30 @@
 ccss_block_t
 
 
+<!-- ##### SECTION ./tmpl/ccss_gtk_style_functions.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/ccss_gtk_style_functions.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/ccss_gtk_style_functions.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/ccss_gtk_style_functions.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/ccss_gtk_style_functions.sgml:Title ##### -->
+ccss_style_t Gtk+ Support
+
+
 <!-- ##### SECTION ./tmpl/selector_group.sgml:Long_Description ##### -->
 <para>
 

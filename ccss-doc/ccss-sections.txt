@@ -3,9 +3,9 @@
 <TITLE>Initialization</TITLE>
 <FILE>ccss</FILE>
 ccss_init
+ccss_shutdown
 ccss_add_functions
 ccss_add_properties
-ccss_shutdown
 </SECTION>
 
 <SECTION>
@@ -40,9 +40,6 @@ ccss_node_init
 ccss_style_t
 ccss_style_new
 ccss_style_free
-ccss_style_draw_line
-ccss_style_draw_outline
-ccss_style_draw_rectangle
 ccss_style_get_double
 ccss_style_get_property
 ccss_style_get_string
@@ -88,12 +85,5 @@ ccss_property_init
 <FILE>function</FILE>
 ccss_function_f
 ccss_function_t
-</SECTION>
-
-<SECTION>
-<TITLE>ccss_style_t Gtk+ Support</TITLE>
-<FILE>ccss_gtk_style_functions</FILE>
-ccss_style_draw_gap
-ccss_style_draw_polygon
 </SECTION>
 
