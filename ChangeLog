@@ -1,5 +1,9 @@
 2008-11-25  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-property-generic.c (property_new): set property class correctly.
+
+2008-11-25  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo/ccss-background-parser.c (background_factory):
 	* ccss/ccss.h:
 	Revisit TODOs.

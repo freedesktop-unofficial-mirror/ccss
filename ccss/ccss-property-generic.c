@@ -48,9 +48,9 @@ property_new (CRTerm const *values)
 	ccss_property_generic_t	*prop, p;
 	char const		*s;
 
+	memset (&p, 0, sizeof (p));
 	p.base.property_class = peek_property_class ();
 
-	memset (&p, 0, sizeof (p));
 	switch (values->type) {
 	case TERM_NUMBER:
 		p.base.state = CCSS_PROPERTY_STATE_SET;
