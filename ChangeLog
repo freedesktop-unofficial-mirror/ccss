@@ -1,3 +1,9 @@
+2008-11-25  Robert Staudinger  <robsta@gnome.org>
+
+	* Makefile.am: fix ccss-clutter pkg-config file installation.
+
+	* ccss/ccss.sym: export `ccss_style_foreach'.
+
 2008-11-24  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss-cairo/Makefile.am: link with correct version info.

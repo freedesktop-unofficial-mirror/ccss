@@ -7,6 +7,7 @@ ccss_function_invoke
 ccss_node_init
 ccss_property_init
 ccss_property_parse_state
+ccss_style_foreach
 ccss_style_free
 ccss_style_get_double
 ccss_style_get_property
