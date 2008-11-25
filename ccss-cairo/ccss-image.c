@@ -124,7 +124,7 @@ load_image (ccss_image_t *self)
 {
 	cairo_status_t	 status;
 	bool		 matched;
-	char const	*path;
+	char		*path;
 	char const	*fragment;
 #if CCSS_WITH_SOUP
 	SoupURI		*uri;
@@ -134,7 +134,7 @@ load_image (ccss_image_t *self)
 	path = uri->path;
 	fragment = uri->fragment;
 #else
-	path = self->uri;
+	path = g_filename_from_uri (self->uri, NULL, NULL);
 	fragment = NULL;
 #endif
 
@@ -155,6 +155,9 @@ load_image (ccss_image_t *self)
 
 #if CCSS_WITH_SOUP
 	soup_uri_free (uri), uri = NULL;
+	path = NULL;
+#else
+	g_free (path), path = NULL;
 #endif
 
 	status = self->pattern ? cairo_pattern_status (self->pattern) : CAIRO_STATUS_SUCCESS;

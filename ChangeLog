@@ -1,5 +1,10 @@
 2008-11-25  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/ccss-image.c (load_image): always require an image uri
+	  rather than a path.
+
+2008-11-25  Robert Staudinger  <robsta@gnome.org>
+
 	* Makefile.am: fix ccss-clutter pkg-config file installation.
 
 	* ccss/ccss.sym: export `ccss_style_foreach'.
