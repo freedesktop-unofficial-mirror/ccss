@@ -42,14 +42,6 @@ ccss_add_functions	(ccss_function_t const		*functions);
 void
 ccss_shutdown	(void);
 
-/* FIXME: split out */
-
-void
-ccss_cairo_init (void);
-
-void
-ccss_cairo_shutdown (void);
-
 CCSS_END_DECLS
 
 #endif /* CCSS_H */

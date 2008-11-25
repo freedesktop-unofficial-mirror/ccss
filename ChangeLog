@@ -1,5 +1,11 @@
 2008-11-25  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/ccss-background-parser.c (background_factory):
+	* ccss/ccss.h:
+	Revisit TODOs.
+
+2008-11-25  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo/ccss-background-parser.c (bg_position_parse),
 	(bg_repeat_parse):
 	* ccss-cairo/ccss-border-parser.c (border_color_factory),

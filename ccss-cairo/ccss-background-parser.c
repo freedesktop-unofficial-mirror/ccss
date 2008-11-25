@@ -214,7 +214,7 @@ background_factory (ccss_block_t		*self,
 	ccss_background_repeat_t	*bg_repeat,	bgr;
 	bool				 ret;
 
-	/* FIXME: also support `background-size' here, but let's stick
+	/* PONDERING: also support `background-size' here, but let's stick
 	 * to CSS2 for now. */
 	ret = ccss_color_parse (&bgc, &values);
 	if (ret) {
