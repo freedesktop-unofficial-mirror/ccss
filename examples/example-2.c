@@ -1,7 +1,7 @@
 
 #include <stdlib.h>
 #include <cairo.h>
-#include <ccss/ccss.h>
+#include <ccss-cairo/ccss-cairo.h>
 #include <gtk/gtk.h>
 
 typedef struct {

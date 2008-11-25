@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <cairo.h>
-#include <ccss/ccss.h>
+#include <ccss-cairo/ccss-cairo.h>
 #include <gtk/gtk.h>
 
 static ccss_property_class_t const *

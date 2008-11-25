@@ -1,12 +1,13 @@
 
 AM_CPPFLAGS = \
-	$(CCSS_GTK_CFLAGS) \
+	$(CCSS_EXAMPLES_CFLAGS) \
 	-I$(top_srcdir) \
 	-I$(top_builddir)
 
 AM_LDFLAGS = \
-	$(CCSS_GTK_LIBS) \
-	../ccss/libccss-1.la
+	$(CCSS_EXAMPLES_LIBS) \
+	../ccss/libccss-1.la \
+	../ccss-cairo/libccss-cairo-1.la
 
 noinst_PROGRAMS = \
 	example-1 \

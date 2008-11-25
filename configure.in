@@ -116,8 +116,8 @@ ccss_pkgs=${ccss_reqs}
 PKG_CHECK_MODULES(CCSS, $ccss_pkgs)
 
 # AC_SUBST([CCSS_CFLAGS]) # set further down
-# AC_SUBST([CCSS_LIBS]) # set further down
-# AC_SUBST([CCSS_DEPS], $ccss_pkgs) # set further down
+AC_SUBST([CCSS_LIBS]) # set further down
+AC_SUBST([CCSS_DEPS], $ccss_pkgs) # set further down
 
 
 ### ccss-cairo ###
@@ -181,32 +181,32 @@ else
 fi
 
 
-### ccss-clutter ###
+### examples ###
 
-ccss_clutter_reqs='clutter-cairo-0.8'
-ccss_clutter_pkgs=
+ccss_examples_reqs='gtk+-2.0 >= 2.10'
+ccss_examples_pkgs=
 
-PKG_CHECK_EXISTS([ $ccss_clutter_reqs ],
+PKG_CHECK_EXISTS([ $ccss_examples_reqs ],
 [
-  with_clutter="yes"
-  ccss_clutter_pkgs="$ccss_clutter_pkgs $ccss_clutter_reqs"
+  with_examples="yes"
+  ccss_examples_pkgs="$ccss_examples_pkgs $ccss_examples_reqs"
 ],[
-  with_clutter="no"
+  with_examples="no"
 ])
 
-if test "$with_clutter" = "yes"; then
-  AC_DEFINE([CCSS_WITH_CLUTTER], [1], [Support for clutter-cairo (experimental)])
+if test "$with_examples" = "yes"; then
+  AC_DEFINE([CCSS_WITH_EXAMPLES], [1], [Build examples])
 fi
-AM_CONDITIONAL([CCSS_WITH_CLUTTER], [test "$with_clutter" = "yes"])
-AC_SUBST([ccss_with_clutter], [$with_clutter])
+AM_CONDITIONAL([CCSS_WITH_EXAMPLES], [test "$with_examples" = "yes"])
+AC_SUBST([ccss_with_examples], [$with_examples])
 
-if test "$with_clutter" = "yes"; then
-  ccss_clutter_pkgs="$ccss_cairo_pkgs $ccss_clutter_pkgs"
-  PKG_CHECK_MODULES(CCSS_CLUTTER, $ccss_clutter_pkgs)
+if test "$with_examples" = "yes"; then
+  ccss_examples_pkgs="$ccss_cairo_pkgs $ccss_examples_pkgs"
+  PKG_CHECK_MODULES(CCSS_EXAMPLES, $ccss_examples_pkgs)
 fi
-# AC_SUBST([CCSS_CLUTTER_CFLAGS]) # set further down
-AC_SUBST([CCSS_CLUTTER_LIBS])
-AC_SUBST([CCSS_CLUTTER_DEPS], $ccss_clutter_pkgs)
+# AC_SUBST([CCSS_EXAMPLES_CFLAGS]) # set further down
+AC_SUBST([CCSS_EXAMPLES_LIBS])
+
 
 
 ### Checks for header files. ###################################################
@@ -246,16 +246,13 @@ if test "$GCC" = "yes"; then
 fi
 
 CCSS_CFLAGS="${CCSS_CFLAGS} ${extra_cflags}"
-CCSS_DEPS="${ccss_pkgs}"
 AC_SUBST([CCSS_CFLAGS])
-AC_SUBST([CCSS_LIBS])
-AC_SUBST([CCSS_DEPS])
 
 CCSS_CAIRO_CFLAGS="${CCSS_CAIRO_CFLAGS} ${extra_cflags}"
 AC_SUBST([CCSS_CAIRO_CFLAGS])
 
-CCSS_CLUTTER_CFLAGS="${CCSS_CLUTTER_CFLAGS} ${extra_cflags}"
-AC_SUBST([CCSS_CLUTTER_CFLAGS])
+CCSS_EXAMPLES_CFLAGS="${CCSS_EXAMPLES_CFLAGS} ${extra_cflags}"
+AC_SUBST([CCSS_EXAMPLES_CFLAGS])
 
 AC_CONFIG_FILES([
   Makefile
@@ -269,8 +266,6 @@ AC_CONFIG_FILES([
   ccss-cairo/Makefile
   ccss-cairo-doc/Makefile
   ccss-cairo-doc/version.xml
-
-  ccss-clutter/Makefile
 
   examples/Makefile
 ])
@@ -290,6 +285,6 @@ ccss-cairo:                      $with_cairo
     Support for SVG images       $with_rsvg (requires $rsvg_reqs)
     Support for SVG fragments    $with_libsoup (WIP, requires $soup_reqs)
 
-ccss-clutter:                    $with_clutter (experimental, requires $ccss_clutter_reqs)
+examples:                        $with_examples (requires $ccss_examples_reqs)
 "
 

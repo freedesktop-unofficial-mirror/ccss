@@ -2,7 +2,7 @@
 ACLOCAL_AMFLAGS = -I .
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --enable-werror
 
-DIST_SUBDIRS = ccss ccss-doc ccss-cairo ccss-clutter examples
+DIST_SUBDIRS = ccss ccss-doc ccss-cairo ccss-cairo-doc examples
 SUBDIRS = ccss ccss-doc
 
 pkgconfigdir = $(libdir)/pkgconfig
@@ -13,8 +13,8 @@ SUBDIRS += ccss-cairo ccss-cairo-doc
 pkgconfig_DATA += libccss-cairo-1.pc
 endif
 
-if CCSS_WITH_CLUTTER
-SUBDIRS += ccss-clutter
+if CCSS_WITH_EXAMPLES
+SUBDIRS += examples
 endif
 
 EXTRA_DIST = \
@@ -28,7 +28,4 @@ EXTRA_DIST = \
 	autogen.sh \
 	libccss-1.pc.in \
 	libccss-cairo-1.pc.in
-
-distclean-local:
-	rm -rf *.cache *~
 
