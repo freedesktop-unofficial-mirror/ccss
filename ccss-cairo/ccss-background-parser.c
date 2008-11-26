@@ -20,10 +20,15 @@
 #include <math.h>
 #include <string.h>
 #include <glib.h>
+#include <ccss/ccss.h>
 #include "ccss-background-parser.h"
 #include "ccss-background.h"
-//#include "ccss-block-priv.h"
 #include "config.h"
+
+/* Dummy property to hook up the inheritance function. */
+typedef struct {
+	ccss_property_base_t	base;
+} background_t;
 
 static ccss_property_class_t const *
 peek_property_class (char const *property_name);
@@ -212,13 +217,25 @@ background_factory (ccss_block_t		*self,
 	ccss_background_image_t		*bg_image,	bgi;
 	ccss_background_position_t	*bg_position,	bgp;
 	ccss_background_repeat_t	*bg_repeat,	bgr;
+	background_t			*bg;
 	bool				 ret;
+
+	/* Insert dummy property to handle inheritance. */
+	bg = g_new0 (background_t, 1);
+	ccss_property_init (&bg->base, peek_property_class ("background"));
+	bg->base.state = ccss_property_parse_state (&values);
+	if (bg->base.state != CCSS_PROPERTY_STATE_INVALID) {
+		ccss_block_add_property (self, "background", &bg->base);
+		if (NULL == values) {
+			return true;
+		}
+	}
 
 	/* PONDERING: also support `background-size' here, but let's stick
 	 * to CSS2 for now. */
+	ccss_property_init (&bgc.base, peek_property_class ("background-color"));
 	ret = ccss_color_parse (&bgc, &values);
 	if (ret) {
-		bgc.base.property_class = peek_property_class ("background-color");
 		bg_color = g_new0 (ccss_color_t, 1);
 		*bg_color = bgc;
 		ccss_block_add_property (self, "background-color", 
@@ -229,9 +246,9 @@ background_factory (ccss_block_t		*self,
 		return false;
 	}
 
+	ccss_property_init (&bgi.base, peek_property_class ("background-image"));
 	ret = bg_image_parse (&bgi, &values);
 	if (ret) {
-		bgi.base.property_class = peek_property_class ("background-image");
 		bg_image = g_new0 (ccss_background_image_t, 1);
 		*bg_image = bgi;
 		ccss_block_add_property (self, "background-image", 
@@ -242,9 +259,9 @@ background_factory (ccss_block_t		*self,
 		return false;
 	}
 
+	ccss_property_init (&bgr.base, peek_property_class ("background-repeat"));
 	ret = bg_repeat_parse (&bgr, &values);
 	if (ret) {
-		bgr.base.property_class = peek_property_class ("background-repeat");
 		bg_repeat = g_new0 (ccss_background_repeat_t, 1);
 		*bg_repeat = bgr;
 		ccss_block_add_property (self, "background-repeat", 
@@ -255,9 +272,9 @@ background_factory (ccss_block_t		*self,
 		return false;
 	}
 
+	ccss_property_init (&bga.base, peek_property_class ("background-attachment"));
 	ret = bg_attachment_parse (&bga, &values);
 	if (ret) {
-		bga.base.property_class = peek_property_class ("background-attachment");
 		bg_attachment = g_new0 (ccss_background_attachment_t, 1);
 		*bg_attachment = bga;
 		ccss_block_add_property (self, "background-attachment", 
@@ -268,9 +285,9 @@ background_factory (ccss_block_t		*self,
 		return false;
 	}
 
+	ccss_property_init (&bgp.base, peek_property_class ("background-position"));
 	ret = bg_position_parse (&bgp, &values);
 	if (ret) {
-		bgp.base.property_class = peek_property_class ("background-position");
 		bg_position = g_new0 (ccss_background_position_t, 1);
 		*bg_position = bgp;
 		ccss_block_add_property (self, "background-position", 
@@ -285,6 +302,42 @@ background_factory (ccss_block_t		*self,
 	return true;
 }
 
+static void 
+background_inherit (ccss_style_t const	*container_style,
+		    ccss_style_t	*style)
+{
+	ccss_property_base_t const *property;
+
+	if (ccss_style_get_property (container_style, "background-attachment",
+				     (void **) &property)) {
+		ccss_style_set_property (style, "background-attachment", property);
+	}
+	if (ccss_style_get_property (container_style, "background-color",
+				     (void **) &property)) {
+		ccss_style_set_property (style, "background-color", property);
+	}
+	if (ccss_style_get_property (container_style, "background-image",
+				     (void **) &property)) {
+		ccss_style_set_property (style, "background-image", property);
+	}
+	if (ccss_style_get_property (container_style, "background-position",
+				     (void **) &property)) {
+		ccss_style_set_property (style, "background-position", property);
+	}
+	if (ccss_style_get_property (container_style, "background-repeat",
+				     (void **) &property)) {
+		ccss_style_set_property (style, "background-repeat", property);
+	}
+	if (ccss_style_get_property (container_style, "background-size",
+				     (void **) &property)) {
+		ccss_style_set_property (style, "background-size", property);
+	}
+	if (ccss_style_get_property (container_style, "background",
+				     (void **) &property)) {
+		ccss_style_set_property (style, "background", property);
+	}
+}
+
 static ccss_background_attachment_t *
 background_attachment_new (CRTerm const *values)
 {
@@ -294,6 +347,7 @@ background_attachment_new (CRTerm const *values)
 	g_return_val_if_fail (values, NULL);
 
 	self = g_new0 (ccss_background_attachment_t, 1);
+	ccss_property_init (&self->base, peek_property_class ("background-attachment"));
 	ret = bg_attachment_parse (self, &values);
 	if (!ret) {
 		g_free (self), self = NULL;
@@ -340,6 +394,7 @@ background_image_new (CRTerm const *values)
 	g_return_val_if_fail (values, NULL);
 
 	self = g_new0 (ccss_background_image_t, 1);
+	ccss_property_init (&self->base, peek_property_class ("background-image"));
 	ret = bg_image_parse (self, &values);
 	if (!ret) {
 		g_free (self), self = NULL;
@@ -376,6 +431,7 @@ background_position_new (CRTerm const *values)
 	g_return_val_if_fail (values, NULL);
 
 	self = g_new0 (ccss_background_position_t, 1);
+	ccss_property_init (&self->base, peek_property_class ("background-position"));
 	ret = bg_position_parse (self, &values);
 	if (!ret) {
 		g_free (self), self = NULL;
@@ -403,6 +459,7 @@ background_repeat_new (CRTerm const *values)
 	g_return_val_if_fail (values, NULL);
 
 	self = g_new0 (ccss_background_repeat_t, 1);
+	ccss_property_init (&self->base, peek_property_class ("background-repeat"));
 	ret = bg_repeat_parse (self, &values);
 	if (!ret) {
 		g_free (self), self = NULL;
@@ -455,6 +512,7 @@ background_size_new (CRTerm const *values)
 	g_return_val_if_fail (values, NULL);
 
 	self = g_new0 (ccss_background_size_t, 1);
+	ccss_property_init (&self->base, peek_property_class ("background-size"));
 	ret = bg_size_parse (self, &values);
 	if (!ret) {
 		g_free (self), self = NULL;
@@ -479,49 +537,52 @@ static ccss_property_class_t const _ptable[] = {
 	.property_new = (ccss_property_new_f) background_attachment_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) background_attachment_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "background-color",
 	.property_new = (ccss_property_new_f) ccss_color_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "background-image",
 	.property_new = (ccss_property_new_f) background_image_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) background_image_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "background-position",
 	.property_new = (ccss_property_new_f) background_position_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) background_position_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "background-repeat",
 	.property_new = (ccss_property_new_f) background_repeat_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) background_repeat_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "background-size",
 	.property_new = (ccss_property_new_f) background_size_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) background_size_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "background",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = NULL,
-	.property_factory = background_factory
+	.property_factory = background_factory,
+	.property_inherit = background_inherit
     }, {
-	.name = NULL,
-	.property_new = NULL,
-	.property_free = NULL,
-	.property_convert = NULL,
-	.property_factory = NULL
+	.name = NULL
     }
 };
 

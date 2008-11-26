@@ -179,6 +179,29 @@ ccss_style_get_property	(ccss_style_t const	 *self,
 }
 
 /**
+ * ccss_style_set_property:
+ * @self:		a #ccss_style_t.
+ * @property_name:	name of the property.
+ * @value:		location to store the raw property pointer.
+ * 
+ * Insert custom property. This is for custom property implementations only.
+ **/
+void
+ccss_style_set_property	(ccss_style_t 			*self,
+			 char const			*property_name,
+			 ccss_property_base_t const	*value)
+{
+	GQuark property_id;
+
+	g_return_if_fail (self && property_name && value);
+
+	property_id = g_quark_try_string (property_name);
+	g_return_if_fail (property_id);
+
+	g_hash_table_insert (self->properties, (gconstpointer) property_id, value);
+}
+
+/**
  * ccss_style_foreach:
  * @self:	a #ccss_style_t.
  * @func:	a #ccss_style_iterator_f.

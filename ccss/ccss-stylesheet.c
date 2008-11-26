@@ -348,9 +348,17 @@ inherit_container_style (ccss_style_t const	*container_style,
 			if (CCSS_PROPERTY_STATE_NONE == property->state ||
 			    CCSS_PROPERTY_STATE_SET == property->state ) {
 
-				g_hash_table_insert (style->properties,
-						     (gpointer) property_id,
-						     (gpointer) property);
+printf ("%s %p\n", g_quark_to_string (property_id), property->property_class->property_inherit);
+
+				if (property->property_class->property_inherit) {
+					property->property_class->property_inherit (
+							container_style, 
+							style);
+				} else {
+					g_hash_table_insert (style->properties,
+							     (gpointer) property_id,
+							     (gpointer) property);
+				}
 
 				/* Remember inherited properties, we can't
 				 * modify the hash while iterating. */
@@ -435,12 +443,11 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 		       ccss_node_t const	*node, 
 		       ccss_style_t		*style)
 {
-	GHashTable		*inherit;
-	GHashTableIter		 iter;
-	GQuark			 property_id;
-	void const		*property;
-	ccss_property_state_t	 property_state;
-	bool			 ret;
+	GHashTable			*inherit;
+	GHashTableIter			 iter;
+	GQuark				 property_id;
+	ccss_property_base_t const	*property;
+	bool				 ret;
 
 	/* Apply this node's styling. */
 	ret = query_node (self, node, style);
@@ -452,8 +459,8 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 	g_hash_table_iter_init (&iter, style->properties);
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property)) {
 
-		property_state = * (ccss_property_state_t *) property;
-		if (CCSS_PROPERTY_STATE_INHERIT == property_state) {
+		if (CCSS_PROPERTY_STATE_INHERIT == property->state) {
+printf ("Inheriting `%s'\n", g_quark_to_string (property_id));
 			g_hash_table_insert (inherit,
 					     (gpointer) property_id,
 					     (gpointer) property_id);

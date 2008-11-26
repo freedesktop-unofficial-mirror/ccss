@@ -1,5 +1,29 @@
 2008-11-26  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/ccss-background-parser.c (background_factory),
+	(background_inherit), (background_attachment_new),
+	(background_image_new), (background_position_new),
+	(background_repeat_new), (background_size_new):
+	* ccss-cairo/ccss-border-image-parser.c:
+	* ccss-cairo/ccss-border-parser.c (border_radius_new),
+	(border_style_new), (border_width_new):
+	* ccss-cairo/ccss-cairo-style.h:
+	* ccss-cairo/ccss-color.c:
+	* ccss-doc/ccss-sections.txt:
+	* ccss-doc/tmpl/property.sgml:
+	* ccss-doc/tmpl/style.sgml:
+	* ccss/ccss-property-generic.c:
+	* ccss/ccss-property.h:
+	* ccss/ccss-style.c (ccss_style_set_property):
+	* ccss/ccss-style.h:
+	* ccss/ccss-stylesheet.c (inherit_container_style),
+	(ccss_stylesheet_query):
+	* ccss/ccss.sym:
+	* examples/Makefile.am:
+	Work on single-canvas support and style inheritance.
+
+2008-11-26  Robert Staudinger  <robsta@gnome.org>
+
 	* examples/example-5.c (expose_cb), (url), (main):
 	* examples/example-5.svg:
 	Add SVG fragment example.

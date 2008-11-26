@@ -30,5 +30,6 @@ example_4_SOURCES = example-4.c
 example_5_SOURCES = example-5.c
 
 EXTRA_DIST = \
-	example-3.png
+	example-3.png \
+	example-5.svg
 

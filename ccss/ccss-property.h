@@ -26,8 +26,9 @@
 
 CCSS_BEGIN_DECLS
 
-/* #include <ccss/ccss-block.h> avoid circular dependency. */
+/* Avoid circular dependencies. */
 struct ccss_block_;
+struct ccss_style_;
 
 /**
  * ccss_property_state_t:
@@ -102,6 +103,18 @@ typedef bool (*ccss_property_convert_f) (ccss_property_base_t const	*self,
  **/
 typedef bool (*ccss_property_factory_f) (struct ccss_block_	*block,
 					 CRTerm const		*values);
+
+/**
+ * ccss_property_inherit_f:
+ * @container_style:	style to inherit from.
+ * @style:		style to inherit to.
+ *
+ * Hook function to inherit multi-value properties like `border'.
+ *
+ **/
+typedef void (*ccss_property_inherit_f) (struct ccss_style_ const	*container_style,
+					 struct ccss_style_		*style);
+
 /**
  * ccss_property_class_t:
  * @name:		property name.
@@ -109,6 +122,7 @@ typedef bool (*ccss_property_factory_f) (struct ccss_block_	*block,
  * @property_free:	deallocation hook, see #ccss_property_free_f.
  * @property_convert:	conversion hook, see #ccss_property_convert_f.
  * @property_factory:	factory hook, see #ccss_property_factory_f.
+ * @property_inherit:	inherit hook, see #ccss_property_inherit_f.
  *
  * Entry in the table of property implementations passed when initialising ccss, see #ccss_init.
  **/
@@ -118,6 +132,7 @@ typedef struct {
 	ccss_property_free_f	 property_free;
 	ccss_property_convert_f	 property_convert;
 	ccss_property_factory_f	 property_factory;
+	ccss_property_inherit_f	 property_inherit;
 } ccss_property_class_t;
 
 /**

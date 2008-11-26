@@ -13,6 +13,7 @@ ccss_style_free
 ccss_style_get_double
 ccss_style_get_property
 ccss_style_get_string
+ccss_style_set_property
 ccss_style_new
 ccss_stylesheet_add_from_file
 ccss_stylesheet_dump

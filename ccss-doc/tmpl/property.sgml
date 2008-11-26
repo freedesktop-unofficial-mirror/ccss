@@ -73,6 +73,15 @@ ccss_property_t
 @Returns: 
 
 
+<!-- ##### USER_FUNCTION ccss_property_inherit_f ##### -->
+<para>
+
+</para>
+
+@container_style: 
+@style: 
+
+
 <!-- ##### STRUCT ccss_property_class_t ##### -->
 <para>
 
@@ -83,6 +92,7 @@ ccss_property_t
 @property_free: 
 @property_convert: 
 @property_factory: 
+@property_inherit: 
 
 <!-- ##### TYPEDEF ccss_property_base_t ##### -->
 <para>

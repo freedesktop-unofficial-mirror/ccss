@@ -22,6 +22,7 @@
 
 #include <stdint.h>
 #include <ccss/ccss-macros.h>
+#include <ccss/ccss-property.h>
 
 CCSS_BEGIN_DECLS
 
@@ -55,6 +56,11 @@ bool
 ccss_style_get_property	(ccss_style_t const	 *self,
 			 char const		 *property_name,
 			 void			**value);
+
+void
+ccss_style_set_property	(ccss_style_t 			*self,
+			 char const			*property_name,
+			 ccss_property_base_t const	*value);
 
 /**
  * ccss_style_iterator_f:

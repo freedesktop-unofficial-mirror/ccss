@@ -61,6 +61,16 @@ ccss_style_t
 @Returns: 
 
 
+<!-- ##### FUNCTION ccss_style_set_property ##### -->
+<para>
+
+</para>
+
+@self: 
+@property_name: 
+@value: 
+
+
 <!-- ##### FUNCTION ccss_style_get_string ##### -->
 <para>
 

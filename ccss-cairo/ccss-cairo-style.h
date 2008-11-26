@@ -77,6 +77,8 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 					  int				 gap_start,
 					  int				 gap_width);
 
+// TODO implement get_property methods with fallback.
+
 CCSS_END_DECLS
 
 #endif /* CCSS_CAIRO_STYLE_H */

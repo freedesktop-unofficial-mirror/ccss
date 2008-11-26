@@ -438,12 +438,13 @@ border_radius_new (CRTerm const *value)
 	ccss_border_join_t *radius, r;
 
 	memset (&r, 0, sizeof (r));
+	ccss_property_init (&r.base, peek_property_class ("border-radius"));
+
 	parse_radius (&value, &r);
 	if (CCSS_PROPERTY_STATE_INVALID == r.base.state) {
 		return NULL;
 	}
 
-	r.base.property_class = peek_property_class ("border-radius");
 	radius = g_new0 (ccss_border_join_t, 1);
 	*radius = r;
 	return radius;
@@ -528,12 +529,13 @@ border_style_new (CRTerm const *value)
 	ccss_border_style_t *self, s;
 
 	memset (&s, 0, sizeof (s));
+	ccss_property_init (&s.base, peek_property_class ("border-style"));
+
 	parse_style (&value, &s);
 	if (CCSS_PROPERTY_STATE_INVALID == s.base.state) {
 		return NULL;
 	}
 
-	s.base.property_class = peek_property_class ("border-style");
 	self = g_new0 (ccss_border_style_t, 1);
 	*self = s;
 	return self;
@@ -560,12 +562,13 @@ border_width_new (CRTerm const *value)
 	ccss_border_width_t *self, w;
 
 	memset (&w, 0, sizeof (w));
+	ccss_property_init (&w.base, peek_property_class ("border-width"));
+
 	parse_width (&value, &w);
 	if (CCSS_PROPERTY_STATE_INVALID == w.base.state) {
 		return NULL;
 	}
 
-	w.base.property_class = peek_property_class ("border-width");
 	self = g_new0 (ccss_border_width_t, 1);
 	*self = w;
 	return self;
@@ -599,157 +602,178 @@ static ccss_property_class_t const _ptable[] = {
 	.property_new = (ccss_property_new_f) border_radius_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-bottom-right-radius",
 	.property_new = (ccss_property_new_f) border_radius_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-bottom-left-radius",
 	.property_new = (ccss_property_new_f) border_radius_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-top-left-radius",
 	.property_new = (ccss_property_new_f) border_radius_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-radius",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
-	.property_factory = (ccss_property_factory_f) border_radius_factory
+	.property_factory = (ccss_property_factory_f) border_radius_factory,
+	.property_inherit = NULL	// TODO
     }, {
 	.name = "border-left-color",
 	.property_new = (ccss_property_new_f) ccss_color_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-left-style",
 	.property_new = (ccss_property_new_f) border_style_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_style_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-left-width",
 	.property_new = (ccss_property_new_f) border_width_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_width_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-top-color",
 	.property_new = (ccss_property_new_f) ccss_color_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-top-style",
 	.property_new = (ccss_property_new_f) border_style_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_style_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-top-width",
 	.property_new = (ccss_property_new_f) border_width_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_width_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-right-color",
 	.property_new = (ccss_property_new_f) ccss_color_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-right-style",
 	.property_new = (ccss_property_new_f) border_style_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_style_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-right-width",
 	.property_new = (ccss_property_new_f) border_width_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_width_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-bottom-color",
 	.property_new = (ccss_property_new_f) ccss_color_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-bottom-style",
 	.property_new = (ccss_property_new_f) border_style_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_style_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-bottom-width",
 	.property_new = (ccss_property_new_f) border_width_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_width_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = "border-left",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = NULL,
-	.property_factory = (ccss_property_factory_f) border_left_factory
+	.property_factory = (ccss_property_factory_f) border_left_factory,
+	.property_inherit = NULL	// TODO
     }, {
 	.name = "border-top",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = NULL,
-	.property_factory = (ccss_property_factory_f) border_top_factory
+	.property_factory = (ccss_property_factory_f) border_top_factory,
+	.property_inherit = NULL	// TODO
     }, {
 	.name = "border-right",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = NULL,
-	.property_factory = (ccss_property_factory_f) border_right_factory
+	.property_factory = (ccss_property_factory_f) border_right_factory,
+	.property_inherit = NULL	// TODO
     }, {
 	.name = "border-bottom",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = NULL,
-	.property_factory = (ccss_property_factory_f) border_bottom_factory
+	.property_factory = (ccss_property_factory_f) border_bottom_factory,
+	.property_inherit = NULL	// TODO
     }, {
 	.name = "border-color",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = (ccss_property_factory_f) border_color_factory
+	.property_factory = (ccss_property_factory_f) border_color_factory,
+	.property_inherit = NULL	// TODO
     }, {
 	.name = "border-style",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_style_convert,
-	.property_factory = (ccss_property_factory_f) border_style_factory
+	.property_factory = (ccss_property_factory_f) border_style_factory,
+	.property_inherit = NULL	// TODO
     }, {
 	.name = "border-width",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_width_convert,
-	.property_factory = (ccss_property_factory_f) border_width_factory
+	.property_factory = (ccss_property_factory_f) border_width_factory,
+	.property_inherit = NULL	// TODO
     }, {
 	.name = "border",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = NULL,
-	.property_factory = (ccss_property_factory_f) border_factory
+	.property_factory = (ccss_property_factory_f) border_factory,
+	.property_inherit = NULL	// TODO
     }, {
 	.name = NULL,
-	.property_new = NULL,
-	.property_free = NULL,
-	.property_convert = NULL,
-	.property_factory = NULL
     }
 };
 

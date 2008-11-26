@@ -398,13 +398,10 @@ static ccss_property_class_t const _ptable[] = {
 	.property_new = (ccss_property_new_f) ccss_color_new,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = NULL
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
-	.name = NULL,
-	.property_new = NULL,
-	.property_free = NULL,
-	.property_convert = NULL,
-	.property_factory = NULL
+	.name = NULL
     }
 };
 
