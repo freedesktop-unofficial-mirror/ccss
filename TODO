@@ -28,8 +28,11 @@ Also see gtk-css-engine's TODO for now.
 ---
 
 * Separate cairo-dependent code.
+* Create a "grammar" class that holds properties and functions, needs to be passed when allocating a stylesheet.
 
 Blue Sky
 --------
 
-Transitions / animations? http://ejohn.org/blog/css-animations-and-javascript/
+* https://developer.mozilla.org/en/CSS/-moz-image-region
+* Transitions / animations? http://ejohn.org/blog/css-animations-and-javascript/
+

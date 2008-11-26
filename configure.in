@@ -160,11 +160,32 @@ fi
 AM_CONDITIONAL([CCSS_WITH_RSVG], [test "$with_rsvg" = "yes"])
 AC_SUBST([ccss_with_rsvg], [$with_rsvg])
 
-### SVG fragment support using libsoup.
-### FIXME: activate after fragment-dimension API landed in librsvg.
-with_libsoup="no"
-soup_reqs='libsoup-2.4'
-AM_CONDITIONAL([CCSS_WITH_LIBSOUP], [test "$with_libsoup" = "yes"])
+### SVG fragment support using libsoup and librsvg-2.0 >= 2.22.4.
+soup_reqs='libsoup-2.4 librsvg-2.0 >= 2.22.4'
+
+# FIXME: default to using it once rsvg is available.
+#AC_ARG_WITH([soup],
+#            [AS_HELP_STRING([--without-soup], [ccss-cairo: do not build SVG fragment support.])],
+#[
+#  with_soup="$withval"  
+#], [
+#  # default
+#  with_soup="yes"
+#])
+
+PKG_CHECK_EXISTS([ $soup_reqs ],
+[
+  with_soup="yes"
+],[
+  with_soup="no"
+])
+
+if test "$with_soup" != "no"; then
+  ccss_cairo_pkgs="$ccss_cairo_pkgs $soup_reqs"
+  AC_DEFINE([CCSS_WITH_SOUP], [1], [SVG fragment support through libsoup and librsvg-2.0 >= 2.22.4])
+fi
+AM_CONDITIONAL([CCSS_WITH_SOUP], [test "$with_soup" = "yes"])
+AC_SUBST([ccss_with_soup], [$with_soup])
 
 
 with_cairo="yes"
@@ -183,7 +204,7 @@ fi
 
 ### examples ###
 
-ccss_examples_reqs='gtk+-2.0 >= 2.10'
+ccss_examples_reqs='gtk+-2.0 >= 2.10 librsvg-2.0'
 ccss_examples_pkgs=
 
 PKG_CHECK_EXISTS([ $ccss_examples_reqs ],
@@ -283,7 +304,7 @@ ccss:                            yes
 
 ccss-cairo:                      $with_cairo
     Support for SVG images       $with_rsvg (requires $rsvg_reqs)
-    Support for SVG fragments    $with_libsoup (WIP, requires $soup_reqs)
+    Support for SVG fragments    $with_soup (requires $soup_reqs)
 
 examples:                        $with_examples (requires $ccss_examples_reqs)
 "

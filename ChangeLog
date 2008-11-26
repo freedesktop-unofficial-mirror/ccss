@@ -1,3 +1,12 @@
+2008-11-26  Robert Staudinger  <robsta@gnome.org>
+
+	* TODO:
+	* ccss-cairo/ccss-image.c (load_svg):
+	* configure.in:
+	* examples/Makefile.am:
+	* libccss-cairo-1.pc.in:
+	Enable use of SVG fragments.
+
 2008-11-25  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss/ccss-property-generic.c (property_new): set property class correctly.

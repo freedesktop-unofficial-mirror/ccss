@@ -4,8 +4,9 @@ libdir=@libdir@
 includedir=@includedir@
 
 ccss_with_rsvg=@ccss_with_rsvg@
+ccss_with_soup=@ccss_with_soup@
 
-Name: libccss-1
+Name: libccss-cairo-1
 Description: The Cairo CSS Library
 Version: @VERSION@
 Requires: @CCSS_CAIRO_DEPS@

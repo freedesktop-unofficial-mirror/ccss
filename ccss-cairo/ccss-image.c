@@ -60,6 +60,7 @@ load_svg (ccss_image_t	*self,
 	cairo_t			*cr;
 	cairo_surface_t		*surface;
 	cairo_status_t		 status;
+	bool			 ret;
 
 	error = NULL;
 	handle = rsvg_handle_new_from_file (uri, &error);
@@ -70,18 +71,44 @@ load_svg (ccss_image_t	*self,
 		return false;
 	}
 
-	rsvg_handle_get_dimensions (handle, &dimensions);
-	self->width = dimensions.width;
-	self->height = dimensions.height;
-	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 
-					      self->width, self->height);
-	cr = cairo_create (surface);
-	rsvg_handle_render_cairo_sub (handle, cr, id);
-	status = cairo_status (cr);
-	if (status != CAIRO_STATUS_SUCCESS) {
-		g_warning ("%s", cairo_status_to_string (status));
-	}
+#if CCSS_WITH_SOUP
+	if (id) {
+		char			*fragment;
+		RsvgPositionData	 position;
 
+		fragment = g_strdup_printf ("#%s", id);
+
+		rsvg_handle_get_dimensions_sub (handle, &dimensions, fragment);
+		rsvg_handle_get_position_sub (handle, &position, fragment);
+		self->width = dimensions.width;
+		self->height = dimensions.height;
+		surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 
+						      self->width, self->height);
+		cr = cairo_create (surface);
+		cairo_translate (cr, -1 * position.x, -1 * position.y);
+		ret = rsvg_handle_render_cairo_sub (handle, cr, fragment);
+		status = cairo_status (cr);
+		if (status != CAIRO_STATUS_SUCCESS) {
+			g_warning ("%s", cairo_status_to_string (status));
+		}
+
+		g_free (fragment), fragment = NULL;
+	} else {
+#endif
+		rsvg_handle_get_dimensions (handle, &dimensions);
+		self->width = dimensions.width;
+		self->height = dimensions.height;
+		surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 
+						      self->width, self->height);
+		cr = cairo_create (surface);
+		ret = rsvg_handle_render_cairo (handle, cr);
+		status = cairo_status (cr);
+		if (status != CAIRO_STATUS_SUCCESS) {
+			g_warning ("%s", cairo_status_to_string (status));
+		}
+#if CCSS_WITH_SOUP
+	}
+#endif
 	self->pattern = cairo_pattern_create_for_surface (surface);
 	cairo_pattern_reference (self->pattern);
 	cairo_surface_destroy (surface), surface = NULL;
