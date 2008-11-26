@@ -1,5 +1,11 @@
 2008-11-26  Robert Staudinger  <robsta@gnome.org>
 
+	* examples/example-5.c (expose_cb), (url), (main):
+	* examples/example-5.svg:
+	Add SVG fragment example.
+
+2008-11-26  Robert Staudinger  <robsta@gnome.org>
+
 	* TODO:
 	* ccss-cairo/ccss-image.c (load_svg):
 	* configure.in:
