@@ -348,8 +348,6 @@ inherit_container_style (ccss_style_t const	*container_style,
 			if (CCSS_PROPERTY_STATE_NONE == property->state ||
 			    CCSS_PROPERTY_STATE_SET == property->state ) {
 
-printf ("%s %p\n", g_quark_to_string (property_id), property->property_class->property_inherit);
-
 				if (property->property_class->property_inherit) {
 					property->property_class->property_inherit (
 							container_style, 
@@ -397,7 +395,6 @@ query_container_r (ccss_stylesheet_t const	*self,
 	ccss_node_class_t const	*node_class;
 	ccss_node_t		*container;
 	ccss_style_t		*container_style;
-	bool			 have_styling;
 	bool			 ret;
 
 	g_return_val_if_fail (style && node, false);
@@ -408,9 +405,10 @@ query_container_r (ccss_stylesheet_t const	*self,
 	if (!container)
 		return false;
 
+	/* Have styling? */
 	container_style = ccss_style_new ();
-	have_styling = query_node (self, container, container_style);
-	if (have_styling) {
+	ret = query_node (self, container, container_style);
+	if (ret) {
 		inherit_container_style (container_style, inherit, style);
 	}
 	ccss_style_free (container_style), container_style = NULL;
@@ -420,11 +418,13 @@ query_container_r (ccss_stylesheet_t const	*self,
 		ret = true;
 	} else {
 		/* Recurse. */
-		ret = query_container_r (self, container, inherit, style);
+		query_container_r (self, container, inherit, style);
 	}
 
 	node_class->release (container), container = NULL;
 
+	/* Return true if some styling has been found, not necessarily all
+	 * properties resolved. */
 	return ret;
 }
 
@@ -460,7 +460,7 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property)) {
 
 		if (CCSS_PROPERTY_STATE_INHERIT == property->state) {
-printf ("Inheriting `%s'\n", g_quark_to_string (property_id));
+
 			g_hash_table_insert (inherit,
 					     (gpointer) property_id,
 					     (gpointer) property_id);

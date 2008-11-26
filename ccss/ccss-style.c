@@ -88,7 +88,7 @@ ccss_style_get_double (ccss_style_t const	*self,
 
 	property_id = g_quark_try_string (property_name);
 	if (0 == property_id) {
-		g_warning ("Unknown property `%s'", property_name);
+		/* Property unknown, no need to look up. */
 		return false;
 	}
 
@@ -129,7 +129,7 @@ ccss_style_get_string (ccss_style_t const	 *self,
 
 	property_id = g_quark_try_string (property_name);
 	if (0 == property_id) {
-		g_warning ("Unknown property `%s'", property_name);
+		/* Property unknown, no need to look up. */
 		return false;
 	}
 
@@ -169,7 +169,7 @@ ccss_style_get_property	(ccss_style_t const	 *self,
 
 	property_id = g_quark_try_string (property_name);
 	if (0 == property_id) {
-		g_warning ("Unknown property `%s'", property_name);
+		/* Property unknown, no need to look up. */
 		return false;
 	}
 
@@ -198,7 +198,8 @@ ccss_style_set_property	(ccss_style_t 			*self,
 	property_id = g_quark_try_string (property_name);
 	g_return_if_fail (property_id);
 
-	g_hash_table_insert (self->properties, (gconstpointer) property_id, value);
+	g_hash_table_insert (self->properties, 
+			     (gpointer) property_id, (gpointer) value);
 }
 
 /**

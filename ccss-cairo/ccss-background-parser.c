@@ -217,15 +217,16 @@ background_factory (ccss_block_t		*self,
 	ccss_background_image_t		*bg_image,	bgi;
 	ccss_background_position_t	*bg_position,	bgp;
 	ccss_background_repeat_t	*bg_repeat,	bgr;
-	background_t			*bg;
+	background_t			*bg_proxy,	bg;
 	bool				 ret;
 
 	/* Insert dummy property to handle inheritance. */
-	bg = g_new0 (background_t, 1);
-	ccss_property_init (&bg->base, peek_property_class ("background"));
-	bg->base.state = ccss_property_parse_state (&values);
-	if (bg->base.state != CCSS_PROPERTY_STATE_INVALID) {
-		ccss_block_add_property (self, "background", &bg->base);
+	ccss_property_init (&bg.base, peek_property_class ("background"));
+	bg.base.state = ccss_property_parse_state (&values);
+	if (bg.base.state != CCSS_PROPERTY_STATE_INVALID) {
+		bg_proxy = g_new0 (background_t, 1);
+		*bg_proxy = bg;
+		ccss_block_add_property (self, "background", &bg_proxy->base);
 		if (NULL == values) {
 			return true;
 		}

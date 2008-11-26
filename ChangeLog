@@ -1,5 +1,15 @@
 2008-11-26  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/ccss-background-parser.c (background_factory):
+	* ccss/ccss-style.c (ccss_style_get_double),
+	(ccss_style_get_string), (ccss_style_get_property),
+	(ccss_style_set_property):
+	* ccss/ccss-stylesheet.c (inherit_container_style),
+	(query_container_r), (ccss_stylesheet_query):
+	Fix style inheritance for `background', more to come.
+
+2008-11-26  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo/ccss-background-parser.c (background_factory),
 	(background_inherit), (background_attachment_new),
 	(background_image_new), (background_position_new),
