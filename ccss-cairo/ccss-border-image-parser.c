@@ -73,7 +73,8 @@ border_image_new (CRTerm const	*values)
 
 	/* Image */
 	bimg.base.state = ccss_image_parse (&bimg.image, &iter);
-	if (CCSS_PROPERTY_STATE_NONE == bimg.base.state) {
+	if (CCSS_PROPERTY_STATE_NONE == bimg.base.state ||
+	    CCSS_PROPERTY_STATE_INHERIT == bimg.base.state) {
 		border_image = g_new0 (ccss_border_image_t, 1);
 		*border_image = bimg;
 		return border_image;

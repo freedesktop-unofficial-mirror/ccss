@@ -1,5 +1,11 @@
 2008-11-27  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/ccss-border-image-parser.c (border_image_new):
+	* examples/example-5.c:
+	Fix `border-image: inherit;'.
+
+2008-11-27  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo/ccss-image.c (load_svg):
 	* examples/example-5.c:
 	* examples/example-5.svg:

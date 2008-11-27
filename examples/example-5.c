@@ -26,7 +26,7 @@ expose_cb (GtkWidget		*widget,
 
 static char const _css[] = "					\
 	box { 							\
-		border-image: url(example-5.svg#button-focused) 5;	\
+		border-image: url(example-5.svg#button-focused) 8 9 6 9;	\
 	}							\
 ";
 
