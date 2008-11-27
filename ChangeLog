@@ -1,3 +1,17 @@
+2008-11-27  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss-cairo/ccss-background-parser.c (background_factory),
+	(background_inherit):
+	* ccss-cairo/ccss-background-parser.h:
+	* ccss-cairo/ccss-border-parser.c (border_color_factory),
+	(border_style_factory), (border_width_factory),
+	(border_factory_impl), (border_side_inherit_impl),
+	(border_left_inherit), (border_top_inherit),
+	(border_right_inherit), (border_bottom_inherit), (border_inherit),
+	(border_radius_factory), (border_radius_inherit):
+	* ccss-cairo/ccss-border-parser.h:
+	Fix style inheritance for `border'.
+
 2008-11-26  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss-cairo/ccss-background-parser.c (background_factory):

@@ -20,15 +20,19 @@
 #include <math.h>
 #include <string.h>
 #include <glib.h>
-#include <ccss/ccss.h>
 #include "ccss-background-parser.h"
 #include "ccss-background.h"
 #include "config.h"
 
 /* Dummy property to hook up the inheritance function. */
 typedef struct {
-	ccss_property_base_t	base;
-} background_t;
+	ccss_property_base_t			 base;
+	ccss_background_attachment_t const	*bg_attachment;
+	ccss_background_image_t const		*bg_image;
+	ccss_background_position_t const	*bg_position;
+	ccss_background_repeat_t const		*bg_repeat;
+	ccss_color_t const			*bg_color;
+} background_property_t;
 
 static ccss_property_class_t const *
 peek_property_class (char const *property_name);
@@ -217,20 +221,22 @@ background_factory (ccss_block_t		*self,
 	ccss_background_image_t		*bg_image,	bgi;
 	ccss_background_position_t	*bg_position,	bgp;
 	ccss_background_repeat_t	*bg_repeat,	bgr;
-	background_t			*bg_proxy,	bg;
+	background_property_t		*background,	bg;
+	bool				 have_bg_properties;
 	bool				 ret;
 
-	/* Insert dummy property to handle inheritance. */
+	/* If `background: inherit;' then insert a dummy */
+	memset (&bg, 0, sizeof (bg));
 	ccss_property_init (&bg.base, peek_property_class ("background"));
 	bg.base.state = ccss_property_parse_state (&values);
-	if (bg.base.state != CCSS_PROPERTY_STATE_INVALID) {
-		bg_proxy = g_new0 (background_t, 1);
-		*bg_proxy = bg;
-		ccss_block_add_property (self, "background", &bg_proxy->base);
-		if (NULL == values) {
-			return true;
-		}
+	if (bg.base.state == CCSS_PROPERTY_STATE_INHERIT) {
+		background = g_new0 (background_property_t, 1);
+		*background = bg;
+		ccss_block_add_property (self, "background", &background->base);
+		return true;
 	}
+
+	have_bg_properties = false;
 
 	/* PONDERING: also support `background-size' here, but let's stick
 	 * to CSS2 for now. */
@@ -239,12 +245,9 @@ background_factory (ccss_block_t		*self,
 	if (ret) {
 		bg_color = g_new0 (ccss_color_t, 1);
 		*bg_color = bgc;
-		ccss_block_add_property (self, "background-color", 
-					 (ccss_property_base_t *) bg_color);
-		if (NULL == values)
-			return true;
-	} else {
-		return false;
+		ccss_block_add_property (self, "background-color", &bg_color->base);
+		have_bg_properties = true;
+		bg.bg_color = bg_color;
 	}
 
 	ccss_property_init (&bgi.base, peek_property_class ("background-image"));
@@ -252,12 +255,9 @@ background_factory (ccss_block_t		*self,
 	if (ret) {
 		bg_image = g_new0 (ccss_background_image_t, 1);
 		*bg_image = bgi;
-		ccss_block_add_property (self, "background-image", 
-					    (ccss_property_base_t *) bg_image);
-		if (NULL == values)
-			return true;
-	} else {
-		return false;
+		ccss_block_add_property (self, "background-image", &bg_image->base);
+		have_bg_properties = true;
+		bg.bg_image = bg_image;
 	}
 
 	ccss_property_init (&bgr.base, peek_property_class ("background-repeat"));
@@ -265,12 +265,9 @@ background_factory (ccss_block_t		*self,
 	if (ret) {
 		bg_repeat = g_new0 (ccss_background_repeat_t, 1);
 		*bg_repeat = bgr;
-		ccss_block_add_property (self, "background-repeat", 
-					 (ccss_property_base_t *) bg_repeat);
-		if (NULL == values)
-			return true;
-	} else {
-		return false;
+		ccss_block_add_property (self, "background-repeat", &bg_repeat->base);
+		have_bg_properties = true;
+		bg.bg_repeat = bg_repeat;
 	}
 
 	ccss_property_init (&bga.base, peek_property_class ("background-attachment"));
@@ -278,12 +275,9 @@ background_factory (ccss_block_t		*self,
 	if (ret) {
 		bg_attachment = g_new0 (ccss_background_attachment_t, 1);
 		*bg_attachment = bga;
-		ccss_block_add_property (self, "background-attachment", 
-					 (ccss_property_base_t *) bg_attachment);
-		if (NULL == values)
-			return true;
-	} else {
-		return false;
+		ccss_block_add_property (self, "background-attachment", &bg_attachment->base);
+		have_bg_properties = true;
+		bg.bg_attachment = bg_attachment;
 	}
 
 	ccss_property_init (&bgp.base, peek_property_class ("background-position"));
@@ -291,16 +285,20 @@ background_factory (ccss_block_t		*self,
 	if (ret) {
 		bg_position = g_new0 (ccss_background_position_t, 1);
 		*bg_position = bgp;
-		ccss_block_add_property (self, "background-position", 
-					 (ccss_property_base_t *) bg_position);
-		if (NULL == values)
-			return true;
-	} else {
-		return false;
+		ccss_block_add_property (self, "background-position", &bg_position->base);
+		have_bg_properties = true;
+		bg.bg_position = bg_position;
 	}
 
-	/* All sub-properties have been parsed correctly. */
-	return true;
+	/* Any valid properties? */
+	if (have_bg_properties) {
+		background = g_new0 (background_property_t, 1);
+		*background = bg;
+		ccss_block_add_property (self, "background", &background->base);
+		return true;
+	}
+
+	return false;
 }
 
 static void 
@@ -329,10 +327,11 @@ background_inherit (ccss_style_t const	*container_style,
 				     (void **) &property)) {
 		ccss_style_set_property (style, "background-repeat", property);
 	}
+	/* PONDERING support CSS2 `background' for now.
 	if (ccss_style_get_property (container_style, "background-size",
 				     (void **) &property)) {
 		ccss_style_set_property (style, "background-size", property);
-	}
+	} */
 	if (ccss_style_get_property (container_style, "background",
 				     (void **) &property)) {
 		ccss_style_set_property (style, "background", property);

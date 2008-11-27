@@ -25,45 +25,44 @@
 #include "ccss-border-parser.h"
 #include "config.h"
 
-#define INSERT_BORDER_COLOR(block_, property_name_, property_)		       \
+#define INSERT_BORDER_COLOR(block_, prop_name_, prop_, prop_ptr_)	       \
 	G_STMT_START {							       \
-	ccss_color_t *color;						       \
-	property_.base.property_class = peek_property_class (property_name_);  \
-	color = g_new0 (ccss_color_t, 1);				       \
-	*color = property_;						       \
-	ccss_block_add_property (block_, property_name_,		       \
-				 (ccss_property_base_t *) color);	       \
+	prop_.base.property_class = peek_property_class (prop_name_);	       \
+	prop_ptr_ = g_new0 (ccss_color_t, 1);				       \
+	*prop_ptr_ = prop_;						       \
+	ccss_block_add_property (block_, prop_name_, &prop_ptr_->base);	       \
 	} G_STMT_END
 
-#define INSERT_BORDER_STYLE(block_, property_name_, property_)		       \
+#define INSERT_BORDER_STYLE(block_, prop_name_, prop_, prop_ptr_)	       \
 	G_STMT_START {							       \
-	ccss_border_style_t *style;					       \
-	property_.base.property_class = peek_property_class (property_name_);  \
-	style = g_new0 (ccss_border_style_t, 1);			       \
-	*style = property_;						       \
-	ccss_block_add_property (block_, property_name_,		       \
-				 (ccss_property_base_t *) style);	       \
+	prop_.base.property_class = peek_property_class (prop_name_);	       \
+	prop_ptr_ = g_new0 (ccss_border_style_t, 1);			       \
+	*prop_ptr_ = prop_;						       \
+	ccss_block_add_property (block_, prop_name_, &prop_ptr_->base);	       \
 	} G_STMT_END
 
-#define INSERT_BORDER_WIDTH(block_, property_name_, property_)		       \
+#define INSERT_BORDER_WIDTH(block_, prop_name_, prop_, prop_ptr_)	       \
 	G_STMT_START {							       \
-	ccss_border_width_t *width;					       \
-	property_.base.property_class = peek_property_class (property_name_);  \
-	width = g_new0 (ccss_border_width_t, 1);			       \
-	*width = property_;						       \
-	ccss_block_add_property (block_, property_name_,		       \
-				 (ccss_property_base_t *) width);	       \
+	prop_.base.property_class = peek_property_class (prop_name_);	       \
+	prop_ptr_ = g_new0 (ccss_border_width_t, 1);			       \
+	*prop_ptr_ = prop_;						       \
+	ccss_block_add_property (block_, prop_name_, &prop_ptr_->base);	       \
 	} G_STMT_END
 
-#define INSERT_BORDER_RADIUS(block_, property_name_, property_)		       \
+#define INSERT_BORDER_RADIUS(block_, prop_name_, prop_, prop_ptr_)	       \
 	G_STMT_START {							       \
-	ccss_border_join_t *join;					       \
-	property_.base.property_class = peek_property_class (property_name_);  \
-	join = g_new0 (ccss_border_join_t, 1);			       \
-	*join = property_;						       \
-	ccss_block_add_property (block_, property_name_,		       \
-				 (ccss_property_base_t *) join);	       \
+	prop_.base.property_class = peek_property_class (prop_name_);	       \
+	prop_ptr_ = g_new0 (ccss_border_join_t, 1);			       \
+	*prop_ptr_ = prop_;						       \
+	ccss_block_add_property (block_, prop_name_, &prop_ptr_->base);	       \
 	} G_STMT_END
+
+typedef struct {
+	ccss_property_base_t	 base;
+	ccss_border_width_t	*width;
+	ccss_border_style_t	*style;
+	ccss_color_t const	*color;
+} border_property_t;
 
 /*!
  * Map between border style css string and internal value.
@@ -179,6 +178,7 @@ border_color_factory (ccss_block_t	*self,
 {
 	CRTerm const	*iter;
 	ccss_color_t	 c0, c1, c2, c3;
+	ccss_color_t	*color;
 
 	memset (&c0, 0, sizeof (c0));
 	memset (&c1, 0, sizeof (c1));
@@ -197,31 +197,31 @@ border_color_factory (ccss_block_t	*self,
 
 	} else if (CCSS_PROPERTY_STATE_INVALID == c1.base.state) {
 
-		INSERT_BORDER_COLOR (self, "border-color",  c0);
+		INSERT_BORDER_COLOR (self, "border-color",  c0, color);
 
 	} else if (CCSS_PROPERTY_STATE_INVALID == c2.base.state) {
 
-		INSERT_BORDER_COLOR (self, "border-bottom-color",  c0);
-		INSERT_BORDER_COLOR (self, "border-top-color",  c0);
+		INSERT_BORDER_COLOR (self, "border-bottom-color",  c0, color);
+		INSERT_BORDER_COLOR (self, "border-top-color",  c0, color);
 
-		INSERT_BORDER_COLOR (self, "border-left-color",  c1);
-		INSERT_BORDER_COLOR (self, "border-right-color",  c1);
+		INSERT_BORDER_COLOR (self, "border-left-color",  c1, color);
+		INSERT_BORDER_COLOR (self, "border-right-color",  c1, color);
 
 	} else if (CCSS_PROPERTY_STATE_INVALID == c3.base.state) {
 
-		INSERT_BORDER_COLOR (self, "border-top-color",  c0);
+		INSERT_BORDER_COLOR (self, "border-top-color",  c0, color);
 
-		INSERT_BORDER_COLOR (self, "border-left-color",  c1);
-		INSERT_BORDER_COLOR (self, "border-right-color",  c1);
+		INSERT_BORDER_COLOR (self, "border-left-color",  c1, color);
+		INSERT_BORDER_COLOR (self, "border-right-color",  c1, color);
 
-		INSERT_BORDER_COLOR (self, "border-bottom-color",  c2);
+		INSERT_BORDER_COLOR (self, "border-bottom-color",  c2, color);
 
 	} else if (c3.base.state != CCSS_PROPERTY_STATE_INVALID) {
 
-		INSERT_BORDER_COLOR (self, "border-top-color",  c0);
-		INSERT_BORDER_COLOR (self, "border-right-color",  c1);
-		INSERT_BORDER_COLOR (self, "border-bottom-color",  c2);
-		INSERT_BORDER_COLOR (self, "border-left-color",  c3);
+		INSERT_BORDER_COLOR (self, "border-top-color",  c0, color);
+		INSERT_BORDER_COLOR (self, "border-right-color",  c1, color);
+		INSERT_BORDER_COLOR (self, "border-bottom-color",  c2, color);
+		INSERT_BORDER_COLOR (self, "border-left-color",  c3, color);
 	}
 
 	return true;
@@ -233,6 +233,7 @@ border_style_factory (ccss_block_t	*self,
 {
 	CRTerm const		*iter;
 	ccss_border_style_t	 s0, s1, s2, s3;
+	ccss_border_style_t	*style;
 
 	memset (&s0, 0, sizeof (s0));
 	memset (&s1, 0, sizeof (s1));
@@ -251,31 +252,31 @@ border_style_factory (ccss_block_t	*self,
 
 	} else if (CCSS_PROPERTY_STATE_INVALID == s1.base.state) {
 
-		INSERT_BORDER_STYLE (self, "border-style", s0);
+		INSERT_BORDER_STYLE (self, "border-style", s0, style);
 
 	} else if (CCSS_PROPERTY_STATE_INVALID == s2.base.state) {
 
-		INSERT_BORDER_STYLE (self, "border-bottom-style", s0);
-		INSERT_BORDER_STYLE (self, "border-top-style", s0);
+		INSERT_BORDER_STYLE (self, "border-bottom-style", s0, style);
+		INSERT_BORDER_STYLE (self, "border-top-style", s0, style);
 
-		INSERT_BORDER_STYLE (self, "border-left-style", s1);
-		INSERT_BORDER_STYLE (self, "border-right-style", s1);
+		INSERT_BORDER_STYLE (self, "border-left-style", s1, style);
+		INSERT_BORDER_STYLE (self, "border-right-style", s1, style);
 
 	} else if (CCSS_PROPERTY_STATE_INVALID == s3.base.state) {
 
-		INSERT_BORDER_STYLE (self, "border-top-style", s0);
+		INSERT_BORDER_STYLE (self, "border-top-style", s0, style);
 
-		INSERT_BORDER_STYLE (self, "border-left-style", s1);
-		INSERT_BORDER_STYLE (self, "border-right-style", s1);
+		INSERT_BORDER_STYLE (self, "border-left-style", s1, style);
+		INSERT_BORDER_STYLE (self, "border-right-style", s1, style);
 
-		INSERT_BORDER_STYLE (self, "border-bottom-style", s2);
+		INSERT_BORDER_STYLE (self, "border-bottom-style", s2, style);
 
 	} else if (s3.base.state != CCSS_PROPERTY_STATE_INVALID) {
 
-		INSERT_BORDER_STYLE (self, "border-top-style", s0);
-		INSERT_BORDER_STYLE (self, "border-right-style", s1);
-		INSERT_BORDER_STYLE (self, "border-bottom-style", s2);
-		INSERT_BORDER_STYLE (self, "border-left-style", s3);
+		INSERT_BORDER_STYLE (self, "border-top-style", s0, style);
+		INSERT_BORDER_STYLE (self, "border-right-style", s1, style);
+		INSERT_BORDER_STYLE (self, "border-bottom-style", s2, style);
+		INSERT_BORDER_STYLE (self, "border-left-style", s3, style);
 	}
 
 	return true;
@@ -287,6 +288,7 @@ border_width_factory (ccss_block_t	*self,
 {
 	CRTerm const		*iter;
 	ccss_border_width_t	 w0, w1, w2, w3;
+	ccss_border_width_t	*width;
 
 	memset (&w0, 0, sizeof (w0));
 	memset (&w1, 0, sizeof (w1));
@@ -305,31 +307,31 @@ border_width_factory (ccss_block_t	*self,
 
 	} else if (CCSS_PROPERTY_STATE_INVALID == w1.base.state) {
 
-		INSERT_BORDER_WIDTH (self, "border-width", w0);
+		INSERT_BORDER_WIDTH (self, "border-width", w0, width);
 
 	} else if (CCSS_PROPERTY_STATE_INVALID == w2.base.state) {
 
-		INSERT_BORDER_WIDTH (self, "border-bottom-width", w0);
-		INSERT_BORDER_WIDTH (self, "border-top-width", w0);
+		INSERT_BORDER_WIDTH (self, "border-bottom-width", w0, width);
+		INSERT_BORDER_WIDTH (self, "border-top-width", w0, width);
 
-		INSERT_BORDER_WIDTH (self, "border-left-width", w1);
-		INSERT_BORDER_WIDTH (self, "border-right-width", w1);
+		INSERT_BORDER_WIDTH (self, "border-left-width", w1, width);
+		INSERT_BORDER_WIDTH (self, "border-right-width", w1, width);
 
 	} else if (CCSS_PROPERTY_STATE_INVALID == w3.base.state) {
 
-		INSERT_BORDER_WIDTH (self, "border-top-width", w0);
+		INSERT_BORDER_WIDTH (self, "border-top-width", w0, width);
 
-		INSERT_BORDER_WIDTH (self, "border-left-width", w1);
-		INSERT_BORDER_WIDTH (self, "border-right-width", w1);
+		INSERT_BORDER_WIDTH (self, "border-left-width", w1, width);
+		INSERT_BORDER_WIDTH (self, "border-right-width", w1, width);
 
-		INSERT_BORDER_WIDTH (self, "border-bottom-width", w2);
+		INSERT_BORDER_WIDTH (self, "border-bottom-width", w2, width);
 
 	} else if (w3.base.state != CCSS_PROPERTY_STATE_INVALID) {
 
-		INSERT_BORDER_WIDTH (self, "border-top-width", w0);
-		INSERT_BORDER_WIDTH (self, "border-right-width", w1);
-		INSERT_BORDER_WIDTH (self, "border-bottom-width", w2);
-		INSERT_BORDER_WIDTH (self, "border-left-width", w3);
+		INSERT_BORDER_WIDTH (self, "border-top-width", w0, width);
+		INSERT_BORDER_WIDTH (self, "border-right-width", w1, width);
+		INSERT_BORDER_WIDTH (self, "border-bottom-width", w2, width);
+		INSERT_BORDER_WIDTH (self, "border-left-width", w3, width);
 	}
 
 	return true;
@@ -351,10 +353,22 @@ border_factory_impl (ccss_block_t	*self,
 		     CRTerm const	*values)
 {
 	CRTerm const		*iter;
+	border_property_t	*border, b;
 	ccss_color_t		 c;
 	ccss_border_style_t	 s;
 	ccss_border_width_t	 w;
 	char			*property_name;
+
+	/* If `border: inherit;' then insert a dummy */
+	memset (&b, 0, sizeof (b));
+	ccss_property_init (&b.base, peek_property_class ("border"));
+	b.base.state = ccss_property_parse_state (&values);
+	if (b.base.state == CCSS_PROPERTY_STATE_INHERIT) {
+		border = g_new0 (border_property_t, 1);
+		*border = b;
+		ccss_block_add_property (self, "border", &border->base);
+		return true;
+	}
 
 	memset (&c, 0, sizeof (c));
 	memset (&s, 0, sizeof (s));
@@ -373,28 +387,40 @@ border_factory_impl (ccss_block_t	*self,
 
 	if (c.base.state != CCSS_PROPERTY_STATE_INVALID) { 
 
+		ccss_color_t *color = NULL;
 		property_name = g_strdup_printf ("%s-color", property_prefix);
-		INSERT_BORDER_COLOR (self, property_name, c);
+		INSERT_BORDER_COLOR (self, property_name, c, color);
 		g_free (property_name), property_name = NULL;
+		b.color = color;
 	}
 
 	if (s.base.state != CCSS_PROPERTY_STATE_INVALID) {
 
+		ccss_border_style_t *style = NULL;
 		property_name = g_strdup_printf ("%s-style", property_prefix);
-		INSERT_BORDER_STYLE (self, property_name, s);
+		INSERT_BORDER_STYLE (self, property_name, s, style);
 		g_free (property_name), property_name = NULL;
+		b.style = style;
 	}
 
 	if (w.base.state != CCSS_PROPERTY_STATE_INVALID) {
 
+		ccss_border_width_t *width = NULL;
 		property_name = g_strdup_printf ("%s-width", property_prefix);
-		INSERT_BORDER_WIDTH (self, property_name, w);
+		INSERT_BORDER_WIDTH (self, property_name, w, width);
 		g_free (property_name), property_name = NULL;
+		b.width = width;
 	}
 
-	/* FIXME: detect as error if no property valid. */
+	if (b.color || b.style || b.width) {
 
-	return true;
+		border = g_new0 (border_property_t, 1);
+		*border = b;
+		ccss_block_add_property (self, "border", &border->base);
+		return true;
+	}
+
+	return false;
 }
 
 static bool
@@ -432,6 +458,97 @@ border_bottom_factory (ccss_block_t	*self,
 	return border_factory_impl (self, "border-bottom", values);
 }
 
+static void 
+border_side_inherit_impl (ccss_style_t const	*container_style,
+			  char const		*side,
+			  ccss_style_t		*style)
+{
+	ccss_property_base_t const	*property;
+	char				*property_name;
+
+	g_return_if_fail (container_style && side && style);
+
+	property_name = g_strdup_printf ("border-%s-color", side);
+	if (ccss_style_get_property (container_style, property_name,
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, property_name, property);
+
+	} else if (ccss_style_get_property (container_style, "border-color",
+					    (void **) &property)) {
+
+		/* Inherit general property. */
+		ccss_style_set_property (style, property_name, property);
+	}
+	g_free (property_name);
+
+	property_name = g_strdup_printf ("border-%s-style", side);
+	if (ccss_style_get_property (container_style, property_name,
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, property_name, property);
+
+	} else if (ccss_style_get_property (container_style, "border-style",
+					    (void **) &property)) {
+
+		/* Inherit general property. */
+		ccss_style_set_property (style, property_name, property);
+	}
+	g_free (property_name);
+
+	property_name = g_strdup_printf ("border-%s-width", side);
+	if (ccss_style_get_property (container_style, property_name,
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, property_name, property);
+
+	} else if (ccss_style_get_property (container_style, "border-width",
+					    (void **) &property)) {
+
+		/* Inherit general property. */
+		ccss_style_set_property (style, property_name, property);
+	}
+	g_free (property_name);
+}
+
+static void 
+border_left_inherit (ccss_style_t const	*container_style,
+		     ccss_style_t	*style)
+{
+	border_side_inherit_impl (container_style, "left", style);
+}
+
+static void 
+border_top_inherit (ccss_style_t const	*container_style,
+		    ccss_style_t	*style)
+{
+	border_side_inherit_impl (container_style, "top", style);
+}
+
+static void 
+border_right_inherit (ccss_style_t const	*container_style,
+		      ccss_style_t		*style)
+{
+	border_side_inherit_impl (container_style, "right", style);
+}
+
+static void 
+border_bottom_inherit (ccss_style_t const	*container_style,
+		       ccss_style_t		*style)
+{
+	border_side_inherit_impl (container_style, "bottom", style);
+}
+
+static void 
+border_inherit (ccss_style_t const	*container_style,
+		ccss_style_t		*style)
+{
+	border_left_inherit (container_style, style);	
+	border_top_inherit (container_style, style);	
+	border_right_inherit (container_style, style);	
+	border_bottom_inherit (container_style, style);	
+}
+
 static ccss_border_join_t *
 border_radius_new (CRTerm const *value)
 {
@@ -456,6 +573,7 @@ border_radius_factory (ccss_block_t	*self,
 {
 	CRTerm const		*iter;
 	ccss_border_join_t	 r0, r1, r2, r3;
+	ccss_border_join_t	*radius;
 
 	memset (&r0, 0, sizeof (r0));
 	memset (&r1, 0, sizeof (r1));
@@ -474,31 +592,59 @@ border_radius_factory (ccss_block_t	*self,
 
 	} else if (CCSS_PROPERTY_STATE_INVALID == r1.base.state) {
 
-		INSERT_BORDER_RADIUS (self, "border-radius", r0);
+		INSERT_BORDER_RADIUS (self, "border-radius", r0, radius);
 
 	} else if (CCSS_PROPERTY_STATE_INVALID == r2.base.state) {
 
-		INSERT_BORDER_RADIUS (self, "border-top-left-radius", r0);
-		INSERT_BORDER_RADIUS (self, "border-top-right-radius", r1);
-		INSERT_BORDER_RADIUS (self, "border-bottom-right-radius", r0);
-		INSERT_BORDER_RADIUS (self, "border-bottom-left-radius", r1);
+		INSERT_BORDER_RADIUS (self, "border-top-left-radius", r0, radius);
+		INSERT_BORDER_RADIUS (self, "border-top-right-radius", r1, radius);
+		INSERT_BORDER_RADIUS (self, "border-bottom-right-radius", r0, radius);
+		INSERT_BORDER_RADIUS (self, "border-bottom-left-radius", r1, radius);
 
 	} else if (CCSS_PROPERTY_STATE_INVALID == r3.base.state) {
 
-		INSERT_BORDER_RADIUS (self, "border-top-left-radius", r0);
-		INSERT_BORDER_RADIUS (self, "border-top-right-radius", r1);
-		INSERT_BORDER_RADIUS (self, "border-bottom-right-radius", r2);
-		INSERT_BORDER_RADIUS (self, "border-bottom-left-radius", r1);
+		INSERT_BORDER_RADIUS (self, "border-top-left-radius", r0, radius);
+		INSERT_BORDER_RADIUS (self, "border-top-right-radius", r1, radius);
+		INSERT_BORDER_RADIUS (self, "border-bottom-right-radius", r2, radius);
+		INSERT_BORDER_RADIUS (self, "border-bottom-left-radius", r1, radius);
 
 	} else if (r3.base.state != CCSS_PROPERTY_STATE_INVALID) {
 
-		INSERT_BORDER_RADIUS (self, "border-top-left-radius", r0);
-		INSERT_BORDER_RADIUS (self, "border-top-right-radius", r1);
-		INSERT_BORDER_RADIUS (self, "border-bottom-right-radius", r2);
-		INSERT_BORDER_RADIUS (self, "border-bottom-left-radius", r3);
+		INSERT_BORDER_RADIUS (self, "border-top-left-radius", r0, radius);
+		INSERT_BORDER_RADIUS (self, "border-top-right-radius", r1, radius);
+		INSERT_BORDER_RADIUS (self, "border-bottom-right-radius", r2, radius);
+		INSERT_BORDER_RADIUS (self, "border-bottom-left-radius", r3, radius);
 	}
 
 	return true;
+}
+
+static void 
+border_radius_inherit (ccss_style_t const	*container_style,
+		       ccss_style_t		*style)
+{
+	ccss_property_base_t const *property;
+
+	if (ccss_style_get_property (container_style, "border-radius",
+				     (void **) &property)) {
+		ccss_style_set_property (style, "border-radius", property);
+	}
+	if (ccss_style_get_property (container_style, "border-top-left-radius",
+				     (void **) &property)) {
+		ccss_style_set_property (style, "border-top-left-radius", property);
+	}
+	if (ccss_style_get_property (container_style, "border-top-right-radius",
+				     (void **) &property)) {
+		ccss_style_set_property (style, "border-top-right-radius", property);
+	}
+	if (ccss_style_get_property (container_style, "border-bottom-left-radius",
+				     (void **) &property)) {
+		ccss_style_set_property (style, "border-bottom-left-radius", property);
+	}
+	if (ccss_style_get_property (container_style, "border-bottom-right-radius",
+				     (void **) &property)) {
+		ccss_style_set_property (style, "border-bottom-right-radius", property);
+	}
 }
 
 static bool
@@ -631,7 +777,7 @@ static ccss_property_class_t const _ptable[] = {
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
 	.property_factory = (ccss_property_factory_f) border_radius_factory,
-	.property_inherit = NULL	// TODO
+	.property_inherit = border_radius_inherit
     }, {
 	.name = "border-left-color",
 	.property_new = (ccss_property_new_f) ccss_color_new,
@@ -722,56 +868,56 @@ static ccss_property_class_t const _ptable[] = {
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = NULL,
 	.property_factory = (ccss_property_factory_f) border_left_factory,
-	.property_inherit = NULL	// TODO
+	.property_inherit = border_left_inherit
     }, {
 	.name = "border-top",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = NULL,
 	.property_factory = (ccss_property_factory_f) border_top_factory,
-	.property_inherit = NULL	// TODO
+	.property_inherit = border_top_inherit
     }, {
 	.name = "border-right",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = NULL,
 	.property_factory = (ccss_property_factory_f) border_right_factory,
-	.property_inherit = NULL	// TODO
+	.property_inherit = border_right_inherit
     }, {
 	.name = "border-bottom",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = NULL,
 	.property_factory = (ccss_property_factory_f) border_bottom_factory,
-	.property_inherit = NULL	// TODO
+	.property_inherit = border_bottom_inherit
     }, {
 	.name = "border-color",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
 	.property_factory = (ccss_property_factory_f) border_color_factory,
-	.property_inherit = NULL	// TODO
+	.property_inherit = NULL
     }, {
 	.name = "border-style",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_style_convert,
 	.property_factory = (ccss_property_factory_f) border_style_factory,
-	.property_inherit = NULL	// TODO
+	.property_inherit = NULL
     }, {
 	.name = "border-width",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_width_convert,
 	.property_factory = (ccss_property_factory_f) border_width_factory,
-	.property_inherit = NULL	// TODO
+	.property_inherit = NULL
     }, {
 	.name = "border",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = NULL,
 	.property_factory = (ccss_property_factory_f) border_factory,
-	.property_inherit = NULL	// TODO
+	.property_inherit = border_inherit
     }, {
 	.name = NULL,
     }
