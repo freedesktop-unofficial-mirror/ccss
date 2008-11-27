@@ -348,20 +348,25 @@ inherit_container_style (ccss_style_t const	*container_style,
 			if (CCSS_PROPERTY_STATE_NONE == property->state ||
 			    CCSS_PROPERTY_STATE_SET == property->state ) {
 
+				bool is_resolved;
+
 				if (property->property_class->property_inherit) {
-					property->property_class->property_inherit (
+					is_resolved = property->property_class->property_inherit (
 							container_style, 
 							style);
 				} else {
 					g_hash_table_insert (style->properties,
 							     (gpointer) property_id,
 							     (gpointer) property);
+					is_resolved = true;
 				}
 
 				/* Remember inherited properties, we can't
 				 * modify the hash while iterating. */
-				removals = g_slist_prepend (removals,
+				if (is_resolved) {
+					removals = g_slist_prepend (removals,
 							    (gpointer) property_id);
+				}
 			}
 		}
 		

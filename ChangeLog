@@ -1,5 +1,18 @@
 2008-11-27  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/ccss-background-parser.c (background_inherit):
+	* ccss-cairo/ccss-border-parser.c (border_color_inherit),
+	(border_style_inherit), (border_width_inherit),
+	(border_side_inherit_impl), (border_left_inherit),
+	(border_top_inherit), (border_right_inherit),
+	(border_bottom_inherit), (border_inherit), (border_radius_inherit):
+	* ccss-doc/tmpl/property.sgml:
+	* ccss/ccss-property.h:
+	* ccss/ccss-stylesheet.c (inherit_container_style):
+	Do not inherit properties that are themselves of state `inherit'.
+
+2008-11-27  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo/ccss-border-parser.c (border_color_factory),
 	(border_color_inherit), (border_style_factory),
 	(border_style_inherit), (border_width_factory),

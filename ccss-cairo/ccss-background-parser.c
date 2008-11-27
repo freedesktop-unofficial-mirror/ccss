@@ -24,6 +24,13 @@
 #include "ccss-background.h"
 #include "config.h"
 
+#define PROPERTY_SET(property_)					\
+	(CCSS_PROPERTY_STATE_NONE == property_->state ||	\
+	 CCSS_PROPERTY_STATE_SET == property_->state)
+
+#define PROPERTY_INHERIT(property_)				\
+	(CCSS_PROPERTY_STATE_INHERIT == property_->state)
+
 /* Dummy property to hook up the inheritance function. */
 typedef struct {
 	ccss_property_base_t			 base;
@@ -301,41 +308,80 @@ background_factory (ccss_block_t		*self,
 	return false;
 }
 
-static void 
+static bool
 background_inherit (ccss_style_t const	*container_style,
 		    ccss_style_t	*style)
 {
-	ccss_property_base_t const *property;
+	ccss_property_base_t const	*property;
+	bool				 ret;
 
-	if (ccss_style_get_property (container_style, "background-attachment",
-				     (void **) &property)) {
-		ccss_style_set_property (style, "background-attachment", property);
+	ret = false;
+
+	if (ccss_style_get_property (container_style,
+				"background", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"background", property);
+			ret = true;
+		}
 	}
-	if (ccss_style_get_property (container_style, "background-color",
-				     (void **) &property)) {
-		ccss_style_set_property (style, "background-color", property);
+	if (ccss_style_get_property (container_style,
+				"background-attachment", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"background-attachment", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;			
+		}
 	}
-	if (ccss_style_get_property (container_style, "background-image",
-				     (void **) &property)) {
-		ccss_style_set_property (style, "background-image", property);
+	if (ccss_style_get_property (container_style,
+				"background-color", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"background-color", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;			
+		}
 	}
-	if (ccss_style_get_property (container_style, "background-position",
-				     (void **) &property)) {
-		ccss_style_set_property (style, "background-position", property);
+	if (ccss_style_get_property (container_style,
+				"background-image", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"background-image", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;			
+		}
 	}
-	if (ccss_style_get_property (container_style, "background-repeat",
-				     (void **) &property)) {
-		ccss_style_set_property (style, "background-repeat", property);
+	if (ccss_style_get_property (container_style,
+				"background-position", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"background-position", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;			
+		}
+	}
+	if (ccss_style_get_property (container_style,
+				"background-repeat", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"background-repeat", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;			
+		}
 	}
 	/* PONDERING support CSS2 `background' for now.
 	if (ccss_style_get_property (container_style, "background-size",
 				     (void **) &property)) {
 		ccss_style_set_property (style, "background-size", property);
 	} */
-	if (ccss_style_get_property (container_style, "background",
-				     (void **) &property)) {
-		ccss_style_set_property (style, "background", property);
-	}
+
+	return ret;
 }
 
 static ccss_background_attachment_t *

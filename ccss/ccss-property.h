@@ -111,8 +111,9 @@ typedef bool (*ccss_property_factory_f) (struct ccss_block_	*block,
  *
  * Hook function to inherit multi-value properties like `border'.
  *
+ * Returns: %TRUE if property inheritance could be resolved.
  **/
-typedef void (*ccss_property_inherit_f) (struct ccss_style_ const	*container_style,
+typedef bool (*ccss_property_inherit_f) (struct ccss_style_ const	*container_style,
 					 struct ccss_style_		*style);
 
 /**

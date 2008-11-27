@@ -57,6 +57,13 @@
 	ccss_block_add_property (block_, prop_name_, &prop_ptr_->base);	       \
 	} G_STMT_END
 
+#define PROPERTY_SET(property_)					\
+	(CCSS_PROPERTY_STATE_NONE == property_->state ||	\
+	 CCSS_PROPERTY_STATE_SET == property_->state)
+
+#define PROPERTY_INHERIT(property_)				\
+	(CCSS_PROPERTY_STATE_INHERIT == property_->state)
+
 typedef struct {
 	ccss_property_base_t	 base;
 	ccss_border_width_t	*width;
@@ -238,37 +245,65 @@ border_color_factory (ccss_block_t	*self,
 	return true;
 }
 
-static void 
+static bool 
 border_color_inherit (ccss_style_t const	*container_style,
 		      ccss_style_t		*style)
 {
-	ccss_property_base_t const *property;
+	ccss_property_base_t const	*property;
+	bool				 ret;
 
-	if (ccss_style_get_property (container_style, "border-left-color",
-				     (void **) &property)) {
+	ret = false;
 
-		ccss_style_set_property (style, "border-left-color", property);
+	if (ccss_style_get_property (container_style,
+				"border-color", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-color", property);
+			ret = true;
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-top-color",
-				     (void **) &property)) {
-
-		ccss_style_set_property (style, "border-top-color", property);
+	if (ccss_style_get_property (container_style, 
+				"border-left-color", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-left-color", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;			
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-right-color",
-				     (void **) &property)) {
-
-		ccss_style_set_property (style, "border-right-color", property);
+	if (ccss_style_get_property (container_style,
+				"border-top-color", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-top-color", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;			
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-bottom-color",
-				     (void **) &property)) {
-
-		ccss_style_set_property (style, "border-bottom-color", property);
+	if (ccss_style_get_property (container_style,
+				"border-right-color", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-right-color", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;			
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-color",
-				     (void **) &property)) {
-
-		ccss_style_set_property (style, "border-color", property);
+	if (ccss_style_get_property (container_style,
+				"border-bottom-color", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-bottom-color", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;			
+		}
 	}
+
+	return ret;
 }
 
 static bool
@@ -337,37 +372,65 @@ border_style_factory (ccss_block_t	*self,
 	return true;
 }
 
-static void 
+static bool 
 border_style_inherit (ccss_style_t const	*container_style,
 		      ccss_style_t		*style)
 {
-	ccss_property_base_t const *property;
+	ccss_property_base_t const	*property;
+	bool				 ret;
 
-	if (ccss_style_get_property (container_style, "border-left-style",
-				     (void **) &property)) {
+	ret = false;
 
-		ccss_style_set_property (style, "border-left-style", property);
+	if (ccss_style_get_property (container_style,
+				"border-style", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-style", property);
+			ret = true;
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-top-style",
-				     (void **) &property)) {
-
-		ccss_style_set_property (style, "border-top-style", property);
+	if (ccss_style_get_property (container_style,
+				"border-left-style", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-left-style", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-right-style",
-				     (void **) &property)) {
-
-		ccss_style_set_property (style, "border-right-style", property);
+	if (ccss_style_get_property (container_style,
+				"border-top-style", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-top-style", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-bottom-style",
-				     (void **) &property)) {
-
-		ccss_style_set_property (style, "border-bottom-style", property);
+	if (ccss_style_get_property (container_style,
+				"border-right-style", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-right-style", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-style",
-				     (void **) &property)) {
-
-		ccss_style_set_property (style, "border-style", property);
+	if (ccss_style_get_property (container_style,
+				"border-bottom-style", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-bottom-style", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;
+		}
 	}
+
+	return ret;
 }
 
 static bool
@@ -436,37 +499,63 @@ border_width_factory (ccss_block_t	*self,
 	return true;
 }
 
-static void 
+static bool 
 border_width_inherit (ccss_style_t const	*container_style,
 		      ccss_style_t		*style)
 {
-	ccss_property_base_t const *property;
+	ccss_property_base_t const	*property;
+	bool				 ret;
 
-	if (ccss_style_get_property (container_style, "border-left-width",
-				     (void **) &property)) {
-
-		ccss_style_set_property (style, "border-left-width", property);
+	if (ccss_style_get_property (container_style,
+				"border-width", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-width", property);
+			ret = true;
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-top-width",
-				     (void **) &property)) {
-
-		ccss_style_set_property (style, "border-top-width", property);
+	if (ccss_style_get_property (container_style,
+				"border-left-width", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-left-width", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-right-width",
-				     (void **) &property)) {
-
-		ccss_style_set_property (style, "border-right-width", property);
+	if (ccss_style_get_property (container_style,
+				"border-top-width", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-top-width", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-bottom-width",
-				     (void **) &property)) {
-
-		ccss_style_set_property (style, "border-bottom-width", property);
+	if (ccss_style_get_property (container_style,
+				"border-right-width", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-right-width", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-width",
-				     (void **) &property)) {
-
-		ccss_style_set_property (style, "border-width", property);
+	if (ccss_style_get_property (container_style,
+				"border-bottom-width", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-bottom-width", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;
+		}
 	}
+
+	return ret;
 }
 
 /*
@@ -590,95 +679,118 @@ border_bottom_factory (ccss_block_t	*self,
 	return border_factory_impl (self, "border-bottom", values);
 }
 
-static void 
+static bool 
 border_side_inherit_impl (ccss_style_t const	*container_style,
 			  char const		*side,
 			  ccss_style_t		*style)
 {
 	ccss_property_base_t const	*property;
 	char				*property_name;
+	bool				 ret;
 
-	g_return_if_fail (container_style && side && style);
+	g_return_val_if_fail (container_style && side && style, false);
+
+	ret = true;
 
 	property_name = g_strdup_printf ("border-%s-color", side);
-	if (ccss_style_get_property (container_style, property_name,
-				     (void **) &property)) {
+	if (ccss_style_get_property (container_style,
+				     property_name, (void **) &property) &&
+	    PROPERTY_SET (property)) {
 
 		ccss_style_set_property (style, property_name, property);
 
-	} else if (ccss_style_get_property (container_style, "border-color",
-					    (void **) &property)) {
+	} else if (ccss_style_get_property (container_style,
+					    "border-color", (void **) &property) &&
+		   PROPERTY_SET (property)) {
 
 		/* Inherit general property. */
 		ccss_style_set_property (style, property_name, property);
+	} else {
+		ret = false;
 	}
-	g_free (property_name);
+	g_free (property_name), property_name = NULL;
 
 	property_name = g_strdup_printf ("border-%s-style", side);
-	if (ccss_style_get_property (container_style, property_name,
-				     (void **) &property)) {
+	if (ccss_style_get_property (container_style,
+				     property_name, (void **) &property) &&
+	    PROPERTY_SET (property)) {
 
 		ccss_style_set_property (style, property_name, property);
 
-	} else if (ccss_style_get_property (container_style, "border-style",
-					    (void **) &property)) {
+	} else if (ccss_style_get_property (container_style,
+					    "border-style", (void **) &property) &&
+		   PROPERTY_SET (property)) {
 
 		/* Inherit general property. */
 		ccss_style_set_property (style, property_name, property);
+	} else {
+		ret = false;
 	}
-	g_free (property_name);
+	g_free (property_name), property_name = NULL;
 
 	property_name = g_strdup_printf ("border-%s-width", side);
-	if (ccss_style_get_property (container_style, property_name,
-				     (void **) &property)) {
+	if (ccss_style_get_property (container_style,
+				     property_name, (void **) &property) &&
+	    PROPERTY_SET (property)) {
 
 		ccss_style_set_property (style, property_name, property);
 
-	} else if (ccss_style_get_property (container_style, "border-width",
-					    (void **) &property)) {
+	} else if (ccss_style_get_property (container_style,
+					    "border-width", (void **) &property) &&
+		   PROPERTY_SET (property)) {
 
 		/* Inherit general property. */
 		ccss_style_set_property (style, property_name, property);
+	} else {
+		ret = false;
 	}
-	g_free (property_name);
+	g_free (property_name), property_name = NULL;
+
+	return ret;
 }
 
-static void 
+static bool 
 border_left_inherit (ccss_style_t const	*container_style,
 		     ccss_style_t	*style)
 {
-	border_side_inherit_impl (container_style, "left", style);
+	return border_side_inherit_impl (container_style, "left", style);
 }
 
-static void 
+static bool 
 border_top_inherit (ccss_style_t const	*container_style,
 		    ccss_style_t	*style)
 {
-	border_side_inherit_impl (container_style, "top", style);
+	return border_side_inherit_impl (container_style, "top", style);
 }
 
-static void 
+static bool 
 border_right_inherit (ccss_style_t const	*container_style,
 		      ccss_style_t		*style)
 {
-	border_side_inherit_impl (container_style, "right", style);
+	return border_side_inherit_impl (container_style, "right", style);
 }
 
-static void 
+static bool 
 border_bottom_inherit (ccss_style_t const	*container_style,
 		       ccss_style_t		*style)
 {
-	border_side_inherit_impl (container_style, "bottom", style);
+	return border_side_inherit_impl (container_style, "bottom", style);
 }
 
-static void 
+static bool 
 border_inherit (ccss_style_t const	*container_style,
 		ccss_style_t		*style)
 {
-	border_left_inherit (container_style, style);	
-	border_top_inherit (container_style, style);	
-	border_right_inherit (container_style, style);	
-	border_bottom_inherit (container_style, style);	
+	bool ret;
+
+	ret = true;
+
+	ret &= border_left_inherit (container_style, style);	
+	ret &= border_top_inherit (container_style, style);	
+	ret &= border_right_inherit (container_style, style);	
+	ret &= border_bottom_inherit (container_style, style);	
+
+	return ret;
 }
 
 static ccss_border_join_t *
@@ -762,32 +874,65 @@ border_radius_factory (ccss_block_t	*self,
 	return true;
 }
 
-static void 
+static bool 
 border_radius_inherit (ccss_style_t const	*container_style,
 		       ccss_style_t		*style)
 {
-	ccss_property_base_t const *property;
+	ccss_property_base_t const	*property;
+	bool				 ret;
 
-	if (ccss_style_get_property (container_style, "border-radius",
-				     (void **) &property)) {
-		ccss_style_set_property (style, "border-radius", property);
+	ret = false;
+
+	if (ccss_style_get_property (container_style,
+				"border-radius", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-radius", property);
+			ret = true;
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-top-left-radius",
-				     (void **) &property)) {
-		ccss_style_set_property (style, "border-top-left-radius", property);
+	if (ccss_style_get_property (container_style,
+				"border-top-left-radius", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-top-left-radius", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-top-right-radius",
-				     (void **) &property)) {
-		ccss_style_set_property (style, "border-top-right-radius", property);
+	if (ccss_style_get_property (container_style,
+				"border-top-right-radius", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-top-right-radius", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-bottom-left-radius",
-				     (void **) &property)) {
-		ccss_style_set_property (style, "border-bottom-left-radius", property);
+	if (ccss_style_get_property (container_style,
+				"border-bottom-left-radius", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-bottom-left-radius", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;
+		}
 	}
-	if (ccss_style_get_property (container_style, "border-bottom-right-radius",
-				     (void **) &property)) {
-		ccss_style_set_property (style, "border-bottom-right-radius", property);
+	if (ccss_style_get_property (container_style,
+				"border-bottom-right-radius", (void **) &property)) {
+		if (PROPERTY_SET (property)) {
+			ccss_style_set_property (style,
+				"border-bottom-right-radius", property);
+		} else if (PROPERTY_INHERIT (property)) {
+			/* Need to resolve further. */
+			ret = false;
+		}
 	}
+
+	return ret;
 }
 
 static bool
