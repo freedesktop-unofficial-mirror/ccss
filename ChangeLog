@@ -1,5 +1,17 @@
 2008-11-27  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/ccss-border-parser.c (border_color_factory),
+	(border_color_inherit), (border_style_factory),
+	(border_style_inherit), (border_width_factory),
+	(border_width_inherit), (border_factory_impl),
+	(border_radius_factory):
+	* ccss-cairo/ccss-cairo-property.c
+	(ccss_property_border_bottom_left_radius),
+	(ccss_property_border_bottom_right_radius):
+	Fix left/right border-radius mapping mixup.
+
+2008-11-27  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo/ccss-background-parser.c (background_factory),
 	(background_inherit):
 	* ccss-cairo/ccss-background-parser.h:

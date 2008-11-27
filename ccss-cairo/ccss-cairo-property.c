@@ -51,8 +51,8 @@ static GQuark _BORDER_RADIUS			= 0;
 
 static GQuark _BORDER_TOP_LEFT_RADIUS		= 0;
 static GQuark _BORDER_TOP_RIGHT_RADIUS		= 0;
-static GQuark _BORDER_BOTTOM_RIGHT_RADIUS	= 0;
 static GQuark _BORDER_BOTTOM_LEFT_RADIUS	= 0;
+static GQuark _BORDER_BOTTOM_RIGHT_RADIUS	= 0;
 
 static GQuark _BORDER_IMAGE			= 0;
 
@@ -275,21 +275,21 @@ ccss_property_border_top_right_radius (void)
 }
 
 GQuark
-ccss_property_border_bottom_right_radius (void)
-{
-	if (0 == _BORDER_BOTTOM_RIGHT_RADIUS)
-		_BORDER_BOTTOM_RIGHT_RADIUS = g_quark_from_static_string ("border-bottom-left-radius");
-
-	return _BORDER_BOTTOM_RIGHT_RADIUS;
-}
-
-GQuark
 ccss_property_border_bottom_left_radius (void)
 {
 	if (0 == _BORDER_BOTTOM_LEFT_RADIUS)
-		_BORDER_BOTTOM_LEFT_RADIUS = g_quark_from_static_string ("border-bottom-right-radius");
+		_BORDER_BOTTOM_LEFT_RADIUS = g_quark_from_static_string ("border-bottom-left-radius");
 
 	return _BORDER_BOTTOM_LEFT_RADIUS;
+}
+
+GQuark
+ccss_property_border_bottom_right_radius (void)
+{
+	if (0 == _BORDER_BOTTOM_RIGHT_RADIUS)
+		_BORDER_BOTTOM_RIGHT_RADIUS = g_quark_from_static_string ("border-bottom-right-radius");
+
+	return _BORDER_BOTTOM_RIGHT_RADIUS;
 }
 
 GQuark

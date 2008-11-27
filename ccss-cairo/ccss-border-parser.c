@@ -177,8 +177,19 @@ border_color_factory (ccss_block_t	*self,
 		      CRTerm const	*values)
 {
 	CRTerm const	*iter;
-	ccss_color_t	 c0, c1, c2, c3;
+	ccss_color_t	 c, c0, c1, c2, c3;
 	ccss_color_t	*color;
+
+	/* If `border-color: inherit;' then insert a dummy. */
+	memset (&c, 0, sizeof (c));
+	ccss_property_init (&c.base, peek_property_class ("border-color"));
+	c.base.state = ccss_property_parse_state (&values);
+	if (c.base.state == CCSS_PROPERTY_STATE_INHERIT) {
+		color = g_new0 (ccss_color_t, 1);
+		*color = c;
+		ccss_block_add_property (self, "border-color", &color->base);
+		return true;
+	}
 
 	memset (&c0, 0, sizeof (c0));
 	memset (&c1, 0, sizeof (c1));
@@ -227,13 +238,57 @@ border_color_factory (ccss_block_t	*self,
 	return true;
 }
 
+static void 
+border_color_inherit (ccss_style_t const	*container_style,
+		      ccss_style_t		*style)
+{
+	ccss_property_base_t const *property;
+
+	if (ccss_style_get_property (container_style, "border-left-color",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-left-color", property);
+	}
+	if (ccss_style_get_property (container_style, "border-top-color",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-top-color", property);
+	}
+	if (ccss_style_get_property (container_style, "border-right-color",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-right-color", property);
+	}
+	if (ccss_style_get_property (container_style, "border-bottom-color",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-bottom-color", property);
+	}
+	if (ccss_style_get_property (container_style, "border-color",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-color", property);
+	}
+}
+
 static bool
 border_style_factory (ccss_block_t	*self,
 		      CRTerm const	*values)
 {
 	CRTerm const		*iter;
-	ccss_border_style_t	 s0, s1, s2, s3;
+	ccss_border_style_t	 s, s0, s1, s2, s3;
 	ccss_border_style_t	*style;
+
+	/* If `border-style: inherit;' then insert a dummy */
+	memset (&s, 0, sizeof (s));
+	ccss_property_init (&s.base, peek_property_class ("border-style"));
+	s.base.state = ccss_property_parse_state (&values);
+	if (s.base.state == CCSS_PROPERTY_STATE_INHERIT) {
+		style = g_new0 (ccss_border_style_t, 1);
+		*style = s;
+		ccss_block_add_property (self, "border-style", &style->base);
+		return true;
+	}
 
 	memset (&s0, 0, sizeof (s0));
 	memset (&s1, 0, sizeof (s1));
@@ -282,13 +337,57 @@ border_style_factory (ccss_block_t	*self,
 	return true;
 }
 
+static void 
+border_style_inherit (ccss_style_t const	*container_style,
+		      ccss_style_t		*style)
+{
+	ccss_property_base_t const *property;
+
+	if (ccss_style_get_property (container_style, "border-left-style",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-left-style", property);
+	}
+	if (ccss_style_get_property (container_style, "border-top-style",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-top-style", property);
+	}
+	if (ccss_style_get_property (container_style, "border-right-style",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-right-style", property);
+	}
+	if (ccss_style_get_property (container_style, "border-bottom-style",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-bottom-style", property);
+	}
+	if (ccss_style_get_property (container_style, "border-style",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-style", property);
+	}
+}
+
 static bool
 border_width_factory (ccss_block_t	*self,
 		      CRTerm const	*values)
 {
 	CRTerm const		*iter;
-	ccss_border_width_t	 w0, w1, w2, w3;
+	ccss_border_width_t	 w, w0, w1, w2, w3;
 	ccss_border_width_t	*width;
+
+	/* If `border-style: inherit;' then insert a dummy. */
+	memset (&w, 0, sizeof (w));
+	ccss_property_init (&w.base, peek_property_class ("border-width"));
+	w.base.state = ccss_property_parse_state (&values);
+	if (w.base.state == CCSS_PROPERTY_STATE_INHERIT) {
+		width = g_new0 (ccss_border_width_t, 1);
+		*width = w;
+		ccss_block_add_property (self, "border-width", &width->base);
+		return true;
+	}
 
 	memset (&w0, 0, sizeof (w0));
 	memset (&w1, 0, sizeof (w1));
@@ -337,6 +436,39 @@ border_width_factory (ccss_block_t	*self,
 	return true;
 }
 
+static void 
+border_width_inherit (ccss_style_t const	*container_style,
+		      ccss_style_t		*style)
+{
+	ccss_property_base_t const *property;
+
+	if (ccss_style_get_property (container_style, "border-left-width",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-left-width", property);
+	}
+	if (ccss_style_get_property (container_style, "border-top-width",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-top-width", property);
+	}
+	if (ccss_style_get_property (container_style, "border-right-width",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-right-width", property);
+	}
+	if (ccss_style_get_property (container_style, "border-bottom-width",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-bottom-width", property);
+	}
+	if (ccss_style_get_property (container_style, "border-width",
+				     (void **) &property)) {
+
+		ccss_style_set_property (style, "border-width", property);
+	}
+}
+
 /*
  * Parse properties of the form
  * - border: ;		# only to prevent errors
@@ -359,7 +491,7 @@ border_factory_impl (ccss_block_t	*self,
 	ccss_border_width_t	 w;
 	char			*property_name;
 
-	/* If `border: inherit;' then insert a dummy */
+	/* If `border: inherit;' then insert a dummy. */
 	memset (&b, 0, sizeof (b));
 	ccss_property_init (&b.base, peek_property_class ("border"));
 	b.base.state = ccss_property_parse_state (&values);
@@ -572,8 +704,19 @@ border_radius_factory (ccss_block_t	*self,
 		       CRTerm const	*values)
 {
 	CRTerm const		*iter;
-	ccss_border_join_t	 r0, r1, r2, r3;
+	ccss_border_join_t	 r, r0, r1, r2, r3;
 	ccss_border_join_t	*radius;
+
+	/* If `border-radius: inherit;' then insert a dummy. */
+	memset (&r, 0, sizeof (r));
+	ccss_property_init (&r.base, peek_property_class ("border-radius"));
+	r.base.state = ccss_property_parse_state (&values);
+	if (r.base.state == CCSS_PROPERTY_STATE_INHERIT) {
+		radius = g_new0 (ccss_border_join_t, 1);
+		*radius = r;
+		ccss_block_add_property (self, "border-radius", &radius->base);
+		return true;
+	}
 
 	memset (&r0, 0, sizeof (r0));
 	memset (&r1, 0, sizeof (r1));
@@ -896,21 +1039,21 @@ static ccss_property_class_t const _ptable[] = {
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
 	.property_factory = (ccss_property_factory_f) border_color_factory,
-	.property_inherit = NULL
+	.property_inherit = border_color_inherit
     }, {
 	.name = "border-style",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_style_convert,
 	.property_factory = (ccss_property_factory_f) border_style_factory,
-	.property_inherit = NULL
+	.property_inherit = border_style_inherit
     }, {
 	.name = "border-width",
 	.property_new = NULL,
 	.property_free = (ccss_property_free_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_width_convert,
 	.property_factory = (ccss_property_factory_f) border_width_factory,
-	.property_inherit = NULL
+	.property_inherit = border_width_inherit
     }, {
 	.name = "border",
 	.property_new = NULL,
