@@ -86,7 +86,8 @@ load_svg (ccss_image_t	*self,
 						      self->width, self->height);
 		cr = cairo_create (surface);
 		cairo_translate (cr, -1 * position.x, -1 * position.y);
-		ret = rsvg_handle_render_cairo_sub (handle, cr, fragment);
+		ret = rsvg_handle_render_cairo (handle, cr);
+		/* ret = rsvg_handle_render_cairo_sub (handle, cr, fragment); */
 		status = cairo_status (cr);
 		if (status != CAIRO_STATUS_SUCCESS) {
 			g_warning ("%s", cairo_status_to_string (status));
