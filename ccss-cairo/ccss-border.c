@@ -26,8 +26,11 @@
 
 #define STROKE_IS_SET(stroke_)						       \
 		(stroke_ && 						       \
+		 stroke_->color	&&					       \
 		 stroke_->color->base.state == CCSS_PROPERTY_STATE_SET &&      \
+		 stroke_->style &&					       \
 		 stroke_->style->base.state == CCSS_PROPERTY_STATE_SET &&      \
+		 stroke_->width &&					       \
 		 stroke_->width->base.state == CCSS_PROPERTY_STATE_SET)
 
 #define JOIN_IS_SET(join_)						       \
@@ -160,7 +163,11 @@ get_line_draw_func (ccss_border_stroke_t const	*stroke,
 		return line;
 	}
 
-	if (CCSS_PROPERTY_STATE_INVALID == stroke->style->base.state ||
+	if (NULL == stroke ||
+	    NULL == stroke->color ||
+	    NULL == stroke->style ||
+	    NULL == stroke->width ||
+	    CCSS_PROPERTY_STATE_INVALID == stroke->style->base.state ||
 	    CCSS_PROPERTY_STATE_NONE == stroke->style->base.state) {
 		return draw_none_line;
 	}
@@ -334,7 +341,8 @@ border (ccss_border_stroke_t const	*left,
 
 	have_segment = false;
 
-	if (left) {
+	if (path_only ||
+	    (left && left->width)) {
 		line_func = get_line_draw_func (left, path_only);
 		xoff = !path_only && left ? left->width->width / 2. : 0;
 		yoff = rbl;
@@ -351,7 +359,8 @@ border (ccss_border_stroke_t const	*left,
 		}
 	}
 
-	if (left_top) {
+	if (path_only ||
+	    (left_top && left && left->width && top && top->width)) {
 		join_func = get_join_draw_func (left, top, path_only);
 		xoff = !path_only && left ? left->width->width / 2. : 0;
 		yoff = !path_only && top ? top->width->width / 2. : 0;
@@ -368,7 +377,8 @@ border (ccss_border_stroke_t const	*left,
 		}
 	}
 
-	if (top) {
+	if (path_only ||
+	    (top && top->width)) {
 		line_func = get_line_draw_func (top, path_only);
 		xoff = rlt;
 		yoff = !path_only && top ? top->width->width / 2. : 0;
@@ -385,7 +395,8 @@ border (ccss_border_stroke_t const	*left,
 		}
 	}
 
-	if (top_right) {
+	if (path_only ||
+	    (top_right && top && top->width && right && right->width)) {
 		join_func = get_join_draw_func (top, right, path_only);
 		xoff = !path_only && right ? right->width->width / 2. : 0;
 		yoff = !path_only && top ? top->width->width / 2. : 0;
@@ -402,7 +413,8 @@ border (ccss_border_stroke_t const	*left,
 		}
 	}
 
-	if (right) {
+	if (path_only ||
+	    (right && right->width)) {
 		line_func = get_line_draw_func (right, path_only);
 		xoff = !path_only && right ? right->width->width / 2. : 0;
 		yoff = rtr;
@@ -419,7 +431,8 @@ border (ccss_border_stroke_t const	*left,
 		}
 	}
 
-	if (right_bottom) {
+	if (path_only ||
+	    (right_bottom && right && right->width && bottom && bottom->width)) {
 		join_func = get_join_draw_func (right, bottom, path_only);
 		xoff = !path_only && right ? right->width->width / 2. : 0;
 		yoff = !path_only && bottom ? bottom->width->width / 2. : 0;
@@ -436,7 +449,8 @@ border (ccss_border_stroke_t const	*left,
 		}
 	}
 
-	if (bottom) {
+	if (path_only ||
+	    (bottom &&  bottom->width)) {
 		line_func = get_line_draw_func (bottom, path_only);
 		xoff = rrb;
 		yoff = !path_only && bottom ? bottom->width->width / 2. : 0;
@@ -453,7 +467,8 @@ border (ccss_border_stroke_t const	*left,
 		}
 	}
 
-	if (bottom_left) {
+	if (path_only ||
+	    (bottom_left && left && left->width && bottom && bottom->width)) {
 		join_func = get_join_draw_func (bottom, left, path_only);
 		xoff = !path_only && left ? left->width->width / 2. : 0;
 		yoff = !path_only && bottom ? bottom->width->width / 2. : 0;

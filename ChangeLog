@@ -1,5 +1,15 @@
 2008-11-28  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/ccss-background.c (ccss_background_fill):
+	* ccss-cairo/ccss-border.c (get_line_draw_func), (border):
+	* ccss-cairo/ccss-cairo-style.c (ccss_cairo_style_draw_line),
+	(gather_outline), (gather_background),
+	(ccss_cairo_style_draw_rectangle),
+	(ccss_cairo_style_draw_rectangle_with_gap):
+	Get rid of built-in default properties.
+
+2008-11-28  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo/ccss-background-parser.c (background_inherit):
 	* ccss-cairo/ccss-border-parser.c (border_color_inherit),
 	(border_style_inherit), (border_width_inherit),

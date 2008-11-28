@@ -28,130 +28,6 @@
 #include "ccss-cairo-property.h"
 #include "config.h"
 
-static const ccss_background_attachment_t const _bg_attachment = {
-	.base.state = CCSS_PROPERTY_STATE_SET,
-	.attachment = CCSS_BACKGROUND_SCROLL
-};
-
-static const ccss_color_t const _bg_color = {
-	.base.state = CCSS_PROPERTY_STATE_SET,
-	.red = 1.,
-	.green = 1.,
-	.blue = 1.
-};
-
-static const ccss_background_image_t const _bg_image = {
-	.base.state = CCSS_PROPERTY_STATE_NONE
-};
-
-static const ccss_background_position_t const _bg_position = {
-	.base.state = CCSS_PROPERTY_STATE_SET,
-	.hpos = { CCSS_POSITION_LENGTH, 0 },
-	.vpos = { CCSS_POSITION_LENGTH, 0 }
-};
-
-static const ccss_background_repeat_t const _bg_repeat = {
-	.base.state = CCSS_PROPERTY_STATE_SET,
-	.repeat = CCSS_BACKGROUND_REPEAT
-};
-
-static const ccss_background_size_t const _bg_size = {
-	.base.state = CCSS_PROPERTY_STATE_SET,
-	.width = { CCSS_POSITION_AUTO, 0 },
-	.height = { CCSS_POSITION_AUTO, 0 }
-};
-
-/* FIXME: don't draw borders by default? */
-static const ccss_border_style_t const _border_style = {
-	.base.state = CCSS_PROPERTY_STATE_INVALID,
-	.style = CCSS_BORDER_STYLE_SOLID
-};
-
-static const ccss_border_width_t const _border_width = {
-	.base.state = CCSS_PROPERTY_STATE_SET,
-	.width = 1.
-};
-
-static const ccss_border_join_t const _border_join = {
-	.base.state = CCSS_PROPERTY_STATE_INVALID,
-	.radius = 0
-};
-
-static const ccss_color_t const _color = {
-	.base.state = CCSS_PROPERTY_STATE_SET,
-	.red = 0.,
-	.green = 0.,
-	.blue = 0.
-};
-
-static const struct {
-
-	ccss_background_attachment_t const	*bg_attachment;
-	ccss_color_t const			*bg_color;
-	ccss_background_image_t const		*bg_image;
-	ccss_background_position_t const	*bg_position;
-	ccss_background_repeat_t const		*bg_repeat;
-	ccss_background_size_t const		*bg_size;
-
-	ccss_color_t const			*bottom_color;
-	ccss_border_style_t const		*bottom_style;
-	ccss_border_width_t const		*bottom_width;
-
-	ccss_color_t const			*left_color;
-	ccss_border_style_t const		*left_style;
-	ccss_border_width_t const		*left_width;
-
-	ccss_color_t const			*right_color;
-	ccss_border_style_t const		*right_style;
-	ccss_border_width_t const		*right_width;
-
-	ccss_color_t const			*top_color;
-	ccss_border_style_t const		*top_style;
-	ccss_border_width_t const		*top_width;
-
-	ccss_border_join_t const		*bottom_left_radius;
-	ccss_border_join_t const		*bottom_right_radius;
-	ccss_border_join_t const		*top_left_radius;
-	ccss_border_join_t const		*top_right_radius;
-
-	ccss_color_t const			*color;	
-
-} _default_style = {
-
-	.bg_attachment = &_bg_attachment,
-	.bg_color = &_bg_color,
-	.bg_image = &_bg_image,
-	.bg_position = &_bg_position,
-	.bg_repeat = &_bg_repeat,
-	.bg_size = &_bg_size,
-
-	.bottom_color = &_color,
-	.bottom_style = &_border_style,
-	.bottom_width = &_border_width,
-
-	.left_color = &_color,
-	.left_style = &_border_style,
-	.left_width = &_border_width,
-
-	.right_color = &_color,
-	.right_style = &_border_style,
-	.right_width = &_border_width,
-
-	.top_color = &_color,
-	.top_style = &_border_style,
-	.top_width = &_border_width,
-
-	.bottom_left_radius = &_border_join,
-	.bottom_right_radius = &_border_join,
-	.top_left_radius = &_border_join,
-	.top_right_radius = &_border_join,
-
-	.color = &_color
-};
-
-/* FIXME: maybe they should also be in `block', where the generic conversion function is? */
-
-
 typedef struct {
 	GQuark id;
 	GQuark fallback;	
@@ -250,19 +126,19 @@ ccss_cairo_style_draw_line (ccss_style_t const	*self,
 	stroke.color = (ccss_color_t *) lookup_property_r (self,
 						CCSS_PROPERTY_BORDER_COLOR);
 	if (NULL == stroke.color) {
-		stroke.color = _default_style.top_color;
+		stroke.color = NULL;
 	}
 
 	stroke.style = (ccss_border_style_t *) lookup_property_r (self,
 						CCSS_PROPERTY_BORDER_STYLE);
 	if (NULL == stroke.style) {
-		stroke.style = _default_style.top_style;
+		stroke.style = NULL;
 	}
 
 	stroke.width = (ccss_border_width_t *) lookup_property_r (self,
 						CCSS_PROPERTY_BORDER_WIDTH);
 	if (NULL == stroke.width) {
-		stroke.width = _default_style.top_width;
+		stroke.width = NULL;
 	}
 
 	/* Unlike borders, lines are not drawn inside the box, 
@@ -335,40 +211,40 @@ gather_outline (ccss_style_t const		 *self,
 		ccss_border_join_t const	**top_right)
 {
 	gather_stroke (self, 
-		CCSS_PROPERTY_BORDER_BOTTOM_COLOR, _default_style.bottom_color, 
-		CCSS_PROPERTY_BORDER_BOTTOM_STYLE, _default_style.bottom_style, 
-		CCSS_PROPERTY_BORDER_BOTTOM_WIDTH, _default_style.bottom_width, 
+		CCSS_PROPERTY_BORDER_BOTTOM_COLOR, NULL, 
+		CCSS_PROPERTY_BORDER_BOTTOM_STYLE, NULL, 
+		CCSS_PROPERTY_BORDER_BOTTOM_WIDTH, NULL, 
 		bottom);
 
 	gather_stroke (self, 
-		CCSS_PROPERTY_BORDER_LEFT_COLOR, _default_style.left_color, 
-		CCSS_PROPERTY_BORDER_LEFT_STYLE, _default_style.left_style, 
-		CCSS_PROPERTY_BORDER_LEFT_WIDTH, _default_style.left_width, 
+		CCSS_PROPERTY_BORDER_LEFT_COLOR, NULL, 
+		CCSS_PROPERTY_BORDER_LEFT_STYLE, NULL, 
+		CCSS_PROPERTY_BORDER_LEFT_WIDTH, NULL, 
 		left);
 
 	gather_stroke (self, 
-		CCSS_PROPERTY_BORDER_RIGHT_COLOR, _default_style.right_color, 
-		CCSS_PROPERTY_BORDER_RIGHT_STYLE, _default_style.right_style, 
-		CCSS_PROPERTY_BORDER_RIGHT_WIDTH, _default_style.right_width, 
+		CCSS_PROPERTY_BORDER_RIGHT_COLOR, NULL, 
+		CCSS_PROPERTY_BORDER_RIGHT_STYLE, NULL, 
+		CCSS_PROPERTY_BORDER_RIGHT_WIDTH, NULL, 
 		right);
 
 	gather_stroke (self, 
-		CCSS_PROPERTY_BORDER_TOP_COLOR, _default_style.top_color, 
-		CCSS_PROPERTY_BORDER_TOP_STYLE, _default_style.top_style, 
-		CCSS_PROPERTY_BORDER_TOP_WIDTH, _default_style.top_width, 
+		CCSS_PROPERTY_BORDER_TOP_COLOR, NULL, 
+		CCSS_PROPERTY_BORDER_TOP_STYLE, NULL, 
+		CCSS_PROPERTY_BORDER_TOP_WIDTH, NULL, 
 		top);
 
 	*bottom_left = gather_join (self, CCSS_PROPERTY_BORDER_BOTTOM_LEFT_RADIUS,
-				   _default_style.bottom_left_radius);
+				    NULL);
 
 	*bottom_right = gather_join (self, CCSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS,
-				    _default_style.bottom_right_radius);
+				     NULL);
 
 	*top_left = gather_join (self, CCSS_PROPERTY_BORDER_TOP_LEFT_RADIUS,
-			        _default_style.top_left_radius);
+				 NULL);
 
 	*top_right = gather_join (self, CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS,
-				 _default_style.top_right_radius);
+				  NULL);
 
 }
 
@@ -386,42 +262,42 @@ gather_background (ccss_style_t const			 *self,
 			self->properties,
 			(gpointer) CCSS_PROPERTY_BACKGROUND_ATTACHMENT);
 	if (!*bg_attachment)
-		*bg_attachment = _default_style.bg_attachment;
+		*bg_attachment = NULL;
 
 	*bg_color = (ccss_color_t const *)
 		g_hash_table_lookup (
 			self->properties,
 			(gpointer) CCSS_PROPERTY_BACKGROUND_COLOR);
 	if (!*bg_color)
-		*bg_color = _default_style.bg_color;
+		*bg_color = NULL;
 
 	*bg_image = (ccss_background_image_t const *)
 		g_hash_table_lookup (
 			self->properties,
 			(gpointer) CCSS_PROPERTY_BACKGROUND_IMAGE);
 	if (!*bg_image)
-		*bg_image = _default_style.bg_image;
+		*bg_image = NULL;
 
 	*bg_position = (ccss_background_position_t const *)
 		g_hash_table_lookup (
 			self->properties,
 			(gpointer) CCSS_PROPERTY_BACKGROUND_POSITION);
 	if (!*bg_position)
-		*bg_position = _default_style.bg_position;
+		*bg_position = NULL;
 
 	*bg_repeat = (ccss_background_repeat_t const *)
 		g_hash_table_lookup (
 			self->properties,
 			(gpointer) CCSS_PROPERTY_BACKGROUND_REPEAT);
 	if (!*bg_repeat)
-		*bg_repeat = _default_style.bg_repeat;
+		*bg_repeat = NULL;
 
 	*bg_size = (ccss_background_size_t const *)
 		g_hash_table_lookup (
 			self->properties,
 			(gpointer) CCSS_PROPERTY_BACKGROUND_SIZE);
 	if (!*bg_size)
-		*bg_size = _default_style.bg_size;
+		*bg_size = NULL;
 }
 
 /**
@@ -510,7 +386,8 @@ ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 
 	/* FIXME: background size is calculated against allocation
 	 * when using `fixed'. */
-	if (CCSS_BACKGROUND_FIXED == bg_attachment->attachment) {
+	if (bg_attachment &&
+	    CCSS_BACKGROUND_FIXED == bg_attachment->attachment) {
 		l = self->viewport_x;
 		t = self->viewport_y;
 		w = self->viewport_width;
@@ -587,10 +464,10 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 	ccss_background_repeat_t const		*bg_repeat;
 	ccss_background_size_t const		*bg_size;
 
-	ccss_border_join_t bottom_left;
-	ccss_border_join_t bottom_right;
-	ccss_border_join_t top_left;
-	ccss_border_join_t top_right;
+	ccss_border_join_t bottom_left = { .base.state = CCSS_PROPERTY_STATE_SET, .radius = 0 };
+	ccss_border_join_t bottom_right = { .base.state = CCSS_PROPERTY_STATE_SET, .radius = 0 };
+	ccss_border_join_t top_left = { .base.state = CCSS_PROPERTY_STATE_SET, .radius = 0 };
+	ccss_border_join_t top_right = { .base.state = CCSS_PROPERTY_STATE_SET, .radius = 0 };
 	int32_t l, t, w, h;
 
 	gather_outline (self, &bottom, &left, &right, &top,
@@ -602,10 +479,10 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 
 	/* The rounding radii will have to be adjusted for certain gap
 	 * positions, so we work on a copied set of them. */
-	bottom_left = *bl;
-	bottom_right = *br;
-	top_left = *tl;
-	top_right = *tr;
+	if (bl) bottom_left = *bl;
+	if (br) bottom_right = *br;
+	if (tl) top_left = *tl;
+	if (tr) top_right = *tr;
 
 	switch (gap_side) {
 	case CCSS_CAIRO_GAP_SIDE_LEFT:
@@ -654,7 +531,8 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 
 	/* FIXME: background size is calculated against allocation
 	 * when using `fixed'. */
-	if (CCSS_BACKGROUND_FIXED == bg_attachment->attachment) {
+	if (bg_attachment && 
+	    CCSS_BACKGROUND_FIXED == bg_attachment->attachment) {
 		l = self->viewport_x;
 		t = self->viewport_y;
 		w = self->viewport_width;

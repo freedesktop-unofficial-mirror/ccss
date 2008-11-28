@@ -166,12 +166,7 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 	double		dx;
 	double		dy;
 
-	g_return_if_fail (bg_attachment);
 	/* FIXME, we need "transparent" color g_return_if_fail (bg_color); */
-	g_return_if_fail (bg_image);
-	g_return_if_fail (bg_position);
-	g_return_if_fail (bg_repeat);
-	g_return_if_fail (bg_size);
 
 	cairo_save (cr);
 
@@ -190,24 +185,34 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 		double xoff;
 		double yoff;
 
-		tile_width = ccss_position_get_hsize (&bg_size->width, 
-						     width, height,
-						     bg_image->image.width,
-						     bg_image->image.height);
-		tile_height = ccss_position_get_vsize (&bg_size->height,
-						      width, height,
-						      bg_image->image.width,
-						      bg_image->image.height);
+		tile_width = bg_size ? 
+				ccss_position_get_hsize (&bg_size->width, 
+							 width, height,
+							 bg_image->image.width,
+							 bg_image->image.height) :
+				bg_image->image.width;
 
-		xoff = ccss_position_get_pos (&bg_position->hpos,
-					     width, tile_width);
-		yoff = ccss_position_get_pos (&bg_position->vpos,
-					     height, tile_height);
+		tile_height = bg_size ? 
+				ccss_position_get_vsize (&bg_size->height,
+							 width, height,
+							 bg_image->image.width,
+							 bg_image->image.height) :
+				bg_image->image.height;
+
+		xoff = bg_position ? 
+			ccss_position_get_pos (&bg_position->hpos,
+					       width, tile_width) : 
+			0;
+
+		yoff = bg_position ? 
+			ccss_position_get_pos (&bg_position->vpos,
+					       height, tile_height) :
+			0;
 
 		dx = tile_width / bg_image->image.width;
 		dy = tile_height / bg_image->image.height;
 
-		switch (bg_repeat->repeat) {
+		switch (bg_repeat ? bg_repeat->repeat : CCSS_BACKGROUND_REPEAT) {
 		case CCSS_BACKGROUND_REPEAT:
 			/* Normalise offsets, we don't create an infinite
 			 * background pattern. */
