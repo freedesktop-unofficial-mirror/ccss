@@ -1,3 +1,22 @@
+2008-11-28  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss-cairo/ccss-background-parser.c (background_inherit):
+	* ccss-cairo/ccss-border-parser.c (border_color_inherit),
+	(border_style_inherit), (border_width_inherit),
+	(border_side_inherit_impl), (border_radius_inherit):
+	* ccss-cairo/ccss-cairo-style.c (ccss_cairo_style_get_double),
+	(ccss_cairo_style_get_string), (ccss_cairo_style_get_property):
+	* ccss-cairo/ccss-cairo-style.h:
+	* ccss-doc/tmpl/style.sgml:
+	* ccss/ccss-style-priv.h:
+	* ccss/ccss-style.c (ccss_style_get_double),
+	(ccss_style_get_string), (ccss_style_get_property):
+	* ccss/ccss-style.h:
+	* ccss/ccss-stylesheet.c (inherit_container_style):
+	* examples/example-4.c (expose_cb):
+	* examples/example-5.svg:
+	Provide API to query ccss-cairo properties with fallbacks.
+
 2008-11-27  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss-cairo/ccss-border-image-parser.c (border_image_new):

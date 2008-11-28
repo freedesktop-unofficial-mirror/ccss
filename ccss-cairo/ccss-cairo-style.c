@@ -800,3 +800,115 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 	}
 }
 
+/**
+ * ccss_cairo_style_get_double:
+ * @self:		a #ccss_style_t.
+ * @property_name:	name of the property.
+ * @value:		location to store the converted property.
+ *
+ * Query a numeric property with fallbacks, e.g. `border-color' if `border-left-color' is not given.
+ *
+ * Returns: %TRUE if the property was found and could be converted.
+ **/
+bool 
+ccss_cairo_style_get_double (ccss_style_t const	*self,
+			     char const		*property_name,
+			     double		*value)
+{
+	GQuark				 property_id;
+	ccss_property_base_t const	*property;
+
+	g_return_val_if_fail (self && property_name && value, false);
+
+	property_id = g_quark_try_string (property_name);
+	if (0 == property_id) {
+		/* Property unknown, no need to look up. */
+		return false;
+	}
+
+	property = lookup_property_r (self, property_id);
+	if (NULL == property)
+		return false;
+
+	/* Have conversion function? */
+	g_return_val_if_fail (property->property_class, false);
+	if (NULL == property->property_class->property_convert) {
+		return false;
+	}
+
+	return property->property_class->property_convert (property,
+							   CCSS_PROPERTY_TYPE_DOUBLE,
+							   value);
+}
+
+/**
+ * ccss_cairo_style_get_string:
+ * @self:		a #ccss_style_t.
+ * @property_name:	name of the property.
+ * @value:		location to store the converted property.
+ *
+ * Query a string property with fallbacks, e.g. `border-color' if `border-left-color' is not given.
+ * 
+ * Returns: %TRUE if the property was found and could be converted.
+ **/
+bool 
+ccss_cairo_style_get_string (ccss_style_t const	 *self,
+			     char const		 *property_name,
+			     char		**value)
+{
+	GQuark				 property_id;
+	ccss_property_base_t const	*property;
+
+	g_return_val_if_fail (self && property_name && value, false);
+
+	property_id = g_quark_try_string (property_name);
+	if (0 == property_id) {
+		/* Property unknown, no need to look up. */
+		return false;
+	}
+
+	property = lookup_property_r (self, property_id);
+	if (NULL == property)
+		return false;
+
+	/* Have conversion function? */
+	g_return_val_if_fail (property->property_class, false);
+	if (NULL == property->property_class->property_convert) {
+		return false;
+	}
+
+	return property->property_class->property_convert (property,
+							   CCSS_PROPERTY_TYPE_STRING,
+							   value);
+}
+
+/**
+ * ccss_cairo_style_get_property:
+ * @self:		a #ccss_style_t.
+ * @property_name:	name of the property.
+ * @value:		location to store the property.
+ * 
+ * Query a custom property with fallbacks, e.g. `border-color' if `border-left-color' is not given.
+ *
+ * Returns: %TRUE if the property was found.
+ **/
+bool
+ccss_cairo_style_get_property (ccss_style_t const		 *self,
+			       char const			 *property_name,
+			       ccss_property_base_t const	**property)
+{
+	GQuark property_id;
+
+	g_return_val_if_fail (self && property_name && property, false);
+
+	property_id = g_quark_try_string (property_name);
+	if (0 == property_id) {
+		/* Property unknown, no need to look up. */
+		return false;
+	}
+
+	*property = lookup_property_r (self, property_id);
+
+	return (bool) *property;
+}
+

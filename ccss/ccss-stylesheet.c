@@ -342,34 +342,33 @@ inherit_container_style (ccss_style_t const	*container_style,
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, NULL)) {
 
 		/* Look up property in the container's style. */
-		property = ccss_style_lookup_property (container_style,
-						       property_id);
-		if (property) {
-			if (CCSS_PROPERTY_STATE_NONE == property->state ||
-			    CCSS_PROPERTY_STATE_SET == property->state ) {
+		property = (ccss_property_base_t const *)
+				g_hash_table_lookup (container_style->properties,
+						     (gpointer) property_id);
+		if (property &&
+		    (CCSS_PROPERTY_STATE_NONE == property->state ||
+		     CCSS_PROPERTY_STATE_SET == property->state)) {
 
-				bool is_resolved;
+			bool is_resolved;
 
-				if (property->property_class->property_inherit) {
-					is_resolved = property->property_class->property_inherit (
-							container_style, 
-							style);
-				} else {
-					g_hash_table_insert (style->properties,
-							     (gpointer) property_id,
-							     (gpointer) property);
-					is_resolved = true;
-				}
+			if (property->property_class->property_inherit) {
+				is_resolved = property->property_class->property_inherit (
+						container_style, 
+						style);
+			} else {
+				g_hash_table_insert (style->properties,
+						     (gpointer) property_id,
+						     (gpointer) property);
+				is_resolved = true;
+			}
 
-				/* Remember inherited properties, we can't
-				 * modify the hash while iterating. */
-				if (is_resolved) {
-					removals = g_slist_prepend (removals,
-							    (gpointer) property_id);
-				}
+			/* Remember inherited properties, we can't
+			 * modify the hash while iterating. */
+			if (is_resolved) {
+				removals = g_slist_prepend (removals,
+						    (gpointer) property_id);
 			}
 		}
-		
 	}
 
 	while (removals) {

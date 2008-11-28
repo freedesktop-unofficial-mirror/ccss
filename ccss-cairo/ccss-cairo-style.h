@@ -77,7 +77,20 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 					  int				 gap_start,
 					  int				 gap_width);
 
-// TODO implement get_property methods with fallback.
+bool
+ccss_cairo_style_get_double (ccss_style_t const	*self,
+			     char const		*property_name,
+			     double		*value);
+
+bool 
+ccss_cairo_style_get_string (ccss_style_t const	 *self,
+			     char const		 *property_name,
+			     char		**value);
+
+bool
+ccss_cairo_style_get_property (ccss_style_t const		 *self,
+			       char const			 *property_name,
+			       ccss_property_base_t const	**property);
 
 CCSS_END_DECLS
 

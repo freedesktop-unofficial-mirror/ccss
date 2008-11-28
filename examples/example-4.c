@@ -90,16 +90,17 @@ expose_cb (GtkWidget		*widget,
 	   GdkEventExpose	*event,
 	   ccss_style_t const	*style)
 {
-	cairo_t			*cr;
-	font_family_t const	*font_family;
-	PangoContext		*context;
-	PangoLayout		*layout;
+	cairo_t				 *cr;
+	ccss_property_base_t const	 *property;
+	PangoContext			 *context;
+	PangoLayout			 *layout;
 
 	cr = gdk_cairo_create (widget->window);
 
-	font_family = NULL;
-	ccss_style_get_property (style, "font-family", (void **) &font_family);
-	if (font_family) {
+	property = NULL;
+	ccss_style_get_property (style, "font-family", &property);
+	if (property) {
+		font_family_t const *font_family = (font_family_t const *) property;
 		context = gtk_widget_get_pango_context (widget);
 		layout = pango_layout_new (context);
 		pango_layout_set_text (layout, font_family->font_family,

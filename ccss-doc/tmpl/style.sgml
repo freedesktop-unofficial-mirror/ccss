@@ -57,7 +57,7 @@ ccss_style_t
 
 @self: 
 @property_name: 
-@value: 
+@property: 
 @Returns: 
 
 
@@ -68,7 +68,7 @@ ccss_style_t
 
 @self: 
 @property_name: 
-@value: 
+@property: 
 
 
 <!-- ##### FUNCTION ccss_style_get_string ##### -->

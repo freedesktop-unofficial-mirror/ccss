@@ -53,14 +53,14 @@ ccss_style_get_string	(ccss_style_t const	 *self,
 			 char			**value);
 
 bool
-ccss_style_get_property	(ccss_style_t const	 *self,
-			 char const		 *property_name,
-			 void			**value);
+ccss_style_get_property	(ccss_style_t const		 *self,
+			 char const			 *property_name,
+			 ccss_property_base_t const	**property);
 
 void
 ccss_style_set_property	(ccss_style_t 			*self,
 			 char const			*property_name,
-			 ccss_property_base_t const	*value);
+			 ccss_property_base_t const	*property);
 
 /**
  * ccss_style_iterator_f:

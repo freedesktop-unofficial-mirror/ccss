@@ -37,10 +37,6 @@ struct ccss_style_ {
 	int32_t		 viewport_height;
 };
 
-ccss_property_base_t const *
-ccss_style_lookup_property (ccss_style_t const	*self,
-			    GQuark		 property_id);
-
 CCSS_END_DECLS
 
 #endif /* CCSS_STYLE_PRIV_H */

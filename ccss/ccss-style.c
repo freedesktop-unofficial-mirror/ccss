@@ -54,18 +54,6 @@ ccss_style_free (ccss_style_t *self)
 	g_free (self);
 }
 
-ccss_property_base_t const *
-ccss_style_lookup_property (ccss_style_t const	*self,
-			    GQuark		 property_id)
-{
-	g_assert (self);
-
-	return (ccss_property_base_t const *)
-			g_hash_table_lookup (self->properties,
-					     (gpointer) property_id);
-
-}
-
 /**
  * ccss_style_get_double:
  * @self:		a #ccss_style_t.
@@ -81,20 +69,17 @@ ccss_style_get_double (ccss_style_t const	*self,
 		       char const		*property_name,
 		       double			*value)
 {
-	GQuark				 property_id;
 	ccss_property_base_t const	*property;
+	bool				 ret;
 
 	g_return_val_if_fail (self && property_name && value, false);
 
-	property_id = g_quark_try_string (property_name);
-	if (0 == property_id) {
-		/* Property unknown, no need to look up. */
+	property = NULL;
+	ret = ccss_style_get_property (self, property_name, &property);
+	if (!ret) {
 		return false;
 	}
-
-	property = ccss_style_lookup_property (self, property_id);
-	if (NULL == property)
-		return false;
+	g_return_val_if_fail (property, false);
 
 	/* Have conversion function? */
 	g_return_val_if_fail (property->property_class, false);
@@ -122,20 +107,17 @@ ccss_style_get_string (ccss_style_t const	 *self,
 		       char const		 *property_name,
 		       char			**value)
 {
-	GQuark				 property_id;
 	ccss_property_base_t const	*property;
+	bool				 ret;
 
 	g_return_val_if_fail (self && property_name && value, false);
 
-	property_id = g_quark_try_string (property_name);
-	if (0 == property_id) {
-		/* Property unknown, no need to look up. */
+	property = NULL;
+	ret = ccss_style_get_property (self, property_name, &property);
+	if (!ret) {
 		return false;
 	}
-
-	property = ccss_style_lookup_property (self, property_id);
-	if (NULL == property)
-		return false;
+	g_return_val_if_fail (property, false);
 
 	/* Have conversion function? */
 	g_return_val_if_fail (property->property_class, false);
@@ -159,13 +141,13 @@ ccss_style_get_string (ccss_style_t const	 *self,
  * Returns: %TRUE if the property was found.
  **/
 bool
-ccss_style_get_property	(ccss_style_t const	 *self,
-			 char const		 *property_name,
-			 void			**value)
+ccss_style_get_property	(ccss_style_t const		 *self,
+			 char const			 *property_name,
+			 ccss_property_base_t const	**property)
 {
 	GQuark		 property_id;
 
-	g_return_val_if_fail (self && property_name && value, false);
+	g_return_val_if_fail (self && property_name && property, false);
 
 	property_id = g_quark_try_string (property_name);
 	if (0 == property_id) {
@@ -175,7 +157,7 @@ ccss_style_get_property	(ccss_style_t const	 *self,
 
 	return g_hash_table_lookup_extended (self->properties,
 					     (gconstpointer) property_id, NULL,
-					     value);
+					     (void **) property);
 }
 
 /**

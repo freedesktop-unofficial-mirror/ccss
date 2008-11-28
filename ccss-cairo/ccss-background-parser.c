@@ -318,7 +318,7 @@ background_inherit (ccss_style_t const	*container_style,
 	ret = false;
 
 	if (ccss_style_get_property (container_style,
-				"background", (void **) &property)) {
+				"background", &property)) {
 		if (PROPERTY_SET (property)) {
 			ccss_style_set_property (style,
 				"background", property);
@@ -326,7 +326,7 @@ background_inherit (ccss_style_t const	*container_style,
 		}
 	}
 	if (ccss_style_get_property (container_style,
-				"background-attachment", (void **) &property)) {
+				"background-attachment", &property)) {
 		if (PROPERTY_SET (property)) {
 			ccss_style_set_property (style,
 				"background-attachment", property);
@@ -336,7 +336,7 @@ background_inherit (ccss_style_t const	*container_style,
 		}
 	}
 	if (ccss_style_get_property (container_style,
-				"background-color", (void **) &property)) {
+				"background-color", &property)) {
 		if (PROPERTY_SET (property)) {
 			ccss_style_set_property (style,
 				"background-color", property);
@@ -346,7 +346,7 @@ background_inherit (ccss_style_t const	*container_style,
 		}
 	}
 	if (ccss_style_get_property (container_style,
-				"background-image", (void **) &property)) {
+				"background-image", &property)) {
 		if (PROPERTY_SET (property)) {
 			ccss_style_set_property (style,
 				"background-image", property);
@@ -356,7 +356,7 @@ background_inherit (ccss_style_t const	*container_style,
 		}
 	}
 	if (ccss_style_get_property (container_style,
-				"background-position", (void **) &property)) {
+				"background-position", &property)) {
 		if (PROPERTY_SET (property)) {
 			ccss_style_set_property (style,
 				"background-position", property);
@@ -366,7 +366,7 @@ background_inherit (ccss_style_t const	*container_style,
 		}
 	}
 	if (ccss_style_get_property (container_style,
-				"background-repeat", (void **) &property)) {
+				"background-repeat", &property)) {
 		if (PROPERTY_SET (property)) {
 			ccss_style_set_property (style,
 				"background-repeat", property);
@@ -377,7 +377,7 @@ background_inherit (ccss_style_t const	*container_style,
 	}
 	/* PONDERING support CSS2 `background' for now.
 	if (ccss_style_get_property (container_style, "background-size",
-				     (void **) &property)) {
+				     &property)) {
 		ccss_style_set_property (style, "background-size", property);
 	} */
 
