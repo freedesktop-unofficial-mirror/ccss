@@ -1,5 +1,10 @@
 2008-12-01  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_add_from_file): support
+	detection of errors from the retval.
+
+2008-12-01  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo-doc/ccss-cairo-docs.sgml:
 	* ccss-cairo-doc/ccss-cairo-sections.txt:
 	* ccss-cairo-doc/tmpl/grammar.sgml:

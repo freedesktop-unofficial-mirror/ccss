@@ -106,12 +106,12 @@ ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
 
 	ret = ccss_parser_parse_file (self->grammar, css_file, precedence,
 				      self->groups, self->blocks);
+	if (ret) {
+		ccss_stylesheet_fix_dangling_selectors (self);
+		return self;
+	}
 
-	ccss_stylesheet_fix_dangling_selectors (self);
-
-	// FIXME handle `ret'
-
-	return self;
+	return NULL;
 }
 
 /**
