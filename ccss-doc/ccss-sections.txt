@@ -38,8 +38,8 @@ ccss_node_init
 <TITLE>ccss_style_t</TITLE>
 <FILE>style</FILE>
 ccss_style_t
-ccss_style_new
-ccss_style_free
+ccss_style_create
+ccss_style_destroy
 ccss_style_get_double
 ccss_style_get_property
 ccss_style_set_property
@@ -55,11 +55,11 @@ ccss_style_dump
 ccss_stylesheet_iterator_f
 ccss_stylesheet_t
 ccss_stylesheet_precedence_t
-ccss_stylesheet_new_from_buffer
-ccss_stylesheet_new_from_file
+ccss_stylesheet_create_from_buffer
+ccss_stylesheet_create_from_file
 ccss_stylesheet_add_from_file
 ccss_stylesheet_foreach
-ccss_stylesheet_free
+ccss_stylesheet_destroy
 ccss_stylesheet_invalidate_node
 ccss_stylesheet_query_type
 ccss_stylesheet_query
@@ -71,8 +71,8 @@ ccss_stylesheet_dump
 <FILE>property</FILE>
 ccss_property_state_t
 ccss_property_type_t
-ccss_property_new_f
-ccss_property_free_f
+ccss_property_create_f
+ccss_property_destroy_f
 ccss_property_convert_f
 ccss_property_factory_f
 ccss_property_inherit_f

@@ -958,7 +958,7 @@ border_radius_convert (ccss_border_join_t const	*property,
 }
 
 static ccss_border_style_t *
-border_style_new (CRTerm const *value)
+border_style_create (CRTerm const *value)
 {
 	ccss_border_style_t *self, s;
 
@@ -1033,176 +1033,176 @@ border_width_convert (ccss_border_width_t const	*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "border-top-right-radius",
-	.property_new = (ccss_property_new_f) border_radius_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) border_radius_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-bottom-right-radius",
-	.property_new = (ccss_property_new_f) border_radius_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) border_radius_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-bottom-left-radius",
-	.property_new = (ccss_property_new_f) border_radius_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) border_radius_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-top-left-radius",
-	.property_new = (ccss_property_new_f) border_radius_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) border_radius_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-radius",
-	.property_new = NULL,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = NULL,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
 	.property_factory = (ccss_property_factory_f) border_radius_factory,
 	.property_inherit = border_radius_inherit
     }, {
 	.name = "border-left-color",
-	.property_new = (ccss_property_new_f) ccss_color_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) ccss_color_create,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-left-style",
-	.property_new = (ccss_property_new_f) border_style_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) border_style_create,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_style_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-left-width",
-	.property_new = (ccss_property_new_f) border_width_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) border_width_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_width_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-top-color",
-	.property_new = (ccss_property_new_f) ccss_color_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) ccss_color_create,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-top-style",
-	.property_new = (ccss_property_new_f) border_style_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) border_style_create,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_style_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-top-width",
-	.property_new = (ccss_property_new_f) border_width_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) border_width_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_width_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-right-color",
-	.property_new = (ccss_property_new_f) ccss_color_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) ccss_color_create,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-right-style",
-	.property_new = (ccss_property_new_f) border_style_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) border_style_create,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_style_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-right-width",
-	.property_new = (ccss_property_new_f) border_width_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) border_width_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_width_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-bottom-color",
-	.property_new = (ccss_property_new_f) ccss_color_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) ccss_color_create,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-bottom-style",
-	.property_new = (ccss_property_new_f) border_style_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) border_style_create,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_style_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-bottom-width",
-	.property_new = (ccss_property_new_f) border_width_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) border_width_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_width_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-left",
-	.property_new = NULL,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = NULL,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = NULL,
 	.property_factory = (ccss_property_factory_f) border_left_factory,
 	.property_inherit = border_left_inherit
     }, {
 	.name = "border-top",
-	.property_new = NULL,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = NULL,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = NULL,
 	.property_factory = (ccss_property_factory_f) border_top_factory,
 	.property_inherit = border_top_inherit
     }, {
 	.name = "border-right",
-	.property_new = NULL,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = NULL,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = NULL,
 	.property_factory = (ccss_property_factory_f) border_right_factory,
 	.property_inherit = border_right_inherit
     }, {
 	.name = "border-bottom",
-	.property_new = NULL,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = NULL,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = NULL,
 	.property_factory = (ccss_property_factory_f) border_bottom_factory,
 	.property_inherit = border_bottom_inherit
     }, {
 	.name = "border-color",
-	.property_new = NULL,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = NULL,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
 	.property_factory = (ccss_property_factory_f) border_color_factory,
 	.property_inherit = border_color_inherit
     }, {
 	.name = "border-style",
-	.property_new = NULL,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = NULL,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_style_convert,
 	.property_factory = (ccss_property_factory_f) border_style_factory,
 	.property_inherit = border_style_inherit
     }, {
 	.name = "border-width",
-	.property_new = NULL,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = NULL,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_width_convert,
 	.property_factory = (ccss_property_factory_f) border_width_factory,
 	.property_inherit = border_width_inherit
     }, {
 	.name = "border",
-	.property_new = NULL,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = NULL,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = NULL,
 	.property_factory = (ccss_property_factory_f) border_factory,
 	.property_inherit = border_inherit

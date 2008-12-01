@@ -203,8 +203,8 @@ border_image_convert (ccss_border_image_t const	*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "border-image",
-	.property_new = (ccss_property_new_f) border_image_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) border_image_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_image_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL

@@ -138,21 +138,21 @@ walk_additional_selector (CRAdditionalSel		*cr_add_sel,
 	switch (cr_add_sel->type) {
 	case CLASS_ADD_SELECTOR:
 		name = cr_string_peek_raw_str (cr_add_sel->content.class_name);
-		selector = ccss_class_selector_new (name, precedence, importance);
+		selector = ccss_class_selector_create (name, precedence, importance);
 		break;
 	case PSEUDO_CLASS_ADD_SELECTOR:
 		name = cr_string_peek_raw_str (cr_add_sel->content.pseudo->name);
-		selector = ccss_pseudo_class_selector_new (name, precedence, importance);
+		selector = ccss_pseudo_class_selector_create (name, precedence, importance);
 		break;
 	case ID_ADD_SELECTOR:
 		name = cr_string_peek_raw_str (cr_add_sel->content.id_name);
-		selector = ccss_id_selector_new (name, precedence, importance);
+		selector = ccss_id_selector_create (name, precedence, importance);
 		break;
 	case ATTRIBUTE_ADD_SELECTOR:
 		name = cr_string_peek_raw_str (cr_add_sel->content.attr_sel->name);
 		value = cr_string_peek_raw_str (cr_add_sel->content.attr_sel->value);
 		match = map_attribute_selector_match (cr_add_sel->content.attr_sel->match_way);
-		selector = ccss_attribute_selector_new (name, value, match, precedence, importance);
+		selector = ccss_attribute_selector_create (name, value, match, precedence, importance);
 		break;
 	case NO_ADD_SELECTOR:
 	default:
@@ -182,9 +182,9 @@ walk_simple_selector_r (CRSimpleSel			*cr_simple_sel,
 	selector = NULL;
 	importance = calculate_importance (precedence, is_important);
 	if (UNIVERSAL_SELECTOR & cr_simple_sel->type_mask) {
-		selector = ccss_universal_selector_new (precedence, importance);
+		selector = ccss_universal_selector_create (precedence, importance);
 	} else if (TYPE_SELECTOR & cr_simple_sel->type_mask) {
-		selector = ccss_type_selector_new (cr_string_peek_raw_str (cr_simple_sel->name), precedence, importance);
+		selector = ccss_type_selector_create (cr_string_peek_raw_str (cr_simple_sel->name), precedence, importance);
 	} else {
 		char const *sel;
 		sel = cr_simple_sel->name ? cr_string_peek_raw_str (cr_simple_sel->name) : NULL;
@@ -235,7 +235,7 @@ walk_selector (CRSelector			*cr_sel,
 		ccss_selector_importance_t	importance;
 
 		importance = calculate_importance (precedence, is_important);
-		selector = ccss_instance_selector_new (instance_info->instance,
+		selector = ccss_instance_selector_create (instance_info->instance,
 						       precedence, importance);
 		ccss_selector_set_block (selector, block);
 		ccss_selector_group_add_selector (instance_info->result_group,
@@ -257,7 +257,7 @@ walk_selector (CRSelector			*cr_sel,
 
 			group = (ccss_selector_group_t *) g_hash_table_lookup (groups, key);
 			if (!group) {
-				group = ccss_selector_group_new ();
+				group = ccss_selector_group_create ();
 				g_hash_table_insert (groups, (char *) key, group);
 			}
 			ccss_selector_group_add_selector (group, selector);
@@ -285,7 +285,7 @@ start_selector_cb (CRDocHandler	*handler,
 		g_free (location), location = NULL;
 
 		/* Discard what's been accumulated so far. */
-		ccss_block_free (info->block);
+		ccss_block_destroy (info->block);
 		info->block = NULL;
 	}
 
@@ -296,7 +296,7 @@ start_selector_cb (CRDocHandler	*handler,
 		 * the error another time. */
 
 		/* Discard what's been accumulated so far. */
-		ccss_block_free (info->important_block);
+		ccss_block_destroy (info->important_block);
 		info->important_block = NULL;
 	}
 }
@@ -321,7 +321,7 @@ property_cb (CRDocHandler	*handler,
 	 * `important' properties. */
 	if (is_important) {
 		if (NULL == info->important_block) {
-			info->important_block = ccss_block_new ();
+			info->important_block = ccss_block_create ();
 			g_hash_table_insert (info->blocks,
 					     (gpointer) info->important_block,
 					     (gpointer) info->important_block);
@@ -329,7 +329,7 @@ property_cb (CRDocHandler	*handler,
 		block = info->important_block;
 	} else {
 		if (NULL == info->block) {
-			info->block = ccss_block_new ();
+			info->block = ccss_block_create ();
 			g_hash_table_insert (info->blocks,
 					     (gpointer) info->block,
 					     (gpointer) info->block);
@@ -354,8 +354,8 @@ property_cb (CRDocHandler	*handler,
 
 	if (property_class->property_factory) {
 		property_class->property_factory (block, values);
-	} else if (property_class->property_new) {
-		property = property_class->property_new (values);
+	} else if (property_class->property_create) {
+		property = property_class->property_create (values);
 		if (property) {
 			ccss_block_add_property (block, property_name, property);
 		}

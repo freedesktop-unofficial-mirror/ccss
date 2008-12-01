@@ -90,6 +90,13 @@ ccss_selector_group_t
 @y: 
 @Returns: 
 
+<!-- ##### USER_FUNCTION ccss_property_free_f ##### -->
+<para>
+
+</para>
+
+@self: 
+
 <!-- ##### STRUCT ccss_property_generic_t ##### -->
 <para>
 
@@ -107,6 +114,14 @@ ccss_selector_group_t
 @alloc: 
 @dealloc: 
 @convert: 
+
+<!-- ##### USER_FUNCTION ccss_property_new_f ##### -->
+<para>
+
+</para>
+
+@values: 
+@Returns: 
 
 <!-- ##### STRUCT ccss_property_t ##### -->
 <para>
@@ -224,7 +239,28 @@ ccss_selector_group_t
 @width: 
 @height: 
 
+<!-- ##### FUNCTION ccss_style_free ##### -->
+<para>
+
+</para>
+
+@self: 
+
 <!-- ##### FUNCTION ccss_style_init ##### -->
+<para>
+
+</para>
+
+@self: 
+
+<!-- ##### FUNCTION ccss_style_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION ccss_stylesheet_free ##### -->
 <para>
 
 </para>
@@ -263,6 +299,23 @@ ccss_selector_group_t
 @self: 
 @css_file: 
 @precedence: 
+@Returns: 
+
+<!-- ##### FUNCTION ccss_stylesheet_new_from_buffer ##### -->
+<para>
+
+</para>
+
+@buffer: 
+@size: 
+@Returns: 
+
+<!-- ##### FUNCTION ccss_stylesheet_new_from_file ##### -->
+<para>
+
+</para>
+
+@css_file: 
 @Returns: 
 
 <!-- ##### FUNCTION ccss_stylesheet_query_apply ##### -->

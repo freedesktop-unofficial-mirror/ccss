@@ -49,37 +49,37 @@ typedef enum {
 } ccss_attribute_selector_match_t;
 
 ccss_selector_t *
-ccss_universal_selector_new	(unsigned int			 precedence,
+ccss_universal_selector_create	(unsigned int			 precedence,
 				 ccss_selector_importance_t	 importance);
 ccss_selector_t *
-ccss_type_selector_new		(char const			*type_name,
+ccss_type_selector_create	(char const			*type_name,
 				 unsigned int			 precedence,
 				 ccss_selector_importance_t	 importance);
 ccss_selector_t *
-ccss_base_type_selector_new	(char const			*type_name,
+ccss_base_type_selector_create	(char const			*type_name,
 				 unsigned int			 precedence,
 				 ccss_selector_importance_t	 importance,
 				 unsigned int			 specificity_e);
 ccss_selector_t *
-ccss_class_selector_new		(char const			*class_name,
+ccss_class_selector_create	(char const			*class_name,
 				 unsigned int			 precedence,
 				 ccss_selector_importance_t	 importance);
 ccss_selector_t *
-ccss_id_selector_new		(char const			*id,
+ccss_id_selector_create		(char const			*id,
 				 unsigned int			 precedence,
 				 ccss_selector_importance_t	 importance);
 ccss_selector_t *
-ccss_attribute_selector_new	(char const			*name,
+ccss_attribute_selector_create	(char const			*name,
 				 char const			*value,
 				 ccss_attribute_selector_match_t match,
 				 unsigned int			 precedence,
 				 ccss_selector_importance_t	 importance);
 ccss_selector_t *
-ccss_pseudo_class_selector_new	(char const			*pseudo_class,
+ccss_pseudo_class_selector_create (char const			*pseudo_class,
 				 unsigned int			 precedence,
 				 ccss_selector_importance_t	 importance);
 ccss_selector_t *
-ccss_instance_selector_new	(ptrdiff_t			 instance,
+ccss_instance_selector_create	(ptrdiff_t			 instance,
 				 unsigned int			 precedence,
 				 ccss_selector_importance_t	 importance);
 
@@ -87,7 +87,7 @@ ccss_selector_t * ccss_selector_copy		(ccss_selector_t const *original);
 ccss_selector_t * ccss_selector_copy_as_base	(ccss_selector_t const *original,
 						 int specificity_e);
 
-void ccss_selector_free	(ccss_selector_t *self);
+void ccss_selector_destroy	(ccss_selector_t *self);
 
 void		 ccss_selector_refine		(ccss_selector_t *self, ccss_selector_t *selector);
 ccss_selector_t * ccss_selector_append_child	(ccss_selector_t *self, ccss_selector_t *selector);

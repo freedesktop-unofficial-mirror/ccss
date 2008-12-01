@@ -35,7 +35,7 @@ ccss_property_t
 @CCSS_PROPERTY_TYPE_DOUBLE: 
 @CCSS_PROPERTY_TYPE_STRING: 
 
-<!-- ##### USER_FUNCTION ccss_property_new_f ##### -->
+<!-- ##### USER_FUNCTION ccss_property_create_f ##### -->
 <para>
 
 </para>
@@ -44,7 +44,7 @@ ccss_property_t
 @Returns: 
 
 
-<!-- ##### USER_FUNCTION ccss_property_free_f ##### -->
+<!-- ##### USER_FUNCTION ccss_property_destroy_f ##### -->
 <para>
 
 </para>
@@ -89,8 +89,8 @@ ccss_property_t
 </para>
 
 @name: 
-@property_new: 
-@property_free: 
+@property_create: 
+@property_destroy: 
 @property_convert: 
 @property_factory: 
 @property_inherit: 

@@ -61,22 +61,22 @@ typedef enum {
 typedef struct ccss_property_base_ ccss_property_base_t;
 
 /**
- * ccss_property_new_f:
+ * ccss_property_create_f:
  * @values:	libcroco CSS values to parse for the property, see #CRTerm.
  *
  * Hook function for instantiating a property.
  *
  * Returns: pointer to the allocated property instance or %NULL if parsing fails.
  **/
-typedef ccss_property_base_t * (*ccss_property_new_f) (CRTerm const *values);
+typedef ccss_property_base_t * (*ccss_property_create_f) (CRTerm const *values);
 
 /**
- * ccss_property_free_f:
+ * ccss_property_destroy_f:
  * @self:	pointer to property instance.
  *
  * Hook function for deallocating a property instance.
  **/
-typedef void (*ccss_property_free_f) (ccss_property_base_t *self);
+typedef void (*ccss_property_destroy_f) (ccss_property_base_t *self);
 
 /** 
  * ccss_property_convert_f:
@@ -119,8 +119,8 @@ typedef bool (*ccss_property_inherit_f) (struct ccss_style_ const	*container_sty
 /**
  * ccss_property_class_t:
  * @name:		property name.
- * @property_new:	allocation hook, see #ccss_property_new_f.
- * @property_free:	deallocation hook, see #ccss_property_free_f.
+ * @property_create:	allocation hook, see #ccss_property_create_f.
+ * @property_destroy:	deallocation hook, see #ccss_property_destroy_f.
  * @property_convert:	conversion hook, see #ccss_property_convert_f.
  * @property_factory:	factory hook, see #ccss_property_factory_f.
  * @property_inherit:	inherit hook, see #ccss_property_inherit_f.
@@ -129,8 +129,8 @@ typedef bool (*ccss_property_inherit_f) (struct ccss_style_ const	*container_sty
  **/
 typedef struct {
 	char const		*name;
-	ccss_property_new_f	 property_new;
-	ccss_property_free_f	 property_free;
+	ccss_property_create_f	 property_create;
+	ccss_property_destroy_f	 property_destroy;
 	ccss_property_convert_f	 property_convert;
 	ccss_property_factory_f	 property_factory;
 	ccss_property_inherit_f	 property_inherit;

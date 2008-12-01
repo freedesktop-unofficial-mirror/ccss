@@ -84,7 +84,7 @@ selector_sync (ccss_selector_t const	*self,
 typedef ccss_selector_t ccss_universal_selector_t;
 
 ccss_selector_t * 
-ccss_universal_selector_new (unsigned int		precedence,
+ccss_universal_selector_create (unsigned int		precedence,
 			     ccss_selector_importance_t	importance)
 {
 	ccss_universal_selector_t *self;
@@ -109,7 +109,7 @@ universal_selector_dup (ccss_universal_selector_t const *original)
 }
 
 static void
-universal_selector_free (ccss_universal_selector_t *self)
+universal_selector_destroy (ccss_universal_selector_t *self)
 {
 	g_assert (self);
 
@@ -131,7 +131,7 @@ typedef struct {
 } ccss_type_selector_t;
 
 ccss_selector_t *
-ccss_type_selector_new (char const			*type_name,
+ccss_type_selector_create (char const			*type_name,
 			unsigned int			 precedence,
 			ccss_selector_importance_t	 importance)
 {
@@ -162,7 +162,7 @@ type_selector_dup (ccss_type_selector_t const *original)
 }
 
 static void
-type_selector_free (ccss_type_selector_t *self)
+type_selector_destroy (ccss_type_selector_t *self)
 {
 	g_assert (self);
 
@@ -181,14 +181,14 @@ type_selector_dump (ccss_type_selector_t const *self)
  * Derived from the type selector
  */
 ccss_selector_t * 
-ccss_base_type_selector_new (char const			*type_name,
+ccss_base_type_selector_create (char const			*type_name,
 			     unsigned int		 precedence,
 			     ccss_selector_importance_t	 importance,
 			     unsigned int		 specificity_e)
 {
 	ccss_selector_t *self;
 
-	self = ccss_type_selector_new (type_name, precedence, importance);
+	self = ccss_type_selector_create (type_name, precedence, importance);
 	self->modality = CCSS_SELECTOR_MODALITY_BASE_TYPE;
 	self->importance = importance;
 	self->precedence = precedence;
@@ -210,7 +210,7 @@ typedef struct {
 } ccss_class_selector_t;
 
 ccss_selector_t *
-ccss_class_selector_new (char const			*class_name,
+ccss_class_selector_create (char const			*class_name,
 			 unsigned int			 precedence,
 			 ccss_selector_importance_t	 importance)
 {
@@ -241,7 +241,7 @@ class_selector_dup (ccss_class_selector_t const *original)
 }
 
 static void
-class_selector_free (ccss_class_selector_t *self)
+class_selector_destroy (ccss_class_selector_t *self)
 {
 	g_assert (self);
 
@@ -264,7 +264,7 @@ typedef struct {
 } ccss_id_selector_t;
 
 ccss_selector_t *
-ccss_id_selector_new (char const			*id,
+ccss_id_selector_create (char const			*id,
 		      unsigned int			 precedence,
 		      ccss_selector_importance_t	 importance)
 {
@@ -295,7 +295,7 @@ id_selector_dup (ccss_id_selector_t const *original)
 }
 
 static void
-id_selector_free (ccss_id_selector_t *self)
+id_selector_destroy (ccss_id_selector_t *self)
 {
 	g_assert (self);
 
@@ -320,7 +320,7 @@ typedef struct {
 } ccss_attribute_selector_t;
 
 ccss_selector_t *
-ccss_attribute_selector_new (char const				*name,
+ccss_attribute_selector_create (char const				*name,
 			     char const				*value,
 			     ccss_attribute_selector_match_t	 match,
 			     unsigned int			 precedence,
@@ -357,7 +357,7 @@ attribute_selector_dup (ccss_attribute_selector_t const *original)
 }
 
 static void
-attribute_selector_free (ccss_attribute_selector_t *self)
+attribute_selector_destroy (ccss_attribute_selector_t *self)
 {
 	g_assert (self);
 
@@ -390,7 +390,7 @@ typedef struct {
 } ccss_pseudo_class_selector_t;
 
 ccss_selector_t *
-ccss_pseudo_class_selector_new (char const			*pseudo_class,
+ccss_pseudo_class_selector_create (char const			*pseudo_class,
 				unsigned int			 precedence,
 				ccss_selector_importance_t	 importance)
 {
@@ -421,7 +421,7 @@ pseudo_class_selector_dup (ccss_pseudo_class_selector_t const *original)
 }
 
 static void
-pseudo_class_selector_free (ccss_pseudo_class_selector_t *self)
+pseudo_class_selector_destroy (ccss_pseudo_class_selector_t *self)
 {
 	g_assert (self);
 
@@ -444,7 +444,7 @@ typedef struct {
 } ccss_instance_selector_t;
 
 ccss_selector_t *
-ccss_instance_selector_new (ptrdiff_t			instance,
+ccss_instance_selector_create (ptrdiff_t			instance,
 			    unsigned int		precedence,
 			    ccss_selector_importance_t	importance)
 {
@@ -475,7 +475,7 @@ instance_selector_dup (ccss_instance_selector_t const *original)
 }
 
 static void
-instance_selector_free (ccss_instance_selector_t *self)
+instance_selector_destroy (ccss_instance_selector_t *self)
 {
 	g_assert (self);
 
@@ -577,44 +577,44 @@ ccss_selector_copy_as_base (ccss_selector_t const	*original,
  * Free the whole selector chain.
  */
 void
-ccss_selector_free (ccss_selector_t *self)
+ccss_selector_destroy (ccss_selector_t *self)
 {
 	g_assert (self);
 
 	if (self->refinement) {
-		ccss_selector_free (self->refinement), self->refinement = NULL;
+		ccss_selector_destroy (self->refinement), self->refinement = NULL;
 	}
 
 	if (self->container) {
-		ccss_selector_free (self->container), self->container = NULL;
+		ccss_selector_destroy (self->container), self->container = NULL;
 	}
 
 	if (self->antecessor) {
-		ccss_selector_free (self->antecessor), self->antecessor = NULL;
+		ccss_selector_destroy (self->antecessor), self->antecessor = NULL;
 	}
 
 	switch (self->modality) {
 	case CCSS_SELECTOR_MODALITY_UNIVERSAL:
-		universal_selector_free ((ccss_universal_selector_t *) self);
+		universal_selector_destroy ((ccss_universal_selector_t *) self);
 		break;
 	case CCSS_SELECTOR_MODALITY_TYPE:
 	case CCSS_SELECTOR_MODALITY_BASE_TYPE:
-		type_selector_free ((ccss_type_selector_t *) self);
+		type_selector_destroy ((ccss_type_selector_t *) self);
 		break;
 	case CCSS_SELECTOR_MODALITY_CLASS:
-		class_selector_free ((ccss_class_selector_t *) self);
+		class_selector_destroy ((ccss_class_selector_t *) self);
 		break;
 	case CCSS_SELECTOR_MODALITY_ID:
-		id_selector_free ((ccss_id_selector_t *) self);
+		id_selector_destroy ((ccss_id_selector_t *) self);
 		break;
 	case CCSS_SELECTOR_MODALITY_ATTRIBUTE:
-		attribute_selector_free ((ccss_attribute_selector_t *) self);
+		attribute_selector_destroy ((ccss_attribute_selector_t *) self);
 		break;
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
-		pseudo_class_selector_free ((ccss_pseudo_class_selector_t *) self);
+		pseudo_class_selector_destroy ((ccss_pseudo_class_selector_t *) self);
 		break;
 	case CCSS_SELECTOR_MODALITY_INSTANCE:
-		instance_selector_free ((ccss_instance_selector_t *) self);
+		instance_selector_destroy ((ccss_instance_selector_t *) self);
 		break;
 	}
 }

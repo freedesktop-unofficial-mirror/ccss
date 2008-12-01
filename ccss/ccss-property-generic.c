@@ -43,7 +43,7 @@ static ccss_property_class_t const *
 peek_property_class (void);
 
 static ccss_property_generic_t *
-property_new (CRTerm const *values)
+property_create (CRTerm const *values)
 {
 	ccss_property_generic_t	*prop, p;
 	char const		*s;
@@ -82,7 +82,7 @@ property_new (CRTerm const *values)
 }
 
 static void
-property_free (ccss_property_generic_t *self)
+property_destroy (ccss_property_generic_t *self)
 {
 	g_return_if_fail (self);
 
@@ -138,8 +138,8 @@ property_convert (ccss_property_generic_t	*self,
 ccss_property_class_t const _ptable[] = {
   { 
 	.name = "*",
-	.property_new = (ccss_property_new_f) property_new,
-	.property_free = (ccss_property_free_f) property_free,
+	.property_create = (ccss_property_create_f) property_create,
+	.property_destroy = (ccss_property_destroy_f) property_destroy,
 	.property_convert = (ccss_property_convert_f) property_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL

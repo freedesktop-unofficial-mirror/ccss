@@ -36,8 +36,8 @@ struct ccss_block_ {
 	GHashTable *properties;
 };
 
-ccss_block_t *	ccss_block_new	(void);
-void		ccss_block_free	(ccss_block_t *self);
+ccss_block_t *	ccss_block_create	(void);
+void		ccss_block_destroy	(ccss_block_t *self);
 
 void		ccss_block_dump	(ccss_block_t const *self);
 

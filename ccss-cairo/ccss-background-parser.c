@@ -580,50 +580,50 @@ background_size_convert (ccss_background_size_t const	*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "background-attachment",
-	.property_new = (ccss_property_new_f) background_attachment_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) background_attachment_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) background_attachment_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "background-color",
-	.property_new = (ccss_property_new_f) ccss_color_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) ccss_color_create,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "background-image",
-	.property_new = (ccss_property_new_f) background_image_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) background_image_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) background_image_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "background-position",
-	.property_new = (ccss_property_new_f) background_position_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) background_position_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) background_position_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "background-repeat",
-	.property_new = (ccss_property_new_f) background_repeat_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) background_repeat_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) background_repeat_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "background-size",
-	.property_new = (ccss_property_new_f) background_size_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) background_size_new,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) background_size_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "background",
-	.property_new = NULL,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = NULL,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = NULL,
 	.property_factory = background_factory,
 	.property_inherit = background_inherit

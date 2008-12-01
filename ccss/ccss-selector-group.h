@@ -32,10 +32,10 @@ CCSS_BEGIN_DECLS
 typedef struct ccss_selector_group_ ccss_selector_group_t;
 
 ccss_selector_group_t *	
-ccss_selector_group_new		(void);
+ccss_selector_group_create	(void);
 
 void
-ccss_selector_group_free	(ccss_selector_group_t		*self);
+ccss_selector_group_destroy	(ccss_selector_group_t		*self);
 
 bool
 ccss_selector_group_apply_type (ccss_selector_group_t const	*self, 

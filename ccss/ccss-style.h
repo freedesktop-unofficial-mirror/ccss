@@ -37,10 +37,10 @@ CCSS_BEGIN_DECLS
 typedef struct ccss_style_ ccss_style_t;
 
 ccss_style_t *
-ccss_style_new	(void);
+ccss_style_create	(void);
 
 void
-ccss_style_free (ccss_style_t *self);
+ccss_style_destroy	(ccss_style_t *self);
 
 bool
 ccss_style_get_double	(ccss_style_t const	*self,

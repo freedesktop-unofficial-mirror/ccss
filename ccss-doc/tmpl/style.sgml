@@ -23,7 +23,7 @@ ccss_style_t
 </para>
 
 
-<!-- ##### FUNCTION ccss_style_new ##### -->
+<!-- ##### FUNCTION ccss_style_create ##### -->
 <para>
 
 </para>
@@ -31,7 +31,7 @@ ccss_style_t
 @Returns: 
 
 
-<!-- ##### FUNCTION ccss_style_free ##### -->
+<!-- ##### FUNCTION ccss_style_destroy ##### -->
 <para>
 
 </para>

@@ -351,7 +351,7 @@ bail:
 }
 
 ccss_color_t *
-ccss_color_new (CRTerm const *value)
+ccss_color_create (CRTerm const *value)
 {
 	ccss_color_t	*self, c;
 	bool		 ret;
@@ -368,7 +368,7 @@ ccss_color_new (CRTerm const *value)
 }
 
 void
-ccss_color_free (ccss_color_t *self)
+ccss_color_destroy (ccss_color_t *self)
 {
 	g_return_if_fail (self);
 
@@ -395,8 +395,8 @@ ccss_color_convert (ccss_color_t const		*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "color",
-	.property_new = (ccss_property_new_f) ccss_color_new,
-	.property_free = (ccss_property_free_f) g_free,
+	.property_create = (ccss_property_create_f) ccss_color_create,
+	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL

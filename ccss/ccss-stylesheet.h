@@ -44,10 +44,10 @@ typedef enum {
 typedef struct ccss_stylesheet_ ccss_stylesheet_t;
 
 ccss_stylesheet_t *
-ccss_stylesheet_new_from_buffer	(char const			*buffer,
-				 size_t				 size);
+ccss_stylesheet_create_from_buffer	(char const			*buffer,
+					 size_t				 size);
 ccss_stylesheet_t *
-ccss_stylesheet_new_from_file	(char const			*css_file);
+ccss_stylesheet_create_from_file	(char const			*css_file);
 
 ccss_stylesheet_t *
 ccss_stylesheet_add_from_file	(ccss_stylesheet_t		*self,
@@ -55,7 +55,7 @@ ccss_stylesheet_add_from_file	(ccss_stylesheet_t		*self,
 				 ccss_stylesheet_precedence_t	 precedence);
 
 void
-ccss_stylesheet_free		(ccss_stylesheet_t		*self);
+ccss_stylesheet_destroy		(ccss_stylesheet_t		*self);
 
 bool
 ccss_stylesheet_query_type	(ccss_stylesheet_t const	*self,

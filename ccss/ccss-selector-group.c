@@ -61,21 +61,21 @@ free_set (ccss_selector_set_t *set)
 	while (iter) {
 		selector = (ccss_selector_t *) iter->data;
 		iter = g_slist_remove (iter, selector);
-		ccss_selector_free (selector);
+		ccss_selector_destroy (selector);
 	}
 
 	g_free (set);
 }
 
 /**
- * ccss_selector_group_new:
+ * ccss_selector_group_create:
  *
  * Create an empty selector group.
  *
  * A newly allocated #ccss_selector_group_t.
  **/
 ccss_selector_group_t *
-ccss_selector_group_new (void)
+ccss_selector_group_create (void)
 {
 	ccss_selector_group_t *self;
 
@@ -90,13 +90,13 @@ ccss_selector_group_new (void)
 }
 
 /**
- * ccss_selector_group_free:
+ * ccss_selector_group_destroy:
  * @self: a #ccss_selector_group_t.
  * 
  * Free the selector group and all associated resources.
  **/
 void
-ccss_selector_group_free (ccss_selector_group_t *self)
+ccss_selector_group_destroy (ccss_selector_group_t *self)
 {
 	g_assert (self);
 
@@ -207,7 +207,7 @@ ccss_selector_group_clear_dangling_selectors (ccss_selector_group_t *self)
 	while (iter) {
 		selector = (ccss_selector_t *) iter->data;
 		iter = g_slist_remove (iter, selector);
-		ccss_selector_free (selector);
+		ccss_selector_destroy (selector);
 	}
 
 	self->dangling_selectors = NULL;

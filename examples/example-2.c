@@ -77,14 +77,14 @@ main (int	  argc,
 	gtk_init (&argc, &argv);
 	ccss_cairo_init ();
 
-	stylesheet = ccss_stylesheet_new_from_buffer (_css, sizeof (_css));
+	stylesheet = ccss_stylesheet_create_from_buffer (_css, sizeof (_css));
 
 	ccss_node_init ((ccss_node_t *) &node, &_node_class);
 	node.type_name = "box";
 	node.instance = 0xdeadbeef;
 	node.inline_css = "background-color: yellow";
 
-	style = ccss_style_new ();
+	style = ccss_style_create ();
 	ret = ccss_stylesheet_query (stylesheet, (ccss_node_t const *) &node,
 				       style);
 	g_assert (ret);
@@ -104,8 +104,8 @@ main (int	  argc,
 	gtk_widget_show_all (window);
 	gtk_main ();
 
-	ccss_style_free (style);
-	ccss_stylesheet_free (stylesheet);
+	ccss_style_destroy (style);
+	ccss_stylesheet_destroy (stylesheet);
 
 	ccss_cairo_shutdown ();
 

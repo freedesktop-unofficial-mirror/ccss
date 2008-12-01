@@ -23,12 +23,12 @@
 #include "config.h"
 
 /**
- * ccss_style_new:
+ * ccss_style_create:
  *
  * Create a new #ccss_style_t.
  **/
 ccss_style_t *
-ccss_style_new (void)
+ccss_style_create (void)
 {
 	ccss_style_t *self;
 
@@ -40,13 +40,13 @@ ccss_style_new (void)
 }
 
 /**
- * ccss_style_free:
+ * ccss_style_destroy:
  * @self: a #ccss_style_t.
  *
  * Frees the style an all associated resources.
  **/
 void
-ccss_style_free (ccss_style_t *self)
+ccss_style_destroy (ccss_style_t *self)
 {
 	g_return_if_fail (self && self->properties);
 

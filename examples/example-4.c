@@ -66,8 +66,8 @@ font_family_convert (font_family_t const	*self,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "font-family",
-	.property_new = (ccss_property_new_f) font_family_new,
-	.property_free = (ccss_property_free_f) font_family_free,
+	.property_create = (ccss_property_create_f) font_family_new,
+	.property_destroy = (ccss_property_destroy_f) font_family_free,
 	.property_convert = (ccss_property_convert_f) font_family_convert,
 	.property_factory = NULL
     }, {
@@ -133,10 +133,10 @@ main (int	  argc,
 	ccss_cairo_init ();
 	ccss_add_properties (_ptable);
 
-	stylesheet = ccss_stylesheet_new_from_buffer (_css, sizeof (_css));
-	/* stylesheet = ccss_stylesheet_new_from_file ("example-1.css"); */
+	stylesheet = ccss_stylesheet_create_from_buffer (_css, sizeof (_css));
+	/* stylesheet = ccss_stylesheet_create_from_file ("example-1.css"); */
 
-	style = ccss_style_new ();
+	style = ccss_style_create ();
 	ret = ccss_stylesheet_query_type (stylesheet, "box", style);
 	g_assert (ret);
 
@@ -154,8 +154,8 @@ main (int	  argc,
 	gtk_widget_show_all (window);
 	gtk_main ();
 
-	ccss_style_free (style);
-	ccss_stylesheet_free (stylesheet);
+	ccss_style_destroy (style);
+	ccss_stylesheet_destroy (stylesheet);
 
 	ccss_cairo_shutdown ();
 

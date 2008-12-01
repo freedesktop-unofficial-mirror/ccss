@@ -44,10 +44,10 @@ typedef struct {
 } ccss_color_t;
 
 ccss_color_t *
-ccss_color_new (CRTerm const *value);
+ccss_color_create (CRTerm const *value);
 
 void
-ccss_color_free (ccss_color_t *self);
+ccss_color_destroy (ccss_color_t *self);
 
 bool
 ccss_color_convert (ccss_color_t const		*property,

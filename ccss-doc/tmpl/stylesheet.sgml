@@ -42,7 +42,7 @@ ccss_stylesheet_t
 @CCSS_STYLESHEET_USER: 
 @CCSS_STYLESHEET_AUTHOR: 
 
-<!-- ##### FUNCTION ccss_stylesheet_new_from_buffer ##### -->
+<!-- ##### FUNCTION ccss_stylesheet_create_from_buffer ##### -->
 <para>
 
 </para>
@@ -52,7 +52,7 @@ ccss_stylesheet_t
 @Returns: 
 
 
-<!-- ##### FUNCTION ccss_stylesheet_new_from_file ##### -->
+<!-- ##### FUNCTION ccss_stylesheet_create_from_file ##### -->
 <para>
 
 </para>
@@ -82,7 +82,7 @@ ccss_stylesheet_t
 @user_data: 
 
 
-<!-- ##### FUNCTION ccss_stylesheet_free ##### -->
+<!-- ##### FUNCTION ccss_stylesheet_destroy ##### -->
 <para>
 
 </para>

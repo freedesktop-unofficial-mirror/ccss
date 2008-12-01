@@ -65,10 +65,10 @@ main (int	  argc,
 	ccss_cairo_init ();
 	ccss_add_functions (_functions);
 
-	stylesheet = ccss_stylesheet_new_from_buffer (_css, sizeof (_css));
-	/* stylesheet = ccss_stylesheet_new_from_file ("example-1.css"); */
+	stylesheet = ccss_stylesheet_create_from_buffer (_css, sizeof (_css));
+	/* stylesheet = ccss_stylesheet_create_from_file ("example-1.css"); */
 
-	style = ccss_style_new ();
+	style = ccss_style_create ();
 	ret = ccss_stylesheet_query_type (stylesheet, "box", style);
 	g_assert (ret);
 
@@ -86,8 +86,8 @@ main (int	  argc,
 	gtk_widget_show_all (window);
 	gtk_main ();
 
-	ccss_style_free (style);
-	ccss_stylesheet_free (stylesheet);
+	ccss_style_destroy (style);
+	ccss_stylesheet_destroy (stylesheet);
 
 	ccss_cairo_shutdown ();
 

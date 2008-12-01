@@ -22,7 +22,7 @@
 #include "config.h"
 
 ccss_block_t *
-ccss_block_new (void)
+ccss_block_create (void)
 {
 	ccss_block_t *self;
 
@@ -36,7 +36,7 @@ ccss_block_new (void)
 }
 
 void
-ccss_block_free (ccss_block_t *self)
+ccss_block_destroy (ccss_block_t *self)
 {
 	g_return_if_fail (self && self->properties);
 

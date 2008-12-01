@@ -1,3 +1,54 @@
+2008-12-01  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss-cairo/ccss-background-parser.c:
+	* ccss-cairo/ccss-border-image-parser.c:
+	* ccss-cairo/ccss-border-parser.c (border_style_create):
+	* ccss-cairo/ccss-color.c (ccss_color_create),
+	(ccss_color_destroy):
+	* ccss-cairo/ccss-color.h:
+	* ccss-doc/ccss-sections.txt:
+	* ccss-doc/tmpl/ccss-unused.sgml:
+	* ccss-doc/tmpl/property.sgml:
+	* ccss-doc/tmpl/style.sgml:
+	* ccss-doc/tmpl/stylesheet.sgml:
+	* ccss/ccss-block-priv.h:
+	* ccss/ccss-block.c (ccss_block_create), (ccss_block_destroy):
+	* ccss/ccss-parser.c (walk_additional_selector),
+	(walk_simple_selector_r), (walk_selector), (start_selector_cb),
+	(property_cb):
+	* ccss/ccss-property-generic.c (property_create),
+	(property_destroy):
+	* ccss/ccss-property.h:
+	* ccss/ccss-selector-group.c (free_set),
+	(ccss_selector_group_create), (ccss_selector_group_destroy),
+	(ccss_selector_group_clear_dangling_selectors):
+	* ccss/ccss-selector-group.h:
+	* ccss/ccss-selector.c (ccss_universal_selector_create),
+	(universal_selector_destroy), (ccss_type_selector_create),
+	(type_selector_destroy), (ccss_base_type_selector_create),
+	(ccss_class_selector_create), (class_selector_destroy),
+	(ccss_id_selector_create), (id_selector_destroy),
+	(ccss_attribute_selector_create), (attribute_selector_destroy),
+	(ccss_pseudo_class_selector_create),
+	(pseudo_class_selector_destroy), (ccss_instance_selector_create),
+	(instance_selector_destroy), (ccss_selector_destroy):
+	* ccss/ccss-selector.h:
+	* ccss/ccss-style.c (ccss_style_create), (ccss_style_destroy):
+	* ccss/ccss-style.h:
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_create),
+	(ccss_stylesheet_create_from_buffer),
+	(ccss_stylesheet_create_from_file),
+	(ccss_stylesheet_add_from_file), (ccss_stylesheet_destroy),
+	(query_node), (query_container_r):
+	* ccss/ccss-stylesheet.h:
+	* ccss/ccss.sym:
+	* examples/example-1.c (main):
+	* examples/example-2.c (main):
+	* examples/example-3.c (main):
+	* examples/example-4.c (main):
+	* examples/example-5.c (main):
+	Use cairo's create()/destroy() idiom instead of new()/free().
+
 2008-11-28  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss-cairo/ccss-background.c (ccss_background_fill):

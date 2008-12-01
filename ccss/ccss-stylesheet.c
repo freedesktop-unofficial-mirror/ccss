@@ -41,13 +41,13 @@ struct ccss_stylesheet_ {
 };
 
 static ccss_stylesheet_t *
-ccss_stylesheet_new (void)
+ccss_stylesheet_create (void)
 {
 	ccss_stylesheet_t *self;
 
 	self = g_new0 (ccss_stylesheet_t, 1);
 	self->blocks = g_hash_table_new_full (g_direct_hash, g_direct_equal,
-					      NULL, (GDestroyNotify) ccss_block_free);
+					      NULL, (GDestroyNotify) ccss_block_destroy);
 	self->groups = g_hash_table_new (g_str_hash, g_str_equal);
 
 	return self;
@@ -98,7 +98,7 @@ fix_dangling_selectors (ccss_stylesheet_t *self)
 }
 
 /**
- * ccss_stylesheet_new_from_buffer:
+ * ccss_stylesheet_create_from_buffer:
  * @buffer:	buffer to parse.
  * @size:	size of the buffer.
  *
@@ -107,13 +107,13 @@ fix_dangling_selectors (ccss_stylesheet_t *self)
  * Returns: a #ccss_stylesheet_t representation of the CSS string.
  **/
 ccss_stylesheet_t *
-ccss_stylesheet_new_from_buffer (char const	*buffer, 
+ccss_stylesheet_create_from_buffer (char const	*buffer, 
 				size_t		 size)
 {
 	ccss_stylesheet_t	*self;
 	enum CRStatus		 ret;
 
-	self = ccss_stylesheet_new ();
+	self = ccss_stylesheet_create ();
 
 	ret = ccss_parser_parse_buffer (buffer, size, 
 					CCSS_STYLESHEET_AUTHOR,
@@ -127,7 +127,7 @@ ccss_stylesheet_new_from_buffer (char const	*buffer,
 }
 
 /**
- * ccss_stylesheet_new_from_file:
+ * ccss_stylesheet_create_from_file:
  * @css_file: file to parse.
  *
  * Create a new stylesheet instance based on a CSS file.
@@ -135,12 +135,12 @@ ccss_stylesheet_new_from_buffer (char const	*buffer,
  * Returns: a #ccss_stylesheet_t representation of the CSS file.
  **/
 ccss_stylesheet_t *
-ccss_stylesheet_new_from_file (char const *css_file)
+ccss_stylesheet_create_from_file (char const *css_file)
 {
 	ccss_stylesheet_t	*self;
 	enum CRStatus		 ret;
 
-	self = ccss_stylesheet_new ();
+	self = ccss_stylesheet_create ();
 
 	ret = ccss_parser_parse_file (css_file, CCSS_STYLESHEET_AUTHOR,
 				      self->groups, self->blocks);
@@ -170,7 +170,7 @@ ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
 	enum CRStatus ret;
 
 	if (!self) {
-		self = ccss_stylesheet_new ();
+		self = ccss_stylesheet_create ();
 	}
 
 	ret = ccss_parser_parse_file (css_file, precedence,
@@ -184,13 +184,13 @@ ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
 }
 
 /**
- * ccss_stylesheet_free:
+ * ccss_stylesheet_destroy:
  * @self: a #ccss_stylesheet_t.
  * 
  * Free the stylesheet and all associated resources.
  **/
 void
-ccss_stylesheet_free (ccss_stylesheet_t *self)
+ccss_stylesheet_destroy (ccss_stylesheet_t *self)
 {
 	g_assert (self);
 
@@ -288,7 +288,7 @@ query_node (ccss_stylesheet_t const	*self,
 
 	g_return_val_if_fail (self && node && style, false);
 
-	result_group = ccss_selector_group_new ();
+	result_group = ccss_selector_group_create ();
 	ret = false;
 
 	/* Match wildcard styles. */
@@ -321,7 +321,7 @@ query_node (ccss_stylesheet_t const	*self,
 	/* Apply collected style. */
 	ret &= ccss_selector_group_apply (result_group, node, style);
 
-	ccss_selector_group_free (result_group), result_group = NULL;
+	ccss_selector_group_destroy (result_group), result_group = NULL;
 
 	return ret;
 }
@@ -410,12 +410,12 @@ query_container_r (ccss_stylesheet_t const	*self,
 		return false;
 
 	/* Have styling? */
-	container_style = ccss_style_new ();
+	container_style = ccss_style_create ();
 	ret = query_node (self, container, container_style);
 	if (ret) {
 		inherit_container_style (container_style, inherit, style);
 	}
-	ccss_style_free (container_style), container_style = NULL;
+	ccss_style_destroy (container_style), container_style = NULL;
 
 	if (0 == g_hash_table_size (inherit)) {
 		/* Nothing more to inherit, good! */
