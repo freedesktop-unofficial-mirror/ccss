@@ -43,7 +43,7 @@ typedef struct {
 static ccss_property_class_t const *
 peek_property_class (void);
 
-static ccss_property_generic_t *
+static ccss_property_base_t *
 property_create (ccss_grammar_t const	*grammar,
 		 CRTerm const		*values)
 {
@@ -80,7 +80,8 @@ property_create (ccss_grammar_t const	*grammar,
 	/*  Coming here means success. */
 	prop = g_new0 (ccss_property_generic_t, 1);
 	*prop = p;
-	return prop;
+
+	return &prop->base;
 }
 
 static void
@@ -140,7 +141,7 @@ property_convert (ccss_property_generic_t	*self,
 ccss_property_class_t const _ptable[] = {
   { 
 	.name = "*",
-	.property_create = (ccss_property_create_f) property_create,
+	.property_create = property_create,
 	.property_destroy = (ccss_property_destroy_f) property_destroy,
 	.property_convert = (ccss_property_convert_f) property_convert,
 	.property_factory = NULL,

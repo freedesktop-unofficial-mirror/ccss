@@ -1,5 +1,20 @@
 2008-12-01  Robert Staudinger  <robsta@gnome.org>
 
+	* HACKING:
+	* ccss-cairo/ccss-background-parser.c
+	(background_attachment_create), (background_image_create),
+	(background_position_create), (background_repeat_create),
+	(background_size_create):
+	* ccss-cairo/ccss-border-image-parser.c (border_image_create):
+	* ccss-cairo/ccss-border-parser.c (border_radius_create),
+	(border_style_create), (border_width_create):
+	* ccss-cairo/ccss-color.c (ccss_color_create):
+	* ccss-cairo/ccss-color.h:
+	* ccss/ccss-property-generic.c (property_create):
+	Get rid of unneeded casts.
+
+2008-12-01  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-block-priv.h:
 	* ccss/ccss-block.c:
 	* ccss/ccss-block.h:

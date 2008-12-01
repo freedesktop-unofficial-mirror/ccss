@@ -24,6 +24,9 @@ General remarks
 * Do not include a `default' case when switching over enumerations, so you'll
   get warnings when a values is added.
 
+* Avoid casts whenever possible - especially with function pointers - as they 
+  hinder the compiler's semantic analysis to do its thing.
+
 Including files
 ---------------
 

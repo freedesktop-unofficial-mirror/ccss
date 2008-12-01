@@ -350,7 +350,7 @@ bail:
 	return false;
 }
 
-ccss_color_t *
+ccss_property_base_t *
 ccss_color_create (ccss_grammar_t const *grammar,
 		   CRTerm const		*value)
 {
@@ -362,7 +362,7 @@ ccss_color_create (ccss_grammar_t const *grammar,
 		c.base.property_class = peek_property_class ();
 		self = g_new0 (ccss_color_t, 1);
 		*self = c;
-		return self;
+		return &self->base;
 	}
 
 	return NULL;
@@ -396,7 +396,7 @@ ccss_color_convert (ccss_color_t const		*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "color",
-	.property_create = (ccss_property_create_f) ccss_color_create,
+	.property_create = ccss_color_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
 	.property_factory = NULL,

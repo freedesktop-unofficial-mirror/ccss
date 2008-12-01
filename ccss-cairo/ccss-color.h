@@ -41,7 +41,7 @@ typedef struct {
 	double			blue;
 } ccss_color_t;
 
-ccss_color_t *
+ccss_property_base_t *
 ccss_color_create (ccss_grammar_t const	*grammar,
 		   CRTerm const		*value);
 

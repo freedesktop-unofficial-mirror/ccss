@@ -55,7 +55,7 @@ parse_tiling (CRTerm const			**value,
 /*
  * FIXME: create all the border-image tiles here and save some time while painting.
  */
-static ccss_border_image_t *
+static ccss_property_base_t *
 border_image_create (ccss_grammar_t const	*grammar,
 		     CRTerm const		*values)
 {
@@ -77,7 +77,7 @@ border_image_create (ccss_grammar_t const	*grammar,
 	    CCSS_PROPERTY_STATE_INHERIT == bimg.base.state) {
 		border_image = g_new0 (ccss_border_image_t, 1);
 		*border_image = bimg;
-		return border_image;
+		return &border_image->base;
 	}
 
 	/* Border sizes. */
@@ -140,7 +140,8 @@ border_image_create (ccss_grammar_t const	*grammar,
 	/* Valid border-image. */
 	border_image = g_new0 (ccss_border_image_t, 1);
 	*border_image = bimg;
-	return border_image;
+
+	return &border_image->base;
 }
 
 static bool
@@ -203,7 +204,7 @@ border_image_convert (ccss_border_image_t const	*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "border-image",
-	.property_create = (ccss_property_create_f) border_image_create,
+	.property_create = border_image_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_image_convert,
 	.property_factory = NULL,
