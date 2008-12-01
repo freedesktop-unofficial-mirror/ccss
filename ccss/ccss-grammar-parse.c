@@ -362,11 +362,11 @@ end_selector_cb (CRDocHandler	*handler,
 }
 
 enum CRStatus
-ccss_parser_parse_file (ccss_grammar_t const		*self,
-			char const			*css_file,
-			ccss_stylesheet_precedence_t	 precedence,
-			GHashTable			*groups,
-			GHashTable			*blocks)
+ccss_grammar_parse_file (ccss_grammar_t const		*self,
+			 char const			*css_file,
+			 ccss_stylesheet_precedence_t	 precedence,
+			 GHashTable			*groups,
+			 GHashTable			*blocks)
 {
 	CRParser		*parser;
 	CRDocHandler		*handler;
@@ -409,12 +409,12 @@ ccss_parser_parse_file (ccss_grammar_t const		*self,
 }
 
 enum CRStatus
-ccss_parser_parse_buffer (ccss_grammar_t const		*self,
-			  char const			*buffer,
-			  size_t			 size,
-			  ccss_stylesheet_precedence_t	 precedence,
-			  GHashTable			*groups,
-			  GHashTable			*blocks)
+ccss_grammar_parse_buffer (ccss_grammar_t const		*self,
+			   char const			*buffer,
+			   size_t			 size,
+			   ccss_stylesheet_precedence_t	 precedence,
+			   GHashTable			*groups,
+			   GHashTable			*blocks)
 {
 	CRParser		*parser;
 	CRDocHandler		*handler;
@@ -453,12 +453,12 @@ ccss_parser_parse_buffer (ccss_grammar_t const		*self,
 }
 
 enum CRStatus
-ccss_parser_parse_inline (ccss_grammar_t const		*self,
-			  char const			*buffer,
-			  ccss_stylesheet_precedence_t	 precedence,
-			  ptrdiff_t			 instance,
-			  ccss_selector_group_t		*result_group,
-			  GHashTable			*blocks)
+ccss_grammar_parse_inline (ccss_grammar_t const		*self,
+			   char const			*buffer,
+			   ccss_stylesheet_precedence_t	 precedence,
+			   ptrdiff_t			 instance,
+			   ccss_selector_group_t	*result_group,
+			   GHashTable			*blocks)
 {
 	CRParser		*parser;
 	CRDocHandler		*handler;

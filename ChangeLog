@@ -1,5 +1,16 @@
 2008-12-01  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-grammar-parse.c (ccss_grammar_parse_file),
+	(ccss_grammar_parse_buffer), (ccss_grammar_parse_inline):
+	* ccss/ccss-grammar-priv.h:
+	* ccss/ccss-grammar.c (ccss_grammar_create_stylesheet_from_buffer),
+	(ccss_grammar_create_stylesheet_from_file):
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_add_from_file),
+	(query_node):
+	Improve internal naming consistency.
+
+2008-12-01  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-stylesheet.c (ccss_stylesheet_add_from_file): support
 	detection of errors from the retval.
 

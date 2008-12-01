@@ -104,7 +104,7 @@ ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
 
 	g_return_val_if_fail (self && css_file, NULL);
 
-	ret = ccss_parser_parse_file (self->grammar, css_file, precedence,
+	ret = ccss_grammar_parse_file (self->grammar, css_file, precedence,
 				      self->groups, self->blocks);
 	if (ret) {
 		ccss_stylesheet_fix_dangling_selectors (self);
@@ -242,7 +242,7 @@ query_node (ccss_stylesheet_t const	*self,
 		if (instance == 0) {
 			g_warning ("Inline CSS `%s' but instance == 0\n", inline_css);
 		} else {
-			status = ccss_parser_parse_inline (self->grammar, inline_css, 
+			status = ccss_grammar_parse_inline (self->grammar, inline_css, 
 							   CCSS_STYLESHEET_AUTHOR,
 							   instance, result_group,
 							   self->blocks);

@@ -173,7 +173,7 @@ ccss_grammar_create_stylesheet_from_buffer (ccss_grammar_t	*self,
 	stylesheet = ccss_stylesheet_create ();
 	stylesheet->grammar = ccss_grammar_reference (self);
 
-	ret = ccss_parser_parse_buffer (self, buffer, size, 
+	ret = ccss_grammar_parse_buffer (self, buffer, size, 
 					CCSS_STYLESHEET_AUTHOR,
 					stylesheet->groups, stylesheet->blocks);
 
@@ -203,7 +203,7 @@ ccss_grammar_create_stylesheet_from_file (ccss_grammar_t	*self,
 	stylesheet = ccss_stylesheet_create ();
 	stylesheet->grammar = ccss_grammar_reference (self);
 
-	ret = ccss_parser_parse_file (self, css_file, CCSS_STYLESHEET_AUTHOR,
+	ret = ccss_grammar_parse_file (self, css_file, CCSS_STYLESHEET_AUTHOR,
 				      stylesheet->groups, stylesheet->blocks);
 
 	ccss_stylesheet_fix_dangling_selectors (stylesheet);
