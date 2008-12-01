@@ -120,20 +120,23 @@ parse_args_r (GSList		 *args,
  * @self:		a #ccss_grammar_t.
  * @function_name:	name of the function to invoke, e.g. `url'.
  * @args:		arguments passed to the function handler.
+ * @user_data:		user-data passed to the function handler.
+ *			Overrides the user-data assigned in the function handler's definition.
  *
  * Invoke a registerd function handler. This API is meant to be used by property
  * implementations, like when parsing properties like `background-image: url(foo.png)'.
  *
  * Returns: string value passed back by the ccss API consumer.
  **/
-
 char *
 ccss_grammar_invoke_function (ccss_grammar_t const	*self,
 			      char const		*function_name,
-			      CRTerm const		*values)
+			      CRTerm const		*values,
+			      void			*user_data)
 {
 	ccss_function_t const	*handler;
 	GSList			*args;
+	void			*actual_user_data;
 	char			*ret;
 
 	g_return_val_if_fail (self && function_name, NULL);
@@ -151,7 +154,12 @@ ccss_grammar_invoke_function (ccss_grammar_t const	*self,
 	args = g_slist_reverse (args);
 
 	/* dispatch */
-	ret = handler->function (args, handler->user_data);
+	if (user_data) {
+		actual_user_data = user_data;
+	} else {
+		actual_user_data = handler->user_data;
+	}
+	ret = handler->function (args, actual_user_data);
 
 	/* free args */
 	while (args) {

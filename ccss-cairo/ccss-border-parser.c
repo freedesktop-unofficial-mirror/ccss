@@ -182,7 +182,8 @@ parse_radius (CRTerm const		**value,
 static bool
 border_color_factory (ccss_grammar_t const	*grammar,
 		      ccss_block_t		*self,
-		      CRTerm const		*values)
+		      CRTerm const		*values,
+		      void			*user_data)
 {
 	CRTerm const	*iter;
 	ccss_color_t	 c, c0, c1, c2, c3;
@@ -205,10 +206,10 @@ border_color_factory (ccss_grammar_t const	*grammar,
 	memset (&c3, 0, sizeof (c3));
 
 	iter = values;
-	if (iter) { ccss_color_parse (&c0, grammar, &iter); }
-	if (iter) { ccss_color_parse (&c1, grammar, &iter); }
-	if (iter) { ccss_color_parse (&c2, grammar, &iter); }
-	if (iter) { ccss_color_parse (&c3, grammar, &iter); }
+	if (iter) { ccss_color_parse (&c0, grammar, user_data, &iter); }
+	if (iter) { ccss_color_parse (&c1, grammar, user_data, &iter); }
+	if (iter) { ccss_color_parse (&c2, grammar, user_data, &iter); }
+	if (iter) { ccss_color_parse (&c3, grammar, user_data, &iter); }
 
 	if (CCSS_PROPERTY_STATE_INVALID == c0.base.state) {
 
@@ -310,7 +311,8 @@ border_color_inherit (ccss_style_t const	*container_style,
 static bool
 border_style_factory (ccss_grammar_t const	*grammar,
 		      ccss_block_t		*self,
-		      CRTerm const		*values)
+		      CRTerm const		*values,
+		      void			*user_data)
 {
 	CRTerm const		*iter;
 	ccss_border_style_t	 s, s0, s1, s2, s3;
@@ -438,7 +440,8 @@ border_style_inherit (ccss_style_t const	*container_style,
 static bool
 border_width_factory (ccss_grammar_t const	*grammar,
 		      ccss_block_t		*self,
-		      CRTerm const		*values)
+		      CRTerm const		*values,
+		      void			*user_data)
 {
 	CRTerm const		*iter;
 	ccss_border_width_t	 w, w0, w1, w2, w3;
@@ -575,7 +578,8 @@ static bool
 border_factory_impl (ccss_grammar_t const	*grammar,
 		     ccss_block_t		*self,
 		     char const			*property_prefix,
-		     CRTerm const		*values)
+		     CRTerm const		*values,
+		     void			*user_data)
 {
 	CRTerm const		*iter;
 	border_property_t	*border, b;
@@ -607,7 +611,7 @@ border_factory_impl (ccss_grammar_t const	*grammar,
 	}
 
 	if (iter) {
-		ccss_color_parse (&c, grammar, &iter);
+		ccss_color_parse (&c, grammar, user_data, &iter);
 	}
 
 	if (c.base.state != CCSS_PROPERTY_STATE_INVALID) { 
@@ -651,41 +655,51 @@ border_factory_impl (ccss_grammar_t const	*grammar,
 static bool
 border_factory (ccss_grammar_t const	*grammar,
 		ccss_block_t		*self,
-		CRTerm const		*values)
+		CRTerm const		*values,
+		void			*user_data)
 {
-	return border_factory_impl (grammar, self, "border", values);
+	return border_factory_impl (grammar, self, "border",
+				    values, user_data);
 }
 
 static bool
 border_left_factory (ccss_grammar_t const	*grammar,
 		     ccss_block_t		*self,
-		     CRTerm const		*values)
+		     CRTerm const		*values,
+		     void			*user_data)
 {
-	return border_factory_impl (grammar, self, "border-left", values);
+	return border_factory_impl (grammar, self, "border-left",
+				    values, user_data);
 }
 
 static bool
 border_top_factory (ccss_grammar_t const	*grammar,
 		    ccss_block_t		*self,
-		    CRTerm const		*values)
+		    CRTerm const		*values,
+		    void			*user_data)
 {
-	return border_factory_impl (grammar, self, "border-top", values);
+	return border_factory_impl (grammar, self, "border-top",
+				    values, user_data);
 }
 
 static bool
 border_right_factory (ccss_grammar_t const	*grammar,
 		      ccss_block_t		*self,
-		      CRTerm const		*values)
+		      CRTerm const		*values,
+		      void			*user_data)
 {
-	return border_factory_impl (grammar, self, "border-right", values);
+	return border_factory_impl (grammar, self, "border-right",
+				    values, user_data);
 }
 
 static bool
 border_bottom_factory (ccss_grammar_t const	*grammar,
 		       ccss_block_t		*self,
-		       CRTerm const		*values)
+		       CRTerm const		*values,
+		       void			*user_data)
 {
-	return border_factory_impl (grammar, self, "border-bottom", values);
+	return border_factory_impl (grammar, self, "border-bottom",
+				    values, user_data);
 }
 
 static bool 
@@ -804,7 +818,8 @@ border_inherit (ccss_style_t const	*container_style,
 
 static ccss_property_base_t *
 border_radius_create (ccss_grammar_t const	*grammar,
-		      CRTerm const		*value)
+		      CRTerm const		*value,
+		      void			*user_data)
 {
 	ccss_border_join_t *radius, r;
 
@@ -824,7 +839,8 @@ border_radius_create (ccss_grammar_t const	*grammar,
 static bool
 border_radius_factory (ccss_grammar_t const	*grammar,
 		       ccss_block_t		*self,
-		       CRTerm const		*values)
+		       CRTerm const		*values,
+		       void			*user_data)
 {
 	CRTerm const		*iter;
 	ccss_border_join_t	 r, r0, r1, r2, r3;
@@ -970,7 +986,8 @@ border_radius_convert (ccss_border_join_t const	*property,
 
 static ccss_property_base_t *
 border_style_create (ccss_grammar_t const	*grammar,
-		     CRTerm const		*value)
+		     CRTerm const		*value,
+		     void			*user_data)
 {
 	ccss_border_style_t *self, s;
 
@@ -1004,7 +1021,8 @@ border_style_convert (ccss_border_style_t const	*property,
 
 static ccss_property_base_t *
 border_width_create (ccss_grammar_t const	*grammar,
-		     CRTerm const		*value)
+		     CRTerm const		*value,
+		     void			*user_data)
 {
 	ccss_border_width_t *self, w;
 

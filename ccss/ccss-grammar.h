@@ -53,15 +53,18 @@ ccss_grammar_add_functions	(ccss_grammar_t			*self,
 ccss_stylesheet_t *
 ccss_grammar_create_stylesheet_from_buffer	(ccss_grammar_t	*self,
 						 char const	*buffer,
-						 size_t		 size);
+						 size_t		 size,
+						 void		*user_data);
 ccss_stylesheet_t *
 ccss_grammar_create_stylesheet_from_file	(ccss_grammar_t	*self,
-						 char const	*css_file);
+						 char const	*css_file,
+						 void		*user_data);
 
 char *
 ccss_grammar_invoke_function (ccss_grammar_t const	*self,
 			      char const		*function_name,
-			      CRTerm const		*values);
+			      CRTerm const		*values,
+			      void			*user_data);
 
 CCSS_END_DECLS
 

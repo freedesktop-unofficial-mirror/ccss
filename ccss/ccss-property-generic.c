@@ -45,7 +45,8 @@ peek_property_class (void);
 
 static ccss_property_base_t *
 property_create (ccss_grammar_t const	*grammar,
-		 CRTerm const		*values)
+		 CRTerm const		*values,
+		 void			*user_data)
 {
 	ccss_property_generic_t	*prop, p;
 	char const		*s;

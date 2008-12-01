@@ -264,6 +264,7 @@ parse_hex (ccss_color_t	*self,
 bool
 ccss_color_parse (ccss_color_t		 *self,
 		  ccss_grammar_t const	 *grammar,
+		  void			 *user_data,
 		  CRTerm const		**value)
 {
 	char const		*function;
@@ -312,7 +313,9 @@ ccss_color_parse (ccss_color_t		 *self,
 		return true;
 	case TERM_FUNCTION:
 		function = cr_string_peek_raw_str ((*value)->content.str);
-		color = ccss_grammar_invoke_function (grammar, function, (*value)->ext_content.func_param);
+		color = ccss_grammar_invoke_function (grammar, function,
+						      (*value)->ext_content.func_param,
+						      user_data);
 		if (color) {
 			if (g_str_has_prefix (color, "rgb(")) {
 
@@ -352,12 +355,13 @@ bail:
 
 ccss_property_base_t *
 ccss_color_create (ccss_grammar_t const *grammar,
-		   CRTerm const		*value)
+		   CRTerm const		*value,
+		   void			*user_data)
 {
 	ccss_color_t	*self, c;
 	bool		 ret;
 
-	ret = ccss_color_parse (&c, grammar, &value);
+	ret = ccss_color_parse (&c, grammar, user_data, &value);
 	if (ret) {
 		c.base.property_class = peek_property_class ();
 		self = g_new0 (ccss_color_t, 1);

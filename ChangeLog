@@ -1,5 +1,47 @@
 2008-12-01  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/ccss-background-parser.c (bg_image_parse),
+	(background_factory), (background_attachment_create),
+	(background_image_create), (background_position_create),
+	(background_repeat_create), (background_size_create):
+	* ccss-cairo/ccss-border-image-parser.c (border_image_create):
+	* ccss-cairo/ccss-border-parser.c (border_color_factory),
+	(border_style_factory), (border_width_factory),
+	(border_factory_impl), (border_factory), (border_left_factory),
+	(border_top_factory), (border_right_factory),
+	(border_bottom_factory), (border_radius_create),
+	(border_radius_factory), (border_style_create),
+	(border_width_create):
+	* ccss-cairo/ccss-color.c (ccss_color_parse), (ccss_color_create):
+	* ccss-cairo/ccss-color.h:
+	* ccss-cairo/ccss-image.c (ccss_image_parse):
+	* ccss-cairo/ccss-image.h:
+	* ccss-doc/tmpl/grammar.sgml:
+	* ccss-doc/tmpl/node.sgml:
+	* ccss-doc/tmpl/property.sgml:
+	* ccss-doc/tmpl/stylesheet.sgml:
+	* ccss/ccss-grammar-function.c (ccss_grammar_invoke_function):
+	* ccss/ccss-grammar-parse.c (property_cb),
+	(ccss_grammar_parse_file), (ccss_grammar_parse_buffer),
+	(ccss_grammar_parse_inline):
+	* ccss/ccss-grammar-priv.h:
+	* ccss/ccss-grammar.c (ccss_grammar_create_stylesheet_from_buffer),
+	(ccss_grammar_create_stylesheet_from_file):
+	* ccss/ccss-grammar.h:
+	* ccss/ccss-property-generic.c (property_create):
+	* ccss/ccss-property.h:
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_add_from_file),
+	(query_node):
+	* ccss/ccss-stylesheet.h:
+	* examples/example-1.c (main):
+	* examples/example-2.c (main):
+	* examples/example-3.c (main):
+	* examples/example-4.c (main):
+	* examples/example-5.c (main):
+	Pass user-data to property- and function-handlers.
+
+2008-12-01  Robert Staudinger  <robsta@gnome.org>
+
 	* HACKING:
 	* ccss-cairo/ccss-background-parser.c
 	(background_attachment_create), (background_image_create),

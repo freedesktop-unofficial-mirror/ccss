@@ -46,7 +46,8 @@ typedef struct ccss_stylesheet_ ccss_stylesheet_t;
 ccss_stylesheet_t *
 ccss_stylesheet_add_from_file	(ccss_stylesheet_t		*self,
 				 char const			*css_file,
-				 ccss_stylesheet_precedence_t	 precedence);
+				 ccss_stylesheet_precedence_t	 precedence,
+				 void				*user_data);
 
 void
 ccss_stylesheet_destroy		(ccss_stylesheet_t		*self);

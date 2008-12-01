@@ -36,6 +36,7 @@ typedef struct {
 ccss_property_state_t
 ccss_image_parse (ccss_image_t		 *self,
 		  ccss_grammar_t const	 *grammar,
+		  void			 *user_data,
 		  CRTerm const		**value);
 
 void

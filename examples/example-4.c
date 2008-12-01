@@ -137,7 +137,8 @@ main (int	  argc,
 	grammar = ccss_cairo_grammar_create ();
 	ccss_grammar_add_properties (grammar, _properties);
 	stylesheet = ccss_grammar_create_stylesheet_from_buffer (grammar,
-							_css, sizeof (_css));
+							_css, sizeof (_css),
+							NULL);
 
 	style = ccss_style_create ();
 	ret = ccss_stylesheet_query_type (stylesheet, "box", style);

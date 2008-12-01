@@ -90,6 +90,7 @@ ccss_stylesheet_fix_dangling_selectors (ccss_stylesheet_t *self)
  * @self:	#ccss_stylesheet_t instance or %NULL.
  * @css_file:	file to parse.
  * @precedence:	see #ccss_stylesheet_precedence_t.
+ * @user_data:	user-data passed to property- and function-handlers.
  *
  * Load a CSS file with a given precedence.
  *
@@ -98,14 +99,15 @@ ccss_stylesheet_fix_dangling_selectors (ccss_stylesheet_t *self)
 ccss_stylesheet_t *
 ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
 			       char const			*css_file,
-			       ccss_stylesheet_precedence_t	 precedence)
+			       ccss_stylesheet_precedence_t	 precedence,
+			       void				*user_data)
 {
 	enum CRStatus ret;
 
 	g_return_val_if_fail (self && css_file, NULL);
 
 	ret = ccss_grammar_parse_file (self->grammar, css_file, precedence,
-				      self->groups, self->blocks);
+				       user_data, self->groups, self->blocks);
 	if (ret) {
 		ccss_stylesheet_fix_dangling_selectors (self);
 		return self;
@@ -242,10 +244,14 @@ query_node (ccss_stylesheet_t const	*self,
 		if (instance == 0) {
 			g_warning ("Inline CSS `%s' but instance == 0\n", inline_css);
 		} else {
-			status = ccss_grammar_parse_inline (self->grammar, inline_css, 
-							   CCSS_STYLESHEET_AUTHOR,
-							   instance, result_group,
-							   self->blocks);
+			/* FIXME: user_data inline styling. Maybe require
+			 * having the node's style registered explicitely? */
+			status = ccss_grammar_parse_inline (self->grammar,
+							    inline_css, 
+							    CCSS_STYLESHEET_AUTHOR,
+							    instance, NULL,
+							    result_group,
+							    self->blocks);
 			ret &= (status == CR_OK);
 		}
 	}

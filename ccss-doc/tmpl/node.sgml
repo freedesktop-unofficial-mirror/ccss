@@ -83,6 +83,7 @@ ccss_node_t
 @self: 
 @buffer: 
 @size: 
+@user_data: 
 @Returns: 
 
 
@@ -93,6 +94,7 @@ ccss_node_t
 
 @self: 
 @css_file: 
+@user_data: 
 @Returns: 
 
 
@@ -104,6 +106,7 @@ ccss_node_t
 @self: 
 @function_name: 
 @values: 
+@user_data: 
 @Returns: 
 
 

@@ -36,6 +36,7 @@ typedef struct {
 typedef struct {
 	ccss_grammar_t const		*grammar;
 	ccss_stylesheet_precedence_t	 precedence;
+	void				*user_data;
 	GHashTable			*blocks;
 	GHashTable			*groups;
 	ccss_block_t			*block;
@@ -318,19 +319,24 @@ property_cb (CRDocHandler	*handler,
 
 	if (NULL == property_class) {
 		property_class = (ccss_property_class_t const *)
-					g_hash_table_lookup (info->grammar->properties,
-							     "*");
+					g_hash_table_lookup (
+						info->grammar->properties, "*");
 	}
 
 	if (property_class->property_factory) {
-		property_class->property_factory (info->grammar, block, values);
+		property_class->property_factory (info->grammar, block,
+						  values, info->user_data);
 	} else if (property_class->property_create) {
-		property = property_class->property_create (info->grammar, values);
+		property = property_class->property_create (info->grammar,
+							    values,
+							    info->user_data);
 		if (property) {
-			ccss_block_add_property (block, property_name, property);
+			ccss_block_add_property (block, property_name,
+						 property);
 		}
 	} else {
-		g_warning ("No factory or constructor for property `%s'", property_name);
+		g_warning ("No factory or constructor for property `%s'",
+			   property_name);
 	}
 }
 
@@ -365,6 +371,7 @@ enum CRStatus
 ccss_grammar_parse_file (ccss_grammar_t const		*self,
 			 char const			*css_file,
 			 ccss_stylesheet_precedence_t	 precedence,
+			 void				*user_data,
 			 GHashTable			*groups,
 			 GHashTable			*blocks)
 {
@@ -381,6 +388,7 @@ ccss_grammar_parse_file (ccss_grammar_t const		*self,
 	handler->app_data = (gpointer) &info;
 	info.grammar = self;
 	info.precedence = precedence;
+	info.user_data = user_data;
 	info.blocks = blocks;
 	info.groups = groups;
 	info.block = NULL;
@@ -413,6 +421,7 @@ ccss_grammar_parse_buffer (ccss_grammar_t const		*self,
 			   char const			*buffer,
 			   size_t			 size,
 			   ccss_stylesheet_precedence_t	 precedence,
+			   void				*user_data,
 			   GHashTable			*groups,
 			   GHashTable			*blocks)
 {
@@ -430,6 +439,7 @@ ccss_grammar_parse_buffer (ccss_grammar_t const		*self,
 	handler->app_data = (gpointer) &info;
 	info.grammar = self;
 	info.precedence = precedence;
+	info.user_data = user_data;
 	info.blocks = blocks;
 	info.groups = groups;
 	info.block = NULL;
@@ -457,6 +467,7 @@ ccss_grammar_parse_inline (ccss_grammar_t const		*self,
 			   char const			*buffer,
 			   ccss_stylesheet_precedence_t	 precedence,
 			   ptrdiff_t			 instance,
+			   void				*user_data,
 			   ccss_selector_group_t	*result_group,
 			   GHashTable			*blocks)
 {
@@ -481,6 +492,7 @@ ccss_grammar_parse_inline (ccss_grammar_t const		*self,
 	info.grammar = self;
 	info.precedence = precedence;
 	info.blocks = blocks;
+	info.user_data = user_data;
 	info.groups = NULL;
 	info.block = NULL;
 	info.important_block = NULL;

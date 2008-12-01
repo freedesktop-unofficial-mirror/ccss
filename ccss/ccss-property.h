@@ -65,13 +65,15 @@ typedef struct ccss_property_base_ ccss_property_base_t;
  * ccss_property_create_f:
  * @grammar:	the grammar associated with this property.
  * @values:	libcroco CSS values to parse for the property, see #CRTerm.
+ * @user_data:	user data passed to property- or function-handler.
  *
  * Hook function for instantiating a property.
  *
  * Returns: pointer to the allocated property instance or %NULL if parsing fails.
  **/
 typedef ccss_property_base_t * (*ccss_property_create_f) (struct ccss_grammar_ const	*grammar,
-							  CRTerm const			*values);
+							  CRTerm const			*values,
+							  void				*user_data);
 
 /**
  * ccss_property_destroy_f:
@@ -100,6 +102,7 @@ typedef bool (*ccss_property_convert_f) (ccss_property_base_t const	*self,
  * @grammar:	the grammar associated with this property.
  * @block:	the #ccss_block_t the properties will be associated to.
  * @values:	libcroco CSS values to parse for the property, see #CRTerm.
+ * @user_data:	user data passed to property- or function-handler.
  *
  * Hook function to handle the creation of multiple properties from a single CSS property, e.g. `border'.
  *
@@ -107,7 +110,8 @@ typedef bool (*ccss_property_convert_f) (ccss_property_base_t const	*self,
  **/
 typedef bool (*ccss_property_factory_f) (struct ccss_grammar_ const	*grammar,
 					 struct ccss_block_		*block,
-					 CRTerm const			*values);
+					 CRTerm const			*values,
+					 void				*user_data);
 
 /**
  * ccss_property_inherit_f:

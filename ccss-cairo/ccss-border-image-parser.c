@@ -57,7 +57,8 @@ parse_tiling (CRTerm const			**value,
  */
 static ccss_property_base_t *
 border_image_create (ccss_grammar_t const	*grammar,
-		     CRTerm const		*values)
+		     CRTerm const		*values,
+		     void			*user_data)
 {
 	ccss_border_image_t	*border_image;
 	ccss_border_image_t	 bimg;
@@ -72,7 +73,8 @@ border_image_create (ccss_grammar_t const	*grammar,
 	iter = values;
 
 	/* Image */
-	bimg.base.state = ccss_image_parse (&bimg.image, grammar, &iter);
+	bimg.base.state = ccss_image_parse (&bimg.image, grammar,
+					    user_data, &iter);
 	if (CCSS_PROPERTY_STATE_NONE == bimg.base.state ||
 	    CCSS_PROPERTY_STATE_INHERIT == bimg.base.state) {
 		border_image = g_new0 (ccss_border_image_t, 1);

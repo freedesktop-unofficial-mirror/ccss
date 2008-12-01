@@ -80,7 +80,8 @@ main (int	  argc,
 
 	grammar = ccss_cairo_grammar_create ();
 	stylesheet = ccss_grammar_create_stylesheet_from_buffer (grammar,
-							_css, sizeof (_css));
+							_css, sizeof (_css),
+							NULL);
 
 	ccss_node_init ((ccss_node_t *) &node, &_node_class);
 	node.type_name = "box";

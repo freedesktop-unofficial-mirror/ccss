@@ -43,7 +43,8 @@ typedef struct {
 
 ccss_property_base_t *
 ccss_color_create (ccss_grammar_t const	*grammar,
-		   CRTerm const		*value);
+		   CRTerm const		*value,
+		   void			*user_data);
 
 void
 ccss_color_destroy (ccss_color_t *self);
@@ -56,6 +57,7 @@ ccss_color_convert (ccss_color_t const		*property,
 bool
 ccss_color_parse (ccss_color_t		 *self,
 		  ccss_grammar_t const	 *grammar,
+		  void			 *user_data,
 		  CRTerm const		**values);
 
 ccss_property_class_t const *

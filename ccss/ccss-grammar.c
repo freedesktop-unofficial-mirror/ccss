@@ -157,6 +157,7 @@ ccss_grammar_add_functions (ccss_grammar_t		*self,
  * @self:	a #ccss_grammar_t.
  * @buffer:	buffer to parse.
  * @size:	size of the buffer.
+ * @user_data:	user-data passed to property- and function-handlers.
  *
  * Create a new stylesheet instance based on a CSS string.
  *
@@ -165,7 +166,8 @@ ccss_grammar_add_functions (ccss_grammar_t		*self,
 ccss_stylesheet_t *
 ccss_grammar_create_stylesheet_from_buffer (ccss_grammar_t	*self,
 					    char const		*buffer,
-					    size_t		 size)
+					    size_t		 size,
+					    void		*user_data)
 {
 	ccss_stylesheet_t	*stylesheet;
 	enum CRStatus		 ret;
@@ -174,7 +176,7 @@ ccss_grammar_create_stylesheet_from_buffer (ccss_grammar_t	*self,
 	stylesheet->grammar = ccss_grammar_reference (self);
 
 	ret = ccss_grammar_parse_buffer (self, buffer, size, 
-					CCSS_STYLESHEET_AUTHOR,
+					CCSS_STYLESHEET_AUTHOR, user_data,
 					stylesheet->groups, stylesheet->blocks);
 
 	ccss_stylesheet_fix_dangling_selectors (stylesheet);
@@ -188,6 +190,7 @@ ccss_grammar_create_stylesheet_from_buffer (ccss_grammar_t	*self,
  * ccss_grammar_create_stylesheet_from_file:
  * @self:	a #ccss_grammar_t.
  * @css_file:	file to parse.
+ * @user_data:	user-data passed to property- and function-handlers.
  *
  * Create a new stylesheet instance based on a CSS file.
  *
@@ -195,7 +198,8 @@ ccss_grammar_create_stylesheet_from_buffer (ccss_grammar_t	*self,
  **/
 ccss_stylesheet_t *
 ccss_grammar_create_stylesheet_from_file (ccss_grammar_t	*self,
-					  char const		*css_file)
+					  char const		*css_file,
+					  void			*user_data)
 {
 	ccss_stylesheet_t	*stylesheet;
 	enum CRStatus		 ret;
@@ -204,7 +208,8 @@ ccss_grammar_create_stylesheet_from_file (ccss_grammar_t	*self,
 	stylesheet->grammar = ccss_grammar_reference (self);
 
 	ret = ccss_grammar_parse_file (self, css_file, CCSS_STYLESHEET_AUTHOR,
-				      stylesheet->groups, stylesheet->blocks);
+				       user_data, stylesheet->groups,
+				       stylesheet->blocks);
 
 	ccss_stylesheet_fix_dangling_selectors (stylesheet);
 
