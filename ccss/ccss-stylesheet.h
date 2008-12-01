@@ -44,12 +44,6 @@ typedef enum {
 typedef struct ccss_stylesheet_ ccss_stylesheet_t;
 
 ccss_stylesheet_t *
-ccss_stylesheet_create_from_buffer	(char const			*buffer,
-					 size_t				 size);
-ccss_stylesheet_t *
-ccss_stylesheet_create_from_file	(char const			*css_file);
-
-ccss_stylesheet_t *
 ccss_stylesheet_add_from_file	(ccss_stylesheet_t		*self,
 				 char const			*css_file,
 				 ccss_stylesheet_precedence_t	 precedence);

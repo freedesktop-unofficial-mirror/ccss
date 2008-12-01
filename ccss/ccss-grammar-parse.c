@@ -22,42 +22,11 @@
 #include <glib.h>
 #include <libcroco/libcroco.h>
 #include "ccss-block-priv.h"
-#include "ccss-parser.h"
+#include "ccss-grammar-priv.h"
 #include "ccss-property.h"
 #include "ccss-selector.h"
 #include "ccss-selector-group.h"
 #include "config.h"
-
-static GHashTable *_property_handlers = NULL;
-
-void
-ccss_parser_subsystem_add_properties (ccss_property_class_t const *properties)
-{
-	g_return_if_fail (properties);
-
-	if (NULL == _property_handlers) {
-		_property_handlers = g_hash_table_new (g_str_hash, g_str_equal);
-	}
-
-	for (unsigned int i = 0; properties[i].name != NULL; i++) {
-
-		/* Handler already exists? */
-		g_warn_if_fail (NULL == g_hash_table_lookup (_property_handlers, properties[i].name));
-
-		g_hash_table_insert (_property_handlers,
-				     (gpointer) properties[i].name,
-				     (gpointer) &properties[i]);
-	}
-}
-
-void
-ccss_parser_subsystem_shutdown (void)
-{
-	if (_property_handlers) {
-		g_hash_table_destroy (_property_handlers);
-		_property_handlers = NULL;
-	}
-}
 
 typedef struct {
 	ptrdiff_t		 instance;
@@ -65,6 +34,7 @@ typedef struct {
 } instance_info_t;
 
 typedef struct {
+	ccss_grammar_t const		*grammar;
 	ccss_stylesheet_precedence_t	 precedence;
 	GHashTable			*blocks;
 	GHashTable			*groups;
@@ -340,15 +310,15 @@ property_cb (CRDocHandler	*handler,
 	property_name = cr_string_peek_raw_str (name);
 
 	/* Assume the generic property handler is registered. */
-	g_assert (_property_handlers);
+	g_assert (info && info->grammar);
 
 	property_class = (ccss_property_class_t const *)
-				g_hash_table_lookup (_property_handlers,
+				g_hash_table_lookup (info->grammar->properties,
 						     property_name);
 
 	if (NULL == property_class) {
 		property_class = (ccss_property_class_t const *)
-					g_hash_table_lookup (_property_handlers,
+					g_hash_table_lookup (info->grammar->properties,
 							     "*");
 	}
 
@@ -392,7 +362,8 @@ end_selector_cb (CRDocHandler	*handler,
 }
 
 enum CRStatus
-ccss_parser_parse_file (char const			*css_file,
+ccss_parser_parse_file (ccss_grammar_t const		*self,
+			char const			*css_file,
 			ccss_stylesheet_precedence_t	 precedence,
 			GHashTable			*groups,
 			GHashTable			*blocks)
@@ -408,6 +379,7 @@ ccss_parser_parse_file (char const			*css_file,
 
 	handler = cr_doc_handler_new ();
 	handler->app_data = (gpointer) &info;
+	info.grammar = self;
 	info.precedence = precedence;
 	info.blocks = blocks;
 	info.groups = groups;
@@ -437,7 +409,8 @@ ccss_parser_parse_file (char const			*css_file,
 }
 
 enum CRStatus
-ccss_parser_parse_buffer (char const			*buffer,
+ccss_parser_parse_buffer (ccss_grammar_t const		*self,
+			  char const			*buffer,
 			  size_t			 size,
 			  ccss_stylesheet_precedence_t	 precedence,
 			  GHashTable			*groups,
@@ -455,6 +428,7 @@ ccss_parser_parse_buffer (char const			*buffer,
 
 	handler = cr_doc_handler_new ();
 	handler->app_data = (gpointer) &info;
+	info.grammar = self;
 	info.precedence = precedence;
 	info.blocks = blocks;
 	info.groups = groups;
@@ -479,7 +453,8 @@ ccss_parser_parse_buffer (char const			*buffer,
 }
 
 enum CRStatus
-ccss_parser_parse_inline (char const			*buffer,
+ccss_parser_parse_inline (ccss_grammar_t const		*self,
+			  char const			*buffer,
 			  ccss_stylesheet_precedence_t	 precedence,
 			  ptrdiff_t			 instance,
 			  ccss_selector_group_t		*result_group,
@@ -503,6 +478,7 @@ ccss_parser_parse_inline (char const			*buffer,
 
 	handler = cr_doc_handler_new ();
 	handler->app_data = (gpointer) &info;
+	info.grammar = self;
 	info.precedence = precedence;
 	info.blocks = blocks;
 	info.groups = NULL;

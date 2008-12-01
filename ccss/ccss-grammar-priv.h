@@ -25,33 +25,37 @@
 #include <stdlib.h>
 #include <glib.h>
 #include <libcroco/libcroco.h>
+#include <ccss/ccss-grammar.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-selector-group.h>
 #include <ccss/ccss-stylesheet.h>
 
 CCSS_BEGIN_DECLS
 
-void
-ccss_parser_subsystem_add_properties (ccss_property_class_t const *properties);
-
-void
-ccss_parser_subsystem_shutdown (void);
+struct ccss_grammar_ {
+	unsigned int	 reference_count;
+	GHashTable	*properties;
+	GHashTable	*functions;
+};
 
 enum CRStatus
-ccss_parser_parse_file (char const			*css_file, 
+ccss_parser_parse_file (ccss_grammar_t const		*self,
+			char const			*css_file, 
 			ccss_stylesheet_precedence_t	 precedence,
 			GHashTable			*groups,
 			GHashTable			*blocks);
 
 enum CRStatus
-ccss_parser_parse_buffer (char const			*buffer,
+ccss_parser_parse_buffer (ccss_grammar_t const		*self,
+			  char const			*buffer,
 			  size_t			 buffer_size,
 			  ccss_stylesheet_precedence_t	 precedence,
 			  GHashTable			*groups,
 			  GHashTable			*blocks);
 
 enum CRStatus
-ccss_parser_parse_inline (char const			*buffer,
+ccss_parser_parse_inline (ccss_grammar_t const		*self,
+			  char const			*buffer,
 			  ccss_stylesheet_precedence_t	 precedence,
 			  ptrdiff_t			 instance,
 			  ccss_selector_group_t		*result_group,

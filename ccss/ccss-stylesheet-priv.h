@@ -17,23 +17,36 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_FUNCTION_PRIV_H
-#define CCSS_FUNCTION_PRIV_H
+#ifndef CCSS_STYLESHEET_PRIV_H
+#define CCSS_STYLESHEET_PRIV_H
 
-#include <libcroco/libcroco.h>
-#include <ccss/ccss-block.h>
-#include <ccss/ccss-function.h>
+#include <ccss/ccss-grammar.h>
 #include <ccss/ccss-macros.h>
+#include <ccss/ccss-stylesheet.h>
 
 CCSS_BEGIN_DECLS
 
-void
-ccss_function_subsystem_add_functions	(ccss_function_t const *functions);
+/**
+ * ccss_stylesheet_t:
+ * @grammar:		The grammar for this stylesheet.
+ * @blocks:		List owning all blocks parsed from the stylesheet.
+ * @groups:		Associates type names with all applying selectors.
+ *
+ * Represents a parsed instance of a stylesheet.
+ **/
+struct ccss_stylesheet_ {
+	ccss_grammar_t	*grammar;
+	GHashTable	*blocks;
+	GHashTable	*groups;
+};
 
-void
-ccss_function_subsystem_shutdown	(void);
+ccss_stylesheet_t *
+ccss_stylesheet_create (void);
+
+static void
+ccss_stylesheet_fix_dangling_selectors (ccss_stylesheet_t *self);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_FUNCTION_PRIV_H */
+#endif /* CCSS_STYLESHEET_PRIV_H */
 

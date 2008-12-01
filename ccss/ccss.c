@@ -18,9 +18,6 @@
  */
 
 #include "ccss.h"
-#include "ccss-function-priv.h"
-#include "ccss-parser.h"
-#include "ccss-property-generic.h"
 #include "config.h"
 
 /**
@@ -31,36 +28,7 @@
 void
 ccss_init (void)
 {
-	ccss_property_class_t const *properties;
-
-	properties = ccss_property_generic_get_ptable ();
-	ccss_add_properties (properties);
-}
-
-/**
- * ccss_add_properties:
- * @properties:	Null-terminated array of #ccss_property_class_t to register.
- *
- * Register a set of custom css properties. This function must be between
- * #ccss_init() and instatiation of #ccss_stylesheet_t.
- **/
-void
-ccss_add_properties (ccss_property_class_t const *properties)
-{
-	ccss_parser_subsystem_add_properties (properties);
-}
-
-/**
- * ccss_add_functions:
- * @functions:	Null-terminated array of #ccss_function_t to register.
- *
- * Register a set of custom css function handlers, like e.g. `url'.
- * This function must be between #ccss_init() and instatiation of #ccss_stylesheet_t.
- **/
-void
-ccss_add_functions (ccss_function_t const *functions)
-{
-	ccss_function_subsystem_add_functions (functions);
+	/* Nothing to do here, for now. */
 }
 
 /**
@@ -71,7 +39,6 @@ ccss_add_functions (ccss_function_t const *functions)
 void
 ccss_shutdown (void)
 {
-	ccss_function_subsystem_shutdown ();
-	ccss_parser_subsystem_shutdown ();
+	/* Nothing to do here, for now. */
 }
 

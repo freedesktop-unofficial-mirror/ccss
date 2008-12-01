@@ -20,8 +20,8 @@
 #ifndef CCSS_H
 #define CCSS_H
 
-#include <ccss/ccss-block.h>
-#include <ccss/ccss-function.h>
+#include <ccss/ccss-block.h> // TODO: public header needed?
+#include <ccss/ccss-grammar.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-node.h>
 #include <ccss/ccss-property.h>
@@ -31,13 +31,7 @@
 CCSS_BEGIN_DECLS
 
 void
-ccss_init		(void);
-
-void
-ccss_add_properties	(ccss_property_class_t const	*properties);
-
-void
-ccss_add_functions	(ccss_function_t const		*functions);
+ccss_init	(void);
 
 void
 ccss_shutdown	(void);

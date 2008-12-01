@@ -20,27 +20,15 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-block-priv.h"
+#include "ccss-grammar-priv.h"
 #include "ccss-node.h"
-#include "ccss-parser.h"
 #include "ccss-selector-group.h"
 #include "ccss-selector.h"
 #include "ccss-style-priv.h"
-#include "ccss-stylesheet.h"
+#include "ccss-stylesheet-priv.h"
 #include "config.h"
 
-/**
- * ccss_stylesheet_t:
- * @blocks:		List owning all blocks parsed from the stylesheet.
- * @groups:		Associates type names with all applying selectors.
- *
- * Represents a parsed instance of a stylesheet.
- **/
-struct ccss_stylesheet_ {
-	GHashTable	*blocks;
-	GHashTable	*groups;
-};
-
-static ccss_stylesheet_t *
+ccss_stylesheet_t *
 ccss_stylesheet_create (void)
 {
 	ccss_stylesheet_t *self;
@@ -54,7 +42,7 @@ ccss_stylesheet_create (void)
 }
 
 static void
-fix_dangling_selectors (ccss_stylesheet_t *self)
+ccss_stylesheet_fix_dangling_selectors (ccss_stylesheet_t *self)
 {
 	GHashTableIter		 iter;
 	char const		*key;
@@ -98,61 +86,6 @@ fix_dangling_selectors (ccss_stylesheet_t *self)
 }
 
 /**
- * ccss_stylesheet_create_from_buffer:
- * @buffer:	buffer to parse.
- * @size:	size of the buffer.
- *
- * Create a new stylesheet instance based on a CSS string.
- *
- * Returns: a #ccss_stylesheet_t representation of the CSS string.
- **/
-ccss_stylesheet_t *
-ccss_stylesheet_create_from_buffer (char const	*buffer, 
-				size_t		 size)
-{
-	ccss_stylesheet_t	*self;
-	enum CRStatus		 ret;
-
-	self = ccss_stylesheet_create ();
-
-	ret = ccss_parser_parse_buffer (buffer, size, 
-					CCSS_STYLESHEET_AUTHOR,
-					self->groups, self->blocks);
-
-	fix_dangling_selectors (self);
-
-	// FIXME handle `ret'
-
-	return self;
-}
-
-/**
- * ccss_stylesheet_create_from_file:
- * @css_file: file to parse.
- *
- * Create a new stylesheet instance based on a CSS file.
- *
- * Returns: a #ccss_stylesheet_t representation of the CSS file.
- **/
-ccss_stylesheet_t *
-ccss_stylesheet_create_from_file (char const *css_file)
-{
-	ccss_stylesheet_t	*self;
-	enum CRStatus		 ret;
-
-	self = ccss_stylesheet_create ();
-
-	ret = ccss_parser_parse_file (css_file, CCSS_STYLESHEET_AUTHOR,
-				      self->groups, self->blocks);
-
-	fix_dangling_selectors (self);
-
-	// FIXME handle `ret'
-
-	return self;
-}
-
-/**
  * ccss_stylesheet_add_from_file:
  * @self:	#ccss_stylesheet_t instance or %NULL.
  * @css_file:	file to parse.
@@ -169,14 +102,12 @@ ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
 {
 	enum CRStatus ret;
 
-	if (!self) {
-		self = ccss_stylesheet_create ();
-	}
+	g_return_val_if_fail (self && css_file, NULL);
 
-	ret = ccss_parser_parse_file (css_file, precedence,
+	ret = ccss_parser_parse_file (self->grammar, css_file, precedence,
 				      self->groups, self->blocks);
 
-	fix_dangling_selectors (self);
+	ccss_stylesheet_fix_dangling_selectors (self);
 
 	// FIXME handle `ret'
 
@@ -194,6 +125,7 @@ ccss_stylesheet_destroy (ccss_stylesheet_t *self)
 {
 	g_assert (self);
 
+	ccss_grammar_destroy (self->grammar);
 	g_hash_table_destroy (self->blocks);
 	g_hash_table_destroy (self->groups);
 	g_free (self);
@@ -310,7 +242,7 @@ query_node (ccss_stylesheet_t const	*self,
 		if (instance == 0) {
 			g_warning ("Inline CSS `%s' but instance == 0\n", inline_css);
 		} else {
-			status = ccss_parser_parse_inline (inline_css, 
+			status = ccss_parser_parse_inline (self->grammar, inline_css, 
 							   CCSS_STYLESHEET_AUTHOR,
 							   instance, result_group,
 							   self->blocks);

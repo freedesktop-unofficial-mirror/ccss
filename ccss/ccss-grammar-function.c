@@ -19,39 +19,8 @@
 
 #include <string.h>
 #include <glib.h>
-#include "ccss-function-priv.h"
+#include "ccss-grammar-priv.h"
 #include "config.h"
-
-static GHashTable *_function_handlers = NULL;
-
-void
-ccss_function_subsystem_add_functions (ccss_function_t const *functions)
-{
-	g_return_if_fail (functions);
-
-	if (NULL == _function_handlers) {
-		_function_handlers = g_hash_table_new (g_str_hash, g_str_equal);
-	}
-
-	for (unsigned int i = 0; functions[i].name != NULL; i++) {
-
-		/* Handler already exists? */
-		g_warn_if_fail (NULL == g_hash_table_lookup (_function_handlers, functions[i].name));
-
-		g_hash_table_insert (_function_handlers,
-				     (gpointer) functions[i].name,
-				     (gpointer) &functions[i]);
-	}
-}
-
-void
-ccss_function_subsystem_shutdown (void)
-{
-	if (_function_handlers) {
-		g_hash_table_destroy (_function_handlers);
-		_function_handlers = NULL;
-	}
-}
 
 static GSList *
 parse_args_r (GSList		 *args,
@@ -146,20 +115,31 @@ parse_args_r (GSList		 *args,
 
 	return args;
 }
+/**
+ * ccss_grammar_invoke_function:
+ * @self:		a #ccss_grammar_t.
+ * @function_name:	name of the function to invoke, e.g. `url'.
+ * @args:		arguments passed to the function handler.
+ *
+ * Invoke a registerd function handler. This API is meant to be used by property
+ * implementations, like when parsing properties like `background-image: url(foo.png)'.
+ *
+ * Returns: string value passed back by the ccss API consumer.
+ **/
 
 char *
-ccss_function_invoke (char const	*function_name,
-		      CRTerm const	*values)
+ccss_grammar_invoke_function (ccss_grammar_t const	*self,
+			      char const		*function_name,
+			      CRTerm const		*values)
 {
 	ccss_function_t const	*handler;
 	GSList			*args;
 	char			*ret;
 
-	g_return_val_if_fail (_function_handlers && function_name, NULL);
+	g_return_val_if_fail (self && function_name, NULL);
 
 	handler = (ccss_function_t const *)
-			g_hash_table_lookup (_function_handlers,
-					     function_name);
+			g_hash_table_lookup (self->functions, function_name);
 
 	if (!handler) {
 		g_warning ("Function `%s' could not be resolved.", function_name);

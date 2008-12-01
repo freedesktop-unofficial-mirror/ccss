@@ -1,5 +1,38 @@
 2008-12-01  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/Makefile.am:
+	* ccss/ccss-function-priv.h:
+	* ccss/ccss-function.c:
+	* ccss/ccss-function.h:
+	* ccss/ccss-grammar-function.c (parse_args_r),
+	(ccss_grammar_invoke_function):
+	* ccss/ccss-grammar-parse.c (map_attribute_selector_match),
+	(calculate_importance), (walk_additional_selector),
+	(walk_simple_selector_r), (walk_selector), (start_selector_cb),
+	(property_cb), (end_selector_cb), (ccss_parser_parse_file),
+	(ccss_parser_parse_buffer), (ccss_parser_parse_inline):
+	* ccss/ccss-grammar-priv.h:
+	* ccss/ccss-grammar.c (ccss_grammar_create),
+	(ccss_grammar_destroy), (ccss_grammar_reference),
+	(ccss_grammar_get_reference_count), (ccss_grammar_add_properties),
+	(ccss_grammar_add_functions),
+	(ccss_grammar_create_stylesheet_from_buffer),
+	(ccss_grammar_create_stylesheet_from_file):
+	* ccss/ccss-grammar.h:
+	* ccss/ccss-parser.c:
+	* ccss/ccss-parser.h:
+	* ccss/ccss-stylesheet-priv.h:
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_fix_dangling_selectors),
+	(ccss_stylesheet_add_from_file), (ccss_stylesheet_destroy),
+	(query_node):
+	* ccss/ccss-stylesheet.h:
+	* ccss/ccss.c (ccss_init), (ccss_shutdown):
+	* ccss/ccss.h:
+	* ccss/ccss.sym:
+	Introduce `ccss_grammar_t' to move away from global properties and functions.
+
+2008-12-01  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo/ccss-background-parser.c:
 	* ccss-cairo/ccss-border-image-parser.c:
 	* ccss-cairo/ccss-border-parser.c (border_style_create):

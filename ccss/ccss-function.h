@@ -54,20 +54,6 @@ typedef struct {
 	void		*user_data;
 } ccss_function_t;
 
-/**
- * ccss_function_invoke:
- * @function_name:	name of the function to invoke, e.g. `url'.
- * @args:		arguments passed to the function handler.
- *
- * Invoke a registerd function handler. This API is meant to be used by property
- * implementations, like when parsing properties like `background-image: url(foo.png)'.
- *
- * Returns: string value passed back by the ccss API consumer.
- **/
-char *
-ccss_function_invoke (char const	*function_name,
-		      CRTerm const	*args);
-
 CCSS_END_DECLS
 
 #endif /* CCSS_FUNCTION_H */

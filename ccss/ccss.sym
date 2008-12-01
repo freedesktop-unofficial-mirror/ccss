@@ -1,9 +1,15 @@
 ccss_init
 ccss_shutdown
-ccss_add_functions
-ccss_add_properties
 ccss_block_add_property
-ccss_function_invoke
+ccss_grammar_create
+ccss_grammar_destroy
+ccss_grammar_reference
+ccss_grammar_get_reference_count
+ccss_grammar_add_properties
+ccss_grammar_add_functions
+ccss_grammar_create_stylesheet_from_buffer
+ccss_grammar_create_stylesheet_from_file
+ccss_grammar_invoke_function
 ccss_node_init
 ccss_property_init
 ccss_property_parse_state
@@ -20,7 +26,5 @@ ccss_stylesheet_dump
 ccss_stylesheet_foreach
 ccss_stylesheet_destroy
 ccss_stylesheet_invalidate_node
-ccss_stylesheet_create_from_buffer
-ccss_stylesheet_create_from_file
 ccss_stylesheet_query
 ccss_stylesheet_query_type
