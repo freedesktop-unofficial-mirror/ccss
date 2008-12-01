@@ -1,5 +1,39 @@
 2008-12-01  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-block-priv.h:
+	* ccss/ccss-block.c:
+	* ccss/ccss-block.h:
+	* ccss/ccss-function.h:
+	* ccss/ccss-grammar-function.c:
+	* ccss/ccss-grammar-parse.c:
+	* ccss/ccss-grammar-priv.h:
+	* ccss/ccss-grammar.c:
+	* ccss/ccss-grammar.h:
+	* ccss/ccss-macros.h:
+	* ccss/ccss-node-priv.h:
+	* ccss/ccss-node.c:
+	* ccss/ccss-node.h:
+	* ccss/ccss-priv.h:
+	* ccss/ccss-property-generic.c:
+	* ccss/ccss-property-generic.h:
+	* ccss/ccss-property.c:
+	* ccss/ccss-property.h:
+	* ccss/ccss-selector-group.c:
+	* ccss/ccss-selector-group.h:
+	* ccss/ccss-selector.c:
+	* ccss/ccss-selector.h:
+	* ccss/ccss-style-priv.h:
+	* ccss/ccss-style.c:
+	* ccss/ccss-style.h:
+	* ccss/ccss-stylesheet-priv.h:
+	* ccss/ccss-stylesheet.c:
+	* ccss/ccss-stylesheet.h:
+	* ccss/ccss.c:
+	* ccss/ccss.h:
+	
+
+2008-12-01  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-grammar-parse.c (ccss_grammar_parse_file),
 	(ccss_grammar_parse_buffer), (ccss_grammar_parse_inline):
 	* ccss/ccss-grammar-priv.h:

@@ -1,4 +1,4 @@
-/* The Cairo CSS Drawing Library.
+/* The `C' CSS Library.
  * Copyright (C) 2008 Robert Staudinger
  *
  * This  library is free  software; you can  redistribute it and/or
