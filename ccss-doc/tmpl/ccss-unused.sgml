@@ -70,6 +70,20 @@ ccss_style_t Gtk+ Support
 ccss_selector_group_t
 
 
+<!-- ##### FUNCTION ccss_add_functions ##### -->
+<para>
+
+</para>
+
+@functions: 
+
+<!-- ##### FUNCTION ccss_add_properties ##### -->
+<para>
+
+</para>
+
+@properties: 
+
 <!-- ##### USER_FUNCTION ccss_node_get_origin_f ##### -->
 <para>
 
@@ -258,6 +272,23 @@ ccss_selector_group_t
 
 </para>
 
+@Returns: 
+
+<!-- ##### FUNCTION ccss_stylesheet_create_from_buffer ##### -->
+<para>
+
+</para>
+
+@buffer: 
+@size: 
+@Returns: 
+
+<!-- ##### FUNCTION ccss_stylesheet_create_from_file ##### -->
+<para>
+
+</para>
+
+@css_file: 
 @Returns: 
 
 <!-- ##### FUNCTION ccss_stylesheet_free ##### -->

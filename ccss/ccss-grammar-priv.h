@@ -32,7 +32,13 @@
 
 CCSS_BEGIN_DECLS
 
+/**
+ * ccss_grammar_t:
+ *
+ * Represents a context for the creation of stylesheets of similar kind.
+ **/
 struct ccss_grammar_ {
+	/*< private >*/
 	unsigned int	 reference_count;
 	GHashTable	*properties;
 	GHashTable	*functions;

@@ -1,5 +1,5 @@
 <!-- ##### SECTION Title ##### -->
-Initialization
+ccss_cairo_grammar_t
 
 <!-- ##### SECTION Short_Description ##### -->
 
@@ -17,17 +17,11 @@ Initialization
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### FUNCTION ccss_init ##### -->
+<!-- ##### FUNCTION ccss_cairo_grammar_create ##### -->
 <para>
 
 </para>
 
-
-
-<!-- ##### FUNCTION ccss_shutdown ##### -->
-<para>
-
-</para>
-
+@Returns: 
 
 

@@ -42,25 +42,6 @@ ccss_stylesheet_t
 @CCSS_STYLESHEET_USER: 
 @CCSS_STYLESHEET_AUTHOR: 
 
-<!-- ##### FUNCTION ccss_stylesheet_create_from_buffer ##### -->
-<para>
-
-</para>
-
-@buffer: 
-@size: 
-@Returns: 
-
-
-<!-- ##### FUNCTION ccss_stylesheet_create_from_file ##### -->
-<para>
-
-</para>
-
-@css_file: 
-@Returns: 
-
-
 <!-- ##### FUNCTION ccss_stylesheet_add_from_file ##### -->
 <para>
 

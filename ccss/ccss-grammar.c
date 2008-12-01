@@ -52,7 +52,7 @@ ccss_grammar_create (void)
  * @self: a #ccss_grammar_t.
  *
  * Decreases the reference count on @self by one. If the result is zero, then
- * @self and all associated resources are freed. See #ccss_grammar_reference().
+ * @self and all associated resources are freed. See ccss_grammar_reference().
  **/
 void
 ccss_grammar_destroy (ccss_grammar_t *self)
@@ -72,11 +72,11 @@ ccss_grammar_destroy (ccss_grammar_t *self)
  * ccss_grammar_reference:
  * @self: a #ccss_grammar_t.
  *
- * Increases the reference count on cr by one. This prevents cr from being
+ * Increases the reference count on @self by one. This prevents @self from being
  * destroyed until a matching call to ccss_grammar_destroy() is made.
  *
  * The number of references to a #ccss_grammar_t can be acquired using
- * #ccss_grammar_get_reference_count().
+ * ccss_grammar_get_reference_count().
  *
  * Returns: the referenced #ccss_grammar_t.
  **/

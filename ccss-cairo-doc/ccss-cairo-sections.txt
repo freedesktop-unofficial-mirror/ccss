@@ -7,6 +7,12 @@ ccss_cairo_shutdown
 </SECTION>
 
 <SECTION>
+<TITLE>ccss_grammar_t</TITLE>
+<FILE>grammar</FILE>
+ccss_cairo_grammar_create
+</SECTION>
+
+<SECTION>
 <TITLE>ccss_style_t</TITLE>
 <FILE>style</FILE>
 ccss_cairo_gap_side_t

@@ -1,5 +1,22 @@
 2008-12-01  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo-doc/ccss-cairo-docs.sgml:
+	* ccss-cairo-doc/ccss-cairo-sections.txt:
+	* ccss-cairo-doc/tmpl/grammar.sgml:
+	* ccss-doc/ccss-docs.sgml:
+	* ccss-doc/ccss-sections.txt:
+	* ccss-doc/tmpl/ccss-unused.sgml:
+	* ccss-doc/tmpl/ccss.sgml:
+	* ccss-doc/tmpl/grammar.sgml:
+	* ccss-doc/tmpl/node.sgml:
+	* ccss-doc/tmpl/property.sgml:
+	* ccss-doc/tmpl/stylesheet.sgml:
+	* ccss/ccss-grammar-priv.h:
+	* ccss/ccss-grammar.c:
+	Update docs.
+
+2008-12-01  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/Makefile.am:
 	* ccss/ccss-grammar-priv.h:
 	Fix warnings / `make distcheck'.

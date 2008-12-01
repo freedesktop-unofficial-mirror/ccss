@@ -4,8 +4,6 @@
 <FILE>ccss</FILE>
 ccss_init
 ccss_shutdown
-ccss_add_functions
-ccss_add_properties
 </SECTION>
 
 <SECTION>
@@ -13,6 +11,21 @@ ccss_add_properties
 <FILE>block</FILE>
 ccss_block_t
 ccss_block_add_property
+</SECTION>
+
+<SECTION>
+<TITLE>ccss_grammar_t</TITLE>
+<FILE>grammar</FILE>
+ccss_grammar_t
+ccss_grammar_create
+ccss_grammar_destroy
+ccss_grammar_reference
+ccss_grammar_get_reference_count
+ccss_grammar_add_properties
+ccss_grammar_add_functions
+ccss_grammar_create_stylesheet_from_buffer
+ccss_grammar_create_stylesheet_from_file
+ccss_grammar_invoke_function
 </SECTION>
 
 <TITLE>ccss_node_t</TITLE>
@@ -55,8 +68,6 @@ ccss_style_dump
 ccss_stylesheet_iterator_f
 ccss_stylesheet_t
 ccss_stylesheet_precedence_t
-ccss_stylesheet_create_from_buffer
-ccss_stylesheet_create_from_file
 ccss_stylesheet_add_from_file
 ccss_stylesheet_foreach
 ccss_stylesheet_destroy

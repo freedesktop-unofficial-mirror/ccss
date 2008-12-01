@@ -3,6 +3,7 @@
                "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 
 <!ENTITY ccss				SYSTEM "xml/ccss.xml">
+<!ENTITY ccss_grammar_t			SYSTEM "xml/grammar.xml">
 <!ENTITY ccss_style_t			SYSTEM "xml/style.xml">
 
 <!ENTITY TreeIndex			SYSTEM "xml/tree_index.sgml">
@@ -95,6 +96,7 @@ TODO.
   <chapter id="basic">
     <title>Basic Usage</title>
     &ccss;
+    &ccss_grammar_t;
     &ccss_style_t;
   </chapter>
  </part>

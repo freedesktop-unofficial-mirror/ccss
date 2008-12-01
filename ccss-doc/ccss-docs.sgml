@@ -5,6 +5,7 @@
 <!ENTITY ccss_block_t			SYSTEM "xml/block.xml">
 <!ENTITY ccss				SYSTEM "xml/ccss.xml">
 <!ENTITY ccss_function_t		SYSTEM "xml/function.xml">
+<!ENTITY ccss_grammar_t			SYSTEM "xml/grammar.xml">
 <!ENTITY ccss_node_t			SYSTEM "xml/node.xml">
 <!ENTITY ccss_property_t		SYSTEM "xml/property.xml">
 <!ENTITY ccss_style_t			SYSTEM "xml/style.xml">
@@ -85,6 +86,7 @@ TODO.
     &ccss;
     &ccss_block_t;
     &ccss_function_t;
+    &ccss_grammar_t;
     &ccss_node_t;
     &ccss_property_t;
     &ccss_style_t;

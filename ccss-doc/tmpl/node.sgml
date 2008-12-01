@@ -17,20 +17,94 @@ ccss_node_t
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### TYPEDEF ccss_block_t ##### -->
+<!-- ##### TYPEDEF ccss_grammar_t ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### FUNCTION ccss_block_add_property ##### -->
+<!-- ##### FUNCTION ccss_grammar_create ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_grammar_destroy ##### -->
 <para>
 
 </para>
 
 @self: 
-@property_name: 
-@value: 
+
+
+<!-- ##### FUNCTION ccss_grammar_reference ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_grammar_get_reference_count ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_grammar_add_properties ##### -->
+<para>
+
+</para>
+
+@self: 
+@properties: 
+
+
+<!-- ##### FUNCTION ccss_grammar_add_functions ##### -->
+<para>
+
+</para>
+
+@self: 
+@functions: 
+
+
+<!-- ##### FUNCTION ccss_grammar_create_stylesheet_from_buffer ##### -->
+<para>
+
+</para>
+
+@self: 
+@buffer: 
+@size: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_grammar_create_stylesheet_from_file ##### -->
+<para>
+
+</para>
+
+@self: 
+@css_file: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_grammar_invoke_function ##### -->
+<para>
+
+</para>
+
+@self: 
+@function_name: 
+@values: 
+@Returns: 
 
 
 <!-- ##### TYPEDEF ccss_node_t ##### -->
