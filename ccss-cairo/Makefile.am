@@ -33,6 +33,7 @@ libccss_cairo_1_la_SOURCES = \
 	ccss-border-image-parser.c \
 	ccss-border-image-parser.h \
 	ccss-cairo.c \
+	ccss-cairo-grammar.c \
 	ccss-cairo-property.c \
 	ccss-cairo-property.h \
 	ccss-cairo-style.c \
@@ -49,6 +50,7 @@ headersdir = $(includedir)/libccss-1/ccss-cairo
 
 headers_DATA = \
 	ccss-cairo.h \
+	ccss-cairo-grammar.h \
 	ccss-cairo-style.h
 
 EXTRA_DIST = \

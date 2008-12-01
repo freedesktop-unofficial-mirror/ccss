@@ -20,7 +20,7 @@
 #ifndef CCSS_H
 #define CCSS_H
 
-#include <ccss/ccss-block.h> // TODO: public header needed?
+#include <ccss/ccss-block.h>
 #include <ccss/ccss-grammar.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-node.h>

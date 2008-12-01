@@ -24,8 +24,7 @@
 #include <stdint.h>
 #include <cairo.h>
 #include <libcroco/libcroco.h>
-#include <ccss/ccss-macros.h>
-#include <ccss/ccss-property.h>
+#include <ccss/ccss.h>
 #include <ccss-cairo/ccss-color.h>
 #include <ccss-cairo/ccss-image.h>
 #include <ccss-cairo/ccss-position.h>

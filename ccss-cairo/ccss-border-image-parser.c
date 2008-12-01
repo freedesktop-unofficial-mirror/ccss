@@ -18,7 +18,6 @@
  */
 
 #include <string.h>
-#include <ccss/ccss-block.h>
 #include "ccss-border-image.h"
 #include "ccss-border-image-parser.h"
 #include "config.h"
@@ -57,7 +56,8 @@ parse_tiling (CRTerm const			**value,
  * FIXME: create all the border-image tiles here and save some time while painting.
  */
 static ccss_border_image_t *
-border_image_new (CRTerm const	*values)
+border_image_create (ccss_grammar_t const	*grammar,
+		     CRTerm const		*values)
 {
 	ccss_border_image_t	*border_image;
 	ccss_border_image_t	 bimg;
@@ -72,7 +72,7 @@ border_image_new (CRTerm const	*values)
 	iter = values;
 
 	/* Image */
-	bimg.base.state = ccss_image_parse (&bimg.image, &iter);
+	bimg.base.state = ccss_image_parse (&bimg.image, grammar, &iter);
 	if (CCSS_PROPERTY_STATE_NONE == bimg.base.state ||
 	    CCSS_PROPERTY_STATE_INHERIT == bimg.base.state) {
 		border_image = g_new0 (ccss_border_image_t, 1);
@@ -203,7 +203,7 @@ border_image_convert (ccss_border_image_t const	*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "border-image",
-	.property_create = (ccss_property_create_f) border_image_new,
+	.property_create = (ccss_property_create_f) border_image_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_image_convert,
 	.property_factory = NULL,

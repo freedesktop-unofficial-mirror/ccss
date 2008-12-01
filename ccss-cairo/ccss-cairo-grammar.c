@@ -17,31 +17,34 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_IMAGE_H
-#define CCSS_IMAGE_H
+#include "ccss-background-parser.h"
+#include "ccss-border-parser.h"
+#include "ccss-border-image-parser.h"
+#include "ccss-cairo-grammar.h"
+#include "ccss-color.h"
 
-#include <cairo.h>
-#include <libcroco/libcroco.h>
-#include <ccss/ccss.h>
+/**
+ * ccss_cairo_grammar_create:
+ *
+ * Create a new cairo-grammar instance.
+ *
+ * The cairo-grammar object provides a factory to load stylesheets restricted to 
+ * the supported CSS subset.
+ *
+ * Returns: a new #ccss_grammar_t instance.
+ **/
+ccss_grammar_t *
+ccss_cairo_grammar_create (void)
+{
+	ccss_grammar_t *self;
 
-CCSS_BEGIN_DECLS
+	self = ccss_grammar_create ();
 
-typedef struct {
-	char		*uri;
-	cairo_pattern_t *pattern;
-	double		 width;
-	double		 height;
-} ccss_image_t;
+	ccss_grammar_add_properties (self, ccss_background_get_ptable ());
+	ccss_grammar_add_properties (self, ccss_border_get_ptable ());
+	ccss_grammar_add_properties (self, ccss_border_image_get_ptable ());
+	ccss_grammar_add_properties (self, ccss_color_get_ptable ());
 
-ccss_property_state_t
-ccss_image_parse (ccss_image_t		 *self,
-		  ccss_grammar_t const	 *grammar,
-		  CRTerm const		**value);
-
-void
-ccss_image_discard (ccss_image_t *self);
-
-CCSS_END_DECLS
-
-#endif /* CCSS_IMAGE_H */
+	return self;
+}
 

@@ -20,7 +20,7 @@
 #ifndef CCSS_CAIRO_STYLE_PRIV_H
 #define CCSS_CAIRO_STYLE_PRIV_H
 
-#include <ccss/ccss-macros.h>
+#include <ccss/ccss.h>
 #include <ccss-cairo/ccss-cairo-style.h>
 
 CCSS_BEGIN_DECLS

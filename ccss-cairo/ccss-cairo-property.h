@@ -21,7 +21,7 @@
 #define CCSS_CAIRO_PROPERTY_H
 
 #include <glib.h>
-#include <ccss/ccss-macros.h>
+#include <ccss/ccss.h>
 
 CCSS_BEGIN_DECLS
 

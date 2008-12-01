@@ -1,5 +1,45 @@
 2008-12-01  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/Makefile.am:
+	* ccss-cairo/ccss-background-parser.c (bg_image_parse),
+	(background_factory), (background_attachment_create),
+	(background_image_create), (background_position_create),
+	(background_repeat_create), (background_size_create):
+	* ccss-cairo/ccss-background.h:
+	* ccss-cairo/ccss-border-image-parser.c (border_image_create):
+	* ccss-cairo/ccss-border-image-parser.h:
+	* ccss-cairo/ccss-border-image.h:
+	* ccss-cairo/ccss-border-parser.c (border_color_factory),
+	(border_style_factory), (border_width_factory),
+	(border_factory_impl), (border_factory), (border_left_factory),
+	(border_top_factory), (border_right_factory),
+	(border_bottom_factory), (border_radius_create),
+	(border_radius_factory), (border_style_create):
+	* ccss-cairo/ccss-border.h:
+	* ccss-cairo/ccss-cairo-grammar.c (ccss_cairo_grammar_create):
+	* ccss-cairo/ccss-cairo-grammar.h:
+	* ccss-cairo/ccss-cairo-property.h:
+	* ccss-cairo/ccss-cairo-style-priv.h:
+	* ccss-cairo/ccss-cairo-style.c:
+	* ccss-cairo/ccss-cairo-style.h:
+	* ccss-cairo/ccss-cairo.c (ccss_cairo_init):
+	* ccss-cairo/ccss-cairo.h:
+	* ccss-cairo/ccss-cairo.sym:
+	* ccss-cairo/ccss-color.c (ccss_color_parse), (ccss_color_create):
+	* ccss-cairo/ccss-color.h:
+	* ccss-cairo/ccss-image.c (ccss_image_parse):
+	* ccss-cairo/ccss-image.h:
+	* ccss-cairo/ccss-position.h:
+	* ccss/ccss-grammar-parse.c (property_cb):
+	* ccss/ccss-property-generic.c (property_create):
+	* ccss/ccss-property.h:
+	* ccss/ccss-stylesheet-priv.h:
+	* ccss/ccss-stylesheet.c:
+	* ccss/ccss.h:
+	Move ccss-cairo to `ccss_grammar_t'.
+
+2008-12-01  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/Makefile.am:
 	* ccss/ccss-function-priv.h:
 	* ccss/ccss-function.c:

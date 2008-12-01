@@ -41,7 +41,7 @@ ccss_stylesheet_create (void)
 	return self;
 }
 
-static void
+void
 ccss_stylesheet_fix_dangling_selectors (ccss_stylesheet_t *self)
 {
 	GHashTableIter		 iter;

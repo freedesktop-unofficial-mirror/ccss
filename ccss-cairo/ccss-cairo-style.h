@@ -22,7 +22,7 @@
 
 #include <stdint.h>
 #include <cairo.h>
-#include <ccss/ccss-macros.h>
+#include <ccss/ccss.h>
 
 CCSS_BEGIN_DECLS
 

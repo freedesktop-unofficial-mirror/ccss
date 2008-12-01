@@ -323,9 +323,9 @@ property_cb (CRDocHandler	*handler,
 	}
 
 	if (property_class->property_factory) {
-		property_class->property_factory (block, values);
+		property_class->property_factory (info->grammar, block, values);
 	} else if (property_class->property_create) {
-		property = property_class->property_create (values);
+		property = property_class->property_create (info->grammar, values);
 		if (property) {
 			ccss_block_add_property (block, property_name, property);
 		}

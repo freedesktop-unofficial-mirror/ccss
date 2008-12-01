@@ -18,6 +18,7 @@
  */
 
 #include <string.h>
+#include "ccss-grammar.h"
 #include "ccss-property-generic.h"
 #include "config.h"
 
@@ -43,7 +44,8 @@ static ccss_property_class_t const *
 peek_property_class (void);
 
 static ccss_property_generic_t *
-property_create (CRTerm const *values)
+property_create (ccss_grammar_t const	*grammar,
+		 CRTerm const		*values)
 {
 	ccss_property_generic_t	*prop, p;
 	char const		*s;

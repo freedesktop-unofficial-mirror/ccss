@@ -17,12 +17,8 @@
  * MA 02110-1301, USA.
  */
 
-#include "ccss-background-parser.h"
-#include "ccss-border-parser.h"
-#include "ccss-border-image-parser.h"
 #include "ccss-cairo.h"
 #include "ccss-cairo-style-priv.h"
-#include "ccss-color.h"
 
 /**
  * ccss_cairo_init:
@@ -32,22 +28,8 @@
 void
 ccss_cairo_init (void)
 {
-	ccss_property_class_t const *properties;
-
 	ccss_init ();
 	ccss_style_subsystem_init ();
-
-	properties = ccss_background_get_ptable ();
-	ccss_add_properties (properties);
-
-	properties = ccss_border_image_get_ptable ();
-	ccss_add_properties (properties);
-
-	properties = ccss_border_get_ptable ();
-	ccss_add_properties (properties);
-
-	properties = ccss_color_get_ptable ();
-	ccss_add_properties (properties);
 }
 
 /**

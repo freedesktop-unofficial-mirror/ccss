@@ -19,8 +19,7 @@
 
 #include <string.h>
 #include <glib.h>
-#include <ccss/ccss-property.h>
-#include <ccss/ccss-style-priv.h>
+#include <ccss/ccss-style-priv.h>	/* PONDERING: use only public headers? */
 #include "ccss-background.h"
 #include "ccss-border.h"
 #include "ccss-border-image.h"
@@ -35,6 +34,7 @@ typedef struct {
 
 fallback_map_t *_fallback_map = NULL;
 
+// FIXME: lazily initialise the fallback map when creating the first style and get rid of the subsystem init.
 void
 ccss_style_subsystem_init (void)
 {

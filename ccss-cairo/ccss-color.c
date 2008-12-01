@@ -24,7 +24,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include <ccss/ccss-function.h>
 #include "ccss-color.h"
 #include "config.h"
 
@@ -263,8 +262,9 @@ parse_hex (ccss_color_t	*self,
 }
 
 bool
-ccss_color_parse (ccss_color_t	 *self,
-		  CRTerm const	**value)
+ccss_color_parse (ccss_color_t		 *self,
+		  ccss_grammar_t const	 *grammar,
+		  CRTerm const		**value)
 {
 	char const		*function;
 	char const		*str;
@@ -312,7 +312,7 @@ ccss_color_parse (ccss_color_t	 *self,
 		return true;
 	case TERM_FUNCTION:
 		function = cr_string_peek_raw_str ((*value)->content.str);
-		color = ccss_function_invoke (function, (*value)->ext_content.func_param);
+		color = ccss_grammar_invoke_function (grammar, function, (*value)->ext_content.func_param);
 		if (color) {
 			if (g_str_has_prefix (color, "rgb(")) {
 
@@ -351,12 +351,13 @@ bail:
 }
 
 ccss_color_t *
-ccss_color_create (CRTerm const *value)
+ccss_color_create (ccss_grammar_t const *grammar,
+		   CRTerm const		*value)
 {
 	ccss_color_t	*self, c;
 	bool		 ret;
 
-	ret = ccss_color_parse (&c, &value);
+	ret = ccss_color_parse (&c, grammar, &value);
 	if (ret) {
 		c.base.property_class = peek_property_class ();
 		self = g_new0 (ccss_color_t, 1);

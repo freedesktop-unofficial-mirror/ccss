@@ -180,8 +180,9 @@ parse_radius (CRTerm const		**value,
 
 
 static bool
-border_color_factory (ccss_block_t	*self,
-		      CRTerm const	*values)
+border_color_factory (ccss_grammar_t const	*grammar,
+		      ccss_block_t		*self,
+		      CRTerm const		*values)
 {
 	CRTerm const	*iter;
 	ccss_color_t	 c, c0, c1, c2, c3;
@@ -204,10 +205,10 @@ border_color_factory (ccss_block_t	*self,
 	memset (&c3, 0, sizeof (c3));
 
 	iter = values;
-	if (iter) { ccss_color_parse (&c0, &iter); }
-	if (iter) { ccss_color_parse (&c1, &iter); }
-	if (iter) { ccss_color_parse (&c2, &iter); }
-	if (iter) { ccss_color_parse (&c3, &iter); }
+	if (iter) { ccss_color_parse (&c0, grammar, &iter); }
+	if (iter) { ccss_color_parse (&c1, grammar, &iter); }
+	if (iter) { ccss_color_parse (&c2, grammar, &iter); }
+	if (iter) { ccss_color_parse (&c3, grammar, &iter); }
 
 	if (CCSS_PROPERTY_STATE_INVALID == c0.base.state) {
 
@@ -307,8 +308,9 @@ border_color_inherit (ccss_style_t const	*container_style,
 }
 
 static bool
-border_style_factory (ccss_block_t	*self,
-		      CRTerm const	*values)
+border_style_factory (ccss_grammar_t const	*grammar,
+		      ccss_block_t		*self,
+		      CRTerm const		*values)
 {
 	CRTerm const		*iter;
 	ccss_border_style_t	 s, s0, s1, s2, s3;
@@ -434,8 +436,9 @@ border_style_inherit (ccss_style_t const	*container_style,
 }
 
 static bool
-border_width_factory (ccss_block_t	*self,
-		      CRTerm const	*values)
+border_width_factory (ccss_grammar_t const	*grammar,
+		      ccss_block_t		*self,
+		      CRTerm const		*values)
 {
 	CRTerm const		*iter;
 	ccss_border_width_t	 w, w0, w1, w2, w3;
@@ -569,9 +572,10 @@ border_width_inherit (ccss_style_t const	*container_style,
  * - border: 1px solid red;
  */
 static bool
-border_factory_impl (ccss_block_t	*self,
-		     char const		*property_prefix,
-		     CRTerm const	*values)
+border_factory_impl (ccss_grammar_t const	*grammar,
+		     ccss_block_t		*self,
+		     char const			*property_prefix,
+		     CRTerm const		*values)
 {
 	CRTerm const		*iter;
 	border_property_t	*border, b;
@@ -603,7 +607,7 @@ border_factory_impl (ccss_block_t	*self,
 	}
 
 	if (iter) {
-		ccss_color_parse (&c, &iter);
+		ccss_color_parse (&c, grammar, &iter);
 	}
 
 	if (c.base.state != CCSS_PROPERTY_STATE_INVALID) { 
@@ -645,38 +649,43 @@ border_factory_impl (ccss_block_t	*self,
 }
 
 static bool
-border_factory (ccss_block_t	*self,
-		CRTerm const	*values)
+border_factory (ccss_grammar_t const	*grammar,
+		ccss_block_t		*self,
+		CRTerm const		*values)
 {
-	return border_factory_impl (self, "border", values);
+	return border_factory_impl (grammar, self, "border", values);
 }
 
 static bool
-border_left_factory (ccss_block_t	*self,
-		     CRTerm const	*values)
+border_left_factory (ccss_grammar_t const	*grammar,
+		     ccss_block_t		*self,
+		     CRTerm const		*values)
 {
-	return border_factory_impl (self, "border-left", values);
+	return border_factory_impl (grammar, self, "border-left", values);
 }
 
 static bool
-border_top_factory (ccss_block_t	*self,
-		    CRTerm const	*values)
+border_top_factory (ccss_grammar_t const	*grammar,
+		    ccss_block_t		*self,
+		    CRTerm const		*values)
 {
-	return border_factory_impl (self, "border-top", values);
+	return border_factory_impl (grammar, self, "border-top", values);
 }
 
 static bool
-border_right_factory (ccss_block_t	*self,
-		      CRTerm const	*values)
+border_right_factory (ccss_grammar_t const	*grammar,
+		      ccss_block_t		*self,
+		      CRTerm const		*values)
 {
-	return border_factory_impl (self, "border-right", values);
+	return border_factory_impl (grammar, self, "border-right", values);
 }
 
 static bool
-border_bottom_factory (ccss_block_t	*self,
-		       CRTerm const	*values)
+border_bottom_factory (ccss_grammar_t const	*grammar,
+		       ccss_block_t		*self,
+		       CRTerm const		*values)
 {
-	return border_factory_impl (self, "border-bottom", values);
+	return border_factory_impl (grammar, self, "border-bottom", values);
 }
 
 static bool 
@@ -794,7 +803,8 @@ border_inherit (ccss_style_t const	*container_style,
 }
 
 static ccss_border_join_t *
-border_radius_new (CRTerm const *value)
+border_radius_create (ccss_grammar_t const	*grammar,
+		      CRTerm const		*value)
 {
 	ccss_border_join_t *radius, r;
 
@@ -812,8 +822,9 @@ border_radius_new (CRTerm const *value)
 }
 
 static bool
-border_radius_factory (ccss_block_t	*self,
-		       CRTerm const	*values)
+border_radius_factory (ccss_grammar_t const	*grammar,
+		       ccss_block_t		*self,
+		       CRTerm const		*values)
 {
 	CRTerm const		*iter;
 	ccss_border_join_t	 r, r0, r1, r2, r3;
@@ -958,7 +969,8 @@ border_radius_convert (ccss_border_join_t const	*property,
 }
 
 static ccss_border_style_t *
-border_style_create (CRTerm const *value)
+border_style_create (ccss_grammar_t const	*grammar,
+		     CRTerm const		*value)
 {
 	ccss_border_style_t *self, s;
 
@@ -1033,28 +1045,28 @@ border_width_convert (ccss_border_width_t const	*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "border-top-right-radius",
-	.property_create = (ccss_property_create_f) border_radius_new,
+	.property_create = (ccss_property_create_f) border_radius_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-bottom-right-radius",
-	.property_create = (ccss_property_create_f) border_radius_new,
+	.property_create = (ccss_property_create_f) border_radius_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-bottom-left-radius",
-	.property_create = (ccss_property_create_f) border_radius_new,
+	.property_create = (ccss_property_create_f) border_radius_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "border-top-left-radius",
-	.property_create = (ccss_property_create_f) border_radius_new,
+	.property_create = (ccss_property_create_f) border_radius_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) border_radius_convert,
 	.property_factory = NULL,

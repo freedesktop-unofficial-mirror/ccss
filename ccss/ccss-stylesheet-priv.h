@@ -43,7 +43,7 @@ struct ccss_stylesheet_ {
 ccss_stylesheet_t *
 ccss_stylesheet_create (void);
 
-static void
+void
 ccss_stylesheet_fix_dangling_selectors (ccss_stylesheet_t *self);
 
 CCSS_END_DECLS

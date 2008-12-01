@@ -28,6 +28,7 @@ CCSS_BEGIN_DECLS
 
 /* Avoid circular dependencies. */
 struct ccss_block_;
+struct ccss_grammar_;
 struct ccss_style_;
 
 /**
@@ -62,13 +63,15 @@ typedef struct ccss_property_base_ ccss_property_base_t;
 
 /**
  * ccss_property_create_f:
+ * @grammar:	the grammar associated with this property.
  * @values:	libcroco CSS values to parse for the property, see #CRTerm.
  *
  * Hook function for instantiating a property.
  *
  * Returns: pointer to the allocated property instance or %NULL if parsing fails.
  **/
-typedef ccss_property_base_t * (*ccss_property_create_f) (CRTerm const *values);
+typedef ccss_property_base_t * (*ccss_property_create_f) (struct ccss_grammar_ const	*grammar,
+							  CRTerm const			*values);
 
 /**
  * ccss_property_destroy_f:
@@ -94,6 +97,7 @@ typedef bool (*ccss_property_convert_f) (ccss_property_base_t const	*self,
 
 /**
  * ccss_property_factory_f:
+ * @grammar:	the grammar associated with this property.
  * @block:	the #ccss_block_t the properties will be associated to.
  * @values:	libcroco CSS values to parse for the property, see #CRTerm.
  *
@@ -101,8 +105,9 @@ typedef bool (*ccss_property_convert_f) (ccss_property_base_t const	*self,
  *
  * Returns: %TRUE when sucessful.
  **/
-typedef bool (*ccss_property_factory_f) (struct ccss_block_	*block,
-					 CRTerm const		*values);
+typedef bool (*ccss_property_factory_f) (struct ccss_grammar_ const	*grammar,
+					 struct ccss_block_		*block,
+					 CRTerm const			*values);
 
 /**
  * ccss_property_inherit_f:

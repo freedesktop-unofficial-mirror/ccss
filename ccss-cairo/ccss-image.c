@@ -20,7 +20,6 @@
 #include <stdbool.h>
 #include <string.h>
 #include <glib.h>
-#include <ccss/ccss-function.h>
 #include "ccss-image.h"
 #include "config.h"
 
@@ -197,14 +196,15 @@ load_image (ccss_image_t *self)
 }
 
 ccss_property_state_t
-ccss_image_parse (ccss_image_t	 *self,
-		  CRTerm const	**value)
+ccss_image_parse (ccss_image_t		 *self,
+		  ccss_grammar_t const	 *grammar,
+		  CRTerm const		**value)
 {
 	switch ((*value)->type) {
 	case TERM_IDENT:
 		return ccss_property_parse_state (value);
 	case TERM_URI:
-		self->uri = ccss_function_invoke ("url", *value);
+		self->uri = ccss_grammar_invoke_function (grammar, "url", *value);
 		*value = (*value)->next;
 		return load_image (self) ? 
 			CCSS_PROPERTY_STATE_SET :
