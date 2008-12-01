@@ -17,8 +17,8 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_PARSER_H
-#define CCSS_PARSER_H
+#ifndef CCSS_GRAMMAR_PRIV_H
+#define CCSS_GRAMMAR_PRIV_H
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -63,5 +63,5 @@ ccss_parser_parse_inline (ccss_grammar_t const		*self,
 
 CCSS_END_DECLS
 
-#endif /* CCSS_PARSER_H */
+#endif /* CCSS_GRAMMAR_PRIV_H */
 

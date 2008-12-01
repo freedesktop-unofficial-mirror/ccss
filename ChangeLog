@@ -1,5 +1,11 @@
 2008-12-01  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/Makefile.am:
+	* ccss/ccss-grammar-priv.h:
+	Fix warnings / `make distcheck'.
+
+2008-12-01  Robert Staudinger  <robsta@gnome.org>
+
 	* examples/example-1.c (main):
 	* examples/example-2.c (main):
 	* examples/example-3.c (url), (main):

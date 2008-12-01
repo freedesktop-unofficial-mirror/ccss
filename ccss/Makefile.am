@@ -45,6 +45,7 @@ headersdir = $(includedir)/libccss-1/ccss
 
 headers_DATA = \
 	ccss-block.h \
+	ccss-function.h \
 	ccss-grammar.h \
 	ccss.h \
 	ccss-macros.h \
