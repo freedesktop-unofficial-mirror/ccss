@@ -1,5 +1,15 @@
 2008-12-01  Robert Staudinger  <robsta@gnome.org>
 
+	* examples/example-1.c (main):
+	* examples/example-2.c (main):
+	* examples/example-3.c (url), (main):
+	* examples/example-4.c (font_family_new), (peek_property_class),
+	(main):
+	* examples/example-5.c (main):
+	Move examples to `ccss_grammar_t'.
+
+2008-12-01  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo/Makefile.am:
 	* ccss-cairo/ccss-background-parser.c (bg_image_parse),
 	(background_factory), (background_attachment_create),

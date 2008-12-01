@@ -36,16 +36,18 @@ int
 main (int	  argc,
       char	**argv)
 {
-	ccss_stylesheet_t		*stylesheet;
-	ccss_style_t			*style;
-	GtkWidget			*window;
-	gboolean			 ret;
+	ccss_grammar_t		*grammar;
+	ccss_stylesheet_t	*stylesheet;
+	ccss_style_t		*style;
+	GtkWidget		*window;
+	gboolean		 ret;
 
 	gtk_init (&argc, &argv);
 	ccss_cairo_init ();
 
-	stylesheet = ccss_stylesheet_create_from_buffer (_css, sizeof (_css));
-	/* stylesheet = ccss_stylesheet_create_from_file ("example-1.css"); */
+	grammar = ccss_cairo_grammar_create ();
+	stylesheet = ccss_grammar_create_stylesheet_from_buffer (grammar,
+							_css, sizeof (_css));
 
 	style = ccss_style_create ();
 	ret = ccss_stylesheet_query_type (stylesheet, "box", style);
@@ -67,6 +69,7 @@ main (int	  argc,
 
 	ccss_style_destroy (style);
 	ccss_stylesheet_destroy (stylesheet);
+	ccss_grammar_destroy (grammar);
 
 	ccss_cairo_shutdown ();
 
