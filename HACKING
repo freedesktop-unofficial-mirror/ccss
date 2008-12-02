@@ -48,6 +48,8 @@ Including files
   
     `#include "foo.h"`
 
+* In Makefile.am foo_CPPFLAGS always put local include paths before global
+  ones, so ambiguous headers are resolved in favour of the local ones.
 
 Making a release
 ----------------

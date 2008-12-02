@@ -43,22 +43,28 @@ typedef enum {
 
 typedef struct ccss_stylesheet_ ccss_stylesheet_t;
 
+void
+ccss_stylesheet_destroy		(ccss_stylesheet_t		*self);
+
+ccss_stylesheet_t *
+ccss_stylesheet_reference (ccss_stylesheet_t *self);
+
+unsigned int
+ccss_stylesheet_get_reference_count (ccss_stylesheet_t const *self);
+
 ccss_stylesheet_t *
 ccss_stylesheet_add_from_file	(ccss_stylesheet_t		*self,
 				 char const			*css_file,
 				 ccss_stylesheet_precedence_t	 precedence,
 				 void				*user_data);
 
-void
-ccss_stylesheet_destroy		(ccss_stylesheet_t		*self);
-
 bool
-ccss_stylesheet_query_type	(ccss_stylesheet_t const	*self,
+ccss_stylesheet_query_type	(ccss_stylesheet_t 		*self,
 				 char const			*type_name,
 				 ccss_style_t			*style);
 
 bool
-ccss_stylesheet_query		(ccss_stylesheet_t const	*self,
+ccss_stylesheet_query		(ccss_stylesheet_t 		*self,
 				 ccss_node_t const		*node, 
 				 ccss_style_t			*style);
 

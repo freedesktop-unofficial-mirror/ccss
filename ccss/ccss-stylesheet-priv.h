@@ -28,6 +28,7 @@ CCSS_BEGIN_DECLS
 
 /**
  * ccss_stylesheet_t:
+ * @reference_count:	reference count.
  * @grammar:		The grammar for this stylesheet.
  * @blocks:		List owning all blocks parsed from the stylesheet.
  * @groups:		Associates type names with all applying selectors.
@@ -35,6 +36,8 @@ CCSS_BEGIN_DECLS
  * Represents a parsed instance of a stylesheet.
  **/
 struct ccss_stylesheet_ {
+	/*< private >*/
+	unsigned int	 reference_count;
 	ccss_grammar_t	*grammar;
 	GHashTable	*blocks;
 	GHashTable	*groups;

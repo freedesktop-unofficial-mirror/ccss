@@ -17,6 +17,12 @@ ccss_stylesheet_t
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### TYPEDEF ccss_stylesheet_t ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### USER_FUNCTION ccss_stylesheet_iterator_f ##### -->
 <para>
 
@@ -27,12 +33,6 @@ ccss_stylesheet_t
 @user_data: 
 
 
-<!-- ##### TYPEDEF ccss_stylesheet_t ##### -->
-<para>
-
-</para>
-
-
 <!-- ##### ENUM ccss_stylesheet_precedence_t ##### -->
 <para>
 
@@ -41,6 +41,32 @@ ccss_stylesheet_t
 @CCSS_STYLESHEET_USER_AGENT: 
 @CCSS_STYLESHEET_USER: 
 @CCSS_STYLESHEET_AUTHOR: 
+
+<!-- ##### FUNCTION ccss_stylesheet_destroy ##### -->
+<para>
+
+</para>
+
+@self: 
+
+
+<!-- ##### FUNCTION ccss_stylesheet_reference ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_stylesheet_get_reference_count ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
 
 <!-- ##### FUNCTION ccss_stylesheet_add_from_file ##### -->
 <para>
@@ -62,14 +88,6 @@ ccss_stylesheet_t
 @self: 
 @func: 
 @user_data: 
-
-
-<!-- ##### FUNCTION ccss_stylesheet_destroy ##### -->
-<para>
-
-</para>
-
-@self: 
 
 
 <!-- ##### FUNCTION ccss_stylesheet_invalidate_node ##### -->

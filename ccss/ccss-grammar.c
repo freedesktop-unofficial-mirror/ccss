@@ -179,11 +179,12 @@ ccss_grammar_create_stylesheet_from_buffer (ccss_grammar_t	*self,
 					CCSS_STYLESHEET_AUTHOR, user_data,
 					stylesheet->groups, stylesheet->blocks);
 
-	ccss_stylesheet_fix_dangling_selectors (stylesheet);
+	if (CR_OK == ret) {
+		ccss_stylesheet_fix_dangling_selectors (stylesheet);
+		return stylesheet;
+	}
 
-	// FIXME handle `ret'
-
-	return stylesheet;
+	return NULL;
 }
 
 /**
@@ -211,10 +212,11 @@ ccss_grammar_create_stylesheet_from_file (ccss_grammar_t	*self,
 				       user_data, stylesheet->groups,
 				       stylesheet->blocks);
 
-	ccss_stylesheet_fix_dangling_selectors (stylesheet);
+	if (CR_OK == ret) {
+		ccss_stylesheet_fix_dangling_selectors (stylesheet);
+		return stylesheet;
+	}
 
-	// FIXME handle `ret'
-
-	return stylesheet;
+	return NULL;
 }
 

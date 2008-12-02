@@ -65,12 +65,14 @@ ccss_style_dump
 <SECTION>
 <TITLE>ccss_stylesheet_t</TITLE>
 <FILE>stylesheet</FILE>
-ccss_stylesheet_iterator_f
 ccss_stylesheet_t
+ccss_stylesheet_iterator_f
 ccss_stylesheet_precedence_t
+ccss_stylesheet_destroy
+ccss_stylesheet_reference
+ccss_stylesheet_get_reference_count
 ccss_stylesheet_add_from_file
 ccss_stylesheet_foreach
-ccss_stylesheet_destroy
 ccss_stylesheet_invalidate_node
 ccss_stylesheet_query_type
 ccss_stylesheet_query

@@ -24,17 +24,18 @@
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
 #include <ccss/ccss-style.h>
+#include <ccss/ccss-stylesheet.h>
 
 CCSS_BEGIN_DECLS
 
 struct ccss_style_ {
 	/*< private >*/
-	GHashTable	*properties;
-
-	int32_t		 viewport_x;
-	int32_t		 viewport_y;
-	int32_t		 viewport_width;
-	int32_t		 viewport_height;
+	ccss_stylesheet_t	*stylesheet;
+	GHashTable		*properties;
+	int32_t			 viewport_x;
+	int32_t			 viewport_y;
+	int32_t			 viewport_width;
+	int32_t			 viewport_height;
 };
 
 CCSS_END_DECLS

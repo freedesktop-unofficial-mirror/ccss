@@ -34,6 +34,7 @@ ccss_stylesheet_create (void)
 	ccss_stylesheet_t *self;
 
 	self = g_new0 (ccss_stylesheet_t, 1);
+	self->reference_count = 1;
 	self->blocks = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 					      NULL, (GDestroyNotify) ccss_block_destroy);
 	self->groups = g_hash_table_new (g_str_hash, g_str_equal);
@@ -108,7 +109,7 @@ ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
 
 	ret = ccss_grammar_parse_file (self->grammar, css_file, precedence,
 				       user_data, self->groups, self->blocks);
-	if (ret) {
+	if (CR_OK == ret) {
 		ccss_stylesheet_fix_dangling_selectors (self);
 		return self;
 	}
@@ -120,17 +121,59 @@ ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
  * ccss_stylesheet_destroy:
  * @self: a #ccss_stylesheet_t.
  * 
- * Free the stylesheet and all associated resources.
+ * Decreases the reference count on @self by one. If the result is zero, then
+ * @self and all associated resources are freed. See ccss_stylesheet_reference().
  **/
 void
 ccss_stylesheet_destroy (ccss_stylesheet_t *self)
 {
 	g_assert (self);
 
-	ccss_grammar_destroy (self->grammar);
-	g_hash_table_destroy (self->blocks);
-	g_hash_table_destroy (self->groups);
-	g_free (self);
+	self->reference_count--;
+
+	if (0 == self->reference_count) {
+		ccss_grammar_destroy (self->grammar), self->grammar = NULL;
+		g_hash_table_destroy (self->blocks), self->blocks = NULL;
+		g_hash_table_destroy (self->groups), self->groups = NULL;
+		g_free (self);
+	}
+}
+
+/**
+ * ccss_stylesheet_reference:
+ * @self: a #ccss_stylesheet_t.
+ *
+ * Increases the reference count on @self by one. This prevents @self from being
+ * destroyed until a matching call to ccss_stylesheet_destroy() is made.
+ *
+ * The number of references to a #ccss_stylesheet_t can be acquired using
+ * ccss_stylesheet_get_reference_count().
+ *
+ * Returns: the referenced #ccss_stylesheet_t.
+ **/
+ccss_stylesheet_t *
+ccss_stylesheet_reference (ccss_stylesheet_t *self)
+{
+	g_return_val_if_fail (self, NULL);
+
+	self->reference_count++;
+
+	return self;
+}
+
+/**
+ * ccss_stylesheet_get_reference_count:
+ * @self: a #ccss_stylesheet_t.
+ *
+ * Returns: the current reference count of @self.
+ *	    If @self is a nil object, 0 will be returned.
+ **/
+unsigned int
+ccss_stylesheet_get_reference_count (ccss_stylesheet_t const *self)
+{
+	g_return_val_if_fail (self, 0);
+
+	return self->reference_count;
 }
 
 /**
@@ -144,13 +187,22 @@ ccss_stylesheet_destroy (ccss_stylesheet_t *self)
  * Returns: a #ccss_selector_group_t containing the requested information of %NULL.
  **/
 bool
-ccss_stylesheet_query_type (ccss_stylesheet_t const	*self,
-			    char const			*type_name,
-			    ccss_style_t		*style)
+ccss_stylesheet_query_type (ccss_stylesheet_t	*self,
+			    char const		*type_name,
+			    ccss_style_t	*style)
 {
 	ccss_selector_group_t const *group;
 
 	g_assert (self && type_name && self->groups);
+
+	if (style->stylesheet && 
+	    style->stylesheet != self) {
+		g_warning ("style %p already associated to stylesheet %p", 
+			   (void *) style, (void *) self);
+		return false;
+	} else if (NULL == style->stylesheet) {
+		style->stylesheet = ccss_stylesheet_reference (self);
+	}
 
 	group = (ccss_selector_group_t const *) g_hash_table_lookup (self->groups, type_name);
 	if (!group)
@@ -381,7 +433,7 @@ query_container_r (ccss_stylesheet_t const	*self,
  * Returns: %TRUE if styling information has been found.
  **/
 bool
-ccss_stylesheet_query (ccss_stylesheet_t const	*self,
+ccss_stylesheet_query (ccss_stylesheet_t 	*self,
 		       ccss_node_t const	*node, 
 		       ccss_style_t		*style)
 {
@@ -390,6 +442,17 @@ ccss_stylesheet_query (ccss_stylesheet_t const	*self,
 	GQuark				 property_id;
 	ccss_property_base_t const	*property;
 	bool				 ret;
+
+	g_assert (self && node && style);
+
+	if (style->stylesheet && 
+	    style->stylesheet != self) {
+		g_warning ("style %p already associated to stylesheet %p", 
+			   (void *) style, (void *) self);
+		return false;
+	} else if (NULL == style->stylesheet) {
+		style->stylesheet = ccss_stylesheet_reference (self);
+	}
 
 	/* Apply this node's styling. */
 	ret = query_node (self, node, style);

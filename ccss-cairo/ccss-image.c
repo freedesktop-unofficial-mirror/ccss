@@ -156,11 +156,13 @@ load_image (ccss_image_t *self)
 #if CCSS_WITH_SOUP
 	SoupURI		*uri;
 
+	g_return_val_if_fail (self && self->uri, false);
 	uri = soup_uri_new (self->uri);
 	g_return_val_if_fail (uri, NULL);
 	path = uri->path;
 	fragment = uri->fragment;
 #else
+	g_return_val_if_fail (self && self->uri, false);
 	path = g_filename_from_uri (self->uri, NULL, NULL);
 	fragment = NULL;
 #endif

@@ -1,5 +1,24 @@
 2008-12-02  Robert Staudinger  <robsta@gnome.org>
 
+	* HACKING:
+	* ccss-cairo/ccss-image.c (load_image):
+	* ccss-doc/ccss-sections.txt:
+	* ccss-doc/tmpl/stylesheet.sgml:
+	* ccss/ccss-grammar.c (ccss_grammar_create_stylesheet_from_buffer),
+	(ccss_grammar_create_stylesheet_from_file):
+	* ccss/ccss-style-priv.h:
+	* ccss/ccss-style.c (ccss_style_destroy):
+	* ccss/ccss-stylesheet-priv.h:
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_create),
+	(ccss_stylesheet_add_from_file), (ccss_stylesheet_destroy),
+	(ccss_stylesheet_reference), (ccss_stylesheet_get_reference_count),
+	(ccss_stylesheet_query_type), (ccss_stylesheet_query):
+	* ccss/ccss-stylesheet.h:
+	* ccss/ccss.sym:
+	Reference counting for `ccss_stylesheet_t'.
+
+2008-12-02  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo/Makefile.am:
 	* ccss/Makefile.am:
 	* examples/Makefile.am:

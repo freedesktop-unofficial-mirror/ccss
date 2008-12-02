@@ -50,6 +50,10 @@ ccss_style_destroy (ccss_style_t *self)
 {
 	g_return_if_fail (self && self->properties);
 
+	if (self->stylesheet) {
+		ccss_stylesheet_destroy (self->stylesheet), self->stylesheet = NULL;
+	}
+
 	g_hash_table_destroy (self->properties), self->properties = NULL;
 	g_free (self);
 }
