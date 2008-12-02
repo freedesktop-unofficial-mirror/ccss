@@ -1,13 +1,13 @@
 
 AM_CPPFLAGS = \
-	$(CCSS_EXAMPLES_CFLAGS) \
+	-I$(top_builddir) \
 	-I$(top_srcdir) \
-	-I$(top_builddir)
+	$(CCSS_EXAMPLES_CFLAGS)
 
 AM_LDFLAGS = \
-	$(CCSS_EXAMPLES_LIBS) \
 	../ccss/libccss-1.la \
-	../ccss-cairo/libccss-cairo-1.la
+	../ccss-cairo/libccss-cairo-1.la \
+	$(CCSS_EXAMPLES_LIBS)
 
 noinst_PROGRAMS = \
 	example-1 \

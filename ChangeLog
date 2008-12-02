@@ -1,3 +1,10 @@
+2008-12-02  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss-cairo/Makefile.am:
+	* ccss/Makefile.am:
+	* examples/Makefile.am:
+	Move local includes and libs before global ones.
+
 2008-12-01  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss-cairo/ccss-background-parser.c (bg_image_parse),

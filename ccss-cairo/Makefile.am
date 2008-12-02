@@ -1,8 +1,8 @@
 
 AM_CPPFLAGS = \
-	$(CCSS_CAIRO_CFLAGS) \
+	-I$(top_builddir) \
 	-I$(top_srcdir) \
-	-I$(top_builddir)
+	$(CCSS_CAIRO_CFLAGS)
 
 lib_LTLIBRARIES = libccss-cairo-1.la
 
@@ -15,8 +15,8 @@ libccss_cairo_1_la_LDFLAGS = \
 	-export-symbols $(srcdir)/ccss-cairo.sym
 
 libccss_cairo_1_la_LIBADD = \
-	$(CCSS_CAIRO_LIBS) \
-	../ccss/libccss-1.la
+	../ccss/libccss-1.la \
+	$(CCSS_CAIRO_LIBS)
 
 libccss_cairo_1_la_SOURCES = \
 	$(headers_DATA) \

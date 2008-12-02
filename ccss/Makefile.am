@@ -1,8 +1,8 @@
 
 AM_CPPFLAGS = \
-	$(CCSS_CFLAGS) \
+	-I$(top_builddir) \
 	-I$(top_srcdir) \
-	-I$(top_builddir)
+	$(CCSS_CFLAGS)
 
 lib_LTLIBRARIES = libccss-1.la
 
