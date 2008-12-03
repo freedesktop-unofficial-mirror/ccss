@@ -1,5 +1,13 @@
 2008-12-03  Robert Staudinger  <robsta@gnome.org>
 
+	* Makefile.am:
+	* ccss-cairo/ccss-cairo-style.h:
+	* configure.in:
+	* libccss-gtk-1.pc.in:
+	Hook up ccss-gtk with the build system.
+
+2008-12-03  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-gtk/Makefile.am:
 	* ccss-gtk/ccss-gtk-grammar.c (ccss_gtk_grammar_create):
 	* ccss-gtk/ccss-gtk-grammar.h:

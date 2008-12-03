@@ -20,7 +20,6 @@
 #ifndef CCSS_CAIRO_STYLE_H
 #define CCSS_CAIRO_STYLE_H
 
-#include <stdint.h>
 #include <cairo.h>
 #include <ccss/ccss.h>
 

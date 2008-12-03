@@ -39,6 +39,7 @@ m4_define([version_iface],
 AC_SUBST([VERSION_INFO], [version_iface:ccss_version_micro:0])
 
 
+
 ### Checks for configure arguments. ############################################
 
 AC_ARG_ENABLE([debug], 
@@ -67,6 +68,7 @@ AC_ARG_ENABLE([werror],
 ])
 
 
+
 ### Checks for programs. #######################################################
 
 AC_PROG_CC
@@ -91,12 +93,13 @@ GTK_DOC_CHECK([1.0])
 AM_CONDITIONAL(GTK_DOC_INSTALLED, $gtk_doc_installed)
 
 
+
 ### Checks for libraries. ######################################################
+
 
 ### ccss ###
 
-# GObject is needed for GValue.
-ccss_reqs='glib-2.0 gobject-2.0 libcroco-0.6'
+ccss_reqs='glib-2.0 libcroco-0.6'
 ccss_pkgs=
 
 # See http://bugzilla.gnome.org/show_bug.cgi?id=553937 .
@@ -113,93 +116,111 @@ fi
 # Unconditional requirement.
 ccss_pkgs=${ccss_reqs}
 
-PKG_CHECK_MODULES(CCSS, $ccss_pkgs)
+PKG_CHECK_MODULES([CCSS], $ccss_pkgs)
 
 # AC_SUBST([CCSS_CFLAGS]) # set further down
-AC_SUBST([CCSS_LIBS]) # set further down
-AC_SUBST([CCSS_DEPS], $ccss_pkgs) # set further down
+AC_SUBST([CCSS_LIBS])
+AC_SUBST([CCSS_DEPS], $ccss_pkgs)
 
 
 ### ccss-cairo ###
 
-# Guessing a version.
 ccss_cairo_reqs='cairo >= 1.4'
 ccss_cairo_pkgs=
 
-
-PKG_CHECK_EXISTS([ $ccss_cairo_reqs ],
+AC_ARG_ENABLE([ccss-cairo],
+              [AS_HELP_STRING([--disable-ccss-cairo], [disable the build of ccss-cairo.])],
 [
-  with_cairo="yes"
-  ccss_cairo_pkgs="$ccss_cairo_pkgs $ccss_cairo_reqs"
-],[
-  with_cairo="no"
-  # FIXME: conditionalise after ccss-cairo split out.
-  AC_MSG_ERROR([Missing dependency: \`$ccss_cairo_reqs' is required to build libccss.])
+  want_cairo="$enableval"
+], [
+  want_cairo="yes"
 ])
 
-if test "$with_cairo" = "yes"; then
+if test "$want_cairo" = "yes"; then
+  ccss_cairo_pkgs="$ccss_pkgs $ccss_cairo_reqs"
   AC_DEFINE([CCSS_WITH_CAIRO], [1], [Cairo drawing support])
 fi
-AM_CONDITIONAL([CCSS_WITH_CAIRO], [test "$with_cairo" = "yes"])
-AC_SUBST([ccss_with_cairo], [$with_cairo])
+AM_CONDITIONAL([CCSS_WITH_CAIRO], [test "$want_cairo" = "yes"])
+AC_SUBST([ccss_with_cairo], [$want_cairo])
 
-### SVG support, guessing a good rsvg version.
-rsvg_reqs='librsvg-2.0 >= 2.16'
+
+### use librsvg?
+
+ccss_cairo_rsvg_reqs='librsvg-2.0 >= 2.16'
+
 AC_ARG_WITH([rsvg],
             [AS_HELP_STRING([--without-rsvg], [ccss-cairo: do not build SVG image support.])],
 [
-  with_rsvg="$withval"  
+  want_rsvg="$withval"  
 ], [
-  # default
-  with_rsvg="yes"
+  want_rsvg="yes"
 ])
-if test "$with_rsvg" != "no"; then
-  ccss_cairo_pkgs="$ccss_cairo_pkgs $rsvg_reqs"
+
+if test "$want_rsvg" = "yes"; then
+  ccss_cairo_pkgs="$ccss_cairo_pkgs $ccss_cairo_rsvg_reqs"
   AC_DEFINE([CCSS_WITH_RSVG], [1], [SVG support through librsvg])
 fi
-AM_CONDITIONAL([CCSS_WITH_RSVG], [test "$with_rsvg" = "yes"])
-AC_SUBST([ccss_with_rsvg], [$with_rsvg])
+AM_CONDITIONAL([CCSS_WITH_RSVG], [test "$want_rsvg" = "yes"])
+AC_SUBST([ccss_with_rsvg], [$want_rsvg])
 
-### SVG fragment support using libsoup and librsvg-2.0 >= 2.22.4.
-soup_reqs='libsoup-2.4 librsvg-2.0 >= 2.22.4'
 
-# FIXME: default to using it once rsvg is available.
-#AC_ARG_WITH([soup],
-#            [AS_HELP_STRING([--without-soup], [ccss-cairo: do not build SVG fragment support.])],
-#[
-#  with_soup="$withval"  
-#], [
-#  # default
-#  with_soup="yes"
-#])
+### use libsoup?
 
-PKG_CHECK_EXISTS([ $soup_reqs ],
+ccss_cairo_soup_reqs='libsoup-2.4 librsvg-2.0 >= 2.22.4'
+
+AC_ARG_WITH([soup],
+            [AS_HELP_STRING([--without-soup], [ccss-cairo: do not build SVG fragment support.])],
 [
-  with_soup="yes"
-],[
-  with_soup="no"
+  want_soup="$withval"  
+], [
+  want_soup="yes"
 ])
 
-if test "$with_soup" != "no"; then
-  ccss_cairo_pkgs="$ccss_cairo_pkgs $soup_reqs"
+if test "$want_soup" = "yes"; then
+  ccss_cairo_pkgs="$ccss_cairo_pkgs $ccss_cairo_soup_reqs"
   AC_DEFINE([CCSS_WITH_SOUP], [1], [SVG fragment support through libsoup and librsvg-2.0 >= 2.22.4])
 fi
-AM_CONDITIONAL([CCSS_WITH_SOUP], [test "$with_soup" = "yes"])
-AC_SUBST([ccss_with_soup], [$with_soup])
+AM_CONDITIONAL([CCSS_WITH_SOUP], [test "$want_soup" = "yes"])
+AC_SUBST([ccss_with_soup], [$want_soup])
 
 
-with_cairo="yes"
-AC_ARG_WITH([cairo],
-            [AS_HELP_STRING([--without-cairo], [do not build ccss-cairo.])])
-if test "$with_cairo" != "no"; then
-  ccss_cairo_pkgs="$ccss_pkgs $ccss_cairo_pkgs"
-  PKG_CHECK_MODULES(CCSS_CAIRO, $ccss_cairo_pkgs)
-  # AC_SUBST([CCSS_CAIRO_CFLAGS]) ... set further down
-  AC_SUBST([CCSS_CAIRO_LIBS])
-  AC_SUBST([CCSS_CAIRO_DEPS], "$ccss_cairo_pkgs libccss-1")
-else
-  AC_MSG_ERROR([FIXME: cairo is not yet optional.])
+### check
+
+PKG_CHECK_MODULES([CCSS_CAIRO], $ccss_cairo_pkgs)
+
+# AC_SUBST([CCSS_CAIRO_CFLAGS]) # set further down
+AC_SUBST([CCSS_CAIRO_LIBS])
+AC_SUBST([CCSS_CAIRO_DEPS], $ccss_cairo_pkgs)
+
+
+### ccss-gtk ###
+
+ccss_gtk_reqs='gtk+-2.0 >= 2.10'
+ccss_gtk_pkgs=
+
+AC_ARG_ENABLE([ccss-gtk],
+              [AS_HELP_STRING([--disable-ccss-gtk], [disable the build of ccss-gtk.])],
+[
+  want_gtk="$enableval"
+], [
+  want_gtk="yes"
+])
+
+if test "$want_gtk" = "yes"; then
+  ccss_gtk_pkgs="$ccss_cairo_pkgs $ccss_gtk_reqs"
+  AC_DEFINE([CCSS_WITH_GTK], [1], [Gtk+ toolkit support])
 fi
+AM_CONDITIONAL([CCSS_WITH_GTK], [test "$want_gtk" = "yes"])
+AC_SUBST([ccss_with_gtk], [$want_gtk])
+
+
+### check
+
+PKG_CHECK_MODULES([CCSS_GTK], $ccss_gtk_pkgs)
+
+# AC_SUBST([CCSS_GTK_CFLAGS]) # set further down
+AC_SUBST([CCSS_GTK_LIBS])
+AC_SUBST([CCSS_GTK_DEPS], $ccss_gtk_pkgs)
 
 
 ### examples ###
@@ -207,26 +228,28 @@ fi
 ccss_examples_reqs='gtk+-2.0 >= 2.10 librsvg-2.0'
 ccss_examples_pkgs=
 
-PKG_CHECK_EXISTS([ $ccss_examples_reqs ],
+AC_ARG_ENABLE([ccss-examples],
+              [AS_HELP_STRING([--disable-examples], [disable the build of examples.])],
 [
-  with_examples="yes"
-  ccss_examples_pkgs="$ccss_examples_pkgs $ccss_examples_reqs"
-],[
-  with_examples="no"
+  want_examples="$enableval"
+], [
+  want_examples="yes"
 ])
 
-if test "$with_examples" = "yes"; then
-  AC_DEFINE([CCSS_WITH_EXAMPLES], [1], [Build examples])
+if test "$want_examples" = "yes"; then
+  ccss_examples_pkgs="$ccss_cairo_pkgs $ccss_examples_reqs"
+  AC_DEFINE([CCSS_WITH_EXAMPLES], [1], [Build examples.])
 fi
-AM_CONDITIONAL([CCSS_WITH_EXAMPLES], [test "$with_examples" = "yes"])
-AC_SUBST([ccss_with_examples], [$with_examples])
+AM_CONDITIONAL([CCSS_WITH_EXAMPLES], [test "$want_examples" = "yes"])
+AC_SUBST([ccss_with_examples], [$want_examples])
 
-if test "$with_examples" = "yes"; then
-  ccss_examples_pkgs="$ccss_cairo_pkgs $ccss_examples_pkgs"
-  PKG_CHECK_MODULES(CCSS_EXAMPLES, $ccss_examples_pkgs)
-fi
+### check
+
+PKG_CHECK_MODULES([CCSS_EXAMPLES], $ccss_examples_pkgs)
+
 # AC_SUBST([CCSS_EXAMPLES_CFLAGS]) # set further down
 AC_SUBST([CCSS_EXAMPLES_LIBS])
+AC_SUBST([CCSS_EXAMPLES_DEPS], $ccss_examples_pkgs)
 
 
 
@@ -234,6 +257,7 @@ AC_SUBST([CCSS_EXAMPLES_LIBS])
 
 AC_HEADER_STDC
 AC_CHECK_HEADERS([stdbool.h stddef.h stdint.h stdio.h stdlib.h string.h])
+
 
 
 ### Checks for typedefs, structures, and compiler characteristics. #############
@@ -272,6 +296,9 @@ AC_SUBST([CCSS_CFLAGS])
 CCSS_CAIRO_CFLAGS="${CCSS_CAIRO_CFLAGS} ${extra_cflags}"
 AC_SUBST([CCSS_CAIRO_CFLAGS])
 
+CCSS_GTK_CFLAGS="${CCSS_GTK_CFLAGS} ${extra_cflags}"
+AC_SUBST([CCSS_GTK_CFLAGS])
+
 CCSS_EXAMPLES_CFLAGS="${CCSS_EXAMPLES_CFLAGS} ${extra_cflags}"
 AC_SUBST([CCSS_EXAMPLES_CFLAGS])
 
@@ -288,6 +315,9 @@ AC_CONFIG_FILES([
   ccss-cairo-doc/Makefile
   ccss-cairo-doc/version.xml
 
+  libccss-gtk-1.pc
+  ccss-gtk/Makefile
+
   examples/Makefile
 ])
 AC_OUTPUT
@@ -302,10 +332,12 @@ Configuration:
 ccss:                            yes
     Workaround for #553937       $enable_libcroco_workaround (see bugzilla.gnome.org)
 
-ccss-cairo:                      $with_cairo
-    Support for SVG images       $with_rsvg (requires $rsvg_reqs)
-    Support for SVG fragments    $with_soup (requires $soup_reqs)
+ccss-cairo:                      $want_cairo (requires $ccss_cairo_reqs)
+    Support for SVG images       $want_rsvg (requires $ccss_cairo_rsvg_reqs)
+    Support for SVG fragments    $want_soup (requires $ccss_cairo_soup_reqs)
 
-examples:                        $with_examples (requires $ccss_examples_reqs)
+ccss-gtk:                        $want_gtk (requires $ccss_gtk_reqs)
+
+examples:                        $want_examples (requires $ccss_examples_reqs)
 "
 
