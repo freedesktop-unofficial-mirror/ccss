@@ -1,3 +1,15 @@
+2008-12-03  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss-gtk/Makefile.am:
+	* ccss-gtk/ccss-gtk-grammar.c (ccss_gtk_grammar_create):
+	* ccss-gtk/ccss-gtk-grammar.h:
+	* ccss-gtk/ccss-gtk-style.c (ccss_gtk_style_serialize):
+	* ccss-gtk/ccss-gtk-style.h:
+	* ccss-gtk/ccss-gtk.c (ccss_gtk_init), (ccss_gtk_shutdown):
+	* ccss-gtk/ccss-gtk.h:
+	* ccss-gtk/ccss-gtk.sym:
+	Skeleton implementation for gtk support, not in the build chain yet.
+
 2008-12-02  Robert Staudinger  <robsta@gnome.org>
 
 	* HACKING:

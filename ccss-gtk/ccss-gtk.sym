@@ -1,0 +1,4 @@
+ccss_gtk_init
+ccss_gtk_shutdown
+ccss_gtk_grammar_create
+ccss_gtk_style_serialize
