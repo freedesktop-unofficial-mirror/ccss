@@ -1,5 +1,16 @@
 2008-12-04  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-gtk/Makefile.am:
+	* ccss-gtk/ccss-gtk-properties.c:
+	* ccss-gtk/ccss-gtk-properties.h:
+	* ccss-gtk/ccss-gtk-grammar.c:
+	Move gtkrc-property handling to ccss-gtk/ccss-gtk-grammar.c.
+
+	* ccss/ccss-property-generic.c: Implement generic properties through
+	a factory.
+
+2008-12-04  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo/ccss-background-parser.c (background_factory):
 	* ccss-cairo/ccss-border-parser.c (border_color_factory),
 	(border_factory), (border_left_factory), (border_top_factory),
