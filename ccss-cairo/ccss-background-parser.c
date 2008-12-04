@@ -225,6 +225,7 @@ bg_size_parse (ccss_background_size_t	 *self,
 static bool
 background_factory (ccss_grammar_t const	*grammar,
 		    ccss_block_t		*self,
+		    char const			*name,
 		    CRTerm const		*values,
 		    void			*user_data)
 {

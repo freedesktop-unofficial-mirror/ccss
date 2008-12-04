@@ -101,6 +101,7 @@ typedef bool (*ccss_property_convert_f) (ccss_property_base_t const	*self,
  * ccss_property_factory_f:
  * @grammar:	the grammar associated with this property.
  * @block:	the #ccss_block_t the properties will be associated to.
+ * @name:	name of the property.
  * @values:	libcroco CSS values to parse for the property, see #CRTerm.
  * @user_data:	user data passed to property- or function-handler.
  *
@@ -110,6 +111,7 @@ typedef bool (*ccss_property_convert_f) (ccss_property_base_t const	*self,
  **/
 typedef bool (*ccss_property_factory_f) (struct ccss_grammar_ const	*grammar,
 					 struct ccss_block_		*block,
+					 char const			*name,
 					 CRTerm const			*values,
 					 void				*user_data);
 

@@ -1,5 +1,18 @@
 2008-12-04  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/ccss-background-parser.c (background_factory):
+	* ccss-cairo/ccss-border-parser.c (border_color_factory),
+	(border_factory), (border_left_factory), (border_top_factory),
+	(border_right_factory), (border_bottom_factory),
+	(border_radius_factory):
+	* ccss-doc/tmpl/node.sgml:
+	* ccss-doc/tmpl/property.sgml:
+	* ccss/ccss-grammar-parse.c (property_cb):
+	* ccss/ccss-property.h:
+	Pass the property name to the factory function.
+
+2008-12-04  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-doc/ccss-sections.txt:
 	* ccss-doc/tmpl/grammar.sgml:
 	* ccss-gtk/Makefile.am:

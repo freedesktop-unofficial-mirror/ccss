@@ -325,7 +325,8 @@ property_cb (CRDocHandler	*handler,
 
 	if (property_class->property_factory) {
 		property_class->property_factory (info->grammar, block,
-						  values, info->user_data);
+						  property_name, values,
+						  info->user_data);
 	} else if (property_class->property_create) {
 		property = property_class->property_create (info->grammar,
 							    values,

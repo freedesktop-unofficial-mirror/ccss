@@ -182,6 +182,7 @@ parse_radius (CRTerm const		**value,
 static bool
 border_color_factory (ccss_grammar_t const	*grammar,
 		      ccss_block_t		*self,
+		      char const		*name,
 		      CRTerm const		*values,
 		      void			*user_data)
 {
@@ -652,9 +653,12 @@ border_factory_impl (ccss_grammar_t const	*grammar,
 	return false;
 }
 
+/* FIXME: make use of property names being passed now. */
+
 static bool
 border_factory (ccss_grammar_t const	*grammar,
 		ccss_block_t		*self,
+		char const		*name,
 		CRTerm const		*values,
 		void			*user_data)
 {
@@ -665,6 +669,7 @@ border_factory (ccss_grammar_t const	*grammar,
 static bool
 border_left_factory (ccss_grammar_t const	*grammar,
 		     ccss_block_t		*self,
+		     char const			*name,
 		     CRTerm const		*values,
 		     void			*user_data)
 {
@@ -675,6 +680,7 @@ border_left_factory (ccss_grammar_t const	*grammar,
 static bool
 border_top_factory (ccss_grammar_t const	*grammar,
 		    ccss_block_t		*self,
+		    char const			*name,
 		    CRTerm const		*values,
 		    void			*user_data)
 {
@@ -685,6 +691,7 @@ border_top_factory (ccss_grammar_t const	*grammar,
 static bool
 border_right_factory (ccss_grammar_t const	*grammar,
 		      ccss_block_t		*self,
+		      char const		*name,
 		      CRTerm const		*values,
 		      void			*user_data)
 {
@@ -695,6 +702,7 @@ border_right_factory (ccss_grammar_t const	*grammar,
 static bool
 border_bottom_factory (ccss_grammar_t const	*grammar,
 		       ccss_block_t		*self,
+		       char const		*name,
 		       CRTerm const		*values,
 		       void			*user_data)
 {
@@ -839,6 +847,7 @@ border_radius_create (ccss_grammar_t const	*grammar,
 static bool
 border_radius_factory (ccss_grammar_t const	*grammar,
 		       ccss_block_t		*self,
+		       char const		*name,
 		       CRTerm const		*values,
 		       void			*user_data)
 {
