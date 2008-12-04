@@ -66,6 +66,16 @@ ccss_grammar_t
 @properties: 
 
 
+<!-- ##### FUNCTION ccss_grammar_lookup_property ##### -->
+<para>
+
+</para>
+
+@self: 
+@name: 
+@Returns: 
+
+
 <!-- ##### FUNCTION ccss_grammar_add_functions ##### -->
 <para>
 
@@ -73,6 +83,16 @@ ccss_grammar_t
 
 @self: 
 @functions: 
+
+
+<!-- ##### FUNCTION ccss_grammar_lookup_function ##### -->
+<para>
+
+</para>
+
+@self: 
+@name: 
+@Returns: 
 
 
 <!-- ##### FUNCTION ccss_grammar_create_stylesheet_from_buffer ##### -->

@@ -46,9 +46,17 @@ void
 ccss_grammar_add_properties	(ccss_grammar_t			*self,
 				 ccss_property_class_t const	*properties);
 
+ccss_property_class_t const *
+ccss_grammar_lookup_property	(ccss_grammar_t const		*self,
+				 char const			*name);
+
 void
 ccss_grammar_add_functions	(ccss_grammar_t			*self,
 				 ccss_function_t const		*functions);
+
+ccss_function_t const *
+ccss_grammar_lookup_function	(ccss_grammar_t const		*self,
+				 char const			*name);
 
 ccss_stylesheet_t *
 ccss_grammar_create_stylesheet_from_buffer	(ccss_grammar_t	*self,

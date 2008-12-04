@@ -22,6 +22,8 @@ libccss_gtk_1_la_SOURCES = \
 	$(headers_DATA) \
 	ccss-gtk.c \
 	ccss-gtk-grammar.c \
+	ccss-gtk-properties.c \
+	ccss-gtk-properties.h \
 	ccss-gtk-style.c
 
 headersdir = $(includedir)/libccss-1/ccss-gtk

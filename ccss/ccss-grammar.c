@@ -130,6 +130,25 @@ ccss_grammar_add_properties (ccss_grammar_t			*self,
 }
 
 /**
+ * ccss_grammar_lookup_property:
+ * @self:	a #ccss_grammar_t.
+ * @name:	name of the property class to look  up.
+ *
+ * Look up a property handler by name.
+ *
+ * Returns: the property handler or %NULL if not found.
+ **/
+ccss_property_class_t const *
+ccss_grammar_lookup_property (ccss_grammar_t const	*self,
+			      char const		*name)
+{
+	g_return_val_if_fail (self, NULL);
+
+	return (ccss_property_class_t const *) 
+			g_hash_table_lookup (self->properties, name);
+}
+
+/**
  * ccss_grammar_add_functions:
  * @functions:	Null-terminated array of #ccss_function_t to register.
  *
@@ -150,6 +169,25 @@ ccss_grammar_add_functions (ccss_grammar_t		*self,
 				     (gpointer) functions[i].name,
 				     (gpointer) &functions[i]);
 	}
+}
+
+/**
+ * ccss_grammar_lookup_function:
+ * @self:	a #ccss_grammar_t.
+ * @name:	name of the function handler to look  up.
+ *
+ * Look up a function handler by name.
+ *
+ * Returns: the property handler or %NULL if not found.
+ **/
+ccss_function_t const *
+ccss_grammar_lookup_function (ccss_grammar_t const	*self,
+			      char const		*name)
+{
+	g_return_val_if_fail (self, NULL);
+
+	return (ccss_function_t const *) 
+			g_hash_table_lookup (self->functions, name);
 }
 
 /**

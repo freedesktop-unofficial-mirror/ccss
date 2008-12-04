@@ -1,3 +1,16 @@
+2008-12-04  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss-doc/ccss-sections.txt:
+	* ccss-doc/tmpl/grammar.sgml:
+	* ccss-gtk/Makefile.am:
+	* ccss-gtk/ccss-gtk-properties.c:
+	* ccss-gtk/ccss-gtk-properties.h:
+	* ccss/ccss-grammar.c (ccss_grammar_lookup_property),
+	(ccss_grammar_lookup_function):
+	* ccss/ccss-grammar.h:
+	* ccss/ccss.sym:
+	API to query property- and function-handlers.
+
 2008-12-03  Robert Staudinger  <robsta@gnome.org>
 
 	* Makefile.am:
