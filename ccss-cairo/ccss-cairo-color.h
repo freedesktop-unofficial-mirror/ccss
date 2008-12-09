@@ -1,4 +1,4 @@
-/* The Gtk+ CSS Drawing Library.
+/* The Cairo CSS Drawing Library.
  * Copyright (C) 2008 Robert Staudinger
  *
  * This  library is free  software; you can  redistribute it and/or
@@ -17,40 +17,46 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_GTK_GRAMMAR_H
-#define CCSS_GTK_GRAMMAR_H
+#ifndef CCSS_CAIRO_COLOR_H
+#define CCSS_CAIRO_COLOR_H
 
+#include <stdbool.h>
+#include <libcroco/libcroco.h>
 #include <ccss/ccss.h>
-#include <gtk/gtk.h>
 
 CCSS_BEGIN_DECLS
 
-/*  */
-
 typedef struct {
-	ccss_property_base_t	 base;
-	char			*class_name;
-	char			*property_name;
-	GType			 gtype;
-	union {
-		gboolean		gboolean_val;
-		gchararray		gchararray_val;
-		gfloat			gfloat_val;
-		gint			gint_val;
-		guchar			guchar_val;
-		GdkColor		gdkcolor_val;
-		GtkBorder		gtkborder_val;
-		GtkReliefStyle		gtkreliefstyle_val;
-		GtkRequisition		gtkrequisition_val;
-		GtkShadowType		gtkshadowtype_val;
-		GtkToolbarSpaceStyle	gtktoolbarspacestyle_val;
-	} content;
-} ccss_gtk_property_t;
+	ccss_property_base_t	base;
 
-ccss_grammar_t *
-ccss_gtk_grammar_create (void);
+	double			red;
+	double			green;
+	double			blue;
+} ccss_cairo_color_t;
+
+ccss_property_base_t *
+ccss_cairo_color_create (ccss_grammar_t const	*grammar,
+			 CRTerm const		*value,
+			 void			*user_data);
+
+void
+ccss_cairo_color_destroy (ccss_cairo_color_t *self);
+
+bool
+ccss_cairo_color_convert (ccss_cairo_color_t const	*property,
+			  ccss_property_type_t		 target,
+			  void				*value);
+
+bool
+ccss_cairo_color_parse (ccss_cairo_color_t	 *self,
+			ccss_grammar_t const	 *grammar,
+			void			 *user_data,
+			CRTerm const		**values);
+
+ccss_property_class_t const *
+ccss_cairo_color_get_ptable (void);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_GTK_GRAMMAR_H */
+#endif /* CCSS_CAIRO_COLOR_H */
 

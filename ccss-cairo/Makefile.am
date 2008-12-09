@@ -39,8 +39,8 @@ libccss_cairo_1_la_SOURCES = \
 	ccss-cairo-style.c \
 	ccss-cairo-style.h \
 	ccss-cairo-style-priv.h \
-	ccss-color.c \
-	ccss-color.h \
+	ccss-cairo-color.c \
+	ccss-cairo-color-priv.h \
 	ccss-image.c \
 	ccss-image.h \
 	ccss-position.c \
@@ -50,6 +50,7 @@ headersdir = $(includedir)/libccss-1/ccss-cairo
 
 headers_DATA = \
 	ccss-cairo.h \
+	ccss-cairo-color.h \
 	ccss-cairo-grammar.h \
 	ccss-cairo-style.h
 

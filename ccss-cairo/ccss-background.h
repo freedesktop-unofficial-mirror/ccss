@@ -25,7 +25,7 @@
 #include <cairo.h>
 #include <libcroco/libcroco.h>
 #include <ccss/ccss.h>
-#include <ccss-cairo/ccss-color.h>
+#include <ccss-cairo/ccss-cairo-color.h>
 #include <ccss-cairo/ccss-image.h>
 #include <ccss-cairo/ccss-position.h>
 
@@ -75,7 +75,7 @@ typedef struct {
 	ccss_property_base_t		base;
 
 	ccss_background_attachment_t	bg_attachment;
-	ccss_color_t			bg_color;
+	ccss_cairo_color_t			bg_color;
 	ccss_background_image_t		bg_image;
 	ccss_background_position_t	bg_position;
 	ccss_background_repeat_t		bg_repeat;
@@ -83,7 +83,7 @@ typedef struct {
 } ccss_background_t;
 
 void ccss_background_fill (ccss_background_attachment_t const *bg_attachment, 
-			  ccss_color_t const *bg_color,
+			  ccss_cairo_color_t const *bg_color,
 			  ccss_background_image_t const *bg_image,
 			  ccss_background_position_t const *bg_position,
 			  ccss_background_repeat_t const *bg_repeat,

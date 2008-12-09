@@ -38,7 +38,7 @@ typedef struct {
 	ccss_background_image_t const		*bg_image;
 	ccss_background_position_t const	*bg_position;
 	ccss_background_repeat_t const		*bg_repeat;
-	ccss_color_t const			*bg_color;
+	ccss_cairo_color_t const			*bg_color;
 } background_property_t;
 
 static ccss_property_class_t const *
@@ -230,7 +230,7 @@ background_factory (ccss_grammar_t const	*grammar,
 		    void			*user_data)
 {
 	ccss_background_attachment_t	*bg_attachment,	bga;
-	ccss_color_t			*bg_color,	bgc;
+	ccss_cairo_color_t			*bg_color,	bgc;
 	ccss_background_image_t		*bg_image,	bgi;
 	ccss_background_position_t	*bg_position,	bgp;
 	ccss_background_repeat_t	*bg_repeat,	bgr;
@@ -254,9 +254,9 @@ background_factory (ccss_grammar_t const	*grammar,
 	/* PONDERING: also support `background-size' here, but let's stick
 	 * to CSS2 for now. */
 	ccss_property_init (&bgc.base, peek_property_class ("background-color"));
-	ret = ccss_color_parse (&bgc, grammar, user_data, &values);
+	ret = ccss_cairo_color_parse (&bgc, grammar, user_data, &values);
 	if (ret) {
-		bg_color = g_new0 (ccss_color_t, 1);
+		bg_color = g_new0 (ccss_cairo_color_t, 1);
 		*bg_color = bgc;
 		ccss_block_add_property (self, "background-color", &bg_color->base);
 		have_bg_properties = true;
@@ -603,9 +603,9 @@ static ccss_property_class_t const _ptable[] = {
 	.property_inherit = NULL
     }, {
 	.name = "background-color",
-	.property_create = ccss_color_create,
+	.property_create = ccss_cairo_color_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) ccss_color_convert,
+	.property_convert = (ccss_property_convert_f) ccss_cairo_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {

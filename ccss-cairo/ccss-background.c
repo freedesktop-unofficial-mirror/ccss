@@ -151,7 +151,7 @@ no_repeat (ccss_background_image_t const	*bg_image,
  **/
 void
 ccss_background_fill (ccss_background_attachment_t const	*bg_attachment, 
-		     ccss_color_t const			*bg_color,
+		     ccss_cairo_color_t const			*bg_color,
 		     ccss_background_image_t const	*bg_image,
 		     ccss_background_position_t const	*bg_position,
 		     ccss_background_repeat_t const	*bg_repeat,

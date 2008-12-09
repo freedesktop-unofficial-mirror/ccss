@@ -123,7 +123,7 @@ ccss_cairo_style_draw_line (ccss_style_t const	*self,
 	ccss_border_stroke_t		 stroke;
 	double				 off;
 
-	stroke.color = (ccss_color_t *) lookup_property_r (self,
+	stroke.color = (ccss_cairo_color_t *) lookup_property_r (self,
 						CCSS_PROPERTY_BORDER_COLOR);
 	if (NULL == stroke.color) {
 		stroke.color = NULL;
@@ -161,14 +161,14 @@ ccss_cairo_style_draw_line (ccss_style_t const	*self,
 static void
 gather_stroke (ccss_style_t const		*self,
 	       GQuark				 color_prop,
-	       ccss_color_t const		*color_fallback,
+	       ccss_cairo_color_t const		*color_fallback,
 	       GQuark				 style_prop,
 	       ccss_border_style_t const	*style_fallback,
 	       GQuark				 width_prop,
 	       ccss_border_width_t const	*width_fallback,
 	       ccss_border_stroke_t		*stroke)
 {
-	stroke->color = (ccss_color_t *) lookup_property_r (self, color_prop);
+	stroke->color = (ccss_cairo_color_t *) lookup_property_r (self, color_prop);
 	if (NULL == stroke->color) {
 		stroke->color = color_fallback;
 	}
@@ -251,7 +251,7 @@ gather_outline (ccss_style_t const		 *self,
 static void
 gather_background (ccss_style_t const			 *self,
 		   ccss_background_attachment_t const	**bg_attachment, 
-		   ccss_color_t const			**bg_color,
+		   ccss_cairo_color_t const			**bg_color,
 		   ccss_background_image_t const	**bg_image,
 		   ccss_background_position_t const	**bg_position,
 		   ccss_background_repeat_t const	**bg_repeat,
@@ -264,7 +264,7 @@ gather_background (ccss_style_t const			 *self,
 	if (!*bg_attachment)
 		*bg_attachment = NULL;
 
-	*bg_color = (ccss_color_t const *)
+	*bg_color = (ccss_cairo_color_t const *)
 		g_hash_table_lookup (
 			self->properties,
 			(gpointer) CCSS_PROPERTY_BACKGROUND_COLOR);
@@ -364,7 +364,7 @@ ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 	ccss_border_image_t const	*border_image;
 
 	ccss_background_attachment_t const	*bg_attachment;
-	ccss_color_t const			*bg_color;
+	ccss_cairo_color_t const			*bg_color;
 	ccss_background_image_t const		*bg_image;
 	ccss_background_position_t const	*bg_position;
 	ccss_background_repeat_t const		*bg_repeat;
@@ -458,7 +458,7 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 	ccss_border_join_t const	*tr;
 
 	ccss_background_attachment_t const	*bg_attachment;
-	ccss_color_t const			*bg_color;
+	ccss_cairo_color_t const			*bg_color;
 	ccss_background_image_t const		*bg_image;
 	ccss_background_position_t const	*bg_position;
 	ccss_background_repeat_t const		*bg_repeat;

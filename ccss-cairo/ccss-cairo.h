@@ -21,6 +21,7 @@
 #define CCSS_CAIRO_H
 
 #include <ccss/ccss.h>
+#include <ccss-cairo/ccss-cairo-color.h>
 #include <ccss-cairo/ccss-cairo-grammar.h>
 #include <ccss-cairo/ccss-cairo-style.h>
 

@@ -24,7 +24,7 @@
 #include <stdint.h>
 #include <cairo.h>
 #include <ccss/ccss.h>
-#include <ccss-cairo/ccss-color.h>
+#include <ccss-cairo/ccss-cairo-color.h>
 
 CCSS_BEGIN_DECLS
 
@@ -67,7 +67,7 @@ typedef struct {
 } ccss_border_width_t;
 
 typedef struct {
-	ccss_color_t const *		color;
+	ccss_cairo_color_t const *		color;
 	ccss_border_style_t const *	style;
 	ccss_border_width_t const *	width;
 } ccss_border_stroke_t; 

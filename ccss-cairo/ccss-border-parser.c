@@ -28,7 +28,7 @@
 #define INSERT_BORDER_COLOR(block_, prop_name_, prop_, prop_ptr_)	       \
 	G_STMT_START {							       \
 	prop_.base.property_class = peek_property_class (prop_name_);	       \
-	prop_ptr_ = g_new0 (ccss_color_t, 1);				       \
+	prop_ptr_ = g_new0 (ccss_cairo_color_t, 1);				       \
 	*prop_ptr_ = prop_;						       \
 	ccss_block_add_property (block_, prop_name_, &prop_ptr_->base);	       \
 	} G_STMT_END
@@ -68,7 +68,7 @@ typedef struct {
 	ccss_property_base_t	 base;
 	ccss_border_width_t	*width;
 	ccss_border_style_t	*style;
-	ccss_color_t const	*color;
+	ccss_cairo_color_t const	*color;
 } border_property_t;
 
 /*!
@@ -187,15 +187,15 @@ border_color_factory (ccss_grammar_t const	*grammar,
 		      void			*user_data)
 {
 	CRTerm const	*iter;
-	ccss_color_t	 c, c0, c1, c2, c3;
-	ccss_color_t	*color;
+	ccss_cairo_color_t	 c, c0, c1, c2, c3;
+	ccss_cairo_color_t	*color;
 
 	/* If `border-color: inherit;' then insert a dummy. */
 	memset (&c, 0, sizeof (c));
 	ccss_property_init (&c.base, peek_property_class ("border-color"));
 	c.base.state = ccss_property_parse_state (&values);
 	if (c.base.state == CCSS_PROPERTY_STATE_INHERIT) {
-		color = g_new0 (ccss_color_t, 1);
+		color = g_new0 (ccss_cairo_color_t, 1);
 		*color = c;
 		ccss_block_add_property (self, "border-color", &color->base);
 		return true;
@@ -207,10 +207,10 @@ border_color_factory (ccss_grammar_t const	*grammar,
 	memset (&c3, 0, sizeof (c3));
 
 	iter = values;
-	if (iter) { ccss_color_parse (&c0, grammar, user_data, &iter); }
-	if (iter) { ccss_color_parse (&c1, grammar, user_data, &iter); }
-	if (iter) { ccss_color_parse (&c2, grammar, user_data, &iter); }
-	if (iter) { ccss_color_parse (&c3, grammar, user_data, &iter); }
+	if (iter) { ccss_cairo_color_parse (&c0, grammar, user_data, &iter); }
+	if (iter) { ccss_cairo_color_parse (&c1, grammar, user_data, &iter); }
+	if (iter) { ccss_cairo_color_parse (&c2, grammar, user_data, &iter); }
+	if (iter) { ccss_cairo_color_parse (&c3, grammar, user_data, &iter); }
 
 	if (CCSS_PROPERTY_STATE_INVALID == c0.base.state) {
 
@@ -584,7 +584,7 @@ border_factory_impl (ccss_grammar_t const	*grammar,
 {
 	CRTerm const		*iter;
 	border_property_t	*border, b;
-	ccss_color_t		 c;
+	ccss_cairo_color_t		 c;
 	ccss_border_style_t	 s;
 	ccss_border_width_t	 w;
 	char			*property_name;
@@ -612,12 +612,12 @@ border_factory_impl (ccss_grammar_t const	*grammar,
 	}
 
 	if (iter) {
-		ccss_color_parse (&c, grammar, user_data, &iter);
+		ccss_cairo_color_parse (&c, grammar, user_data, &iter);
 	}
 
 	if (c.base.state != CCSS_PROPERTY_STATE_INVALID) { 
 
-		ccss_color_t *color = NULL;
+		ccss_cairo_color_t *color = NULL;
 		property_name = g_strdup_printf ("%s-color", property_prefix);
 		INSERT_BORDER_COLOR (self, property_name, c, color);
 		g_free (property_name), property_name = NULL;
@@ -1108,9 +1108,9 @@ static ccss_property_class_t const _ptable[] = {
 	.property_inherit = border_radius_inherit
     }, {
 	.name = "border-left-color",
-	.property_create = ccss_color_create,
+	.property_create = ccss_cairo_color_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) ccss_color_convert,
+	.property_convert = (ccss_property_convert_f) ccss_cairo_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
@@ -1129,9 +1129,9 @@ static ccss_property_class_t const _ptable[] = {
 	.property_inherit = NULL
     }, {
 	.name = "border-top-color",
-	.property_create = ccss_color_create,
+	.property_create = ccss_cairo_color_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) ccss_color_convert,
+	.property_convert = (ccss_property_convert_f) ccss_cairo_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
@@ -1150,9 +1150,9 @@ static ccss_property_class_t const _ptable[] = {
 	.property_inherit = NULL
     }, {
 	.name = "border-right-color",
-	.property_create = ccss_color_create,
+	.property_create = ccss_cairo_color_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) ccss_color_convert,
+	.property_convert = (ccss_property_convert_f) ccss_cairo_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
@@ -1171,9 +1171,9 @@ static ccss_property_class_t const _ptable[] = {
 	.property_inherit = NULL
     }, {
 	.name = "border-bottom-color",
-	.property_create = ccss_color_create,
+	.property_create = ccss_cairo_color_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) ccss_color_convert,
+	.property_convert = (ccss_property_convert_f) ccss_cairo_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
@@ -1222,7 +1222,7 @@ static ccss_property_class_t const _ptable[] = {
 	.name = "border-color",
 	.property_create = NULL,
 	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) ccss_color_convert,
+	.property_convert = (ccss_property_convert_f) ccss_cairo_color_convert,
 	.property_factory = (ccss_property_factory_f) border_color_factory,
 	.property_inherit = border_color_inherit
     }, {

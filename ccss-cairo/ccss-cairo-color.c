@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include "ccss-color.h"
+#include "ccss-cairo-color-priv.h"
 #include "config.h"
 
 static ccss_property_class_t const *
@@ -34,7 +34,7 @@ peek_property_class (void);
 
 static const struct {
 	char const		*name;
-	const ccss_color_t	color;
+	const ccss_cairo_color_t	color;
 } _color_map[] = {
   { "aliceblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xf0/255., 0xf8/255., 0xff/255. } },
   { "antiquewhite",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xfa/255., 0xeb/255., 0xd7/255. } },
@@ -186,7 +186,7 @@ static const struct {
 };
 
 static bool
-parse_name (ccss_color_t	*self,
+parse_name (ccss_cairo_color_t	*self,
 	    char const	*css_color_name)
 {
 	g_return_val_if_fail (css_color_name && self, false);
@@ -223,7 +223,7 @@ hex (char const		*color,
 }
 
 static bool
-parse_hex (ccss_color_t	*self,
+parse_hex (ccss_cairo_color_t	*self,
 	   char const	*color)
 {
 	size_t		len;
@@ -262,7 +262,7 @@ parse_hex (ccss_color_t	*self,
 }
 
 bool
-ccss_color_parse (ccss_color_t		 *self,
+ccss_cairo_color_parse (ccss_cairo_color_t		 *self,
 		  ccss_grammar_t const	 *grammar,
 		  void			 *user_data,
 		  CRTerm const		**value)
@@ -354,17 +354,17 @@ bail:
 }
 
 ccss_property_base_t *
-ccss_color_create (ccss_grammar_t const *grammar,
+ccss_cairo_color_create (ccss_grammar_t const *grammar,
 		   CRTerm const		*value,
 		   void			*user_data)
 {
-	ccss_color_t	*self, c;
+	ccss_cairo_color_t	*self, c;
 	bool		 ret;
 
-	ret = ccss_color_parse (&c, grammar, user_data, &value);
+	ret = ccss_cairo_color_parse (&c, grammar, user_data, &value);
 	if (ret) {
 		c.base.property_class = peek_property_class ();
-		self = g_new0 (ccss_color_t, 1);
+		self = g_new0 (ccss_cairo_color_t, 1);
 		*self = c;
 		return &self->base;
 	}
@@ -373,7 +373,7 @@ ccss_color_create (ccss_grammar_t const *grammar,
 }
 
 void
-ccss_color_destroy (ccss_color_t *self)
+ccss_cairo_color_destroy (ccss_cairo_color_t *self)
 {
 	g_return_if_fail (self);
 
@@ -381,7 +381,7 @@ ccss_color_destroy (ccss_color_t *self)
 }
 
 bool
-ccss_color_convert (ccss_color_t const		*property,
+ccss_cairo_color_convert (ccss_cairo_color_t const		*property,
 		    ccss_property_type_t	 target,
 		    void			*value)
 {
@@ -400,9 +400,9 @@ ccss_color_convert (ccss_color_t const		*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "color",
-	.property_create = ccss_color_create,
+	.property_create = ccss_cairo_color_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) ccss_color_convert,
+	.property_convert = (ccss_property_convert_f) ccss_cairo_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
@@ -417,7 +417,7 @@ peek_property_class (void)
 }
 
 ccss_property_class_t const *
-ccss_color_get_ptable (void)
+ccss_cairo_color_get_ptable (void)
 {
 	return _ptable;
 }

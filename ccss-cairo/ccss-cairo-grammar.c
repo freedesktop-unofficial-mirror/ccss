@@ -21,7 +21,7 @@
 #include "ccss-border-parser.h"
 #include "ccss-border-image-parser.h"
 #include "ccss-cairo-grammar.h"
-#include "ccss-color.h"
+#include "ccss-cairo-color.h"
 
 /**
  * ccss_cairo_grammar_create:
@@ -43,7 +43,7 @@ ccss_cairo_grammar_create (void)
 	ccss_grammar_add_properties (self, ccss_background_get_ptable ());
 	ccss_grammar_add_properties (self, ccss_border_get_ptable ());
 	ccss_grammar_add_properties (self, ccss_border_image_get_ptable ());
-	ccss_grammar_add_properties (self, ccss_color_get_ptable ());
+	ccss_grammar_add_properties (self, ccss_cairo_color_get_ptable ());
 
 	return self;
 }

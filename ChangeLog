@@ -1,3 +1,38 @@
+2008-12-09  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss-cairo/Makefile.am:
+	* ccss-cairo/ccss-cairo-color-priv.h:
+	* ccss-cairo/ccss-background-parser.c (background_factory):
+	* ccss-cairo/ccss-background.c (ccss_background_fill):
+	* ccss-cairo/ccss-background.h:
+	* ccss-cairo/ccss-border-parser.c (border_color_factory),
+	(border_factory_impl):
+	* ccss-cairo/ccss-border.h:
+	* ccss-cairo/ccss-cairo-color.c (parse_name), (hex), (parse_hex),
+	(ccss_cairo_color_parse), (ccss_cairo_color_create),
+	(ccss_cairo_color_destroy), (ccss_cairo_color_convert),
+	(peek_property_class), (ccss_cairo_color_get_ptable):
+	* ccss-cairo/ccss-cairo-color.h:
+	* ccss-cairo/ccss-cairo-grammar.c (ccss_cairo_grammar_create):
+	* ccss-cairo/ccss-cairo-style.c (ccss_cairo_style_draw_line),
+	(gather_stroke), (gather_background),
+	(ccss_cairo_style_draw_rectangle),
+	(ccss_cairo_style_draw_rectangle_with_gap):
+	* ccss-cairo/ccss-cairo.h:
+	* ccss-cairo/ccss-color.c:
+	* ccss-cairo/ccss-color.h:
+	Split out public ccss-cairo-color.h.
+
+	* ccss-gtk/ccss-gtk-grammar.c (parse_gboolean), (parse_gchararray),
+	(parse_gfloat), (parse_gint), (parse_guchar), (parse_gdk_color),
+	(parse_gtk_border), (parse_gtk_relief_style),
+	(parse_gtk_requisition), (parse_gtk_shadow_type),
+	(parse_gtk_toolbar_space_style), (parse_gtk_style_property),
+	(property_destroy), (property_factory), (peek_property_class),
+	(ccss_gtk_grammar_create):
+	* ccss-gtk/ccss-gtk-grammar.h:
+	Work towards parsing gtk style properties.
+
 2008-12-04  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss-gtk/Makefile.am:
