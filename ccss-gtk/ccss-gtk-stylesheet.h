@@ -17,13 +17,17 @@
  * MA 02110-1301, USA.
  */
 
-#include "ccss-gtk-style.h"
-#include "config.h"
+#ifndef CCSS_GTK_STYLESHEET_H
+#define CCSS_GTK_STYLESHEET_H
+
+#include <ccss-cairo/ccss-cairo.h>
+
+CCSS_BEGIN_DECLS
 
 char *
-ccss_gtk_style_serialize (ccss_style_t const *self)
-{
-	/* TODO */
-	return NULL;
-}
+ccss_gtk_stylesheet_to_gtkrc (ccss_stylesheet_t *self);
+
+CCSS_END_DECLS
+
+#endif /* CCSS_GTK_STYLESHEET_H */
 

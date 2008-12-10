@@ -17,17 +17,40 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_GTK_STYLE_H
-#define CCSS_GTK_STYLE_H
-
 #include <ccss-cairo/ccss-cairo.h>
+#include <gtk/gtk.h>
 
-CCSS_BEGIN_DECLS
+#ifndef CCSS_GTK_PROPERTY_H
+#define CCSS_GTK_PROPERTY_H
 
-char *
-ccss_gtk_style_serialize (ccss_style_t const *self);
+typedef struct {
+	ccss_property_base_t	 base;
+	char			*class_name;
+	char			*property_name;
+	GType			 gtype;
+	union {
+		gboolean		gboolean_val;
+		gchararray		gchararray_val;
+		gfloat			gfloat_val;
+		gint			gint_val;
+		guchar			guchar_val;
+		GdkColor		gdkcolor_val;
+		GtkBorder		gtkborder_val;
+		GtkReliefStyle		gtkreliefstyle_val;
+		GtkRequisition		gtkrequisition_val;
+		GtkShadowType		gtkshadowtype_val;
+		GtkToolbarSpaceStyle	gtktoolbarspacestyle_val;
+	} content;
+} ccss_gtk_property_t;
 
-CCSS_END_DECLS
+bool
+ccss_gtk_property_is_style_property (ccss_property_base_t const *self);
 
-#endif /* CCSS_GTK_STYLE_H */
+ccss_property_class_t const *
+ccss_gtk_property_get_property_classes (void);
+
+void
+ccss_gtk_property_set_fallback_class (ccss_property_class_t const *property_class);
+
+#endif /* CCSS_GTK_PROPERTY_H */
 

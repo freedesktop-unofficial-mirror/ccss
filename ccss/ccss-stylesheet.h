@@ -80,12 +80,12 @@ ccss_stylesheet_invalidate_node	(ccss_stylesheet_t const	*self,
  *
  * Specifies the type of the function passed to ccss_stylesheet_foreach().
  **/
-typedef void (*ccss_stylesheet_iterator_f) (ccss_stylesheet_t const	*self,
-					    char const			*type_name,
-					    void			*user_data);
+typedef void (*ccss_stylesheet_iterator_f) (ccss_stylesheet_t 	*self,
+					    char const		*type_name,
+					    void		*user_data);
 
 void
-ccss_stylesheet_foreach (ccss_stylesheet_t const	*self,
+ccss_stylesheet_foreach (ccss_stylesheet_t		*self,
 			 ccss_stylesheet_iterator_f	 func,
 			 void				*user_data);
 

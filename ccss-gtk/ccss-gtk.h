@@ -22,7 +22,7 @@
 
 #include <ccss-cairo/ccss-cairo.h>
 #include <ccss-gtk/ccss-gtk-grammar.h>
-#include <ccss-gtk/ccss-gtk-style.h>
+#include <ccss-gtk/ccss-gtk-stylesheet.h>
 
 CCSS_BEGIN_DECLS
 

@@ -515,7 +515,7 @@ ccss_stylesheet_invalidate_node (ccss_stylesheet_t const	*self,
  * The iterator function @func is called for each type in the stylesheet.
  **/
 void
-ccss_stylesheet_foreach (ccss_stylesheet_t const	*self,
+ccss_stylesheet_foreach (ccss_stylesheet_t		*self,
 			 ccss_stylesheet_iterator_f	 func,
 			 void				*user_data)
 {

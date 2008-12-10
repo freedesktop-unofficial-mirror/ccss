@@ -21,7 +21,7 @@
 #include "ccss-border-parser.h"
 #include "ccss-border-image-parser.h"
 #include "ccss-cairo-grammar.h"
-#include "ccss-cairo-color.h"
+#include "ccss-cairo-color-priv.h"
 
 /**
  * ccss_cairo_grammar_create:

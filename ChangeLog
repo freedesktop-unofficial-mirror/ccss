@@ -1,5 +1,35 @@
 2008-12-10  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo/ccss-background-parser.c:
+	* ccss-cairo/ccss-border-parser.c:
+	* ccss-cairo/ccss-cairo-grammar.c:
+	* ccss-gtk/Makefile.am:
+	* ccss-gtk/ccss-gtk-grammar.c (ccss_gtk_grammar_create):
+	* ccss-gtk/ccss-gtk-property.c (parse_gboolean),
+	(parse_gchararray), (parse_gfloat), (parse_gint), (parse_guchar),
+	(parse_gdk_color), (parse_gtk_border), (parse_gtk_relief_style),
+	(parse_gtk_requisition), (parse_gtk_shadow_type),
+	(parse_gtk_toolbar_space_style), (parse_gtk_style_property),
+	(property_destroy), (property_convert), (property_factory),
+	(peek_property_class), (ccss_gtk_property_get_property_classes),
+	(ccss_gtk_property_set_fallback_class),
+	(ccss_gtk_property_is_style_property):
+	* ccss-gtk/ccss-gtk-property.h:
+	* ccss-gtk/ccss-gtk-style.c:
+	* ccss-gtk/ccss-gtk-style.h:
+	* ccss-gtk/ccss-gtk-stylesheet.c (get_type), (get_id),
+	(get_pseudo_class), (style_iterator), (accumulate_state),
+	(accumulate), (serialize_state), (serialize), (iter_func),
+	(ccss_gtk_stylesheet_to_gtkrc):
+	* ccss-gtk/ccss-gtk-stylesheet.h:
+	* ccss-gtk/ccss-gtk.h:
+	* ccss-gtk/ccss-gtk.sym:
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_foreach):
+	* ccss/ccss-stylesheet.h:
+	Stylesheet gtkrc serialisation infrastructure.
+
+2008-12-10  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo/ccss-cairo-color.h:
 	* ccss-cairo/ccss-cairo.sym:
 	* ccss-gtk/ccss-gtk-grammar.c (parse_gtk_style_property),

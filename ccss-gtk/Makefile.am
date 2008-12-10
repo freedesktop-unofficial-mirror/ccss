@@ -22,14 +22,16 @@ libccss_gtk_1_la_SOURCES = \
 	$(headers_DATA) \
 	ccss-gtk.c \
 	ccss-gtk-grammar.c \
-	ccss-gtk-style.c
+	ccss-gtk-property.c \
+	ccss-gtk-property.h \
+	ccss-gtk-stylesheet.c
 
 headersdir = $(includedir)/libccss-1/ccss-gtk
 
 headers_DATA = \
 	ccss-gtk.h \
 	ccss-gtk-grammar.h \
-	ccss-gtk-style.h
+	ccss-gtk-stylesheet.h
 
 EXTRA_DIST = \
 	ccss-gtk.sym

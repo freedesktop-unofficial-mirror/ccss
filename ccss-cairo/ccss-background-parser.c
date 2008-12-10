@@ -22,6 +22,7 @@
 #include <glib.h>
 #include "ccss-background-parser.h"
 #include "ccss-background.h"
+#include "ccss-cairo-color-priv.h"
 #include "config.h"
 
 #define PROPERTY_SET(property_)					\

@@ -23,6 +23,7 @@
 #include <glib.h>
 #include "ccss-border.h"
 #include "ccss-border-parser.h"
+#include "ccss-cairo-color-priv.h"
 #include "config.h"
 
 #define INSERT_BORDER_COLOR(block_, prop_name_, prop_, prop_ptr_)	       \
