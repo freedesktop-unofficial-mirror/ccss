@@ -1,3 +1,12 @@
+2008-12-10  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss-cairo/ccss-cairo-color.h:
+	* ccss-cairo/ccss-cairo.sym:
+	* ccss-gtk/ccss-gtk-grammar.c (parse_gtk_style_property),
+	(property_convert):
+	* ccss-gtk/ccss-gtk-grammar.h:
+	Hook up gtk style property infrastructure.
+
 2008-12-09  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss-cairo/Makefile.am:

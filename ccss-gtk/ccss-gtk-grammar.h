@@ -21,31 +21,8 @@
 #define CCSS_GTK_GRAMMAR_H
 
 #include <ccss/ccss.h>
-#include <gtk/gtk.h>
 
 CCSS_BEGIN_DECLS
-
-/*  */
-
-typedef struct {
-	ccss_property_base_t	 base;
-	char			*class_name;
-	char			*property_name;
-	GType			 gtype;
-	union {
-		gboolean		gboolean_val;
-		gchararray		gchararray_val;
-		gfloat			gfloat_val;
-		gint			gint_val;
-		guchar			guchar_val;
-		GdkColor		gdkcolor_val;
-		GtkBorder		gtkborder_val;
-		GtkReliefStyle		gtkreliefstyle_val;
-		GtkRequisition		gtkrequisition_val;
-		GtkShadowType		gtkshadowtype_val;
-		GtkToolbarSpaceStyle	gtktoolbarspacestyle_val;
-	} content;
-} ccss_gtk_property_t;
 
 ccss_grammar_t *
 ccss_gtk_grammar_create (void);

@@ -19,9 +19,30 @@
 
 #include <math.h>
 #include <string.h>
+#include <gtk/gtk.h>
 #include <ccss-cairo/ccss-cairo.h>
 #include "ccss-gtk-grammar.h"
 #include "config.h"
+
+typedef struct {
+	ccss_property_base_t	 base;
+	char			*class_name;
+	char			*property_name;
+	GType			 gtype;
+	union {
+		gboolean		gboolean_val;
+		gchararray		gchararray_val;
+		gfloat			gfloat_val;
+		gint			gint_val;
+		guchar			guchar_val;
+		GdkColor		gdkcolor_val;
+		GtkBorder		gtkborder_val;
+		GtkReliefStyle		gtkreliefstyle_val;
+		GtkRequisition		gtkrequisition_val;
+		GtkShadowType		gtkshadowtype_val;
+		GtkToolbarSpaceStyle	gtktoolbarspacestyle_val;
+	} content;
+} ccss_gtk_property_t;
 
 static ccss_property_class_t const *
 peek_property_class (void);
@@ -448,6 +469,8 @@ parse_gtk_style_property (ccss_grammar_t const	*grammar,
 			self = g_new0 (ccss_gtk_property_t, 1);
 			*self = s;
 		}
+	} else {
+		g_assert_not_reached ();
 	}
 
 	if (self) {
@@ -482,11 +505,96 @@ property_destroy (ccss_gtk_property_t *self)
 }
 
 static bool
-property_convert (ccss_property_base_t const	*self,
+property_convert (ccss_gtk_property_t const	*self,
 		  ccss_property_type_t		 target,
 		  void				*value)
 {
-	return false;
+	char *prefix;
+
+	g_return_val_if_fail (self, false);
+	g_return_val_if_fail (value, false);
+
+	if (CCSS_PROPERTY_TYPE_DOUBLE == target) {
+		return false;
+	}
+
+	if (self->class_name) {
+		prefix = g_strdup_printf ("%s::", self->class_name);
+	} else {
+		prefix = g_strdup ("");
+	}
+
+	if (G_TYPE_BOOLEAN == self->gtype) {
+		* (char **) value = g_strdup_printf ("%s%s = %s", 
+						     prefix, self->property_name,
+						     self->content.gboolean_val ? 
+						     "TRUE" : "FALSE");
+	} else if (G_TYPE_STRING == self->gtype) {
+		* (char **) value = g_strdup_printf ("%s%s = \"%s\"", 
+						     prefix, self->property_name,
+						     self->content.gchararray_val);
+	} else if (G_TYPE_FLOAT == self->gtype) {
+		* (char **) value = g_strdup_printf ("%s%s = %f", 
+						     prefix, self->property_name,
+						     self->content.gfloat_val);
+	} else if (G_TYPE_INT == self->gtype) {
+		* (char **) value = g_strdup_printf ("%s%s = %d", 
+						     prefix, self->property_name,
+						     self->content.gint_val);
+	} else if (G_TYPE_UCHAR == self->gtype) {
+		* (char **) value = g_strdup_printf ("%s%s = %d", 
+						     prefix, self->property_name,
+						     self->content.guchar_val);
+	} else if (GDK_TYPE_COLOR == self->gtype) {
+		char *val;
+		val = gdk_color_to_string (&self->content.gdkcolor_val);
+		* (char **) value = g_strdup_printf ("%s%s = %s", 
+						     prefix, self->property_name,
+						     val);
+		g_free (val);
+	} else if (GTK_TYPE_BORDER == self->gtype) {
+		* (char **) value = g_strdup_printf ("%s%s = { %d, %d, %d, %d }", 
+						     prefix, self->property_name,
+						     self->content.gtkborder_val.left,
+						     self->content.gtkborder_val.right,
+						     self->content.gtkborder_val.top,
+						     self->content.gtkborder_val.bottom);
+	} else if (GTK_TYPE_RELIEF_STYLE == self->gtype) {
+		char const *val;
+		val = self->content.gtkreliefstyle_val == GTK_RELIEF_NORMAL ? "NORMAL" :
+		      self->content.gtkreliefstyle_val == GTK_RELIEF_HALF ? "HALF" :
+		      self->content.gtkreliefstyle_val == GTK_RELIEF_NONE ? "NONE" : "";
+		* (char **) value = g_strdup_printf ("%s%s = %s", 
+						     prefix, self->property_name,
+						     val);
+	} else if (GTK_TYPE_REQUISITION == self->gtype) {
+		* (char **) value = g_strdup_printf ("%s%s = { %d, %d }", 
+						     prefix, self->property_name,
+						     self->content.gtkrequisition_val.width,
+						     self->content.gtkrequisition_val.height);
+	} else if (GTK_TYPE_SHADOW_TYPE == self->gtype) {
+		char const *val;
+		val = self->content.gtkshadowtype_val == GTK_SHADOW_NONE ? "NONE" :
+		      self->content.gtkshadowtype_val == GTK_SHADOW_IN ? "IN" :
+		      self->content.gtkshadowtype_val == GTK_SHADOW_OUT ? "OUT" :
+		      self->content.gtkshadowtype_val == GTK_SHADOW_ETCHED_IN ? "ETCHED_IN" :
+		      self->content.gtkshadowtype_val == GTK_SHADOW_ETCHED_OUT ? "ETCHED_OUT" : "";
+		* (char **) value = g_strdup_printf ("%s%s = %s", 
+						     prefix, self->property_name,
+						     val);
+	} else if (GTK_TYPE_TOOLBAR_SPACE_STYLE == self->gtype) {
+		char const *val;
+		val = self->content.gtktoolbarspacestyle_val == GTK_TOOLBAR_SPACE_EMPTY ? "EMPTY" :
+		      self->content.gtktoolbarspacestyle_val == GTK_TOOLBAR_SPACE_LINE ? "LINE" : "";
+		* (char **) value = g_strdup_printf ("%s%s = %s",
+						     prefix, self->property_name,
+						     val);
+	} else {
+		g_assert_not_reached ();
+	}
+
+	g_free (prefix), prefix = NULL;
+	return true;
 }
 
 static bool

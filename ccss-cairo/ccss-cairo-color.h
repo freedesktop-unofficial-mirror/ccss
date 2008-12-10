@@ -34,27 +34,11 @@ typedef struct {
 	double			blue;
 } ccss_cairo_color_t;
 
-ccss_property_base_t *
-ccss_cairo_color_create (ccss_grammar_t const	*grammar,
-			 CRTerm const		*value,
-			 void			*user_data);
-
-void
-ccss_cairo_color_destroy (ccss_cairo_color_t *self);
-
-bool
-ccss_cairo_color_convert (ccss_cairo_color_t const	*property,
-			  ccss_property_type_t		 target,
-			  void				*value);
-
 bool
 ccss_cairo_color_parse (ccss_cairo_color_t	 *self,
 			ccss_grammar_t const	 *grammar,
 			void			 *user_data,
 			CRTerm const		**values);
-
-ccss_property_class_t const *
-ccss_cairo_color_get_ptable (void);
 
 CCSS_END_DECLS
 
