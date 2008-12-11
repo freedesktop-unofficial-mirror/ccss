@@ -213,10 +213,8 @@ accumulate_state (ccss_stylesheet_t 	 *stylesheet,
 	node.id = NULL;
 	node.pseudo_class = state_name;
 	
-	style = ccss_style_create ();
-	ret = ccss_stylesheet_query (stylesheet,
-					  (ccss_node_t const *) &node, style);
-	if (!ret) {
+	style = ccss_stylesheet_query (stylesheet, (ccss_node_t const *) &node);
+	if (!style) {
 		return false;
 	}
 

@@ -38,6 +38,9 @@ struct ccss_style_ {
 	int32_t			 viewport_height;
 };
 
+ccss_style_t *
+ccss_style_create (void);
+
 CCSS_END_DECLS
 
 #endif /* CCSS_STYLE_PRIV_H */

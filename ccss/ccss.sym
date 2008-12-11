@@ -13,7 +13,6 @@ ccss_grammar_reference
 ccss_node_init
 ccss_property_init
 ccss_property_parse_state
-ccss_style_create
 ccss_style_destroy
 ccss_style_dump
 ccss_style_foreach

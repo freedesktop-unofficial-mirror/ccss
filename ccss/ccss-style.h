@@ -36,9 +36,6 @@ CCSS_BEGIN_DECLS
  **/
 typedef struct ccss_style_ ccss_style_t;
 
-ccss_style_t *
-ccss_style_create	(void);
-
 void
 ccss_style_destroy	(ccss_style_t *self);
 

@@ -23,14 +23,6 @@ ccss_style_t
 </para>
 
 
-<!-- ##### FUNCTION ccss_style_create ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION ccss_style_destroy ##### -->
 <para>
 

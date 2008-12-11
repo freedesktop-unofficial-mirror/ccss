@@ -58,15 +58,13 @@ ccss_stylesheet_add_from_file	(ccss_stylesheet_t		*self,
 				 ccss_stylesheet_precedence_t	 precedence,
 				 void				*user_data);
 
-bool
+ccss_style_t *
 ccss_stylesheet_query_type	(ccss_stylesheet_t 		*self,
-				 char const			*type_name,
-				 ccss_style_t			*style);
+				 char const			*type_name);
 
-bool
+ccss_style_t *
 ccss_stylesheet_query		(ccss_stylesheet_t 		*self,
-				 ccss_node_t const		*node, 
-				 ccss_style_t			*style);
+				 ccss_node_t const		*node);
 
 void
 ccss_stylesheet_invalidate_node	(ccss_stylesheet_t const	*self,

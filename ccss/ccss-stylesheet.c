@@ -180,35 +180,38 @@ ccss_stylesheet_get_reference_count (ccss_stylesheet_t const *self)
  * ccss_stylesheet_query_type:
  * @self:	a #ccss_stylesheet_t.
  * @type_name:	the type to query for, e.g. `h1'.
- * @style:	a #ccss_style_t that the results of the query are applied to.
  *
  * Query the stylesheet for styling information regarding a type.
  *
- * Returns: a #ccss_selector_group_t containing the requested information of %NULL.
+ * Returns: a #ccss_style_t that the results of the query are applied to or 
+ *	    %NULL if the query didn't yield results.
  **/
-bool
+ccss_style_t *
 ccss_stylesheet_query_type (ccss_stylesheet_t	*self,
-			    char const		*type_name,
-			    ccss_style_t	*style)
+			    char const		*type_name)
 {
-	ccss_selector_group_t const *group;
+	ccss_selector_group_t const	*group;
+	ccss_style_t			*style;
+	bool				 ret;
 
-	g_assert (self && type_name && self->groups);
+	g_return_val_if_fail (self, NULL);
+	g_return_val_if_fail (type_name, NULL);
 
-	if (style->stylesheet && 
-	    style->stylesheet != self) {
-		g_warning ("style %p already associated to stylesheet %p", 
-			   (void *) style, (void *) self);
-		return false;
-	} else if (NULL == style->stylesheet) {
-		style->stylesheet = ccss_stylesheet_reference (self);
-	}
+	style = ccss_style_create ();
+	style->stylesheet = ccss_stylesheet_reference (self);
 
 	group = (ccss_selector_group_t const *) g_hash_table_lookup (self->groups, type_name);
 	if (!group)
-		return false;
+		goto bail;
 
-	return ccss_selector_group_apply_type (group, type_name, style);
+	ret = ccss_selector_group_apply_type (group, type_name, style);
+	if (!ret)
+		goto bail;
+
+	return style;
+bail:
+	ccss_style_destroy (style);
+	return NULL;
 }
 
 /*
@@ -426,33 +429,28 @@ query_container_r (ccss_stylesheet_t const	*self,
  * ccss_stylesheet_query:
  * @self:	a #ccss_stylesheet_t.
  * @node:	a #ccss_node_t implementation that is used by libccss to retrieve information about the underlying document.
- * @style:	a #ccss_style_t that the results of the query are applied to.
  *
  * Query the stylesheet for styling information regarding a document node and apply the results to a #ccss_style_t object.
  *
- * Returns: %TRUE if styling information has been found.
+ * Returns: a #ccss_style_t that the results of the query are applied to or 
+ *	    %NULL if the query didn't yield results.
  **/
-bool
+ccss_style_t *
 ccss_stylesheet_query (ccss_stylesheet_t 	*self,
-		       ccss_node_t const	*node, 
-		       ccss_style_t		*style)
+		       ccss_node_t const	*node)
 {
 	GHashTable			*inherit;
 	GHashTableIter			 iter;
 	GQuark				 property_id;
 	ccss_property_base_t const	*property;
+	ccss_style_t			*style;
 	bool				 ret;
 
-	g_assert (self && node && style);
+	g_return_val_if_fail (self, NULL);
+	g_return_val_if_fail (node, NULL);
 
-	if (style->stylesheet && 
-	    style->stylesheet != self) {
-		g_warning ("style %p already associated to stylesheet %p", 
-			   (void *) style, (void *) self);
-		return false;
-	} else if (NULL == style->stylesheet) {
-		style->stylesheet = ccss_stylesheet_reference (self);
-	}
+	style = ccss_style_create ();
+	style->stylesheet = ccss_stylesheet_reference (self);
 
 	/* Apply this node's styling. */
 	ret = query_node (self, node, style);
@@ -487,7 +485,13 @@ ccss_stylesheet_query (ccss_stylesheet_t 	*self,
 	}
 	g_hash_table_destroy (inherit), inherit = NULL;
 
-	return ret;
+	if (!ret) {
+		/* No style matches. */
+		ccss_style_destroy (style);
+		style = NULL;
+	}
+
+	return style;
 }
 
 /**

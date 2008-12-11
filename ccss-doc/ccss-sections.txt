@@ -46,7 +46,6 @@ ccss_node_init
 <TITLE>ccss_style_t</TITLE>
 <FILE>style</FILE>
 ccss_style_t
-ccss_style_create
 ccss_style_destroy
 ccss_style_get_double
 ccss_style_get_property

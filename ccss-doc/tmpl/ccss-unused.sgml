@@ -191,6 +191,13 @@ ccss_selector_group_t
 </para>
 
 
+<!-- ##### FUNCTION ccss_style_create ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 <!-- ##### FUNCTION ccss_style_draw_gap ##### -->
 <para>
 

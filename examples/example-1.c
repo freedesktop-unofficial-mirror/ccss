@@ -40,7 +40,6 @@ main (int	  argc,
 	ccss_stylesheet_t	*stylesheet;
 	ccss_style_t		*style;
 	GtkWidget		*window;
-	gboolean		 ret;
 
 	gtk_init (&argc, &argv);
 
@@ -49,9 +48,8 @@ main (int	  argc,
 							_css, sizeof (_css),
 							NULL);
 
-	style = ccss_style_create ();
-	ret = ccss_stylesheet_query_type (stylesheet, "box", style);
-	g_assert (ret);
+	style = ccss_stylesheet_query_type (stylesheet, "box");
+	g_assert (style);
 
 #ifdef CCSS_DEBUG
 	ccss_style_dump (style);

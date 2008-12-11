@@ -106,7 +106,6 @@ ccss_stylesheet_t
 
 @self: 
 @type_name: 
-@style: 
 @Returns: 
 
 
@@ -117,7 +116,6 @@ ccss_stylesheet_t
 
 @self: 
 @node: 
-@style: 
 @Returns: 
 
 

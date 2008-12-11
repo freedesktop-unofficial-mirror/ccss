@@ -1,5 +1,25 @@
 2008-12-11  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-doc/ccss-sections.txt:
+	* ccss-doc/tmpl/ccss-unused.sgml:
+	* ccss-doc/tmpl/style.sgml:
+	* ccss-doc/tmpl/stylesheet.sgml:
+	* ccss-gtk/ccss-gtk-stylesheet.c (accumulate_state):
+	* ccss/ccss-style-priv.h:
+	* ccss/ccss-style.h:
+	* ccss/ccss-stylesheet.c (ccss_stylesheet_query_type),
+	(ccss_stylesheet_query):
+	* ccss/ccss-stylesheet.h:
+	* ccss/ccss.sym:
+	* examples/example-1.c (main):
+	* examples/example-2.c (main):
+	* examples/example-3.c (main):
+	* examples/example-4.c (main):
+	* examples/example-5.c (main):
+	Do not expose style constructor, return instance from stylesheet queries.
+
+2008-12-11  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss/ccss-grammar.c (ccss_grammar_add_properties): don't warn when the
 	default property handler is overwritten.
 

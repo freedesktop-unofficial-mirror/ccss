@@ -73,7 +73,6 @@ main (int	  argc,
 	ccss_style_t		*style;
 	node_t			 node;
 	GtkWidget		*window;
-	gboolean		 ret;
 
 	gtk_init (&argc, &argv);
 
@@ -87,10 +86,8 @@ main (int	  argc,
 	node.instance = 0xdeadbeef;
 	node.inline_css = "background-color: yellow";
 
-	style = ccss_style_create ();
-	ret = ccss_stylesheet_query (stylesheet, (ccss_node_t const *) &node,
-				       style);
-	g_assert (ret);
+	style = ccss_stylesheet_query (stylesheet, (ccss_node_t const *) &node);
+	g_assert (style);
 
 #ifdef CCSS_DEBUG
 	ccss_style_dump (style);
