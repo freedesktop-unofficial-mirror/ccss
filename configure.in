@@ -190,7 +190,7 @@ PKG_CHECK_MODULES([CCSS_CAIRO], $ccss_cairo_pkgs)
 
 # AC_SUBST([CCSS_CAIRO_CFLAGS]) # set further down
 AC_SUBST([CCSS_CAIRO_LIBS])
-AC_SUBST([CCSS_CAIRO_DEPS], $ccss_cairo_pkgs)
+AC_SUBST([CCSS_CAIRO_DEPS], "$ccss_cairo_pkgs libccss-1")
 
 
 ### ccss-gtk ###
@@ -220,7 +220,7 @@ PKG_CHECK_MODULES([CCSS_GTK], $ccss_gtk_pkgs)
 
 # AC_SUBST([CCSS_GTK_CFLAGS]) # set further down
 AC_SUBST([CCSS_GTK_LIBS])
-AC_SUBST([CCSS_GTK_DEPS], $ccss_gtk_pkgs)
+AC_SUBST([CCSS_GTK_DEPS], "$ccss_gtk_reqs libccss-cairo-1")
 
 
 ### examples ###

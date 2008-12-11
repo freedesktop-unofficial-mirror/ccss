@@ -1,3 +1,7 @@
+2008-12-11  Robert Staudinger  <robsta@gnome.org>
+
+	* configure.in: correctly depend ccss <- ccss-cairo <- ccss-gtk.
+
 2008-12-10  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss-cairo/ccss-background-parser.c:
