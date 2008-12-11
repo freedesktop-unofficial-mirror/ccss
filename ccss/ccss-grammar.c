@@ -120,8 +120,10 @@ ccss_grammar_add_properties (ccss_grammar_t			*self,
 
 	for (unsigned int i = 0; properties[i].name != NULL; i++) {
 
-		/* Handler already exists? */
-		g_warn_if_fail (NULL == g_hash_table_lookup (self->properties, properties[i].name));
+		/* Handler already exists? 
+		 * Don't warn about overriding the fallback handler, though. */
+		g_warn_if_fail (g_strcmp0 (properties[i].name, "*") == 0 ||
+				NULL == g_hash_table_lookup (self->properties, properties[i].name));
 
 		g_hash_table_insert (self->properties,
 				     (gpointer) properties[i].name,

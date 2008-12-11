@@ -1,5 +1,10 @@
 2008-12-11  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss/ccss-grammar.c (ccss_grammar_add_properties): don't warn when the
+	default property handler is overwritten.
+
+2008-12-11  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-cairo-doc/ccss-cairo-docs.sgml:
 	* ccss-cairo-doc/ccss-cairo-sections.txt:
 	* ccss-cairo-doc/tmpl/ccss.sgml:
