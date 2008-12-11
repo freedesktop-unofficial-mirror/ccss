@@ -2,7 +2,6 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
                "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 
-<!ENTITY ccss				SYSTEM "xml/ccss.xml">
 <!ENTITY ccss_grammar_t			SYSTEM "xml/grammar.xml">
 <!ENTITY ccss_style_t			SYSTEM "xml/style.xml">
 
@@ -95,7 +94,6 @@ TODO.
     </partintro>
   <chapter id="basic">
     <title>Basic Usage</title>
-    &ccss;
     &ccss_grammar_t;
     &ccss_style_t;
   </chapter>

@@ -1,5 +1,3 @@
-ccss_cairo_init
-ccss_cairo_shutdown
 ccss_cairo_color_parse
 ccss_cairo_grammar_create
 ccss_cairo_style_draw_line

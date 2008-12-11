@@ -1,5 +1,34 @@
 2008-12-11  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-cairo-doc/ccss-cairo-docs.sgml:
+	* ccss-cairo-doc/ccss-cairo-sections.txt:
+	* ccss-cairo-doc/tmpl/ccss.sgml:
+	* ccss-cairo/Makefile.am:
+	* ccss-cairo/ccss-cairo-style-priv.h:
+	* ccss-cairo/ccss-cairo-style.c (lookup_property_r),
+	(ccss_cairo_style_draw_line), (gather_stroke), (gather_join),
+	(gather_outline), (ccss_cairo_style_get_double),
+	(ccss_cairo_style_get_string), (ccss_cairo_style_get_property):
+	* ccss-cairo/ccss-cairo.c:
+	* ccss-cairo/ccss-cairo.sym:
+	* ccss-doc/ccss-docs.sgml:
+	* ccss-doc/ccss-sections.txt:
+	* ccss-doc/tmpl/ccss.sgml:
+	* ccss-gtk/Makefile.am:
+	* ccss-gtk/ccss-gtk.c:
+	* ccss-gtk/ccss-gtk.sym:
+	* ccss/Makefile.am:
+	* ccss/ccss.c:
+	* ccss/ccss.sym:
+	* examples/example-1.c (main):
+	* examples/example-2.c (main):
+	* examples/example-3.c (main):
+	* examples/example-4.c (main):
+	* examples/example-5.c (main):
+	Get rid of _init() and _shutdown() functions.
+
+2008-12-11  Robert Staudinger  <robsta@gnome.org>
+
 	* configure.in: correctly depend ccss <- ccss-cairo <- ccss-gtk.
 
 2008-12-10  Robert Staudinger  <robsta@gnome.org>

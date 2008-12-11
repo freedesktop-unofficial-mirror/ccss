@@ -1,12 +1,5 @@
 
 <SECTION>
-<TITLE>Initialization</TITLE>
-<FILE>ccss</FILE>
-ccss_cairo_init
-ccss_cairo_shutdown
-</SECTION>
-
-<SECTION>
 <TITLE>ccss_grammar_t</TITLE>
 <FILE>grammar</FILE>
 ccss_cairo_grammar_create

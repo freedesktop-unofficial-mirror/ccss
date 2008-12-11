@@ -10,11 +10,9 @@ ccss_grammar_invoke_function
 ccss_grammar_lookup_function
 ccss_grammar_lookup_property
 ccss_grammar_reference
-ccss_init
 ccss_node_init
 ccss_property_init
 ccss_property_parse_state
-ccss_shutdown
 ccss_style_create
 ccss_style_destroy
 ccss_style_dump

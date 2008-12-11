@@ -32,13 +32,11 @@ libccss_cairo_1_la_SOURCES = \
 	ccss-border-image.h \
 	ccss-border-image-parser.c \
 	ccss-border-image-parser.h \
-	ccss-cairo.c \
 	ccss-cairo-grammar.c \
 	ccss-cairo-property.c \
 	ccss-cairo-property.h \
 	ccss-cairo-style.c \
 	ccss-cairo-style.h \
-	ccss-cairo-style-priv.h \
 	ccss-cairo-color.c \
 	ccss-cairo-color-priv.h \
 	ccss-image.c \

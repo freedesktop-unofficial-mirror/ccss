@@ -20,7 +20,6 @@ libccss_gtk_1_la_LIBADD = \
 
 libccss_gtk_1_la_SOURCES = \
 	$(headers_DATA) \
-	ccss-gtk.c \
 	ccss-gtk-grammar.c \
 	ccss-gtk-property.c \
 	ccss-gtk-property.h \

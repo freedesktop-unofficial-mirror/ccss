@@ -1,12 +1,5 @@
 
 <SECTION>
-<TITLE>Initialization</TITLE>
-<FILE>ccss</FILE>
-ccss_init
-ccss_shutdown
-</SECTION>
-
-<SECTION>
 <TITLE>ccss_block_t</TITLE>
 <FILE>block</FILE>
 ccss_block_t

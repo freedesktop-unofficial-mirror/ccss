@@ -23,67 +23,53 @@
 #include "ccss-background.h"
 #include "ccss-border.h"
 #include "ccss-border-image.h"
-#include "ccss-cairo-style-priv.h"
+#include "ccss-cairo-style.h"
 #include "ccss-cairo-property.h"
 #include "config.h"
 
-typedef struct {
-	GQuark id;
-	GQuark fallback;	
-} fallback_map_t;
+struct {
+	char const *name;
+	char const *fallback;
+} const _fallback_map[] = {
+    { "border-color", "color" },
 
-fallback_map_t *_fallback_map = NULL;
+    { "border-bottom-color", "border-color" },
+    { "border-bottom-style", "border-style" },
+    { "border-bottom-width", "border-width" },
 
-// FIXME: lazily initialise the fallback map when creating the first style and get rid of the subsystem init.
-void
-ccss_style_subsystem_init (void)
-{
-	fallback_map_t fm[] = {
-		{ CCSS_PROPERTY_BORDER_COLOR, CCSS_PROPERTY_COLOR },
+    { "border-left-color", "border-color" },
+    { "border-left-style", "border-style" },
+    { "border-left-width", "border-width" },
 
-		{ CCSS_PROPERTY_BORDER_BOTTOM_COLOR, CCSS_PROPERTY_BORDER_COLOR },
-		{ CCSS_PROPERTY_BORDER_BOTTOM_STYLE, CCSS_PROPERTY_BORDER_STYLE },
-		{ CCSS_PROPERTY_BORDER_BOTTOM_WIDTH, CCSS_PROPERTY_BORDER_WIDTH },
+    { "border-right-color", "border-color" },
+    { "border-right-style", "border-style" },
+    { "border-right-width", "border-width" },
 
-		{ CCSS_PROPERTY_BORDER_LEFT_COLOR, CCSS_PROPERTY_BORDER_COLOR },
-		{ CCSS_PROPERTY_BORDER_LEFT_STYLE, CCSS_PROPERTY_BORDER_STYLE },
-		{ CCSS_PROPERTY_BORDER_LEFT_WIDTH, CCSS_PROPERTY_BORDER_WIDTH },
+    { "border-top-color", "border-color" },
+    { "border-top-style", "border-style" },
+    { "border-top-width", "border-width" },
 
-		{ CCSS_PROPERTY_BORDER_RIGHT_COLOR, CCSS_PROPERTY_BORDER_COLOR },
-		{ CCSS_PROPERTY_BORDER_RIGHT_STYLE, CCSS_PROPERTY_BORDER_STYLE },
-		{ CCSS_PROPERTY_BORDER_RIGHT_WIDTH, CCSS_PROPERTY_BORDER_WIDTH },
+    { "border-top-left-radius", "border-radius" },
+    { "border-top-right-radius", "border-radius" },
+    { "border-bottom-right-radius", "border-radius" },
+    { "border-bottom-left-radius", "border-radius" },
 
-		{ CCSS_PROPERTY_BORDER_TOP_COLOR, CCSS_PROPERTY_BORDER_COLOR },
-		{ CCSS_PROPERTY_BORDER_TOP_STYLE, CCSS_PROPERTY_BORDER_STYLE },
-		{ CCSS_PROPERTY_BORDER_TOP_WIDTH, CCSS_PROPERTY_BORDER_WIDTH },
-
-		{ CCSS_PROPERTY_BORDER_TOP_LEFT_RADIUS,		CCSS_PROPERTY_BORDER_RADIUS },
-		{ CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS,	CCSS_PROPERTY_BORDER_RADIUS },
-		{ CCSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS,	CCSS_PROPERTY_BORDER_RADIUS },
-		{ CCSS_PROPERTY_BORDER_BOTTOM_LEFT_RADIUS,	CCSS_PROPERTY_BORDER_RADIUS },
-
-		{ 0, 0 }
-	};
-
-	g_assert (NULL == _fallback_map);
-
-	_fallback_map = g_memdup (&fm, sizeof (fm));
-}
-
-void
-ccss_style_subsystem_shutdown (void)
-{
-	g_assert (_fallback_map != NULL);
-
-	g_free (_fallback_map), _fallback_map = NULL;
-}
+    { NULL }
+};
 
 /* Look up a property, take fallback into account. */
 static ccss_property_base_t const *
 lookup_property_r (ccss_style_t const	*self,
-		   GQuark		 property_id)
+		   char const		*property_name)
 {
-	ccss_property_base_t const *property;
+	ccss_property_base_t const	*property;
+	GQuark				 property_id;
+
+	property_id = g_quark_try_string (property_name);
+	if (0 == property_id) {
+		/* Property unknown, no need to look up. */
+		return NULL;
+	}
 
 	property = (ccss_property_base_t const *) 
 			g_hash_table_lookup (self->properties,
@@ -92,8 +78,8 @@ lookup_property_r (ccss_style_t const	*self,
 		return property;
 	}
 
-	for (unsigned int i = 0; _fallback_map[i].id != 0; i++) {
-		if (property_id == _fallback_map[i].id) {
+	for (unsigned int i = 0; _fallback_map[i].name != NULL; i++) {
+		if (0 == g_strcmp0 (property_name, _fallback_map[i].name)) {
 			return lookup_property_r (self, _fallback_map[i].fallback);
 		}
 	}
@@ -124,19 +110,19 @@ ccss_cairo_style_draw_line (ccss_style_t const	*self,
 	double				 off;
 
 	stroke.color = (ccss_cairo_color_t *) lookup_property_r (self,
-						CCSS_PROPERTY_BORDER_COLOR);
+								 "border-color");
 	if (NULL == stroke.color) {
 		stroke.color = NULL;
 	}
 
 	stroke.style = (ccss_border_style_t *) lookup_property_r (self,
-						CCSS_PROPERTY_BORDER_STYLE);
+								  "border-style");
 	if (NULL == stroke.style) {
 		stroke.style = NULL;
 	}
 
 	stroke.width = (ccss_border_width_t *) lookup_property_r (self,
-						CCSS_PROPERTY_BORDER_WIDTH);
+								  "border-width");
 	if (NULL == stroke.width) {
 		stroke.width = NULL;
 	}
@@ -160,11 +146,11 @@ ccss_cairo_style_draw_line (ccss_style_t const	*self,
 
 static void
 gather_stroke (ccss_style_t const		*self,
-	       GQuark				 color_prop,
+	       char const			*color_prop,
 	       ccss_cairo_color_t const		*color_fallback,
-	       GQuark				 style_prop,
+	       char const			*style_prop,
 	       ccss_border_style_t const	*style_fallback,
-	       GQuark				 width_prop,
+	       char const			*width_prop,
 	       ccss_border_width_t const	*width_fallback,
 	       ccss_border_stroke_t		*stroke)
 {
@@ -186,7 +172,7 @@ gather_stroke (ccss_style_t const		*self,
 
 static ccss_border_join_t const *
 gather_join (ccss_style_t const		*self,
-	     GQuark			 prop,
+	     char const			*prop,
 	     ccss_border_join_t const	*fallback)
 {
 	ccss_border_join_t const *join;
@@ -211,40 +197,36 @@ gather_outline (ccss_style_t const		 *self,
 		ccss_border_join_t const	**top_right)
 {
 	gather_stroke (self, 
-		CCSS_PROPERTY_BORDER_BOTTOM_COLOR, NULL, 
-		CCSS_PROPERTY_BORDER_BOTTOM_STYLE, NULL, 
-		CCSS_PROPERTY_BORDER_BOTTOM_WIDTH, NULL, 
+		"border-bottom-color", NULL, 
+		"border-bottom-style", NULL, 
+		"border-bottom-width", NULL, 
 		bottom);
 
 	gather_stroke (self, 
-		CCSS_PROPERTY_BORDER_LEFT_COLOR, NULL, 
-		CCSS_PROPERTY_BORDER_LEFT_STYLE, NULL, 
-		CCSS_PROPERTY_BORDER_LEFT_WIDTH, NULL, 
+		"border-left-color", NULL, 
+		"border-left-style", NULL, 
+		"border-left-width", NULL, 
 		left);
 
 	gather_stroke (self, 
-		CCSS_PROPERTY_BORDER_RIGHT_COLOR, NULL, 
-		CCSS_PROPERTY_BORDER_RIGHT_STYLE, NULL, 
-		CCSS_PROPERTY_BORDER_RIGHT_WIDTH, NULL, 
+		"border-right-color", NULL, 
+		"border-right-style", NULL, 
+		"border-right-width", NULL, 
 		right);
 
 	gather_stroke (self, 
-		CCSS_PROPERTY_BORDER_TOP_COLOR, NULL, 
-		CCSS_PROPERTY_BORDER_TOP_STYLE, NULL, 
-		CCSS_PROPERTY_BORDER_TOP_WIDTH, NULL, 
+		"border-top-color", NULL, 
+		"border-top-style", NULL, 
+		"border-top-width", NULL, 
 		top);
 
-	*bottom_left = gather_join (self, CCSS_PROPERTY_BORDER_BOTTOM_LEFT_RADIUS,
-				    NULL);
+	*bottom_left = gather_join (self, "border-bottom-left-radius", NULL);
 
-	*bottom_right = gather_join (self, CCSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS,
-				     NULL);
+	*bottom_right = gather_join (self, "border-bottom-right-radius", NULL);
 
-	*top_left = gather_join (self, CCSS_PROPERTY_BORDER_TOP_LEFT_RADIUS,
-				 NULL);
+	*top_left = gather_join (self, "border-top-left-radius", NULL);
 
-	*top_right = gather_join (self, CCSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS,
-				  NULL);
+	*top_right = gather_join (self, "border-top-right-radius", NULL);
 
 }
 
@@ -693,18 +675,11 @@ ccss_cairo_style_get_double (ccss_style_t const	*self,
 			     char const		*property_name,
 			     double		*value)
 {
-	GQuark				 property_id;
-	ccss_property_base_t const	*property;
+	ccss_property_base_t const *property;
 
 	g_return_val_if_fail (self && property_name && value, false);
 
-	property_id = g_quark_try_string (property_name);
-	if (0 == property_id) {
-		/* Property unknown, no need to look up. */
-		return false;
-	}
-
-	property = lookup_property_r (self, property_id);
+	property = lookup_property_r (self, property_name);
 	if (NULL == property)
 		return false;
 
@@ -734,18 +709,11 @@ ccss_cairo_style_get_string (ccss_style_t const	 *self,
 			     char const		 *property_name,
 			     char		**value)
 {
-	GQuark				 property_id;
-	ccss_property_base_t const	*property;
+	ccss_property_base_t const *property;
 
 	g_return_val_if_fail (self && property_name && value, false);
 
-	property_id = g_quark_try_string (property_name);
-	if (0 == property_id) {
-		/* Property unknown, no need to look up. */
-		return false;
-	}
-
-	property = lookup_property_r (self, property_id);
+	property = lookup_property_r (self, property_name);
 	if (NULL == property)
 		return false;
 
@@ -775,17 +743,9 @@ ccss_cairo_style_get_property (ccss_style_t const		 *self,
 			       char const			 *property_name,
 			       ccss_property_base_t const	**property)
 {
-	GQuark property_id;
-
 	g_return_val_if_fail (self && property_name && property, false);
 
-	property_id = g_quark_try_string (property_name);
-	if (0 == property_id) {
-		/* Property unknown, no need to look up. */
-		return false;
-	}
-
-	*property = lookup_property_r (self, property_id);
+	*property = lookup_property_r (self, property_name);
 
 	return (bool) *property;
 }

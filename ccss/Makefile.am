@@ -21,7 +21,6 @@ libccss_1_la_SOURCES = \
 	$(headers_DATA) \
 	ccss-block.c \
 	ccss-block-priv.h \
-	ccss.c \
 	ccss-grammar.c \
 	ccss-grammar-function.c \
 	ccss-grammar-parse.c \

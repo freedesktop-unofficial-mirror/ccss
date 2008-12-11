@@ -66,7 +66,6 @@ main (int	  argc,
 	gboolean		 ret;
 
 	gtk_init (&argc, &argv);
-	ccss_cairo_init ();
 
 	grammar = ccss_cairo_grammar_create ();
 	ccss_grammar_add_functions (grammar, _functions);
@@ -95,8 +94,6 @@ main (int	  argc,
 	ccss_style_destroy (style);
 	ccss_stylesheet_destroy (stylesheet);
 	ccss_grammar_destroy (grammar);
-
-	ccss_cairo_shutdown ();
 
 	return EXIT_SUCCESS;
 }
