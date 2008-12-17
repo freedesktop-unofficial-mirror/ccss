@@ -76,11 +76,12 @@ enum {
 	TEXT_SET	= 1 << 3
 };
 enum {
-	NORMAL_SET	= 1 << 0,
-	ACTIVE_SET	= 1 << 1,
-	PRELIGHT_SET	= 1 << 2,
-	SELECTED_SET	= 1 << 3,
-	INSENSITIVE_SET	= 1 << 4
+	STYLE_SET	= 1 << 0,	/* Styling information available. */
+	NORMAL_SET	= 1 << 1,	/* `NORMAL' color available. */
+	ACTIVE_SET	= 1 << 2,	/* `ACTIVE' color available. */
+	PRELIGHT_SET	= 1 << 3,	/* ... */
+	SELECTED_SET	= 1 << 4,	/* ... */
+	INSENSITIVE_SET	= 1 << 5	/* ... */
 };
 
 struct RcBlock {
@@ -253,53 +254,56 @@ accumulate_state (ccss_stylesheet_t 	 *stylesheet,
 	ccss_style_destroy (style), style = NULL;
 
 	/* Having colors or style properties means there's something to serialise. */
-	return (gboolean) state->flags || 
-	       (gboolean) (style_properties && *style_properties);
+	return true;
 }
 
-static gboolean 
+static bool 
 accumulate (ccss_stylesheet_t	*stylesheet,
 	    struct RcBlock	*block)
 {
-	gboolean ret;
+	bool ret;
 
 	/* Querying for `normal' state without any- and with the `normal' pseudo class. */
 	ret = accumulate_state (stylesheet, block->type_name, NULL,
 				&block->colors[NORMAL], &block->style_properties);
 	if (ret) {
-		block->flags |= NORMAL_SET;
+		block->flags |= STYLE_SET;
+		if (block->colors[NORMAL].flags) {
+			block->flags |= NORMAL_SET;
+		}
 	}
+
 	ret = accumulate_state (stylesheet, block->type_name, "normal",
 				&block->colors[NORMAL], NULL);
-	if (ret) {
+	if (ret && block->colors[NORMAL].flags) {
 		block->flags |= NORMAL_SET;
 	}
 
 	ret = accumulate_state (stylesheet, block->type_name, "active",
 				&block->colors[ACTIVE], NULL);
-	if (ret) {
+	if (ret && block->colors[ACTIVE].flags) {
 		block->flags |= ACTIVE_SET;
 	}
 
 	ret = accumulate_state (stylesheet, block->type_name, "prelight",
 				&block->colors[PRELIGHT], NULL);
-	if (ret) {
+	if (ret && block->colors[PRELIGHT].flags) {
 		block->flags |= PRELIGHT_SET;
 	}
 
 	ret = accumulate_state (stylesheet, block->type_name, "selected",
 				&block->colors[SELECTED], NULL);
-	if (ret) {
+	if (ret && block->colors[SELECTED].flags) {
 		block->flags |= SELECTED_SET;
 	}
 
 	ret = accumulate_state (stylesheet, block->type_name, "insensitive",
 				&block->colors[INSENSITIVE], NULL);
-	if (ret) {
+	if (ret && block->colors[INSENSITIVE].flags) {
 		block->flags |= INSENSITIVE_SET;
 	}
 
-	return (gboolean) block->flags;
+	return (bool) block->flags;
 }
 
 static void
@@ -423,6 +427,8 @@ ccss_gtk_stylesheet_to_gtkrc (ccss_stylesheet_t *self)
 {
 	GString		*rc_string;
 	char		*str;
+
+	g_return_val_if_fail (self, NULL);
 
 	rc_string = g_string_new ("");
 

@@ -1,5 +1,12 @@
 2008-12-17  Robert Staudinger  <robsta@gnome.org>
 
+	* ccss-gtk/ccss-gtk-stylesheet.c (accumulate_state), (accumulate),
+	(ccss_gtk_stylesheet_to_gtkrc): export all existing widget-styles, not
+	just ones where color or style-properties are set, the engine can now
+	draw using the fallback selector.
+
+2008-12-17  Robert Staudinger  <robsta@gnome.org>
+
 	* ccss-gtk/ccss-gtk-stylesheet.c (serialize): export engine-specific
 	gtkrc block with type selector, to fall back when drawing without a
 	widget pointer.
