@@ -346,6 +346,7 @@ serialize (struct RcBlock const	*block,
 
 	g_string_append_printf (rc_string, "style \"%s\" {\n", style_name);
 
+	/* Colors. */
 	if (NORMAL_SET & block->flags) {
 		serialize_state (&block->colors[NORMAL], "NORMAL", rc_string);
 	}
@@ -373,6 +374,13 @@ serialize (struct RcBlock const	*block,
 		iter = iter->next;
 	}
 
+	/* Selector, for NULL widget pointer
+	 * PONDERING: support complex selectors? */
+	g_string_append (rc_string, "\tengine \"css\" {\n");
+	g_string_append_printf (rc_string, "\t\tselector = \"%s\"\n", block->type_name);
+	g_string_append (rc_string, "\t}\n");
+
+	/* Close block. */
 	g_string_append (rc_string, "}\n");
 
 	g_string_append_printf (rc_string, "class \"%s\" style \"%s\"\n\n", block->type_name, style_name);

@@ -1,3 +1,9 @@
+2008-12-17  Robert Staudinger  <robsta@gnome.org>
+
+	* ccss-gtk/ccss-gtk-stylesheet.c (serialize): export engine-specific
+	gtkrc block with type selector, to fall back when drawing without a
+	widget pointer.
+
 2008-12-11  Robert Staudinger  <robsta@gnome.org>
 
 	* ccss-doc/ccss-sections.txt:
