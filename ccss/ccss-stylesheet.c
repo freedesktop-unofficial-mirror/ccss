@@ -58,7 +58,7 @@ ccss_stylesheet_fix_dangling_selectors (ccss_stylesheet_t *self)
 	/* fix up dangling associations to base styles, walk the tree of type rules */
 	g_hash_table_iter_init (&iter, self->groups);
 	while (g_hash_table_iter_next (&iter, &k, &v)) {
-		
+
 		/* walk extra mile to prevent warnings */
 		key = (char const *) k;
 		group = (ccss_selector_group_t *) v;
@@ -120,7 +120,7 @@ ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
 /**
  * ccss_stylesheet_destroy:
  * @self: a #ccss_stylesheet_t.
- * 
+ *
  * Decreases the reference count on @self by one. If the result is zero, then
  * @self and all associated resources are freed. See ccss_stylesheet_reference().
  **/
@@ -183,7 +183,7 @@ ccss_stylesheet_get_reference_count (ccss_stylesheet_t const *self)
  *
  * Query the stylesheet for styling information regarding a type.
  *
- * Returns: a #ccss_style_t that the results of the query are applied to or 
+ * Returns: a #ccss_style_t that the results of the query are applied to or
  *	    %NULL if the query didn't yield results.
  **/
 ccss_style_t *
@@ -219,7 +219,7 @@ bail:
  */
 static bool
 query_type_r (ccss_stylesheet_t const	*self,
-	      ccss_node_t const		*node, 
+	      ccss_node_t const		*node,
 	      ccss_node_t const		*iter,
 	      bool			 as_base,
 	      ccss_selector_group_t	*result_group)
@@ -265,7 +265,7 @@ query_type_r (ccss_stylesheet_t const	*self,
  */
 static bool
 query_node (ccss_stylesheet_t const	*self,
-	    ccss_node_t const		*node, 
+	    ccss_node_t const		*node,
 	    ccss_style_t		*style)
 {
 	ccss_node_class_t const		*node_class;
@@ -285,7 +285,7 @@ query_node (ccss_stylesheet_t const	*self,
 	if (universal_group) {
 		ret |= ccss_selector_group_query (universal_group, node,
 						  false, result_group);
-	}			
+	}
 
 	/* Match style by type information. */
 	ret |= query_type_r (self, node, node, false, result_group);
@@ -302,17 +302,17 @@ query_node (ccss_stylesheet_t const	*self,
 			/* FIXME: user_data inline styling. Maybe require
 			 * having the node's style registered explicitely? */
 			status = ccss_grammar_parse_inline (self->grammar,
-							    inline_css, 
+							    inline_css,
 							    CCSS_STYLESHEET_AUTHOR,
 							    instance, NULL,
 							    result_group,
 							    self->blocks);
-			ret &= (status == CR_OK);
+			ret |= (status == CR_OK);
 		}
 	}
 
 	/* Apply collected style. */
-	ret &= ccss_selector_group_apply (result_group, node, style);
+	ret |= ccss_selector_group_apply (result_group, node, style);
 
 	ccss_selector_group_destroy (result_group), result_group = NULL;
 
@@ -346,7 +346,7 @@ inherit_container_style (ccss_style_t const	*container_style,
 
 			if (property->property_class->property_inherit) {
 				is_resolved = property->property_class->property_inherit (
-						container_style, 
+						container_style,
 						style);
 			} else {
 				g_hash_table_insert (style->properties,
@@ -380,7 +380,7 @@ inherit_container_style (ccss_style_t const	*container_style,
  *
  * Inherit style properties from the container if specified in the CSS.
  *
- * Returns: %TRUE if looking up inherited styles from the container was 
+ * Returns: %TRUE if looking up inherited styles from the container was
  * successful or if no inheritance is required.
  **/
 static bool
@@ -432,7 +432,7 @@ query_container_r (ccss_stylesheet_t const	*self,
  *
  * Query the stylesheet for styling information regarding a document node and apply the results to a #ccss_style_t object.
  *
- * Returns: a #ccss_style_t that the results of the query are applied to or 
+ * Returns: a #ccss_style_t that the results of the query are applied to or
  *	    %NULL if the query didn't yield results.
  **/
 ccss_style_t *
@@ -456,7 +456,7 @@ ccss_stylesheet_query (ccss_stylesheet_t 	*self,
 	ret = query_node (self, node, style);
 
 	/* Handle inherited styling. */
-	inherit = g_hash_table_new ((GHashFunc) g_direct_hash, 
+	inherit = g_hash_table_new ((GHashFunc) g_direct_hash,
 				    (GEqualFunc) g_direct_equal);
 
 	g_hash_table_iter_init (&iter, style->properties);
@@ -472,9 +472,9 @@ ccss_stylesheet_query (ccss_stylesheet_t 	*self,
 
 	if (0 == g_hash_table_size (inherit)) {
 		/* Nothing to inherit, good! */
-		ret &= true;
+		ret |= true;
 	} else {
-		ret &= query_container_r (self, node, inherit, style);
+		ret |= query_container_r (self, node, inherit, style);
 	}
 
 	/* Prune unresolved inherited properties from the style. */
@@ -498,7 +498,7 @@ ccss_stylesheet_query (ccss_stylesheet_t 	*self,
  * ccss_stylesheet_invalidate_node:
  * @self:	a #ccss_stylesheet_t.
  * @instance:	an instance identifyer, as returned by #ccss_node_get_instance_f.
- * 
+ *
  * Frees parsed inline CSS asocciated to a document node.
  **/
 void
@@ -554,4 +554,3 @@ ccss_stylesheet_dump (ccss_stylesheet_t const *self)
 		ccss_selector_group_dump (value);
 	}
 }
-

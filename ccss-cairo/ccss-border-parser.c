@@ -116,7 +116,7 @@ lookup_style (ccss_border_style_type_t border_style)
 		if (_border_style_map[i].border_style == border_style) {
 			return _border_style_map[i].css;
 		}
-	}	
+	}
 
 	return NULL;
 }
@@ -127,7 +127,7 @@ parse_width (CRTerm const		**value,
 {
 	width->base.state = ccss_property_parse_state (value);
 	if (CCSS_PROPERTY_STATE_SET == width->base.state &&
-	    *value && 
+	    *value &&
 	    TERM_NUMBER == (*value)->type) {
 
 		width->width = (*value)->content.num->val;
@@ -147,7 +147,7 @@ parse_style (CRTerm const		**value,
 	style->base.state = ccss_property_parse_state (value);
 	style->style = CCSS_BORDER_STYLE_SOLID;
 	if (CCSS_PROPERTY_STATE_SET == style->base.state &&
-	    *value && 
+	    *value &&
 	    TERM_IDENT == (*value)->type &&
 	    match_style (cr_string_peek_raw_str ((*value)->content.str), &style->style)) {
 
@@ -166,7 +166,7 @@ parse_radius (CRTerm const		**value,
 {
 	radius->base.state = ccss_property_parse_state (value);
 	if (CCSS_PROPERTY_STATE_SET == radius->base.state &&
-	    *value && 
+	    *value &&
 	    TERM_NUMBER == (*value)->type) {
 
 		radius->radius = (*value)->content.num->val;
@@ -249,7 +249,7 @@ border_color_factory (ccss_grammar_t const	*grammar,
 	return true;
 }
 
-static bool 
+static bool
 border_color_inherit (ccss_style_t const	*container_style,
 		      ccss_style_t		*style)
 {
@@ -266,14 +266,14 @@ border_color_inherit (ccss_style_t const	*container_style,
 			ret = true;
 		}
 	}
-	if (ccss_style_get_property (container_style, 
+	if (ccss_style_get_property (container_style,
 				"border-left-color", &property)) {
 		if (PROPERTY_SET (property)) {
 			ccss_style_set_property (style,
 				"border-left-color", property);
 		} else if (PROPERTY_INHERIT (property)) {
 			/* Need to resolve further. */
-			ret = false;			
+			ret = false;
 		}
 	}
 	if (ccss_style_get_property (container_style,
@@ -283,7 +283,7 @@ border_color_inherit (ccss_style_t const	*container_style,
 				"border-top-color", property);
 		} else if (PROPERTY_INHERIT (property)) {
 			/* Need to resolve further. */
-			ret = false;			
+			ret = false;
 		}
 	}
 	if (ccss_style_get_property (container_style,
@@ -293,7 +293,7 @@ border_color_inherit (ccss_style_t const	*container_style,
 				"border-right-color", property);
 		} else if (PROPERTY_INHERIT (property)) {
 			/* Need to resolve further. */
-			ret = false;			
+			ret = false;
 		}
 	}
 	if (ccss_style_get_property (container_style,
@@ -303,7 +303,7 @@ border_color_inherit (ccss_style_t const	*container_style,
 				"border-bottom-color", property);
 		} else if (PROPERTY_INHERIT (property)) {
 			/* Need to resolve further. */
-			ret = false;			
+			ret = false;
 		}
 	}
 
@@ -378,7 +378,7 @@ border_style_factory (ccss_grammar_t const	*grammar,
 	return true;
 }
 
-static bool 
+static bool
 border_style_inherit (ccss_style_t const	*container_style,
 		      ccss_style_t		*style)
 {
@@ -507,7 +507,7 @@ border_width_factory (ccss_grammar_t const	*grammar,
 	return true;
 }
 
-static bool 
+static bool
 border_width_inherit (ccss_style_t const	*container_style,
 		      ccss_style_t		*style)
 {
@@ -616,7 +616,7 @@ border_factory_impl (ccss_grammar_t const	*grammar,
 		ccss_cairo_color_parse (&c, grammar, user_data, &iter);
 	}
 
-	if (c.base.state != CCSS_PROPERTY_STATE_INVALID) { 
+	if (c.base.state != CCSS_PROPERTY_STATE_INVALID) {
 
 		ccss_cairo_color_t *color = NULL;
 		property_name = g_strdup_printf ("%s-color", property_prefix);
@@ -711,7 +711,7 @@ border_bottom_factory (ccss_grammar_t const	*grammar,
 				    values, user_data);
 }
 
-static bool 
+static bool
 border_side_inherit_impl (ccss_style_t const	*container_style,
 			  char const		*side,
 			  ccss_style_t		*style)
@@ -781,35 +781,35 @@ border_side_inherit_impl (ccss_style_t const	*container_style,
 	return ret;
 }
 
-static bool 
+static bool
 border_left_inherit (ccss_style_t const	*container_style,
 		     ccss_style_t	*style)
 {
 	return border_side_inherit_impl (container_style, "left", style);
 }
 
-static bool 
+static bool
 border_top_inherit (ccss_style_t const	*container_style,
 		    ccss_style_t	*style)
 {
 	return border_side_inherit_impl (container_style, "top", style);
 }
 
-static bool 
+static bool
 border_right_inherit (ccss_style_t const	*container_style,
 		      ccss_style_t		*style)
 {
 	return border_side_inherit_impl (container_style, "right", style);
 }
 
-static bool 
+static bool
 border_bottom_inherit (ccss_style_t const	*container_style,
 		       ccss_style_t		*style)
 {
 	return border_side_inherit_impl (container_style, "bottom", style);
 }
 
-static bool 
+static bool
 border_inherit (ccss_style_t const	*container_style,
 		ccss_style_t		*style)
 {
@@ -817,10 +817,10 @@ border_inherit (ccss_style_t const	*container_style,
 
 	ret = true;
 
-	ret &= border_left_inherit (container_style, style);	
-	ret &= border_top_inherit (container_style, style);	
-	ret &= border_right_inherit (container_style, style);	
-	ret &= border_bottom_inherit (container_style, style);	
+	ret |= border_left_inherit (container_style, style);
+	ret |= border_top_inherit (container_style, style);
+	ret |= border_right_inherit (container_style, style);
+	ret |= border_bottom_inherit (container_style, style);
 
 	return ret;
 }
@@ -911,7 +911,7 @@ border_radius_factory (ccss_grammar_t const	*grammar,
 	return true;
 }
 
-static bool 
+static bool
 border_radius_inherit (ccss_style_t const	*container_style,
 		       ccss_style_t		*style)
 {
@@ -1270,4 +1270,3 @@ ccss_border_get_ptable (void)
 {
 	return _ptable;
 }
-
