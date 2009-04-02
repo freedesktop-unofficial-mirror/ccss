@@ -1,3 +1,5 @@
+/* vim: set ts=8 sw=8 noexpandtab: */
+
 /* The `C' CSS Library.
  * Copyright (C) 2008 Robert Staudinger
  *
