@@ -23,15 +23,15 @@
 #define CCSS_CAIRO_IMAGE_CACHE_H
 
 #include <ccss/ccss.h>
-#include <ccss-cairo/ccss-image.h>
+#include <ccss-cairo/ccss-cairo-image.h>
 
 /* FIXME: should the image cache be tied to a grammar or stylesheet? */
 
-ccss_image_t const *
-ccss_image_cache_fetch_image (char const *uri);
+ccss_cairo_image_t const *
+ccss_cairo_image_cache_fetch_image (char const *uri);
 
 void
-ccss_image_cache_destroy (void);
+ccss_cairo_image_cache_destroy (void);
 
 #endif /* CCSS_CAIRO_IMAGE_CACHE_H */
 

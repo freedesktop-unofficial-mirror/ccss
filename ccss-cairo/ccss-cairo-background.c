@@ -27,11 +27,11 @@
 #include "config.h"
 
 static cairo_pattern_t *
-create_pattern (ccss_image_t const	*image,
-		double			 width,
-		double			 height,
-		double			 tile_width,
-		double			 tile_height)
+create_pattern (ccss_cairo_image_t const	*image,
+		double				 width,
+		double				 height,
+		double				 tile_width,
+		double				 tile_height)
 {
 	cairo_t			*cr;
 	cairo_surface_t		*surface;
@@ -67,12 +67,12 @@ create_pattern (ccss_image_t const	*image,
 }
 
 static void
-repeat (ccss_image_t const	*image,
-	cairo_t			*cr,
-	int32_t			 width,
-	int32_t			 height,
-	double			 tile_width,
-	double			 tile_height)
+repeat (ccss_cairo_image_t const	*image,
+	cairo_t				*cr,
+	int32_t				 width,
+	int32_t				 height,
+	double				 tile_width,
+	double				 tile_height)
 {
 	cairo_pattern_t	*pattern;
 
@@ -90,12 +90,12 @@ repeat (ccss_image_t const	*image,
 }
 
 static void
-repeat_x (ccss_image_t const	*image,
-	  cairo_t		*cr,
-	  int32_t		 width,
-	  int32_t		 height,
-	  double		 tile_width,
-	  double		 tile_height)
+repeat_x (ccss_cairo_image_t const	*image,
+	  cairo_t			*cr,
+	  int32_t		         width,
+	  int32_t		         height,
+	  double			 tile_width,
+	  double			 tile_height)
 {
 	cairo_pattern_t	*pattern;
 
@@ -113,12 +113,12 @@ repeat_x (ccss_image_t const	*image,
 }
 
 static void
-repeat_y (ccss_image_t const	*image,
-	  cairo_t		*cr,
-	  int32_t		 width,
-	  int32_t		 height,
-	  double		 tile_width,
-	  double		 tile_height)
+repeat_y (ccss_cairo_image_t const	*image,
+	  cairo_t			*cr,
+	  int32_t			 width,
+	  int32_t			 height,
+	  double			 tile_width,
+	  double			 tile_height)
 {
 	cairo_pattern_t	*pattern;
 
@@ -136,10 +136,10 @@ repeat_y (ccss_image_t const	*image,
 }
 
 static void
-no_repeat (ccss_image_t const	*image,
-	   cairo_t		*cr,
-	   int32_t		 width,
-	   int32_t		 height)
+no_repeat (ccss_cairo_image_t const	*image,
+	   cairo_t			*cr,
+	   int32_t			 width,
+	   int32_t			 height)
 {
 	cairo_pattern_set_extend (image->pattern, CAIRO_EXTEND_NONE);
 	cairo_set_source (cr, image->pattern);
@@ -147,23 +147,23 @@ no_repeat (ccss_image_t const	*image,
 }
 
 /**
- * ccss_background_fill:
+ * ccss_cairo_background_fill:
  *
  * This function requires that a closed path exists, which is filled with 
  * the background. The path is not modified.
  **/
 void
-ccss_background_fill (ccss_background_attachment_t const	*bg_attachment, 
-		     ccss_color_t const			*bg_color,
-		     ccss_background_image_t const	*bg_image,
-		     ccss_background_position_t const	*bg_position,
-		     ccss_background_repeat_t const	*bg_repeat,
-		     ccss_background_size_t const	*bg_size,
-		     cairo_t				*cr,
-		     int32_t				 x,
-		     int32_t				 y, 
-		     int32_t				 width,
-		     int32_t				 height)
+ccss_cairo_background_fill (ccss_background_attachment_t const  *bg_attachment, 
+			    ccss_color_t const			*bg_color,
+			    ccss_background_image_t const       *bg_image,
+			    ccss_background_position_t const    *bg_position,
+			    ccss_background_repeat_t const      *bg_repeat,
+			    ccss_background_size_t const	*bg_size,
+			    cairo_t				*cr,
+			    int32_t				 x,
+			    int32_t				 y, 
+			    int32_t				 width,
+			    int32_t				 height)
 {
 	cairo_status_t	status;
 	double		dx;
@@ -183,13 +183,13 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 
 	if (bg_image && bg_image->base.state == CCSS_PROPERTY_STATE_SET) {
 
-		ccss_image_t const       *image;
-		double			 tile_width;
-		double			 tile_height;
-		double			 xoff;
-		double			 yoff;
+		ccss_cairo_image_t const	*image;
+		double				 tile_width;
+		double				 tile_height;
+		double				 xoff;
+		double				 yoff;
 
-		image = ccss_image_cache_fetch_image (bg_image->uri);
+		image = ccss_cairo_image_cache_fetch_image (bg_image->uri);
 		g_return_if_fail (image);
 
 		tile_width = bg_size ? 

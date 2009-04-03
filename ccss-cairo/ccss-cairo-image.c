@@ -22,7 +22,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <glib.h>
-#include "ccss-image.h"
+#include "ccss-cairo-image.h"
 #include "config.h"
 
 #ifdef CCSS_WITH_SOUP
@@ -35,7 +35,7 @@
 #endif
 
 void
-ccss_image_destroy (ccss_image_t *self)
+ccss_cairo_image_destroy (ccss_cairo_image_t *self)
 {
 	if (self->pattern) {
 		cairo_pattern_destroy (self->pattern);
@@ -48,9 +48,9 @@ ccss_image_destroy (ccss_image_t *self)
 #if CCSS_WITH_RSVG
 
 static bool
-load_svg (ccss_image_t	*self,
-	  char const	*uri,
-	  char const	*id)
+load_svg (ccss_cairo_image_t	*self,
+	  char const		*uri,
+	  char const		*id)
 {
 	RsvgHandle		*handle;
 	GError			*error;
@@ -121,8 +121,8 @@ load_svg (ccss_image_t	*self,
 #endif /*  CCSS_WITH_RSVG */
 
 static bool
-load_png (ccss_image_t	*self,
-	  char const	*path)
+load_png (ccss_cairo_image_t	*self,
+	  char const		*path)
 {
 	cairo_surface_t	*surface;
 	cairo_status_t	 status;
@@ -145,13 +145,13 @@ load_png (ccss_image_t	*self,
 	return true;
 }
 
-ccss_image_t *
-ccss_image_create (char const *url)
+ccss_cairo_image_t *
+ccss_cairo_image_create (char const *url)
 {
-	bool		 matched;
-	char		*path;
-	char const	*fragment;
-	ccss_image_t    *self = g_new0 (ccss_image_t, 1);
+	bool			 matched;
+	char			*path;
+	char const		*fragment;
+	ccss_cairo_image_t      *self = g_new0 (ccss_cairo_image_t, 1);
 #if CCSS_WITH_SOUP
 	SoupURI		*uri;
 

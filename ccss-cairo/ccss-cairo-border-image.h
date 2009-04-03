@@ -22,19 +22,18 @@
 #ifndef CCSS_CAIRO_BORDER_IMAGE_H
 #define CCSS_CAIRO_BORDER_IMAGE_H
 
-#include <stdint.h>
 #include <cairo.h>
 #include <ccss/ccss.h>
 
 CCSS_BEGIN_DECLS
 
 void
-ccss_border_image_draw (ccss_border_image_t const	*self,
-			cairo_t				*cr, 
-			double				 x,
-			double				 y,
-			double				 width,
-			double				 height);
+ccss_cairo_border_image_draw (ccss_border_image_t const	*self,
+			      cairo_t			*cr, 
+			      double			 x,
+			      double			 y,
+			      double			 width,
+			      double			 height);
 
 CCSS_END_DECLS
 

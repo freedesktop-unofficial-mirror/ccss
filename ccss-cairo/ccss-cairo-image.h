@@ -19,8 +19,8 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_IMAGE_H
-#define CCSS_IMAGE_H
+#ifndef CCSS_CAIRO_IMAGE_H
+#define CCSS_CAIRO_IMAGE_H
 
 #include <cairo.h>
 #include <libcroco/libcroco.h>
@@ -32,15 +32,15 @@ typedef struct {
 	cairo_pattern_t *pattern;
 	double		 width;
 	double		 height;
-} ccss_image_t;
+} ccss_cairo_image_t;
 
-ccss_image_t *
-ccss_image_create (char const *uri);
+ccss_cairo_image_t *
+ccss_cairo_image_create (char const *uri);
 
 void
-ccss_image_destroy (ccss_image_t *self);
+ccss_cairo_image_destroy (ccss_cairo_image_t *self);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_IMAGE_H */
+#endif /* CCSS_CAIRO_IMAGE_H */
 

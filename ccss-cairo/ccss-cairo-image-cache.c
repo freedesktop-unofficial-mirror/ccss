@@ -25,22 +25,23 @@
 
 static GHashTable *_image_hash = NULL;
 
-ccss_image_t const *
-ccss_image_cache_fetch_image (char const *uri)
+ccss_cairo_image_t const *
+ccss_cairo_image_cache_fetch_image (char const *uri)
 {
-	ccss_image_t *image;
+	ccss_cairo_image_t *image;
 
 	if (_image_hash == NULL) {
-		_image_hash = g_hash_table_new_full (g_str_hash,
-						     g_str_equal,
-						     g_free,
-						     (GDestroyNotify) ccss_image_destroy);
+		_image_hash = g_hash_table_new_full (
+				g_str_hash,
+				g_str_equal,
+				g_free,
+				(GDestroyNotify) ccss_cairo_image_destroy);
 	}
 	
 	image = g_hash_table_lookup (_image_hash, uri);
 	
 	if (!image) {
-		image = ccss_image_create (uri);
+		image = ccss_cairo_image_create (uri);
 		if (image)
 			g_hash_table_insert (_image_hash,
 					     g_strdup (uri),
@@ -51,7 +52,7 @@ ccss_image_cache_fetch_image (char const *uri)
 }
 
 void
-ccss_image_cache_destroy (void)
+ccss_cairo_image_cache_destroy (void)
 {
 	g_hash_table_destroy (_image_hash);
 	_image_hash = NULL;

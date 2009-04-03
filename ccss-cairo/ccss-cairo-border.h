@@ -22,38 +22,52 @@
 #ifndef CCSS_CAIRO_BORDER_H
 #define CCSS_CAIRO_BORDER_H
 
-#include <stdbool.h>
 #include <stdint.h>
 #include <cairo.h>
 #include <ccss/ccss.h>
 
 CCSS_BEGIN_DECLS
 
-void ccss_border_clamp_radii (double x, double y, double width, double height,
-			     double *left_top, double *top_right,
-			     double *right_bottom, double *bottom_left);
+void
+ccss_cairo_border_clamp_radii (double     x,
+			       double     y, 
+			       double     width, 
+			       double     height,
+			       double    *left_top, 
+			       double    *top_right,
+			       double    *right_bottom, 
+			       double    *bottom_left);
 
-void ccss_border_path (ccss_border_stroke_t const *left, 
-		      ccss_border_join_t const *left_top,
-		      ccss_border_stroke_t const *top, 
-		      ccss_border_join_t const *top_right,
-		      ccss_border_stroke_t const *right,
-		      ccss_border_join_t const *right_bottom,
-		      ccss_border_stroke_t const *bottom, 
-		      ccss_border_join_t const *bottom_left,
-		      cairo_t *cr, 
-		      double x, double y, double width, double height);
+void
+ccss_cairo_border_path (ccss_border_stroke_t const      *left, 
+			ccss_border_join_t const	*left_top,
+			ccss_border_stroke_t const      *top, 
+			ccss_border_join_t const	*top_right,
+			ccss_border_stroke_t const      *right,
+			ccss_border_join_t const	*right_bottom,
+			ccss_border_stroke_t const      *bottom, 
+			ccss_border_join_t const	*bottom_left,
+			cairo_t				*cr, 
+			double				 x, 
+			double				 y, 
+			double				 width,
+			double				 height);
 
-void ccss_border_draw (ccss_border_stroke_t const *left, 
-		      ccss_border_join_t const *left_top,
-		      ccss_border_stroke_t const *top, 
-		      ccss_border_join_t const *top_right,
-		      ccss_border_stroke_t const *right,
-		      ccss_border_join_t const *right_bottom,
-		      ccss_border_stroke_t const *bottom, 
-		      ccss_border_join_t const *bottom_left,
-		      uint32_t visibility_flags, cairo_t *cr, 
-		      double x, double y, double width, double height);
+void
+ccss_cairo_border_draw (ccss_border_stroke_t const      *left, 
+			ccss_border_join_t const	*left_top,
+			ccss_border_stroke_t const      *top, 
+			ccss_border_join_t const	*top_right,
+			ccss_border_stroke_t const      *right,
+			ccss_border_join_t const	*right_bottom,
+			ccss_border_stroke_t const      *bottom, 
+			ccss_border_join_t const	*bottom_left,
+			uint32_t			 visibility_flags, 
+			cairo_t				*cr, 
+			double				 x,
+			double				 y, 
+			double				 width, 
+			double				 height);
 
 CCSS_END_DECLS
 

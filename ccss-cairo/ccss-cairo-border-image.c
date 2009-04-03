@@ -29,7 +29,7 @@ typedef enum {
 } orientation_t;
 
 static cairo_pattern_t *
-create_tile (ccss_image_t const		*image,
+create_tile (ccss_cairo_image_t const	*image,
 	     double			 x,
 	     double			 y,
 	     double			 width,
@@ -70,7 +70,7 @@ create_tile (ccss_image_t const		*image,
 }
 
 static cairo_pattern_t *
-create_border (ccss_image_t const		*image,
+create_border (ccss_cairo_image_t const		*image,
 	       orientation_t			 orientation,
 	       ccss_border_image_tiling_t	 tiling,
 	       double				 width,
@@ -131,7 +131,7 @@ create_border (ccss_image_t const		*image,
 }
 
 static cairo_pattern_t *
-create_middle (ccss_image_t const		*image,
+create_middle (ccss_cairo_image_t const		*image,
 	       ccss_border_image_tiling_t	 horizontal_tiling,
 	       ccss_border_image_tiling_t	 vertical_tiling,
 	       double				 width,
@@ -202,24 +202,24 @@ paint (cairo_pattern_t		*tile,
 }
 
 void
-ccss_border_image_draw (ccss_border_image_t const	*self,
-			cairo_t				*cr, 
-			double				 x,
-			double				 y,
-			double				 width,
-			double				 height)
+ccss_cairo_border_image_draw (ccss_border_image_t const	*self,
+			      cairo_t			*cr, 
+			      double			 x,
+			      double			 y,
+			      double			 width,
+			      double			 height)
 {
-	ccss_image_t const      *image;
-	cairo_pattern_t		*tile;
-	double			 top_width, top_height;
-	double			 right_width, right_height;
-	double			 bottom_width, bottom_height;
-	double			 left_width, left_height;
-	double			 middle_width, middle_height;
-	double			 xoff, yoff;
+	ccss_cairo_image_t const	*image;
+	cairo_pattern_t			*tile;
+	double				 top_width, top_height;
+	double				 right_width, right_height;
+	double				 bottom_width, bottom_height;
+	double				 left_width, left_height;
+	double				 middle_width, middle_height;
+	double				 xoff, yoff;
 
 	g_return_if_fail (self && cr);
-	image = ccss_image_cache_fetch_image (self->uri);
+	image = ccss_cairo_image_cache_fetch_image (self->uri);
 	g_return_if_fail (image);
 
 	/* Tile extents, see http://www.w3.org/TR/css3-background/#the-border-image . */

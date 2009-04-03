@@ -134,15 +134,15 @@ ccss_cairo_style_draw_line (ccss_style_t const	*self,
 	off = stroke.width->width / 2.;
 
 	if (y1 == y2) {
-		ccss_border_draw (NULL, NULL, &stroke, NULL,
-				 NULL, NULL, NULL, NULL,
-				 CCSS_BORDER_VISIBILITY_SHOW_ALL,
-				 cr, x1, y1 - off, x2 - x1, 0);
+		ccss_cairo_border_draw (NULL, NULL, &stroke, NULL,
+					NULL, NULL, NULL, NULL,
+					CCSS_BORDER_VISIBILITY_SHOW_ALL,
+					cr, x1, y1 - off, x2 - x1, 0);
 	} else {
-		ccss_border_draw (&stroke, NULL, NULL, NULL,
-				 NULL, NULL, NULL, NULL,
-				 CCSS_BORDER_VISIBILITY_SHOW_ALL,
-				 cr, x1 - off, y1, 0, y2 - y1);
+		ccss_cairo_border_draw (&stroke, NULL, NULL, NULL,
+					NULL, NULL, NULL, NULL,
+					CCSS_BORDER_VISIBILITY_SHOW_ALL,
+					cr, x1 - off, y1, 0, y2 - y1);
 	}
 }
 
@@ -313,12 +313,12 @@ ccss_cairo_style_draw_outline (ccss_style_t const	*self,
 	gather_outline (self, &bottom, &left, &right, &top,
 			&bottom_left, &bottom_right, &top_left, &top_right);
 
-	ccss_border_draw (&left, top_left, 
-			  &top, top_right,
-			  &right, bottom_right,
-			  &bottom, bottom_left,
-			  CCSS_BORDER_VISIBILITY_SHOW_ALL,
-			  cr, x, y, width, height);
+	ccss_cairo_border_draw (&left, top_left, 
+				&top, top_right,
+				&right, bottom_right,
+				&bottom, bottom_left,
+				CCSS_BORDER_VISIBILITY_SHOW_ALL,
+				cr, x, y, width, height);
 }
 
 /**
@@ -362,11 +362,11 @@ ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 	gather_background (self, &bg_attachment, &bg_color, &bg_image, 
 			   &bg_position, &bg_repeat, &bg_size);
 
-	ccss_border_path (&left, top_left, 
-			  &top, top_right,
-			  &right, bottom_right,
-			  &bottom, bottom_left,
-			  cr, x, y, width, height);
+	ccss_cairo_border_path (&left, top_left, 
+				&top, top_right,
+				&right, bottom_right,
+				&bottom, bottom_left,
+				cr, x, y, width, height);
 
 	/* FIXME: background size is calculated against allocation
 	 * when using `fixed'. */
@@ -383,8 +383,8 @@ ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 		h = height;
 	}
 
-	ccss_background_fill (bg_attachment, bg_color, bg_image, bg_position, 
-			      bg_repeat, bg_size, cr, l, t, w, h);
+	ccss_cairo_background_fill (bg_attachment, bg_color, bg_image, bg_position, 
+				    bg_repeat, bg_size, cr, l, t, w, h);
 
 	cairo_new_path (cr);
 
@@ -396,17 +396,16 @@ ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 			(gpointer) CCSS_PROPERTY_BORDER_IMAGE);
 
 	if (border_image) {
-
-		ccss_border_image_draw (border_image, cr,
-					x, y, width, height);
+		ccss_cairo_border_image_draw (border_image, cr,
+					      x, y, width, height);
 
 	} else {
-		ccss_border_draw (&left, top_left, 
-				  &top, top_right,
-				  &right, bottom_right,
-				  &bottom, bottom_left,
-				  CCSS_BORDER_VISIBILITY_SHOW_ALL,
-				  cr, x, y, width, height);
+		ccss_cairo_border_draw (&left, top_left, 
+					&top, top_right,
+					&right, bottom_right,
+					&bottom, bottom_left,
+					CCSS_BORDER_VISIBILITY_SHOW_ALL,
+					cr, x, y, width, height);
 	}
 }
 
@@ -503,15 +502,15 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 	if (bottom_right.radius < 0)	bottom_right.radius = 0;
 	if (bottom_left.radius < 0)	bottom_left.radius = 0;
 
-	ccss_border_clamp_radii (x, y, width, height,
-				&top_left.radius, &top_right.radius,
-				&bottom_right.radius, &bottom_left.radius);
+	ccss_cairo_border_clamp_radii (x, y, width, height,
+				       &top_left.radius, &top_right.radius,
+				       &bottom_right.radius, &bottom_left.radius);
 
-	ccss_border_path (&left, &top_left, 
-			 &top, &top_right,
-			 &right, &bottom_right,
-			 &bottom, &bottom_left,
-			 cr, x, y, width, height);
+	ccss_cairo_border_path (&left, &top_left, 
+				&top, &top_right,
+				&right, &bottom_right,
+				&bottom, &bottom_left,
+				cr, x, y, width, height);
 
 	/* FIXME: background size is calculated against allocation
 	 * when using `fixed'. */
@@ -528,8 +527,8 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 		h = height;
 	}
 
-	ccss_background_fill (bg_attachment, bg_color, bg_image, bg_position, 
-			      bg_repeat, bg_size, cr, l, t, w, h);
+	ccss_cairo_background_fill (bg_attachment, bg_color, bg_image, bg_position, 
+				    bg_repeat, bg_size, cr, l, t, w, h);
 
 	cairo_new_path (cr);
 
@@ -543,88 +542,94 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 			 * With Gtk+ the portion following the gap might not be visible. */
 			if (bottom_left.radius < height - gap_start - gap_width &&
 			    gap_start + gap_width < height) {
-				ccss_border_draw (&left, NULL, NULL, NULL,
-					 NULL, NULL, NULL, &bottom_left,
-					 CCSS_BORDER_VISIBILITY_HIDE_BOTTOM_LEFT |
-					 CCSS_BORDER_ROUNDING_UNRESTRICTED,
-					 cr, x, y + gap_start + gap_width - 1, 
-					 0, height - gap_start - gap_width);
+				ccss_cairo_border_draw (
+					&left, NULL, NULL, NULL,
+					NULL, NULL, NULL, &bottom_left,
+					CCSS_BORDER_VISIBILITY_HIDE_BOTTOM_LEFT |
+					CCSS_BORDER_ROUNDING_UNRESTRICTED,
+					cr, x, y + gap_start + gap_width - 1, 
+					0, height - gap_start - gap_width);
 			}
 			/* Rounding reaches until start of gap? */
 			if (top_left.radius < gap_start) {
-				ccss_border_draw (&left, &top_left, NULL, NULL,
-					 NULL, NULL, NULL, NULL,
-					 CCSS_BORDER_VISIBILITY_HIDE_LEFT_TOP |
-					 CCSS_BORDER_ROUNDING_UNRESTRICTED,
-					 cr, x, y, 0, gap_start + 1);
+				ccss_cairo_border_draw (
+					&left, &top_left, NULL, NULL,
+					NULL, NULL, NULL, NULL,
+					CCSS_BORDER_VISIBILITY_HIDE_LEFT_TOP |
+					CCSS_BORDER_ROUNDING_UNRESTRICTED,
+					cr, x, y, 0, gap_start + 1);
 			}
 		}
-		ccss_border_draw (&left, &top_left,
-				 &top, &top_right,
-				 &right, &bottom_right,
-				 &bottom, &bottom_left,
-				 CCSS_BORDER_VISIBILITY_HIDE_LEFT,
-				 cr, x, y, width, height);
+		ccss_cairo_border_draw (&left, &top_left,
+					&top, &top_right,
+					&right, &bottom_right,
+					&bottom, &bottom_left,
+					CCSS_BORDER_VISIBILITY_HIDE_LEFT,
+					cr, x, y, width, height);
 		break;
 	case CCSS_CAIRO_GAP_SIDE_TOP:
 		/* Draw gap only if it's not over the whole border. */
 		if (gap_start > x || gap_width < width) {
 			/* Rounding reaches until start of gap? */
 			if (top_left.radius < gap_start) {
-				ccss_border_draw (NULL, &top_left, &top, NULL,
-					 NULL, NULL, NULL, NULL,
-					 CCSS_BORDER_VISIBILITY_HIDE_LEFT_TOP |
-					 CCSS_BORDER_ROUNDING_UNRESTRICTED,
-					 cr, x, y, gap_start + 1, 0);
+				ccss_cairo_border_draw (
+					NULL, &top_left, &top, NULL,
+					NULL, NULL, NULL, NULL,
+					CCSS_BORDER_VISIBILITY_HIDE_LEFT_TOP |
+					CCSS_BORDER_ROUNDING_UNRESTRICTED,
+					cr, x, y, gap_start + 1, 0);
 			}
 			/* Rounding reaches until start of gap?
 			 * With Gtk+ the portion following the gap might not be visible. */
 			if (top_right.radius < width - gap_start - gap_width &&
 			    gap_start + gap_width < width) {
-				ccss_border_draw (NULL, NULL, &top, &top_right,
-					 NULL, NULL, NULL, NULL,
-					 CCSS_BORDER_VISIBILITY_HIDE_TOP_RIGHT |
-					 CCSS_BORDER_ROUNDING_UNRESTRICTED,
-					 cr, x + gap_start + gap_width - 1, y, 
-					 width - gap_start - gap_width, 0);
+				ccss_cairo_border_draw (
+					NULL, NULL, &top, &top_right,
+					NULL, NULL, NULL, NULL,
+					CCSS_BORDER_VISIBILITY_HIDE_TOP_RIGHT |
+					CCSS_BORDER_ROUNDING_UNRESTRICTED,
+					cr, x + gap_start + gap_width - 1, y, 
+					width - gap_start - gap_width, 0);
 			}
 		}
-		ccss_border_draw (&left, &top_left, 
-				 &top, &top_right,
-				 &right, &bottom_right,
-				 &bottom, &bottom_left,
-				 CCSS_BORDER_VISIBILITY_HIDE_TOP,
-				 cr, x, y, width, height);
+		ccss_cairo_border_draw (&left, &top_left, 
+					&top, &top_right,
+					&right, &bottom_right,
+					&bottom, &bottom_left,
+					CCSS_BORDER_VISIBILITY_HIDE_TOP,
+					cr, x, y, width, height);
 		break;
 	case CCSS_CAIRO_GAP_SIDE_RIGHT:
 		/* Draw gap only if it's not over the whole border. */
 		if (gap_start > y || gap_width < height) {
 			/* Rounding reaches until start of gap? */
 			if (top_right.radius < gap_start) {
-				ccss_border_draw (NULL, NULL, NULL, &top_right,
-					 &right, NULL, NULL, NULL,
-					 CCSS_BORDER_VISIBILITY_HIDE_TOP_RIGHT |
-					 CCSS_BORDER_ROUNDING_UNRESTRICTED,
-					 cr, x + width, y, 0, gap_start + 1);
+				ccss_cairo_border_draw (
+					NULL, NULL, NULL, &top_right,
+					&right, NULL, NULL, NULL,
+					CCSS_BORDER_VISIBILITY_HIDE_TOP_RIGHT |
+					CCSS_BORDER_ROUNDING_UNRESTRICTED,
+					cr, x + width, y, 0, gap_start + 1);
 			}
 			/* Rounding reaches until start of gap?
 			 * With Gtk+ the portion following the gap might not be visible. */
 			if (bottom_right.radius < height - gap_start - gap_width &&
 			    gap_start + gap_width < height) {
-				ccss_border_draw (NULL, NULL, NULL, NULL,
-					 &right, &bottom_right, NULL, NULL,
-					 CCSS_BORDER_VISIBILITY_HIDE_RIGHT_BOTTOM |
-					 CCSS_BORDER_ROUNDING_UNRESTRICTED,
-					 cr, x + width, y + gap_start + gap_width - 1, 
-					 0, height - gap_start - gap_width);
+				ccss_cairo_border_draw (
+					NULL, NULL, NULL, NULL,
+					&right, &bottom_right, NULL, NULL,
+					CCSS_BORDER_VISIBILITY_HIDE_RIGHT_BOTTOM |
+					CCSS_BORDER_ROUNDING_UNRESTRICTED,
+					cr, x + width, y + gap_start + gap_width - 1, 
+					0, height - gap_start - gap_width);
 			}
 		}
-		ccss_border_draw (&left, &top_left,
-				 &top, &top_right, 
-				 &right, &bottom_right,
-				 &bottom, &bottom_left,
-				 CCSS_BORDER_VISIBILITY_HIDE_RIGHT,
-				 cr, x, y, width, height);
+		ccss_cairo_border_draw (&left, &top_left,
+					&top, &top_right, 
+					&right, &bottom_right,
+					&bottom, &bottom_left,
+					CCSS_BORDER_VISIBILITY_HIDE_RIGHT,
+					cr, x, y, width, height);
 		break;
 	case CCSS_CAIRO_GAP_SIDE_BOTTOM:
 		/* Draw gap only if it's not over the whole border. */
@@ -633,28 +638,30 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 			 * With Gtk+ the portion following the gap might not be visible. */
 			if (bottom_right.radius < width - gap_start - gap_width &&
 			    gap_start + gap_width < width) {
-				ccss_border_draw (NULL, NULL, NULL, NULL,
-					 NULL, &bottom_right, &bottom, NULL,
-					 CCSS_BORDER_VISIBILITY_HIDE_RIGHT_BOTTOM |
-					 CCSS_BORDER_ROUNDING_UNRESTRICTED,
-					 cr, x + gap_start + gap_width - 1, y + height,
-					 width - gap_start - gap_width, 0);
+				ccss_cairo_border_draw (
+					NULL, NULL, NULL, NULL,
+					NULL, &bottom_right, &bottom, NULL,
+					CCSS_BORDER_VISIBILITY_HIDE_RIGHT_BOTTOM |
+					CCSS_BORDER_ROUNDING_UNRESTRICTED,
+					cr, x + gap_start + gap_width - 1, y + height,
+					width - gap_start - gap_width, 0);
 			}
 			/* Rounding reaches until start of gap? */
 			if (bottom_left.radius < gap_start) {
-				ccss_border_draw (NULL, NULL, NULL, NULL,
-					 NULL, NULL, &bottom, &bottom_left,
-					 CCSS_BORDER_VISIBILITY_HIDE_BOTTOM_LEFT |
-					 CCSS_BORDER_ROUNDING_UNRESTRICTED,
-					 cr, x, y + height, gap_start + 1, 0);
+				ccss_cairo_border_draw (
+					NULL, NULL, NULL, NULL,
+					NULL, NULL, &bottom, &bottom_left,
+					CCSS_BORDER_VISIBILITY_HIDE_BOTTOM_LEFT |
+					CCSS_BORDER_ROUNDING_UNRESTRICTED,
+					cr, x, y + height, gap_start + 1, 0);
 			}
 		}
-		ccss_border_draw (&left, &top_left,
-				 &top, &top_right,
-				 &right, &bottom_right,
-				 &bottom, &bottom_left,
-				 CCSS_BORDER_VISIBILITY_HIDE_BOTTOM,
-				 cr, x, y, width, height);
+		ccss_cairo_border_draw (&left, &top_left,
+					&top, &top_right,
+					&right, &bottom_right,
+					&bottom, &bottom_left,
+					CCSS_BORDER_VISIBILITY_HIDE_BOTTOM,
+					cr, x, y, width, height);
 		break;
 	default:
 		g_assert_not_reached ();
