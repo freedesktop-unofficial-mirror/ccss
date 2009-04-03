@@ -22,23 +22,18 @@
 #ifndef CCSS_H
 #define CCSS_H
 
+#include <ccss/ccss-background.h>
 #include <ccss/ccss-block.h>
+#include <ccss/ccss-border.h>
+#include <ccss/ccss-border-image.h>
+#include <ccss/ccss-color.h>
 #include <ccss/ccss-grammar.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-node.h>
+#include <ccss/ccss-position.h>
 #include <ccss/ccss-property.h>
 #include <ccss/ccss-style.h>
 #include <ccss/ccss-stylesheet.h>
-
-CCSS_BEGIN_DECLS
-
-void
-ccss_init	(void);
-
-void
-ccss_shutdown	(void);
-
-CCSS_END_DECLS
 
 #endif /* CCSS_H */
 

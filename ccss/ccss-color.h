@@ -1,6 +1,6 @@
 /* vim: set ts=8 sw=8 noexpandtab: */
 
-/* The Cairo CSS Drawing Library.
+/* The `C' CSS Library.
  * Copyright (C) 2008 Robert Staudinger
  *
  * This  library is free  software; you can  redistribute it and/or
@@ -19,19 +19,28 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_BORDER_PARSER_H
-#define CCSS_BORDER_PARSER_H
+#ifndef CCSS_COLOR_H
+#define CCSS_COLOR_H
 
 #include <stdbool.h>
 #include <libcroco/libcroco.h>
-#include <ccss/ccss.h>
+#include <ccss/ccss-property.h>
 
 CCSS_BEGIN_DECLS
 
-ccss_property_class_t const *
-ccss_border_get_ptable (void);
+typedef struct {
+	ccss_property_base_t	base;
+
+	double			red;
+	double			green;
+	double			blue;
+} ccss_color_t;
+
+bool
+ccss_color_parse (ccss_color_t		 *self,
+		  CRTerm const		**values);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_BORDER_PARSER_H */
+#endif /* CCSS_COLOR_H */
 

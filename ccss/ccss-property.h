@@ -138,7 +138,7 @@ typedef bool (*ccss_property_inherit_f) (struct ccss_style_ const	*container_sty
  * @property_factory:	factory hook, see #ccss_property_factory_f.
  * @property_inherit:	inherit hook, see #ccss_property_inherit_f.
  *
- * Entry in the table of property implementations passed when initialising ccss, see #ccss_init.
+ * Property interpretation vtable entry.
  **/
 typedef struct {
 	char const		*name;

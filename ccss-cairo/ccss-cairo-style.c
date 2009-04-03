@@ -22,9 +22,9 @@
 #include <string.h>
 #include <glib.h>
 #include <ccss/ccss-style-priv.h>	/* PONDERING: use only public headers? */
-#include "ccss-background.h"
-#include "ccss-border.h"
-#include "ccss-border-image.h"
+#include "ccss-cairo-background.h"
+#include "ccss-cairo-border.h"
+#include "ccss-cairo-border-image.h"
 #include "ccss-cairo-style.h"
 #include "ccss-cairo-property.h"
 #include "config.h"
@@ -111,7 +111,7 @@ ccss_cairo_style_draw_line (ccss_style_t const	*self,
 	ccss_border_stroke_t		 stroke;
 	double				 off;
 
-	stroke.color = (ccss_cairo_color_t *) lookup_property_r (self,
+	stroke.color = (ccss_color_t *) lookup_property_r (self,
 								 "border-color");
 	if (NULL == stroke.color) {
 		stroke.color = NULL;
@@ -149,14 +149,14 @@ ccss_cairo_style_draw_line (ccss_style_t const	*self,
 static void
 gather_stroke (ccss_style_t const		*self,
 	       char const			*color_prop,
-	       ccss_cairo_color_t const		*color_fallback,
+	       ccss_color_t const		*color_fallback,
 	       char const			*style_prop,
 	       ccss_border_style_t const	*style_fallback,
 	       char const			*width_prop,
 	       ccss_border_width_t const	*width_fallback,
 	       ccss_border_stroke_t		*stroke)
 {
-	stroke->color = (ccss_cairo_color_t *) lookup_property_r (self, color_prop);
+	stroke->color = (ccss_color_t *) lookup_property_r (self, color_prop);
 	if (NULL == stroke->color) {
 		stroke->color = color_fallback;
 	}
@@ -235,7 +235,7 @@ gather_outline (ccss_style_t const		 *self,
 static void
 gather_background (ccss_style_t const			 *self,
 		   ccss_background_attachment_t const	**bg_attachment, 
-		   ccss_cairo_color_t const			**bg_color,
+		   ccss_color_t const			**bg_color,
 		   ccss_background_image_t const	**bg_image,
 		   ccss_background_position_t const	**bg_position,
 		   ccss_background_repeat_t const	**bg_repeat,
@@ -248,7 +248,7 @@ gather_background (ccss_style_t const			 *self,
 	if (!*bg_attachment)
 		*bg_attachment = NULL;
 
-	*bg_color = (ccss_cairo_color_t const *)
+	*bg_color = (ccss_color_t const *)
 		g_hash_table_lookup (
 			self->properties,
 			(gpointer) CCSS_PROPERTY_BACKGROUND_COLOR);
@@ -348,7 +348,7 @@ ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 	ccss_border_image_t const	*border_image;
 
 	ccss_background_attachment_t const	*bg_attachment;
-	ccss_cairo_color_t const			*bg_color;
+	ccss_color_t const			*bg_color;
 	ccss_background_image_t const		*bg_image;
 	ccss_background_position_t const	*bg_position;
 	ccss_background_repeat_t const		*bg_repeat;
@@ -442,7 +442,7 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 	ccss_border_join_t const	*tr;
 
 	ccss_background_attachment_t const	*bg_attachment;
-	ccss_cairo_color_t const			*bg_color;
+	ccss_color_t const			*bg_color;
 	ccss_background_image_t const		*bg_image;
 	ccss_background_position_t const	*bg_position;
 	ccss_background_repeat_t const		*bg_repeat;

@@ -29,20 +29,16 @@
 CCSS_BEGIN_DECLS
 
 typedef struct {
-	char		*uri;
 	cairo_pattern_t *pattern;
 	double		 width;
 	double		 height;
 } ccss_image_t;
 
-ccss_property_state_t
-ccss_image_parse (ccss_image_t		 *self,
-		  ccss_grammar_t const	 *grammar,
-		  void			 *user_data,
-		  CRTerm const		**value);
+ccss_image_t *
+ccss_image_create (char const *uri);
 
 void
-ccss_image_discard (ccss_image_t *self);
+ccss_image_destroy (ccss_image_t *self);
 
 CCSS_END_DECLS
 

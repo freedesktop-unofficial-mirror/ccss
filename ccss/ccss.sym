@@ -1,7 +1,9 @@
 ccss_block_add_property
+ccss_color_parse
 ccss_grammar_add_functions
 ccss_grammar_add_properties
-ccss_grammar_create
+ccss_grammar_create_css
+ccss_grammar_create_generic
 ccss_grammar_create_stylesheet_from_buffer
 ccss_grammar_create_stylesheet_from_file
 ccss_grammar_destroy
@@ -11,6 +13,12 @@ ccss_grammar_lookup_function
 ccss_grammar_lookup_property
 ccss_grammar_reference
 ccss_node_init
+ccss_position_get_hsize
+ccss_position_get_pos
+ccss_position_get_size
+ccss_position_get_vsize
+ccss_position_parse
+ccss_position_serialize
 ccss_property_init
 ccss_property_parse_state
 ccss_style_destroy

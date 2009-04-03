@@ -21,34 +21,25 @@ libccss_cairo_1_la_LIBADD = \
 libccss_cairo_1_la_SOURCES = \
 	$(headers_DATA) \
 	ccss-background.c \
-	ccss-background.h \
-	ccss-background-parser.c \
-	ccss-background-parser.h \
+	ccss-cairo-background.h \
 	ccss-border.c \
-	ccss-border.h \
-	ccss-border-parser.c \
-	ccss-border-parser.h \
+	ccss-cairo-border.h \
 	ccss-border-image.c \
-	ccss-border-image.h \
-	ccss-border-image-parser.c \
-	ccss-border-image-parser.h \
+	ccss-cairo-border-image.h \
+  ccss-cairo-image-cache.c \
+  ccss-cairo-image-cache.h \
 	ccss-cairo-grammar.c \
 	ccss-cairo-property.c \
 	ccss-cairo-property.h \
 	ccss-cairo-style.c \
 	ccss-cairo-style.h \
-	ccss-cairo-color.c \
-	ccss-cairo-color-priv.h \
 	ccss-image.c \
-	ccss-image.h \
-	ccss-position.c \
-	ccss-position.h
+	ccss-image.h
 
 headersdir = $(includedir)/libccss-1/ccss-cairo
 
 headers_DATA = \
 	ccss-cairo.h \
-	ccss-cairo-color.h \
 	ccss-cairo-grammar.h \
 	ccss-cairo-style.h
 

@@ -19,12 +19,41 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_CAIRO_H
-#define CCSS_CAIRO_H
+#include <glib.h>
+#include "ccss-cairo-image-cache.h"
+#include "config.h"
 
-#include <ccss/ccss.h>
-#include <ccss-cairo/ccss-cairo-grammar.h>
-#include <ccss-cairo/ccss-cairo-style.h>
+static GHashTable *_image_hash = NULL;
 
-#endif /* CCSS_CAIRO_H */
+ccss_image_t const *
+ccss_image_cache_fetch_image (char const *uri)
+{
+	ccss_image_t *image;
+
+	if (_image_hash == NULL) {
+		_image_hash = g_hash_table_new_full (g_str_hash,
+						     g_str_equal,
+						     g_free,
+						     (GDestroyNotify) ccss_image_destroy);
+	}
+	
+	image = g_hash_table_lookup (_image_hash, uri);
+	
+	if (!image) {
+		image = ccss_image_create (uri);
+		if (image)
+			g_hash_table_insert (_image_hash,
+					     g_strdup (uri),
+					     image);
+	}
+	
+	return image;
+}
+
+void
+ccss_image_cache_destroy (void)
+{
+	g_hash_table_destroy (_image_hash);
+	_image_hash = NULL;
+}
 

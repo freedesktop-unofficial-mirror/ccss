@@ -23,10 +23,16 @@
 #include "ccss-grammar-priv.h"
 #include "ccss-property-generic.h"
 #include "ccss-stylesheet-priv.h"
+
+#include "ccss-background-parser.h"
+#include "ccss-border-parser.h"
+#include "ccss-border-image-parser.h"
+#include "ccss-color-parser.h"
+
 #include "config.h"
 
 /**
- * ccss_grammar_create:
+ * ccss_grammar_create_generic:
  *
  * Create a new grammar instance.
  *
@@ -35,7 +41,7 @@
  * Returns: a new #ccss_grammar_t instance.
  **/
 ccss_grammar_t *
-ccss_grammar_create (void)
+ccss_grammar_create_generic (void)
 {
 	ccss_grammar_t *self;
 
@@ -45,6 +51,30 @@ ccss_grammar_create (void)
 	self->functions = g_hash_table_new (g_str_hash, g_str_equal);
 
 	ccss_grammar_add_properties (self, ccss_property_generic_get_ptable ());
+
+	return self;
+}
+
+/**
+ * ccss_grammar_create_css:
+ *
+ * Create a new grammar instance that interprets suppported CSS rules.
+ *
+ * Grammar objects provide a factory to create stylesheets of the same class.
+ *
+ * Returns: a new #ccss_grammar_t instance.
+ **/
+ccss_grammar_t *
+ccss_grammar_create_css (void)
+{
+	ccss_grammar_t *self;
+
+	self = ccss_grammar_create_generic ();
+
+	ccss_grammar_add_properties (self, ccss_background_get_ptable ());
+	ccss_grammar_add_properties (self, ccss_border_get_ptable ());
+	ccss_grammar_add_properties (self, ccss_border_image_get_ptable ());
+	ccss_grammar_add_properties (self, ccss_color_get_ptable ());
 
 	return self;
 }

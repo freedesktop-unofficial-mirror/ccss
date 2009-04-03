@@ -10,7 +10,8 @@ ccss_block_add_property
 <TITLE>ccss_grammar_t</TITLE>
 <FILE>grammar</FILE>
 ccss_grammar_t
-ccss_grammar_create
+ccss_grammar_create_css
+ccss_grammar_create_generic
 ccss_grammar_destroy
 ccss_grammar_reference
 ccss_grammar_get_reference_count

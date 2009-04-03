@@ -1,6 +1,6 @@
 /* vim: set ts=8 sw=8 noexpandtab: */
 
-/* The Cairo CSS Drawing Library.
+/* The `C' CSS Library.
  * Copyright (C) 2008 Robert Staudinger
  *
  * This  library is free  software; you can  redistribute it and/or
@@ -19,12 +19,35 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_CAIRO_H
-#define CCSS_CAIRO_H
+#ifndef CCSS_BORDER_IMAGE_H
+#define CCSS_BORDER_IMAGE_H
 
-#include <ccss/ccss.h>
-#include <ccss-cairo/ccss-cairo-grammar.h>
-#include <ccss-cairo/ccss-cairo-style.h>
+#include <stdint.h>
+#include <ccss/ccss-macros.h>
+#include <ccss/ccss-position.h>
+#include <ccss/ccss-property.h>
 
-#endif /* CCSS_CAIRO_H */
+CCSS_BEGIN_DECLS
+
+typedef enum {
+	CCSS_BORDER_IMAGE_TILING_REPEAT = 0,
+	CCSS_BORDER_IMAGE_TILING_ROUND,
+	CCSS_BORDER_IMAGE_TILING_STRETCH
+} ccss_border_image_tiling_t;
+
+typedef struct {
+	ccss_property_base_t		base;
+
+	char				*uri;
+	ccss_position_t			 top;
+	ccss_position_t			 right;
+	ccss_position_t			 bottom;
+	ccss_position_t			 left;
+	ccss_border_image_tiling_t	 top_middle_bottom_horizontal_tiling;
+	ccss_border_image_tiling_t	 left_middle_right_vertical_tiling;
+} ccss_border_image_t;
+
+CCSS_END_DECLS
+
+#endif /* CCSS_BORDER_IMAGE_H */
 

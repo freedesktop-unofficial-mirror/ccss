@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include "ccss-border.h"
+#include "ccss-cairo-border.h"
 #include "config.h"
 
 #define STROKE_IS_SET(stroke_)						       \

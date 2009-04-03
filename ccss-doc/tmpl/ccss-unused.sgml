@@ -84,6 +84,13 @@ ccss_selector_group_t
 
 @properties: 
 
+<!-- ##### FUNCTION ccss_grammar_create ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 <!-- ##### USER_FUNCTION ccss_node_get_origin_f ##### -->
 <para>
 

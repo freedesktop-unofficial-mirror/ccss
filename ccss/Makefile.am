@@ -19,14 +19,23 @@ libccss_1_la_LIBADD = \
 
 libccss_1_la_SOURCES = \
 	$(headers_DATA) \
+	ccss-background-parser.c \
+	ccss-background-parser.h \
 	ccss-block.c \
 	ccss-block-priv.h \
+	ccss-border-parser.c \
+	ccss-border-parser.h \
+	ccss-border-image-parser.c \
+	ccss-border-image-parser.h \
+	ccss-color-parser.c \
+	ccss-color-parser.h \
 	ccss-grammar.c \
 	ccss-grammar-function.c \
 	ccss-grammar-parse.c \
 	ccss-grammar-priv.h \
 	ccss-node.c \
 	ccss-node-priv.h \
+	ccss-position.c \
 	ccss-priv.h \
 	ccss-property.c \
 	ccss-property-generic.c \
@@ -43,12 +52,17 @@ libccss_1_la_SOURCES = \
 headersdir = $(includedir)/libccss-1/ccss
 
 headers_DATA = \
+	ccss-background.h \
 	ccss-block.h \
+	ccss-border.h \
+	ccss-border-image.h \
+	ccss-color.h \
 	ccss-function.h \
 	ccss-grammar.h \
 	ccss.h \
 	ccss-macros.h \
 	ccss-node.h \
+	ccss-position.h \
 	ccss-property.h \
 	ccss-style.h \
 	ccss-stylesheet.h

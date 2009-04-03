@@ -178,7 +178,7 @@ typedef void (*ccss_node_release_f) (ccss_node_t *self);
  * Dispatch table a CCSS consumer has to fill so the selection engine can 
  * retrieve information about the document the document.
  *
- * The implemented dispatch table needs to be passed to #ccss_init.
+ * The implemented dispatch table needs to be passed to #ccss_node_init.
  **/
 typedef struct {
 	ccss_node_is_a_f		is_a;

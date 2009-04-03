@@ -19,30 +19,19 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_CAIRO_COLOR_H
-#define CCSS_CAIRO_COLOR_H
+#ifndef CCSS_CAIRO_IMAGE_CACHE_H
+#define CCSS_CAIRO_IMAGE_CACHE_H
 
-#include <stdbool.h>
-#include <libcroco/libcroco.h>
 #include <ccss/ccss.h>
+#include <ccss-cairo/ccss-image.h>
 
-CCSS_BEGIN_DECLS
+/* FIXME: should the image cache be tied to a grammar or stylesheet? */
 
-typedef struct {
-	ccss_property_base_t	base;
+ccss_image_t const *
+ccss_image_cache_fetch_image (char const *uri);
 
-	double			red;
-	double			green;
-	double			blue;
-} ccss_cairo_color_t;
+void
+ccss_image_cache_destroy (void);
 
-bool
-ccss_cairo_color_parse (ccss_cairo_color_t	 *self,
-			ccss_grammar_t const	 *grammar,
-			void			 *user_data,
-			CRTerm const		**values);
-
-CCSS_END_DECLS
-
-#endif /* CCSS_CAIRO_COLOR_H */
+#endif /* CCSS_CAIRO_IMAGE_CACHE_H */
 

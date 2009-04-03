@@ -19,44 +19,27 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_BORDER_IMAGE_H
-#define CCSS_BORDER_IMAGE_H
+#ifndef CCSS_CAIRO_BACKGROUND_H
+#define CCSS_CAIRO_BACKGROUND_H
 
+#include <stdbool.h>
 #include <stdint.h>
 #include <cairo.h>
+#include <libcroco/libcroco.h>
 #include <ccss/ccss.h>
-#include <ccss-cairo/ccss-image.h>
-#include <ccss-cairo/ccss-position.h>
 
 CCSS_BEGIN_DECLS
 
-typedef enum {
-	CCSS_BORDER_IMAGE_TILING_REPEAT = 0,
-	CCSS_BORDER_IMAGE_TILING_ROUND,
-	CCSS_BORDER_IMAGE_TILING_STRETCH
-} ccss_border_image_tiling_t;
-
-typedef struct {
-	ccss_property_base_t		base;
-
-	ccss_image_t			image;
-	ccss_position_t			top;
-	ccss_position_t			right;
-	ccss_position_t			bottom;
-	ccss_position_t			left;
-	ccss_border_image_tiling_t	top_middle_bottom_horizontal_tiling;
-	ccss_border_image_tiling_t	left_middle_right_vertical_tiling;
-} ccss_border_image_t;
-
-void
-ccss_border_image_draw (ccss_border_image_t const	*self,
-			cairo_t				*cr, 
-			double				 x,
-			double				 y,
-			double				 width,
-			double				 height);
+void ccss_background_fill (ccss_background_attachment_t const *bg_attachment, 
+			  ccss_color_t const *bg_color,
+			  ccss_background_image_t const *bg_image,
+			  ccss_background_position_t const *bg_position,
+			  ccss_background_repeat_t const *bg_repeat,
+			  ccss_background_size_t const *bg_size,
+			  cairo_t *cr, int32_t x, int32_t y, 
+			  int32_t width, int32_t height);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_BORDER_IMAGE_H */
+#endif /* CCSS_CAIRO_BACKGROUND_H */
 

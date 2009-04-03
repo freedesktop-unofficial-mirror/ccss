@@ -19,12 +19,24 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_CAIRO_H
-#define CCSS_CAIRO_H
+#ifndef CCSS_CAIRO_BORDER_IMAGE_H
+#define CCSS_CAIRO_BORDER_IMAGE_H
 
+#include <stdint.h>
+#include <cairo.h>
 #include <ccss/ccss.h>
-#include <ccss-cairo/ccss-cairo-grammar.h>
-#include <ccss-cairo/ccss-cairo-style.h>
 
-#endif /* CCSS_CAIRO_H */
+CCSS_BEGIN_DECLS
+
+void
+ccss_border_image_draw (ccss_border_image_t const	*self,
+			cairo_t				*cr, 
+			double				 x,
+			double				 y,
+			double				 width,
+			double				 height);
+
+CCSS_END_DECLS
+
+#endif /* CCSS_CAIRO_BORDER_IMAGE_H */
 

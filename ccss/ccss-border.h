@@ -1,6 +1,6 @@
 /* vim: set ts=8 sw=8 noexpandtab: */
 
-/* The Cairo CSS Drawing Library.
+/* The `C' CSS Library.
  * Copyright (C) 2008 Robert Staudinger
  *
  * This  library is free  software; you can  redistribute it and/or
@@ -24,9 +24,8 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <cairo.h>
-#include <ccss/ccss.h>
-#include <ccss-cairo/ccss-cairo-color.h>
+#include <ccss/ccss-color.h>
+#include <ccss/ccss-macros.h>
 
 CCSS_BEGIN_DECLS
 
@@ -69,7 +68,7 @@ typedef struct {
 } ccss_border_width_t;
 
 typedef struct {
-	ccss_cairo_color_t const *		color;
+	ccss_color_t const *		color;
 	ccss_border_style_t const *	style;
 	ccss_border_width_t const *	width;
 } ccss_border_stroke_t; 
@@ -79,32 +78,6 @@ typedef struct {
 
 	double				radius;
 } ccss_border_join_t;	/* FIXME: rename to `border-radius'? */
-
-void ccss_border_clamp_radii (double x, double y, double width, double height,
-			     double *left_top, double *top_right,
-			     double *right_bottom, double *bottom_left);
-
-void ccss_border_path (ccss_border_stroke_t const *left, 
-		      ccss_border_join_t const *left_top,
-		      ccss_border_stroke_t const *top, 
-		      ccss_border_join_t const *top_right,
-		      ccss_border_stroke_t const *right,
-		      ccss_border_join_t const *right_bottom,
-		      ccss_border_stroke_t const *bottom, 
-		      ccss_border_join_t const *bottom_left,
-		      cairo_t *cr, 
-		      double x, double y, double width, double height);
-
-void ccss_border_draw (ccss_border_stroke_t const *left, 
-		      ccss_border_join_t const *left_top,
-		      ccss_border_stroke_t const *top, 
-		      ccss_border_join_t const *top_right,
-		      ccss_border_stroke_t const *right,
-		      ccss_border_join_t const *right_bottom,
-		      ccss_border_stroke_t const *bottom, 
-		      ccss_border_join_t const *bottom_left,
-		      uint32_t visibility_flags, cairo_t *cr, 
-		      double x, double y, double width, double height);
 
 CCSS_END_DECLS
 

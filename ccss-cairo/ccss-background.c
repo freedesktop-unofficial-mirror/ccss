@@ -22,26 +22,27 @@
 #include <math.h>
 #include <string.h>
 #include <glib.h>
-#include "ccss-background.h"
+#include "ccss-cairo-background.h"
+#include "ccss-cairo-image-cache.h"
 #include "config.h"
 
 static cairo_pattern_t *
-create_pattern (ccss_background_image_t const	*bg_image,
-		double				 width,
-		double				 height,
-		double				 tile_width,
-		double				 tile_height)
+create_pattern (ccss_image_t const	*image,
+		double			 width,
+		double			 height,
+		double			 tile_width,
+		double			 tile_height)
 {
-	cairo_t		*cr;
-	cairo_surface_t	*surface;
-	cairo_status_t	 status;
-	cairo_pattern_t *pattern;
+	cairo_t			*cr;
+	cairo_surface_t		*surface;
+	cairo_status_t		 status;
+	cairo_pattern_t		*pattern;
 
-	g_return_val_if_fail (bg_image && bg_image->image.pattern, NULL);
+	g_return_val_if_fail (image, NULL);
 
 	/* Setup. */
 	surface = NULL;
-	status = cairo_pattern_get_surface (bg_image->image.pattern, &surface);
+	status = cairo_pattern_get_surface (image->pattern, &surface);
 	if (status != CAIRO_STATUS_SUCCESS) {
 		g_warning ("%s", cairo_status_to_string (status));
 		return NULL;
@@ -53,8 +54,8 @@ create_pattern (ccss_background_image_t const	*bg_image,
 	cr = cairo_create (surface);
 
 	/* Drawing. */
-	cairo_pattern_set_extend (bg_image->image.pattern, CAIRO_EXTEND_REPEAT);
-	cairo_set_source (cr, bg_image->image.pattern);
+	cairo_pattern_set_extend (image->pattern, CAIRO_EXTEND_REPEAT);
+	cairo_set_source (cr, image->pattern);
 	cairo_paint (cr);
 
 	/* Cleanup. */
@@ -66,18 +67,18 @@ create_pattern (ccss_background_image_t const	*bg_image,
 }
 
 static void
-repeat (ccss_background_image_t const	*bg_image,
-	cairo_t				*cr,
-	int32_t				 width,
-	int32_t				 height,
-	double				 tile_width,
-	double				 tile_height)
+repeat (ccss_image_t const	*image,
+	cairo_t			*cr,
+	int32_t			 width,
+	int32_t			 height,
+	double			 tile_width,
+	double			 tile_height)
 {
 	cairo_pattern_t	*pattern;
 
 	/* Create pattern for (width + tile_width, height + tile_height)
 	 * so we can account for `background-position'. */
-	pattern = create_pattern (bg_image,
+	pattern = create_pattern (image,
 				  width + tile_width, height + tile_height,
 				  tile_width, tile_height);
 	g_return_if_fail (pattern);
@@ -89,18 +90,18 @@ repeat (ccss_background_image_t const	*bg_image,
 }
 
 static void
-repeat_x (ccss_background_image_t const	*bg_image,
-	  cairo_t			*cr,
-	  int32_t			 width,
-	  int32_t			 height,
-	  double			 tile_width,
-	  double			 tile_height)
+repeat_x (ccss_image_t const	*image,
+	  cairo_t		*cr,
+	  int32_t		 width,
+	  int32_t		 height,
+	  double		 tile_width,
+	  double		 tile_height)
 {
 	cairo_pattern_t	*pattern;
 
 	/* Create pattern for (width + tile_width, tile_height)
 	 * so we can account for `background-position'. */
-	pattern = create_pattern (bg_image,
+	pattern = create_pattern (image,
 				  width + tile_width, tile_height,
 				  tile_width, tile_height);
 	g_return_if_fail (pattern);
@@ -112,18 +113,18 @@ repeat_x (ccss_background_image_t const	*bg_image,
 }
 
 static void
-repeat_y (ccss_background_image_t const	*bg_image,
-	  cairo_t			*cr,
-	  int32_t			 width,
-	  int32_t			 height,
-	  double			 tile_width,
-	  double			 tile_height)
+repeat_y (ccss_image_t const	*image,
+	  cairo_t		*cr,
+	  int32_t		 width,
+	  int32_t		 height,
+	  double		 tile_width,
+	  double		 tile_height)
 {
 	cairo_pattern_t	*pattern;
 
 	/* Create pattern for (tile_width, height + tile_height)
 	 * so we can account for `background-position'. */
-	pattern = create_pattern (bg_image,
+	pattern = create_pattern (image,
 				  tile_width, height + tile_height,
 				  tile_width, tile_height);
 	g_return_if_fail (pattern);
@@ -135,13 +136,13 @@ repeat_y (ccss_background_image_t const	*bg_image,
 }
 
 static void
-no_repeat (ccss_background_image_t const	*bg_image,
-	   cairo_t			*cr,
-	   int32_t			 width,
-	   int32_t			 height)
+no_repeat (ccss_image_t const	*image,
+	   cairo_t		*cr,
+	   int32_t		 width,
+	   int32_t		 height)
 {
-	cairo_pattern_set_extend (bg_image->image.pattern, CAIRO_EXTEND_NONE);
-	cairo_set_source (cr, bg_image->image.pattern);
+	cairo_pattern_set_extend (image->pattern, CAIRO_EXTEND_NONE);
+	cairo_set_source (cr, image->pattern);
 	cairo_fill_preserve (cr);
 }
 
@@ -153,7 +154,7 @@ no_repeat (ccss_background_image_t const	*bg_image,
  **/
 void
 ccss_background_fill (ccss_background_attachment_t const	*bg_attachment, 
-		     ccss_cairo_color_t const			*bg_color,
+		     ccss_color_t const			*bg_color,
 		     ccss_background_image_t const	*bg_image,
 		     ccss_background_position_t const	*bg_position,
 		     ccss_background_repeat_t const	*bg_repeat,
@@ -182,24 +183,28 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 
 	if (bg_image && bg_image->base.state == CCSS_PROPERTY_STATE_SET) {
 
-		double tile_width;
-		double tile_height;
-		double xoff;
-		double yoff;
+		ccss_image_t const       *image;
+		double			 tile_width;
+		double			 tile_height;
+		double			 xoff;
+		double			 yoff;
+
+		image = ccss_image_cache_fetch_image (bg_image->uri);
+		g_return_if_fail (image);
 
 		tile_width = bg_size ? 
 				ccss_position_get_hsize (&bg_size->width, 
 							 width, height,
-							 bg_image->image.width,
-							 bg_image->image.height) :
-				bg_image->image.width;
+							 image->width,
+							 image->height) :
+				image->width;
 
 		tile_height = bg_size ? 
 				ccss_position_get_vsize (&bg_size->height,
 							 width, height,
-							 bg_image->image.width,
-							 bg_image->image.height) :
-				bg_image->image.height;
+							 image->width,
+							 image->height) :
+				image->height;
 
 		xoff = bg_position ? 
 			ccss_position_get_pos (&bg_position->hpos,
@@ -211,8 +216,8 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 					       height, tile_height) :
 			0;
 
-		dx = tile_width / bg_image->image.width;
-		dy = tile_height / bg_image->image.height;
+		dx = tile_width / image->width;
+		dy = tile_height / image->height;
 
 		switch (bg_repeat ? bg_repeat->repeat : CCSS_BACKGROUND_REPEAT) {
 		case CCSS_BACKGROUND_REPEAT:
@@ -225,7 +230,7 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 			cairo_translate (cr, x + lround (xoff), y + lround (yoff)); */
 			cairo_translate (cr, x + xoff, y + yoff);
 			cairo_scale (cr, dx, dy);
-			repeat (bg_image, cr, width / dx, height / dy,
+			repeat (image, cr, width / dx, height / dy,
 				tile_width / dx, tile_height / dy);
 			break;
 		case CCSS_BACKGROUND_REPEAT_X:
@@ -237,7 +242,7 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 			cairo_translate (cr, x + lround (xoff), y + lround (yoff)); */
 			cairo_translate (cr, x + xoff, y + yoff);
 			cairo_scale (cr, dx, dy);
-			repeat_x (bg_image, cr, width / dx, height / dy,
+			repeat_x (image, cr, width / dx, height / dy,
 				  tile_width / dx, tile_height / dy);
 			break;
 		case CCSS_BACKGROUND_REPEAT_Y:
@@ -249,7 +254,7 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 			cairo_translate (cr, x + lround (xoff), y + lround (yoff)); */
 			cairo_translate (cr, x + xoff, y + yoff);
 			cairo_scale (cr, dx, dy);
-			repeat_y (bg_image, cr, width / dx, height / dy,
+			repeat_y (image, cr, width / dx, height / dy,
 				  tile_width / dx, tile_height / dy);
 			break;
 		case CCSS_BACKGROUND_NO_REPEAT:
@@ -258,7 +263,7 @@ ccss_background_fill (ccss_background_attachment_t const	*bg_attachment,
 			cairo_translate (cr, x + lround (xoff), y + lround (yoff)); */
 			cairo_translate (cr, x + xoff, y + yoff);
 			cairo_scale (cr, dx, dy);
-			no_repeat (bg_image, cr, width / dx, height / dy);
+			no_repeat (image, cr, width / dx, height / dy);
 			break;
 		default:
 			g_assert_not_reached ();

@@ -1,4 +1,3 @@
-ccss_cairo_color_parse
 ccss_cairo_grammar_create
 ccss_cairo_style_draw_line
 ccss_cairo_style_draw_outline

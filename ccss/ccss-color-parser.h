@@ -1,6 +1,6 @@
 /* vim: set ts=8 sw=8 noexpandtab: */
 
-/* The Cairo CSS Drawing Library.
+/* The `C' CSS Library.
  * Copyright (C) 2008 Robert Staudinger
  *
  * This  library is free  software; you can  redistribute it and/or
@@ -19,17 +19,34 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_BACKGROUND_PARSER_H
-#define CCSS_BACKGROUND_PARSER_H
+#ifndef CCSS_COLOR_PARSER_H
+#define CCSS_COLOR_PARSER_H
 
-#include <ccss/ccss.h>
+#include <stdbool.h>
+#include <libcroco/libcroco.h>
+#include <ccss/ccss-color.h>
+#include <ccss/ccss-grammar.h>
+#include <ccss/ccss-macros.h>
 
 CCSS_BEGIN_DECLS
 
+ccss_property_base_t *
+ccss_color_create (ccss_grammar_t const	*grammar,
+		   CRTerm const		*value,
+		   void			*user_data);
+
+void
+ccss_color_destroy (ccss_color_t *self);
+
+bool
+ccss_color_convert (ccss_color_t const		*property,
+		    ccss_property_type_t	 target,
+		    void			*value);
+
 ccss_property_class_t const *
-ccss_background_get_ptable (void);
+ccss_color_get_ptable (void);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_BACKGROUND_PARSER_H */
+#endif /* CCSS_COLOR_PARSER_H */
 

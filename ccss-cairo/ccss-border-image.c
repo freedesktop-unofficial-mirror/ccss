@@ -19,7 +19,8 @@
  * MA 02110-1301, USA.
  */
 
-#include "ccss-border-image.h"
+#include "ccss-cairo-border-image.h"
+#include "ccss-cairo-image-cache.h"
 #include "config.h"
 
 typedef enum {
@@ -208,39 +209,42 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 			double				 width,
 			double				 height)
 {
-	cairo_pattern_t	*tile;
-	double		 top_width, top_height;
-	double		 right_width, right_height;
-	double		 bottom_width, bottom_height;
-	double		 left_width, left_height;
-	double		 middle_width, middle_height;
-	double		 xoff, yoff;
+	ccss_image_t const      *image;
+	cairo_pattern_t		*tile;
+	double			 top_width, top_height;
+	double			 right_width, right_height;
+	double			 bottom_width, bottom_height;
+	double			 left_width, left_height;
+	double			 middle_width, middle_height;
+	double			 xoff, yoff;
 
 	g_return_if_fail (self && cr);
+	image = ccss_image_cache_fetch_image (self->uri);
+	g_return_if_fail (image);
 
 	/* Tile extents, see http://www.w3.org/TR/css3-background/#the-border-image . */
 
-	top_width = self->image.width
-			- ccss_position_get_size (&self->left, self->image.width)
-			- ccss_position_get_size (&self->right, self->image.width);
-	top_height = ccss_position_get_size (&self->top, self->image.height);
+	top_width = image->width
+			- ccss_position_get_size (&self->left, image->width)
+			- ccss_position_get_size (&self->right, image->width);
+	top_height = ccss_position_get_size (&self->top, image->height);
 
-	right_width = ccss_position_get_size (&self->right, self->image.width);
-	right_height = self->image.height
-			- ccss_position_get_size (&self->top, self->image.height)
-			- ccss_position_get_size (&self->bottom, self->image.height);
+	right_width = ccss_position_get_size (&self->right, image->width);
+	right_height = image->height
+			- ccss_position_get_size (&self->top, image->height)
+			- ccss_position_get_size (&self->bottom, image->height);
 
 	bottom_width = top_width;
-	bottom_height = ccss_position_get_size (&self->bottom, self->image.height);
+	bottom_height = ccss_position_get_size (&self->bottom, image->height);
 
-	left_width = ccss_position_get_size (&self->left, self->image.width);
+	left_width = ccss_position_get_size (&self->left, image->width);
 	left_height = right_height;
 
 	middle_width = top_width;
 	middle_height = right_height;
 
 	/* top-left */
-	tile = create_tile (&self->image, 
+	tile = create_tile (image, 
 			    0, 0,
 			    left_width, top_height);
 	if (tile) {
@@ -251,7 +255,7 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 	}
 
 	/* top */
-	tile = create_border (&self->image, ORIENTATION_HORIZONTAL,
+	tile = create_border (image, ORIENTATION_HORIZONTAL,
 			      self->top_middle_bottom_horizontal_tiling,
 			      width - left_width - right_width, top_height,
 			      left_width, 0, top_width, top_height);
@@ -263,7 +267,7 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 	}
 
 	/* top-right */
-	tile = create_tile (&self->image,
+	tile = create_tile (image,
 			    left_width + top_width, 0,
 			    right_width, top_height);
 	if (tile) {
@@ -274,7 +278,7 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 	}
 
 	/* right */
-	tile = create_border (&self->image, ORIENTATION_VERTICAL,
+	tile = create_border (image, ORIENTATION_VERTICAL,
 			      self->left_middle_right_vertical_tiling,
 			      right_width, height - top_height - bottom_height,
 			      left_width + middle_width, top_height, right_width, right_height);
@@ -286,7 +290,7 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 	}
 
 	/* bottom-right */
-	tile = create_tile (&self->image,
+	tile = create_tile (image,
 			    left_width + bottom_width, top_height + right_height,
 			    right_width, bottom_height);
 	if (tile) {
@@ -297,7 +301,7 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 	}
 
 	/* bottom */
-	tile = create_border (&self->image, ORIENTATION_HORIZONTAL,
+	tile = create_border (image, ORIENTATION_HORIZONTAL,
 			      self->top_middle_bottom_horizontal_tiling,
 			      width - left_width - right_width, bottom_height,
 			      left_width, top_height + middle_height, bottom_width, bottom_height);
@@ -309,7 +313,7 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 	}
 
 	/* bottom-left */
-	tile = create_tile (&self->image,
+	tile = create_tile (image,
 			    0, top_height + left_height,
 			    left_width, bottom_height);
 	if (tile) {
@@ -320,7 +324,7 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 	}
 
 	/* left */
-	tile = create_border (&self->image, ORIENTATION_VERTICAL,
+	tile = create_border (image, ORIENTATION_VERTICAL,
 			      self->left_middle_right_vertical_tiling,
 			      left_width, height - top_height - bottom_height,
 			      0, top_height, left_width, left_height);
@@ -332,7 +336,7 @@ ccss_border_image_draw (ccss_border_image_t const	*self,
 	}
 
 	/* middle */
-	tile = create_middle (&self->image, 
+	tile = create_middle (image, 
 			      self->top_middle_bottom_horizontal_tiling,
 			      self->left_middle_right_vertical_tiling,
 			      width - left_width - right_width,

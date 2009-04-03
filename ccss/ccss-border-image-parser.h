@@ -1,6 +1,6 @@
 /* vim: set ts=8 sw=8 noexpandtab: */
 
-/* The Cairo CSS Drawing Library.
+/* The `C' CSS Library.
  * Copyright (C) 2008 Robert Staudinger
  *
  * This  library is free  software; you can  redistribute it and/or
@@ -22,7 +22,8 @@
 #ifndef CCSS_BORDER_IMAGE_PARSER_H
 #define CCSS_BORDER_IMAGE_PARSER_H
 
-#include <ccss/ccss.h>
+#include <ccss/ccss-macros.h>
+#include <ccss/ccss-property.h>
 
 CCSS_BEGIN_DECLS
 

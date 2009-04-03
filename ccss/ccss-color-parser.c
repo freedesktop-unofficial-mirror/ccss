@@ -1,6 +1,6 @@
 /* vim: set ts=8 sw=8 noexpandtab: */
 
-/* The Cairo CSS Drawing Library.
+/* The `C' CSS Library.
  * Copyright (C) 2008 Robert Staudinger
  *
  * Functions parse_hex() and  hex() were derived from pango-1.21.3,
@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include "ccss-cairo-color-priv.h"
+#include "ccss-color-parser.h"
 #include "config.h"
 
 static ccss_property_class_t const *
@@ -36,7 +36,7 @@ peek_property_class (void);
 
 static const struct {
 	char const		*name;
-	const ccss_cairo_color_t	color;
+	const ccss_color_t	 color;
 } _color_map[] = {
   { "aliceblue",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xf0/255., 0xf8/255., 0xff/255. } },
   { "antiquewhite",		{ { NULL, CCSS_PROPERTY_STATE_SET }, 0xfa/255., 0xeb/255., 0xd7/255. } },
@@ -188,7 +188,7 @@ static const struct {
 };
 
 static bool
-parse_name (ccss_cairo_color_t	*self,
+parse_name (ccss_color_t	*self,
 	    char const	*css_color_name)
 {
 	g_return_val_if_fail (css_color_name && self, false);
@@ -225,7 +225,7 @@ hex (char const		*color,
 }
 
 static bool
-parse_hex (ccss_cairo_color_t	*self,
+parse_hex (ccss_color_t	*self,
 	   char const	*color)
 {
 	size_t		len;
@@ -264,15 +264,11 @@ parse_hex (ccss_cairo_color_t	*self,
 }
 
 bool
-ccss_cairo_color_parse (ccss_cairo_color_t		 *self,
-		  ccss_grammar_t const	 *grammar,
-		  void			 *user_data,
+ccss_color_parse (ccss_color_t		 *self,
 		  CRTerm const		**value)
 {
-	char const		*function;
-	char const		*str;
-	char			*color;
-	bool			 ret;
+	char const	*str;
+	bool		 ret;
 
 	g_return_val_if_fail (self, false);
 
@@ -314,6 +310,9 @@ ccss_cairo_color_parse (ccss_cairo_color_t		 *self,
 		*value = (*value)->next;
 		return true;
 	case TERM_FUNCTION:
+		/* TODO */
+		g_warning (G_STRLOC " Function-style color not implemented.");
+#if 0
 		function = cr_string_peek_raw_str ((*value)->content.str);
 		color = ccss_grammar_invoke_function (grammar, function,
 						      (*value)->ext_content.func_param,
@@ -343,6 +342,7 @@ bail:
 			g_free (color), color = NULL;
 		}
 		return false;
+#endif
 	/* fall thru for all other enum values to prevent compiler warnings */
 	case TERM_NO_TYPE:
 	case TERM_NUMBER:
@@ -356,17 +356,17 @@ bail:
 }
 
 ccss_property_base_t *
-ccss_cairo_color_create (ccss_grammar_t const *grammar,
+ccss_color_create (ccss_grammar_t const	*grammar,
 		   CRTerm const		*value,
 		   void			*user_data)
 {
-	ccss_cairo_color_t	*self, c;
+	ccss_color_t	*self, c;
 	bool		 ret;
 
-	ret = ccss_cairo_color_parse (&c, grammar, user_data, &value);
+	ret = ccss_color_parse (&c, &value);
 	if (ret) {
 		c.base.property_class = peek_property_class ();
-		self = g_new0 (ccss_cairo_color_t, 1);
+		self = g_new0 (ccss_color_t, 1);
 		*self = c;
 		return &self->base;
 	}
@@ -375,7 +375,7 @@ ccss_cairo_color_create (ccss_grammar_t const *grammar,
 }
 
 void
-ccss_cairo_color_destroy (ccss_cairo_color_t *self)
+ccss_color_destroy (ccss_color_t *self)
 {
 	g_return_if_fail (self);
 
@@ -383,7 +383,7 @@ ccss_cairo_color_destroy (ccss_cairo_color_t *self)
 }
 
 bool
-ccss_cairo_color_convert (ccss_cairo_color_t const		*property,
+ccss_color_convert (ccss_color_t const		*property,
 		    ccss_property_type_t	 target,
 		    void			*value)
 {
@@ -402,9 +402,9 @@ ccss_cairo_color_convert (ccss_cairo_color_t const		*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "color",
-	.property_create = ccss_cairo_color_create,
+	.property_create = ccss_color_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) ccss_cairo_color_convert,
+	.property_convert = (ccss_property_convert_f) ccss_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
@@ -419,7 +419,7 @@ peek_property_class (void)
 }
 
 ccss_property_class_t const *
-ccss_cairo_color_get_ptable (void)
+ccss_color_get_ptable (void)
 {
 	return _ptable;
 }

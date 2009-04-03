@@ -35,17 +35,14 @@
 #endif
 
 void
-ccss_image_discard (ccss_image_t *self)
+ccss_image_destroy (ccss_image_t *self)
 {
-	if (self->uri) {
-		g_free (self->uri);
-		self->uri = NULL;
-	}
-
 	if (self->pattern) {
 		cairo_pattern_destroy (self->pattern);
 		self->pattern = NULL;
 	}
+	
+	g_free (self);
 }
 
 #if CCSS_WITH_RSVG
@@ -148,24 +145,24 @@ load_png (ccss_image_t	*self,
 	return true;
 }
 
-static bool
-load_image (ccss_image_t *self)
+ccss_image_t *
+ccss_image_create (char const *url)
 {
-	cairo_status_t	 status;
 	bool		 matched;
 	char		*path;
 	char const	*fragment;
+	ccss_image_t    *self = g_new0 (ccss_image_t, 1);
 #if CCSS_WITH_SOUP
 	SoupURI		*uri;
 
-	g_return_val_if_fail (self && self->uri, false);
-	uri = soup_uri_new (self->uri);
+	g_return_val_if_fail (self && url, false);
+	uri = soup_uri_new (url);
 	g_return_val_if_fail (uri, NULL);
 	path = uri->path;
 	fragment = uri->fragment;
 #else
-	g_return_val_if_fail (self && self->uri, false);
-	path = g_filename_from_uri (self->uri, NULL, NULL);
+	g_return_val_if_fail (self && url, false);
+	path = g_filename_from_uri (url, NULL, NULL);
 	fragment = NULL;
 #endif
 
@@ -180,7 +177,7 @@ load_image (ccss_image_t *self)
 
 	if (!matched) {
 		if (fragment)
-			g_warning ("`%s' ignoring fragment", self->uri);
+			g_warning ("`%s' ignoring fragment", url);
 		matched = load_png (self, path);
 	}
 
@@ -191,31 +188,18 @@ load_image (ccss_image_t *self)
 	g_free (path), path = NULL;
 #endif
 
-	status = self->pattern ? cairo_pattern_status (self->pattern) : CAIRO_STATUS_SUCCESS;
-	if (status != CAIRO_STATUS_SUCCESS) {
-		g_warning ("%s", cairo_status_to_string (status));
+	if (self->pattern) {
+		cairo_status_t status;
+		status = cairo_pattern_status (self->pattern);
+		if (status != CAIRO_STATUS_SUCCESS) {
+			g_warning (G_STRLOC " %s", cairo_status_to_string (status));
+		}
+	} else {
+		g_critical (G_STRLOC " Failed to create pattern.");
+		g_free (self);
+		self = NULL;
 	}
 
-	return matched && self->pattern;
-}
-
-ccss_property_state_t
-ccss_image_parse (ccss_image_t		 *self,
-		  ccss_grammar_t const	 *grammar,
-		  void			 *user_data,
-		  CRTerm const		**value)
-{
-	switch ((*value)->type) {
-	case TERM_IDENT:
-		return ccss_property_parse_state (value);
-	case TERM_URI:
-		self->uri = ccss_grammar_invoke_function (grammar, "url", *value, user_data);
-		*value = (*value)->next;
-		return load_image (self) ? 
-			CCSS_PROPERTY_STATE_SET :
-			CCSS_PROPERTY_STATE_INVALID;
-	default:
-		return CCSS_PROPERTY_STATE_INVALID;
-	}
+	return self;
 }
 

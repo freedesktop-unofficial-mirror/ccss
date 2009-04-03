@@ -1,6 +1,6 @@
 /* vim: set ts=8 sw=8 noexpandtab: */
 
-/* The Cairo CSS Drawing Library.
+/* The `C' CSS Library.
  * Copyright (C) 2008 Robert Staudinger
  *
  * This  library is free  software; you can  redistribute it and/or
@@ -22,6 +22,7 @@
 #include <string.h>
 #include "ccss-border-image.h"
 #include "ccss-border-image-parser.h"
+#include "ccss-grammar.h"
 #include "config.h"
 
 static ccss_property_class_t const *
@@ -54,6 +55,37 @@ parse_tiling (CRTerm const			**value,
 	return false;
 }
 
+/* FIXME: consolidate with background-image parsing code. */
+static bool
+border_image_parse (ccss_border_image_t		 *image,
+		    ccss_grammar_t const	 *grammar,
+		    void			 *user_data,
+		    CRTerm const		**values)
+{
+	if (!*values) {
+		return false;
+	}
+
+	switch ((*values)->type) {
+	case TERM_IDENT:
+		image->base.state = ccss_property_parse_state (values);
+		break;
+	case TERM_URI:
+		/* FIXME: use raw uri if no url hook set. */
+		image->uri = ccss_grammar_invoke_function (grammar, "url",
+							  *values, user_data);
+		if (image->uri) {
+			image->base.state = CCSS_PROPERTY_STATE_SET;
+			*values = (*values)->next;
+		}
+		break;
+	default:
+		image->base.state = CCSS_PROPERTY_STATE_INVALID;
+	}
+
+	return image->base.state != CCSS_PROPERTY_STATE_INVALID;
+}
+
 /*
  * FIXME: create all the border-image tiles here and save some time while painting.
  */
@@ -75,8 +107,7 @@ border_image_create (ccss_grammar_t const	*grammar,
 	iter = values;
 
 	/* Image */
-	bimg.base.state = ccss_image_parse (&bimg.image, grammar,
-					    user_data, &iter);
+	border_image_parse (&bimg, grammar, user_data, &iter);
 	if (CCSS_PROPERTY_STATE_NONE == bimg.base.state ||
 	    CCSS_PROPERTY_STATE_INHERIT == bimg.base.state) {
 		border_image = g_new0 (ccss_border_image_t, 1);
@@ -148,6 +179,13 @@ border_image_create (ccss_grammar_t const	*grammar,
 	return &border_image->base;
 }
 
+static void
+border_image_destroy (ccss_border_image_t *self)
+{
+	g_free (self->uri);
+	g_free (self);
+}
+
 static bool
 border_image_convert (ccss_border_image_t const	*property,
 		      ccss_property_type_t	 target,
@@ -193,7 +231,7 @@ border_image_convert (ccss_border_image_t const	*property,
 	}
 
 	* (char **) value = g_strdup_printf ("url(%s) %s %s %s %s %s %s", 
-				property->image.uri,
+				property->uri,
 				top, right, bottom, left,
 				horizontal_tiling, vertical_tiling);
 
@@ -209,7 +247,7 @@ static ccss_property_class_t const _ptable[] = {
     {
 	.name = "border-image",
 	.property_create = border_image_create,
-	.property_destroy = (ccss_property_destroy_f) g_free,
+	.property_destroy = (ccss_property_destroy_f) border_image_destroy,
 	.property_convert = (ccss_property_convert_f) border_image_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL

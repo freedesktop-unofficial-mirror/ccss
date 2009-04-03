@@ -33,7 +33,10 @@ CCSS_BEGIN_DECLS
 typedef struct ccss_grammar_ ccss_grammar_t;
 
 ccss_grammar_t *
-ccss_grammar_create (void);
+ccss_grammar_create_generic (void);
+
+ccss_grammar_t *
+ccss_grammar_create_css (void);
 
 void
 ccss_grammar_destroy (ccss_grammar_t *self);

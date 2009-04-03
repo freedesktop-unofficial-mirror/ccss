@@ -23,7 +23,15 @@ ccss_node_t
 </para>
 
 
-<!-- ##### FUNCTION ccss_grammar_create ##### -->
+<!-- ##### FUNCTION ccss_grammar_create_css ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_grammar_create_generic ##### -->
 <para>
 
 </para>

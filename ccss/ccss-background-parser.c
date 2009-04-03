@@ -1,6 +1,6 @@
 /* vim: set ts=8 sw=8 noexpandtab: */
 
-/* The Cairo CSS Drawing Library.
+/* The `C' CSS Library.
  * Copyright (C) 2008 Robert Staudinger
  *
  * This  library is free  software; you can  redistribute it and/or
@@ -24,7 +24,7 @@
 #include <glib.h>
 #include "ccss-background-parser.h"
 #include "ccss-background.h"
-#include "ccss-cairo-color-priv.h"
+#include "ccss-color-parser.h"
 #include "config.h"
 
 #define PROPERTY_SET(property_)					\
@@ -41,7 +41,7 @@ typedef struct {
 	ccss_background_image_t const		*bg_image;
 	ccss_background_position_t const	*bg_position;
 	ccss_background_repeat_t const		*bg_repeat;
-	ccss_cairo_color_t const			*bg_color;
+	ccss_color_t const			*bg_color;
 } background_property_t;
 
 static ccss_property_class_t const *
@@ -92,6 +92,7 @@ bg_attachment_parse (ccss_background_attachment_t	 *self,
 	return false;
 }
 
+/* FIXME: consolidate with border-image parsing code. */
 static bool
 bg_image_parse (ccss_background_image_t	 *image,
 		ccss_grammar_t const	 *grammar,
@@ -102,9 +103,24 @@ bg_image_parse (ccss_background_image_t	 *image,
 		return false;
 	}
 
-	image->base.state = ccss_image_parse (&image->image, grammar, 
-					      user_data, values);
-	return image->base.state == CCSS_PROPERTY_STATE_SET;
+	switch ((*values)->type) {
+	case TERM_IDENT:
+		image->base.state = ccss_property_parse_state (values);
+		break;
+	case TERM_URI:
+		/* FIXME: use raw uri if no url hook set. */
+		image->uri = ccss_grammar_invoke_function (grammar, "url",
+							  *values, user_data);
+		if (image->uri) {
+			image->base.state = CCSS_PROPERTY_STATE_SET;
+			*values = (*values)->next;
+		}
+		break;
+	default:
+		image->base.state = CCSS_PROPERTY_STATE_INVALID;
+	}
+
+	return image->base.state != CCSS_PROPERTY_STATE_INVALID;
 }
 
 static bool
@@ -233,7 +249,7 @@ background_factory (ccss_grammar_t const	*grammar,
 		    void			*user_data)
 {
 	ccss_background_attachment_t	*bg_attachment,	bga;
-	ccss_cairo_color_t			*bg_color,	bgc;
+	ccss_color_t			*bg_color,	bgc;
 	ccss_background_image_t		*bg_image,	bgi;
 	ccss_background_position_t	*bg_position,	bgp;
 	ccss_background_repeat_t	*bg_repeat,	bgr;
@@ -257,9 +273,9 @@ background_factory (ccss_grammar_t const	*grammar,
 	/* PONDERING: also support `background-size' here, but let's stick
 	 * to CSS2 for now. */
 	ccss_property_init (&bgc.base, peek_property_class ("background-color"));
-	ret = ccss_cairo_color_parse (&bgc, grammar, user_data, &values);
+	ret = ccss_color_parse (&bgc, &values);
 	if (ret) {
-		bg_color = g_new0 (ccss_cairo_color_t, 1);
+		bg_color = g_new0 (ccss_color_t, 1);
 		*bg_color = bgc;
 		ccss_block_add_property (self, "background-color", &bg_color->base);
 		have_bg_properties = true;
@@ -462,6 +478,13 @@ background_image_create (ccss_grammar_t const	*grammar,
 	return &self->base;
 }
 
+static void
+background_image_destroy (ccss_background_image_t *self)
+{
+	g_free (self->uri);
+	g_free (self);
+}
+
 static bool
 background_image_convert (ccss_background_image_t const	*property,
 			  ccss_property_type_t		 target,
@@ -474,7 +497,7 @@ background_image_convert (ccss_background_image_t const	*property,
 	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
 		return false;
 
-	ret = g_strdup (property->image.uri);
+	ret = g_strdup (property->uri);
 
 	* (char **) value = ret;
 
@@ -606,15 +629,15 @@ static ccss_property_class_t const _ptable[] = {
 	.property_inherit = NULL
     }, {
 	.name = "background-color",
-	.property_create = ccss_cairo_color_create,
+	.property_create = ccss_color_create,
 	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) ccss_cairo_color_convert,
+	.property_convert = (ccss_property_convert_f) ccss_color_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
     }, {
 	.name = "background-image",
 	.property_create = background_image_create,
-	.property_destroy = (ccss_property_destroy_f) g_free,
+	.property_destroy = (ccss_property_destroy_f) background_image_destroy,
 	.property_convert = (ccss_property_convert_f) background_image_convert,
 	.property_factory = NULL,
 	.property_inherit = NULL
