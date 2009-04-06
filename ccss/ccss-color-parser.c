@@ -481,10 +481,11 @@ ccss_color_convert (ccss_color_t const		*property,
 	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
 		return false;
 
-	* (char **) value = g_strdup_printf ("#%02x%02x%02x", 
+	* (char **) value = g_strdup_printf ("#%02x%02x%02x%02x", 
 						(int) (property->red * 255),
 						(int) (property->green * 255),
-						(int) (property->blue * 255));
+						(int) (property->blue * 255),
+						(int) (property->alpha * 255));
 	return true;
 }
 
