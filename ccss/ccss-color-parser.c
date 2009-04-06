@@ -263,9 +263,105 @@ parse_hex (ccss_color_t	*self,
 	return true;
 }
 
+static bool
+parse_rgb (ccss_color_t *self,
+	   CRTerm const *value)
+{
+	CRTerm const *iter;
+
+	iter = value;
+
+	/* "r" */
+	if (iter &&
+	    iter->type == TERM_NUMBER &&
+	    iter->content.num->type == NUM_GENERIC) {
+		self->red = CLAMP (iter->content.num->val, 0.0, 1.0);
+		iter = iter->next;
+	} else {
+		return false;
+	}
+
+	/* "g" */
+	if (iter &&
+	    iter->type == TERM_NUMBER &&
+	    iter->content.num->type == NUM_GENERIC) {
+		self->green = CLAMP (iter->content.num->val, 0.0, 1.0);
+		iter = iter->next;
+	} else {
+		return false;
+	}
+
+	/* "b" */
+	if (iter &&
+	    iter->type == TERM_NUMBER &&
+	    iter->content.num->type == NUM_GENERIC) {
+		self->blue = CLAMP (iter->content.num->val, 0.0, 1.0);
+		iter = iter->next;
+	} else {
+		return false;
+	}
+
+	self->alpha = 1.0;
+
+	self->base.state = CCSS_PROPERTY_STATE_SET;
+	return true;
+}
+
+static bool
+parse_rgba (ccss_color_t *self,
+	    CRTerm const *value)
+{
+	CRTerm const *iter;
+
+	iter = value;
+
+	/* "r" */
+	if (iter &&
+	    iter->type == TERM_NUMBER &&
+	    iter->content.num->type == NUM_GENERIC) {
+		self->red = CLAMP (iter->content.num->val, 0.0, 1.0);
+		iter = iter->next;
+	} else {
+		return false;
+	}
+
+	/* "g" */
+	if (iter &&
+	    iter->type == TERM_NUMBER &&
+	    iter->content.num->type == NUM_GENERIC) {
+		self->green = CLAMP (iter->content.num->val, 0.0, 1.0);
+		iter = iter->next;
+	} else {
+		return false;
+	}
+
+	/* "b" */
+	if (iter &&
+	    iter->type == TERM_NUMBER &&
+	    iter->content.num->type == NUM_GENERIC) {
+		self->blue = CLAMP (iter->content.num->val, 0.0, 1.0);
+		iter = iter->next;
+	} else {
+		return false;
+	}
+
+	/* "a" */
+	if (iter &&
+	    iter->type == TERM_NUMBER &&
+	    iter->content.num->type == NUM_GENERIC) {
+		self->alpha = CLAMP (iter->content.num->val, 0.0, 1.0);
+		iter = iter->next;
+	} else {
+		return false;
+	}
+
+	self->base.state = CCSS_PROPERTY_STATE_SET;
+	return true;
+}
+
 bool
-ccss_color_parse (ccss_color_t		 *self,
-		  CRTerm const		**value)
+ccss_color_parse (ccss_color_t	 *self,
+		  CRTerm const	**value)
 {
 	char const	*str;
 	bool		 ret;
@@ -310,39 +406,14 @@ ccss_color_parse (ccss_color_t		 *self,
 		*value = (*value)->next;
 		return true;
 	case TERM_FUNCTION:
-		/* TODO */
-		g_warning (G_STRLOC " Function-style color not implemented.");
-#if 0
-		function = cr_string_peek_raw_str ((*value)->content.str);
-		color = ccss_grammar_invoke_function (grammar, function,
-						      (*value)->ext_content.func_param,
-						      user_data);
-		if (color) {
-			if (g_str_has_prefix (color, "rgb(")) {
-
-				/* FIXME error handling. */
-				char *iter;
-				iter = color + strlen ("rgb(");
-
-				self->red = g_ascii_strtod (iter, &iter);
-				if (!iter) { g_warning ("Could not parse '%s'", color); goto bail; }
-
-				self->green = g_ascii_strtod (iter + 1, &iter);
-				if (!iter) { g_warning ("Could not parse '%s'", color); goto bail; }
-
-				self->blue = g_ascii_strtod (iter + 1, &iter);
-				if (!iter) { g_warning ("Could not parse '%s'", color); goto bail; }
-
-				g_free (color), color = NULL;
-				*value = (*value)->next;
-				return true;
-			}
-			/* FIXME recognize "rgba". */
-bail:
-			g_free (color), color = NULL;
+		str = cr_string_peek_raw_str ((*value)->content.str);
+		if (0 == g_strcmp0 (str, "rgb")) {
+			return parse_rgb (self, (*value)->ext_content.func_param);
+		} else if (0 == g_strcmp0 (str, "rgba")) {
+			return parse_rgba (self, (*value)->ext_content.func_param);		
+		} else {
+			g_warning (G_STRLOC " '%s' not recognised.", str);
 		}
-		return false;
-#endif
 	/* fall thru for all other enum values to prevent compiler warnings */
 	case TERM_NO_TYPE:
 	case TERM_NUMBER:
@@ -362,6 +433,9 @@ ccss_color_create (ccss_grammar_t const	*grammar,
 {
 	ccss_color_t	*self, c;
 	bool		 ret;
+
+	/* Default to opaque. */
+	c.alpha = 1.0;
 
 	ret = ccss_color_parse (&c, &value);
 	if (ret) {

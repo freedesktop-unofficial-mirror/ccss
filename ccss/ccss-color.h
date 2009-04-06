@@ -34,6 +34,7 @@ typedef struct {
 	double			red;
 	double			green;
 	double			blue;
+	double			alpha;
 } ccss_color_t;
 
 bool
