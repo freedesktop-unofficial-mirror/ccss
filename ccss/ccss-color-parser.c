@@ -229,14 +229,29 @@ parse_hex (ccss_color_t	*self,
 	   char const	*color)
 {
 	size_t		len;
+	uint32_t	result;
 	unsigned int	r, g, b;
 
 	g_return_val_if_fail (color, false);
 
 	len = strlen (color);
+
+	/* With alpha channel. */
+	if (sscanf (color + 1, "%x", &result)) {
+		if (len == 8) {
+			/* #rrggbbaa */
+			self->red   = (result >> 24) & 0xff;
+			self->green = (result >> 16) & 0xff;
+			self->blue  = (result >>  8) & 0xff;
+			self->alpha = result & 0xff;
+			return true;
+		}
+	}
+
 	if (len % 3 || len < 3 || len > 12)
 		return false;
 
+	/* Without alpha channel. */
 	len /= 3;
 
 	if (!hex (color, len, &r) ||
