@@ -5,6 +5,7 @@
 #include <cairo.h>
 #include <ccss-cairo/ccss-cairo.h>
 #include <gtk/gtk.h>
+#include "config.h"
 
 static ccss_property_class_t const *
 peek_property_class (void);

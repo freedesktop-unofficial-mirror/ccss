@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ccss/ccss.h>
+#include "config.h"
 
 static char const _css[] = "		\
 	box { 				\

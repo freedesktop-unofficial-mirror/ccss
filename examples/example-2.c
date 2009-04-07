@@ -4,6 +4,7 @@
 #include <cairo.h>
 #include <ccss-cairo/ccss-cairo.h>
 #include <gtk/gtk.h>
+#include "config.h"
 
 typedef struct {
 	ccss_node_t	 parent;

@@ -4,6 +4,7 @@
 #include <cairo.h>
 #include <ccss-cairo/ccss-cairo.h>
 #include <gtk/gtk.h>
+#include "config.h"
 
 static gboolean
 expose_cb (GtkWidget		*widget,
