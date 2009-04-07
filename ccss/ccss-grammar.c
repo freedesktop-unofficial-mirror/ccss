@@ -28,6 +28,7 @@
 #include "ccss-border-parser.h"
 #include "ccss-border-image-parser.h"
 #include "ccss-color-parser.h"
+#include "ccss-padding-parser.h"
 
 #include "config.h"
 
@@ -75,6 +76,7 @@ ccss_grammar_create_css (void)
 	ccss_grammar_add_properties (self, ccss_border_get_ptable ());
 	ccss_grammar_add_properties (self, ccss_border_image_get_ptable ());
 	ccss_grammar_add_properties (self, ccss_color_get_ptable ());
+	ccss_grammar_add_properties (self, ccss_padding_get_ptable ());
 
 	return self;
 }

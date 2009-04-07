@@ -13,7 +13,9 @@ noinst_PROGRAMS = \
 	example-1 \
 	example-2 \
 	example-3 \
-	example-4
+	example-4 \
+	example-6 \
+	example-7
 
 if CCSS_WITH_SOUP
 noinst_PROGRAMS += example-5
@@ -28,6 +30,10 @@ example_3_SOURCES = example-3.c
 example_4_SOURCES = example-4.c
 
 example_5_SOURCES = example-5.c
+
+example_6_SOURCES = example-6.c
+
+example_7_SOURCES = example-7.c
 
 EXTRA_DIST = \
 	example-3.png \

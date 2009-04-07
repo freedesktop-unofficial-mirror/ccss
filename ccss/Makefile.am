@@ -35,6 +35,8 @@ libccss_1_la_SOURCES = \
 	ccss-grammar-priv.h \
 	ccss-node.c \
 	ccss-node-priv.h \
+	ccss-padding-parser.c \
+	ccss-padding-parser.h \
 	ccss-position.c \
 	ccss-priv.h \
 	ccss-property.c \
@@ -62,6 +64,7 @@ headers_DATA = \
 	ccss.h \
 	ccss-macros.h \
 	ccss-node.h \
+	ccss-padding.h \
 	ccss-position.h \
 	ccss-property.h \
 	ccss-style.h \
