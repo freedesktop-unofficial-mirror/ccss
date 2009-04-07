@@ -2,6 +2,7 @@
 
 /* The `C' CSS Library.
  * Copyright (C) 2008 Robert Staudinger
+ * Copyright (C) 2009 Intel Corporation.
  *
  * This  library is free  software; you can  redistribute it and/or
  * modify it  under  the terms  of the  GNU Lesser  General  Public
@@ -1075,6 +1076,48 @@ border_width_convert (ccss_border_width_t const	*property,
 	return false;
 }
 
+static ccss_property_base_t *
+border_spacing_create (ccss_grammar_t const	*grammar,
+		       CRTerm const		*value,
+		       void			*user_data)
+{
+	ccss_border_spacing_t *self, s;
+
+	memset (&s, 0, sizeof (s));
+	ccss_property_init (&s.base, peek_property_class ("border-spacing"));
+
+	parse_width (&value, &s);
+	if (CCSS_PROPERTY_STATE_INVALID == s.base.state) {
+		return NULL;
+	}
+
+	self = g_new0 (ccss_border_spacing_t, 1);
+	*self = s;
+	return &self->base;
+}
+
+static bool
+border_spacing_convert (ccss_border_spacing_t const	*property,
+			ccss_property_type_t		 target,
+			void				*value)
+{
+	g_return_val_if_fail (property && value, false);
+
+	switch (target) {
+	case CCSS_PROPERTY_TYPE_DOUBLE:
+		* (double *) value = property->width;
+		return true;
+	case CCSS_PROPERTY_TYPE_STRING:
+		* (char **) value = g_strdup_printf ("%f", property->width);
+		return true;
+	default:
+		g_assert_not_reached ();
+		return false;
+	}
+
+	return false;
+}
+
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "border-top-right-radius",
@@ -1251,6 +1294,13 @@ static ccss_property_class_t const _ptable[] = {
 	.property_convert = NULL,
 	.property_factory = border_factory,
 	.property_inherit = border_inherit
+    }, {
+	.name = "border-spacing",
+	.property_create = border_spacing_create,
+	.property_destroy = (ccss_property_destroy_f) g_free,
+	.property_convert = (ccss_property_convert_f) border_spacing_convert,
+	.property_factory = NULL,
+	.property_inherit = NULL
     }, {
 	.name = NULL,
     }

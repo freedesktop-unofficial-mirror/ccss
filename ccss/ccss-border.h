@@ -2,6 +2,7 @@
 
 /* The `C' CSS Library.
  * Copyright (C) 2008 Robert Staudinger
+ * Copyright (C) 2009 Intel Corporation.
  *
  * This  library is free  software; you can  redistribute it and/or
  * modify it  under  the terms  of the  GNU Lesser  General  Public
@@ -66,6 +67,9 @@ typedef struct {
 
 	double				width;
 } ccss_border_width_t;
+
+/* FIXME: introduce generic "double" value struct. */
+typedef ccss_border_width_t ccss_border_spacing_t;
 
 typedef struct {
 	ccss_color_t const *		color;
