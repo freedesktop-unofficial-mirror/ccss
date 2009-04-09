@@ -17,6 +17,7 @@ m4_define([ccss_version],
     [ccss_version_major.ccss_version_minor.ccss_version_micro[]ccss_version_extra])
 
 AC_INIT([libccss], [ccss_version])
+AC_CONFIG_MACRO_DIR([autotools])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([ccss/ccss-stylesheet.c])
 
@@ -306,8 +307,14 @@ AC_SUBST([CCSS_GTK_CFLAGS])
 CCSS_EXAMPLES_CFLAGS="${CCSS_EXAMPLES_CFLAGS} ${extra_cflags}"
 AC_SUBST([CCSS_EXAMPLES_CFLAGS])
 
+SHAVE_INIT([autotools], [enable])
+
 AC_CONFIG_FILES([
   Makefile
+
+  autotools/Makefile
+  autotools/shave
+  autotools/shave-libtool
 
   libccss-1.pc
   ccss/Makefile

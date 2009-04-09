@@ -1,8 +1,9 @@
 
-ACLOCAL_AMFLAGS = -I .
+ACLOCAL_AMFLAGS = -I autotools
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --enable-werror
 
-DIST_SUBDIRS = ccss ccss-doc ccss-cairo ccss-cairo-doc ccss-gtk examples
+DIST_SUBDIRS = autotools ccss ccss-doc ccss-cairo ccss-cairo-doc ccss-gtk \
+	       examples
 SUBDIRS = ccss ccss-doc
 
 pkgconfigdir = $(libdir)/pkgconfig
