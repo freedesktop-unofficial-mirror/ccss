@@ -1,13 +1,17 @@
 
+NULL =
+
 AM_CPPFLAGS = \
 	-I$(top_builddir) \
 	-I$(top_srcdir) \
-	$(CCSS_EXAMPLES_CFLAGS)
+	$(CCSS_EXAMPLES_CFLAGS) \
+	$(NULL)
 
 AM_LDFLAGS = \
 	../ccss/libccss-1.la \
 	../ccss-cairo/libccss-cairo-1.la \
-	$(CCSS_EXAMPLES_LIBS)
+	$(CCSS_EXAMPLES_LIBS) \
+	$(NULL)
 
 noinst_PROGRAMS = \
 	example-1 \
@@ -17,7 +21,8 @@ noinst_PROGRAMS = \
 	example-4-1 \
 	example-4-2 \
 	example-6 \
-	example-7
+	example-7 \
+	$(NULL)
 
 if CCSS_WITH_SOUP
 noinst_PROGRAMS += example-5
@@ -43,5 +48,6 @@ example_7_SOURCES = example-7.c
 
 EXTRA_DIST = \
 	example-3.png \
-	example-5.svg
+	example-5.svg \
+	$(NULL)
 

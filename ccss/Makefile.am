@@ -1,21 +1,27 @@
 
+NULL =
+
 AM_CPPFLAGS = \
 	-I$(top_builddir) \
 	-I$(top_srcdir) \
-	$(CCSS_CFLAGS)
+	$(CCSS_CFLAGS) \
+	$(NULL)
 
 lib_LTLIBRARIES = libccss-1.la
 
 libccss_1_la_DEPENDENCIES = \
-	ccss.sym
+	ccss.sym \
+	$(NULL)
 
 libccss_1_la_LDFLAGS = \
 	-no-undefined \
 	-version-info $(VERSION_INFO) \
-	-export-symbols $(srcdir)/ccss.sym
+	-export-symbols $(srcdir)/ccss.sym \
+	$(NULL)
 
 libccss_1_la_LIBADD = \
-	$(CCSS_LIBS)
+	$(CCSS_LIBS) \
+	$(NULL)
 
 libccss_1_la_SOURCES = \
 	$(headers_DATA) \
@@ -50,7 +56,8 @@ libccss_1_la_SOURCES = \
 	ccss-style.c \
 	ccss-style-priv.h \
 	ccss-stylesheet.c \
-	ccss-stylesheet-priv.h
+	ccss-stylesheet-priv.h \
+	$(NULL)
 
 headersdir = $(includedir)/libccss-1/ccss
 
@@ -69,8 +76,10 @@ headers_DATA = \
 	ccss-position.h \
 	ccss-property.h \
 	ccss-style.h \
-	ccss-stylesheet.h
+	ccss-stylesheet.h \
+	$(NULL)
 
 EXTRA_DIST = \
-	ccss.sym
+	ccss.sym \
+	$(NULL)
 

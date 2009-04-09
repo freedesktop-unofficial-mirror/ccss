@@ -1,4 +1,6 @@
 
+NULL =
+
 ACLOCAL_AMFLAGS = -I build
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --enable-werror
 
@@ -9,11 +11,13 @@ DIST_SUBDIRS = \
 	ccss-cairo \
 	ccss-cairo-doc \
 	ccss-gtk \
-	examples
+	examples \
+	$(NULL)
 
 SUBDIRS = \
-	ccss
-	ccss-doc
+	ccss \
+	ccss-doc \
+	$(NULL)
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libccss-1.pc
@@ -43,5 +47,6 @@ EXTRA_DIST = \
 	autogen.sh \
 	libccss-1.pc.in \
 	libccss-cairo-1.pc.in \
-	libccss-gtk-1.pc.in
+	libccss-gtk-1.pc.in \
+	$(NULL)
 
