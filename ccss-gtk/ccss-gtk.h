@@ -26,15 +26,5 @@
 #include <ccss-gtk/ccss-gtk-grammar.h>
 #include <ccss-gtk/ccss-gtk-stylesheet.h>
 
-CCSS_BEGIN_DECLS
-
-void
-ccss_gtk_init (void);
-
-void
-ccss_gtk_shutdown (void);
-
-CCSS_END_DECLS
-
 #endif /* CCSS_GTK_H */
 

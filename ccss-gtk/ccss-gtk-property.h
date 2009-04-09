@@ -19,11 +19,17 @@
  * MA 02110-1301, USA.
  */
 
-#include <ccss-cairo/ccss-cairo.h>
-#include <gtk/gtk.h>
-
 #ifndef CCSS_GTK_PROPERTY_H
 #define CCSS_GTK_PROPERTY_H
+
+#ifndef CCSS_GTK_H
+  #ifndef CCSS_GTK_BUILD
+    #error "Only <ccss-gtk/ccss-gtk.h> can be included directly."
+  #endif
+#endif
+
+#include <ccss-cairo/ccss-cairo.h>
+#include <gtk/gtk.h>
 
 typedef struct {
 	ccss_property_base_t	 base;

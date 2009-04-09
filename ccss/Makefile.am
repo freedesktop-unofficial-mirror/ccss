@@ -5,6 +5,7 @@ AM_CPPFLAGS = \
 	-I$(top_builddir) \
 	-I$(top_srcdir) \
 	$(CCSS_CFLAGS) \
+	-DCCSS_BUILD \
 	$(NULL)
 
 lib_LTLIBRARIES = libccss-1.la
@@ -44,7 +45,6 @@ libccss_1_la_SOURCES = \
 	ccss-padding-parser.c \
 	ccss-padding-parser.h \
 	ccss-position.c \
-	ccss-priv.h \
 	ccss-property.c \
 	ccss-property-generic.h \
 	ccss-property-parser.c \

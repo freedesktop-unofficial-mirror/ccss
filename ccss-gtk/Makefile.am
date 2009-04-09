@@ -5,6 +5,9 @@ AM_CPPFLAGS = \
 	-I$(top_builddir) \
 	-I$(top_srcdir) \
 	$(CCSS_GTK_CFLAGS) \
+	-DCCSS_BUILD \
+	-DCCSS_CAIRO_BUILD \
+	-DCCSS_GTK_BUILD \
 	$(NULL)
 
 lib_LTLIBRARIES = libccss-gtk-1.la

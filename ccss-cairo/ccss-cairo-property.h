@@ -22,6 +22,12 @@
 #ifndef CCSS_CAIRO_PROPERTY_H
 #define CCSS_CAIRO_PROPERTY_H
 
+#ifndef CCSS_CAIRO_H
+  #ifndef CCSS_CAIRO_BUILD
+    #error "Only <ccss-cairo/ccss-cairo.h> can be included directly."
+  #endif
+#endif
+
 #include <glib.h>
 #include <ccss/ccss.h>
 

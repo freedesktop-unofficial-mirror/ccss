@@ -22,6 +22,12 @@
 #ifndef CCSS_CAIRO_GRAMMAR_H
 #define CCSS_CAIRO_GRAMMAR_H
 
+#ifndef CCSS_CAIRO_H
+  #ifndef CCSS_CAIRO_BUILD
+    #error "Only <ccss-cairo/ccss-cairo.h> can be included directly."
+  #endif
+#endif
+
 #include <ccss/ccss.h>
 
 CCSS_BEGIN_DECLS

@@ -22,6 +22,13 @@
 #ifndef CCSS_MACROS_H
 #define CCSS_MACROS_H
 
+/* Every header needs this one, so force single includes here. */
+#ifndef CCSS_H
+  #ifndef CCSS_BUILD
+    #error "Only <ccss/ccss.h> can be included directly."
+  #endif
+#endif
+
 #ifdef  __cplusplus
 # define CCSS_BEGIN_DECLS  extern "C" {
 # define CCSS_END_DECLS    }

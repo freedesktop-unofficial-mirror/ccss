@@ -22,6 +22,12 @@
 #ifndef CCSS_GTK_GRAMMAR_H
 #define CCSS_GTK_GRAMMAR_H
 
+#ifndef CCSS_GTK_H
+  #ifndef CCSS_GTK_BUILD
+    #error "Only <ccss-gtk/ccss-gtk.h> can be included directly."
+  #endif
+#endif
+
 #include <ccss/ccss.h>
 
 CCSS_BEGIN_DECLS

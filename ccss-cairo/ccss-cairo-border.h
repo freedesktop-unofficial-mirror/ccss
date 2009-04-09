@@ -22,6 +22,12 @@
 #ifndef CCSS_CAIRO_BORDER_H
 #define CCSS_CAIRO_BORDER_H
 
+#ifndef CCSS_CAIRO_H
+  #ifndef CCSS_CAIRO_BUILD
+    #error "Only <ccss-cairo/ccss-cairo.h> can be included directly."
+  #endif
+#endif
+
 #include <stdint.h>
 #include <cairo.h>
 #include <ccss/ccss.h>

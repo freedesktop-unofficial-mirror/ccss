@@ -5,6 +5,8 @@ AM_CPPFLAGS = \
 	-I$(top_builddir) \
 	-I$(top_srcdir) \
 	$(CCSS_CAIRO_CFLAGS) \
+	-DCCSS_BUILD \
+	-DCCSS_CAIRO_BUILD \
 	$(NULL)
 
 lib_LTLIBRARIES = libccss-cairo-1.la

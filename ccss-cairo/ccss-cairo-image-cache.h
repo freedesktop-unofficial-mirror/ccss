@@ -22,6 +22,12 @@
 #ifndef CCSS_CAIRO_IMAGE_CACHE_H
 #define CCSS_CAIRO_IMAGE_CACHE_H
 
+#ifndef CCSS_CAIRO_H
+  #ifndef CCSS_CAIRO_BUILD
+    #error "Only <ccss-cairo/ccss-cairo.h> can be included directly."
+  #endif
+#endif
+
 #include <ccss/ccss.h>
 #include <ccss-cairo/ccss-cairo-image.h>
 
