@@ -21,7 +21,6 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([ccss/ccss-stylesheet.c])
 
 AM_INIT_AUTOMAKE
-AM_MAINTAINER_MODE
 
 dnl Version info for libraries = CURRENT:REVISION:AGE
 dnl
