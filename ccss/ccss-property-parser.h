@@ -19,8 +19,8 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_PROPERTY_GENERIC_H
-#define CCSS_PROPERTY_GENERIC_H
+#ifndef CCSS_PROPERTY_PARSER_H
+#define CCSS_PROPERTY_PARSER_H
 
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
@@ -32,5 +32,5 @@ ccss_property_parser_get_property_classes (void);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_PROPERTY_GENERIC_H */
+#endif /* CCSS_PROPERTY_PARSER_H */
 

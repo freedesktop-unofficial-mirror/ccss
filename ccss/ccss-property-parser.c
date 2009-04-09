@@ -20,6 +20,8 @@
  */
 
 #include <string.h>
+#include <glib.h>
+#include <libcroco/libcroco.h>
 #include "ccss-grammar.h"
 #include "ccss-property-parser.h"
 #include "config.h"
@@ -35,11 +37,8 @@
 typedef struct {
 	ccss_property_base_t	base;
 
-	ccss_property_type_t	type;
-	union {
-		double	 dval;
-		char	*sval;
-	}			content;
+	char			*name;
+	CRTerm			*values;
 } ccss_property_generic_t;
 
 static ccss_property_class_t const *
@@ -52,41 +51,23 @@ property_factory (ccss_grammar_t const	*grammar,
 		  CRTerm const		*values,
 		  void			*user_data)
 {
-	ccss_property_generic_t	*prop, p;
-	char const		*s;
+	ccss_property_generic_t	*property, p;
 
 	memset (&p, 0, sizeof (p));
-	p.base.property_class = peek_property_class ();
 
-	switch (values->type) {
-	case TERM_NUMBER:
-		p.base.state = CCSS_PROPERTY_STATE_SET;
-		p.type = CCSS_PROPERTY_TYPE_DOUBLE;
-		p.content.dval = values->content.num->val;
-		break;
-	case TERM_IDENT:
-	case TERM_STRING:
-		s = cr_string_peek_raw_str (values->content.str);
-		if (0 == g_strcmp0 ("none", s)) {
-			p.base.state = CCSS_PROPERTY_STATE_NONE;
-		} else if (0 == g_strcmp0 ("inherit", s)) {
-			p.base.state = CCSS_PROPERTY_STATE_INHERIT;
-		} else {
-			p.base.state = CCSS_PROPERTY_STATE_SET;
-			p.type = CCSS_PROPERTY_TYPE_STRING;
-			p.content.sval = g_strdup (s);
-		}
-		break;
-	default:
-		g_warning ("Unknown property type %d", values->type);
-		return NULL;
+	p.base.property_class = peek_property_class ();
+	p.base.state = ccss_property_parse_state (&values);
+	p.name = g_strdup (name);
+	if (p.base.state == CCSS_PROPERTY_STATE_SET) {
+		p.values = (CRTerm *) values;
+		cr_term_ref (p.values);
 	}
 
-	/*  Coming here means success. */
-	prop = g_new0 (ccss_property_generic_t, 1);
-	*prop = p;
+	property = g_new0 (ccss_property_generic_t, 1);
+	*property = p;
+	ccss_block_add_property (block, name, &property->base);
 
-	return &prop->base;
+	return true;
 }
 
 static void
@@ -94,8 +75,10 @@ property_destroy (ccss_property_generic_t *self)
 {
 	g_return_if_fail (self);
 
-	if (CCSS_PROPERTY_TYPE_STRING == self->type) {
-		g_free (self->content.sval), self->content.sval = NULL;
+	g_free (self->name);
+
+	if (self->values) {
+		cr_term_unref (self->values);
 	}
 
 	g_free (self);
@@ -110,30 +93,50 @@ property_convert (ccss_property_generic_t	*self,
 
 	switch (target) {
 	case CCSS_PROPERTY_TYPE_DOUBLE:
-		switch (self->type) {
-		case CCSS_PROPERTY_TYPE_DOUBLE:
-			* (double *) value = self->content.dval;
-			break;
-		case CCSS_PROPERTY_TYPE_STRING:
-			g_message ("Unable to convert `string' property to `double'");
-			return false;
-		default:
-			g_assert_not_reached ();
-			return false;
+		if (self->values->type == TERM_NUMBER) {
+			* (double *) value = self->values->content.num->val;
+			return true;
 		}
+		g_warning (G_STRLOC "Cannot convert property '%s' to 'double'",
+			   self->name);
+		return false;
 		break;
 	case CCSS_PROPERTY_TYPE_STRING:
-		switch (self->type) {
-		case CCSS_PROPERTY_TYPE_DOUBLE:
-			* (char **) value = g_strdup_printf ("%f", self->content.dval);
-			break;
-		case CCSS_PROPERTY_TYPE_STRING:
-			* (char **) value = g_strdup (self->content.sval);
-			break;
+		switch (self->base.state) {
+		case CCSS_PROPERTY_STATE_INVALID:
+			g_warning (G_STRLOC "Invalid property '%s'",
+				   self->name);
+			return false;
+		case CCSS_PROPERTY_STATE_NONE:
+			* (char **) value = g_strdup ("none");
+			return true;
+		case CCSS_PROPERTY_STATE_INHERIT:
+			* (char **) value = g_strdup ("inherit");
+			return true;
+		case CCSS_PROPERTY_STATE_SET:
+			if (self->values == NULL) {
+				g_warning (G_STRLOC "NULL property '%s'",
+					   self->name);
+				return false;			
+			}
+			/* Fall thru. */
+		}
+
+		switch (self->values->type) {
+		case TERM_NUMBER:
+			* (char **) value = g_strdup_printf ("%f",
+							     self->values->content.num->val);
+			return true;
+		case TERM_IDENT: /* Fall thru. */
+		case TERM_STRING:
+			* (char **) value = g_strdup (cr_string_peek_raw_str (self->values->content.str));
+			return true;
 		default:
-			g_assert_not_reached ();
+			g_warning (G_STRLOC "Unhandled property type '%d'",
+				   self->values->type);
 			return false;
 		}
+
 		break;
 	default:
 		g_assert_not_reached ();

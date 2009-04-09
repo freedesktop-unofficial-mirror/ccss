@@ -35,12 +35,14 @@ struct ccss_style_;
 
 /**
  * ccss_property_state_t:
- * @CCSS_PROPERTY_STATE_INVALID:		error state, invalid property.
+ * @CCSS_PROPERTY_STATE_INVALID:	error state, invalid property.
  * @CCSS_PROPERTY_STATE_NONE:		property set to `none', switched off.
  * @CCSS_PROPERTY_STATE_INHERIT:	inherit property from container.
  * @CCSS_PROPERTY_STATE_SET:		property is valid and set.
  *
  * This enum must be embedded as first field in every property implementation.
+ *
+ * TODO: turn into flags and add CCSS_PROPERTY_STATE_UNRESOLVED.
  **/
 typedef enum {
 	CCSS_PROPERTY_STATE_INVALID = 0,
