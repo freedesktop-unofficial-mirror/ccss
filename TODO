@@ -7,32 +7,29 @@ Also see gtk-css-engine's TODO for now.
 0.2
 ---
 
-* Finish per-node CSS ("style=''").
-* Merge universal- and type-selector based blocks in a single step, fetching the respectively next every time. Maybe use a hash and iterators internally, instead of GTree?
-* Pass pseudo class(es) to the drawing function(s) instead of determining them at query time.
-* Move `none' and `inherit' out of the structs and into an own hash (save mem).
-* Consider a custom allocator (gslice?) for same-sized properties (find out how much overhead regular malloc has for small structs first).
-* Implement public selector-group API in terms of stylesheet?
-* ccss_stylesheet_new_from_file took (filename, GError)
-* Better function interface, so it can also be used for gtkrc settings:
-    GtkButton {
-      gtk: xthickness(3);	/* Or just "xthickness: 3;" for this special case? */
-      GtkButton: child-displacement-x(0);
-      GtkButton: default_border( 0, 0, 0, 0 );
-    }
-* Query interface through CSS selectors, see gtk-css-engine TODO.
-* Callback-based stylesheet-iteration API, then selector-group can be totally internal. Get rid of <glib.h> in all public headers.
-* There is currently no way to free inline blocks, e.g. when a document is dynamically creating and deleting nodes with inline styling. In this case the inline styles will live as long as the stylesheet they are associated to.
+* Make ccss_stylesheet_new_from_file take (filename, GError)
 
 0.3
 ---
 
-* Separate cairo-dependent code.
-* Create a "grammar" class that holds properties and functions, needs to be passed when allocating a stylesheet.
+* Test suite.
+
+0.4
+---
+
+* Write our own parser (flex, bison).
 
 Blue Sky
 --------
 
 * https://developer.mozilla.org/en/CSS/-moz-image-region
 * Transitions / animations? http://ejohn.org/blog/css-animations-and-javascript/
+
+Evaluate
+--------
+
+* Consider a custom allocator (gslice?) for same-sized properties (find out how much overhead regular malloc has for small structs first).
+* Move `none' and `inherit' out of the structs and into an own hash (save mem).
+* Pass pseudo class(es) to the drawing function(s) instead of determining them at query time.
+* Query interface through CSS selectors, see gtk-css-engine TODO.
 
