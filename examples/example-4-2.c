@@ -7,16 +7,9 @@
 #include <gtk/gtk.h>
 #include "config.h"
 
-static ccss_property_class_t const *
-peek_property_class (void);
-
-/*
- * Custom property implementation start.
- */
-
 typedef struct {
 	ccss_property_base_t	 base;
-	char			*font_family;
+	char const		*font_family;   /* Owned by the stylesheet. */
 } font_family_t;
 
 static ccss_property_base_t *
@@ -34,8 +27,7 @@ font_family_new (ccss_grammar_t	*grammar,
 	case TERM_IDENT:
 	case TERM_STRING:
 		self = g_new0 (font_family_t, 1);
-		ccss_property_init ((ccss_property_base_t *) self, peek_property_class ());
-		self->font_family = g_strdup (cr_string_peek_raw_str (values->content.str));
+		self->font_family = cr_string_peek_raw_str (values->content.str);
 		break;
 	default:
 		/* Unhandled, fall thru. */
@@ -45,72 +37,33 @@ font_family_new (ccss_grammar_t	*grammar,
 	return (ccss_property_base_t *) self;
 }
 
-static void
-font_family_free (font_family_t *self)
-{
-	g_free (self->font_family);
-	g_free (self);
-}
-
-static bool
-font_family_convert (font_family_t const	*self,
-		     ccss_property_type_t	 target,
-		     void			*value)
-{
-	/* Only conversion to string is supported. */
-
-	if (CCSS_PROPERTY_TYPE_STRING == target) {
-		* (char **) value = g_strdup (self->font_family);
-		return true;
-	}
-
-	return false;
-}
-
-static ccss_property_class_t const _properties[] = {
-    {
-	.name = "font-family",
-	.property_create = (ccss_property_create_f) font_family_new,
-	.property_destroy = (ccss_property_destroy_f) font_family_free,
-	.property_convert = (ccss_property_convert_f) font_family_convert,
-	.property_factory = NULL
-    }, {
-	.name = NULL
-    }
-};
-
-/*
- * Custom property implementation end.
- */
-
-static ccss_property_class_t const *
-peek_property_class (void)
-{
-	return &_properties[0];
-}
-
 static gboolean
 expose_cb (GtkWidget		*widget,
 	   GdkEventExpose	*event,
 	   ccss_style_t const	*style)
 {
-	cairo_t				 *cr;
-	ccss_property_base_t const	 *property;
-	PangoContext			 *context;
-	PangoLayout			 *layout;
+	cairo_t		*cr;
+	font_family_t	*property;
 
 	cr = gdk_cairo_create (widget->window);
 
 	property = NULL;
-	ccss_style_get_property (style, "font-family", &property);
+	ccss_style_interpret_property (style, "font-family",
+				       (ccss_property_create_f) font_family_new,
+				       NULL,
+				       (ccss_property_base_t **) &property);
 	if (property) {
-		font_family_t const *font_family = (font_family_t const *) property;
+		PangoContext    *context;
+		PangoLayout	*layout;
+
 		context = gtk_widget_get_pango_context (widget);
 		layout = pango_layout_new (context);
-		pango_layout_set_text (layout, font_family->font_family,
-				       strlen (font_family->font_family));
+		pango_layout_set_text (layout, property->font_family,
+				       strlen (property->font_family));
 		pango_cairo_show_layout (cr, layout);
 		g_object_unref (G_OBJECT (layout)), layout = NULL;
+
+		g_free (property);
 	}
 
 	cairo_destroy (cr);
@@ -136,7 +89,6 @@ main (int	  argc,
 	gtk_init (&argc, &argv);
 
 	grammar = ccss_cairo_grammar_create ();
-	ccss_grammar_add_properties (grammar, _properties);
 	stylesheet = ccss_grammar_create_stylesheet_from_buffer (grammar,
 							_css, sizeof (_css),
 							NULL);

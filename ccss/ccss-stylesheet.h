@@ -52,7 +52,11 @@ ccss_stylesheet_t *
 ccss_stylesheet_reference (ccss_stylesheet_t *self);
 
 unsigned int
-ccss_stylesheet_get_reference_count (ccss_stylesheet_t const *self);
+ccss_stylesheet_get_reference_count	(ccss_stylesheet_t const *self);
+
+/* Somewhat hackish */
+struct ccss_grammar_ *
+ccss_stylesheet_get_grammar		(ccss_stylesheet_t const *self);
 
 ccss_stylesheet_t *
 ccss_stylesheet_add_from_file	(ccss_stylesheet_t		*self,

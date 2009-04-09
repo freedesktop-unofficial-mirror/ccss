@@ -25,6 +25,7 @@
 #include <stdint.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
+#include <ccss/ccss-property-generic.h>
 
 CCSS_BEGIN_DECLS
 
@@ -33,13 +34,17 @@ CCSS_BEGIN_DECLS
  *
  * Representation of a block of CSS statements.
  *
- * <emphasis>Memory management:</emphasis> Style objects are owned by the 
+ * <emphasis>Memory management:</emphasis> Style objects are owned by the
  * stylesheet, and therefore not created or modified by the CCSS consumer.
  **/
 typedef struct ccss_style_ ccss_style_t;
 
 void
 ccss_style_destroy	(ccss_style_t *self);
+
+/* Somewhat hackish */
+struct ccss_stylesheet_ *
+ccss_style_get_stylesheet (ccss_style_t const	*self);
 
 bool
 ccss_style_get_double	(ccss_style_t const	*self,
@@ -60,6 +65,13 @@ void
 ccss_style_set_property	(ccss_style_t 			*self,
 			 char const			*property_name,
 			 ccss_property_base_t const	*property);
+
+bool
+ccss_style_interpret_property (ccss_style_t const	 *self,
+                               char const		 *property_name,
+                               ccss_property_create_f	  property_ctor,
+                               void			 *user_data,
+                               ccss_property_base_t	**property);
 
 /**
  * ccss_style_iterator_f:

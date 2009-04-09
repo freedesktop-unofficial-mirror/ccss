@@ -179,6 +179,21 @@ ccss_stylesheet_get_reference_count (ccss_stylesheet_t const *self)
 }
 
 /**
+ * ccss_stylesheet_get_grammar:
+ * @self: a #ccss_gramar_t.
+ *
+ * Returns: the #ccss_gramar_t associated with @self.
+ *	    If @self is a nil object, 0 will be returned.
+ **/
+ccss_grammar_t *
+ccss_stylesheet_get_grammar (ccss_stylesheet_t const *self)
+{
+	g_return_val_if_fail (self, NULL);
+
+	return self->grammar;
+}
+
+/**
  * ccss_stylesheet_query_type:
  * @self:	a #ccss_stylesheet_t.
  * @type_name:	the type to query for, e.g. `h1'.

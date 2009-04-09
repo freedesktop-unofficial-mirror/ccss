@@ -15,6 +15,7 @@ noinst_PROGRAMS = \
 	example-3 \
 	example-4 \
 	example-4-1 \
+	example-4-2 \
 	example-6 \
 	example-7
 
@@ -31,6 +32,8 @@ example_3_SOURCES = example-3.c
 example_4_SOURCES = example-4.c
 
 example_4_1_SOURCES = example-4-1.c
+
+example_4_2_SOURCES = example-4-2.c
 
 example_5_SOURCES = example-5.c
 

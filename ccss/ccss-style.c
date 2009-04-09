@@ -2,6 +2,7 @@
 
 /* The `C' CSS Library.
  * Copyright (C) 2008 Robert Staudinger
+ * Copyright (C) 2009 Intel Corporation
  *
  * This  library is free  software; you can  redistribute it and/or
  * modify it  under  the terms  of the  GNU Lesser  General  Public
@@ -21,6 +22,7 @@
 
 #include <string.h>
 #include <glib.h>
+#include "ccss-property-generic.h"
 #include "ccss-style-priv.h"
 #include "config.h"
 
@@ -35,7 +37,7 @@ ccss_style_create (void)
 	ccss_style_t *self;
 
 	self = g_new0 (ccss_style_t, 1);
-	self->properties = g_hash_table_new ((GHashFunc) g_direct_hash, 
+	self->properties = g_hash_table_new ((GHashFunc) g_direct_hash,
 					     (GEqualFunc) g_direct_equal);
 
 	return self;
@@ -61,6 +63,21 @@ ccss_style_destroy (ccss_style_t *self)
 }
 
 /**
+ * ccss_style_get_stylesheet:
+ * @self: a #ccss_gramar_t.
+ *
+ * Returns: the #ccss_stylesheet_t associated with @self.
+ *	    If @self is a nil object, 0 will be returned.
+ **/
+ccss_stylesheet_t *
+ccss_style_get_stylesheet (ccss_style_t const *self)
+{
+	g_return_val_if_fail (self, NULL);
+
+	return self->stylesheet;
+}
+
+/**
  * ccss_style_get_double:
  * @self:		a #ccss_style_t.
  * @property_name:	name of the property.
@@ -70,7 +87,7 @@ ccss_style_destroy (ccss_style_t *self)
  *
  * Returns: %TRUE if the property was found and could be converted.
  **/
-bool 
+bool
 ccss_style_get_double (ccss_style_t const	*self,
 		       char const		*property_name,
 		       double			*value)
@@ -105,10 +122,10 @@ ccss_style_get_double (ccss_style_t const	*self,
  * @value:		location to store the converted property.
  *
  * Query a string property.
- * 
+ *
  * Returns: %TRUE if the property was found and could be converted.
  **/
-bool 
+bool
 ccss_style_get_string (ccss_style_t const	 *self,
 		       char const		 *property_name,
 		       char			**value)
@@ -141,7 +158,7 @@ ccss_style_get_string (ccss_style_t const	 *self,
  * @self:		a #ccss_style_t.
  * @property_name:	name of the property.
  * @value:		location to store the raw property pointer.
- * 
+ *
  * Query a custom property.
  *
  * Returns: %TRUE if the property was found.
@@ -151,7 +168,7 @@ ccss_style_get_property	(ccss_style_t const		 *self,
 			 char const			 *property_name,
 			 ccss_property_base_t const	**property)
 {
-	GQuark		 property_id;
+	GQuark property_id;
 
 	g_return_val_if_fail (self && property_name && property, false);
 
@@ -171,7 +188,7 @@ ccss_style_get_property	(ccss_style_t const		 *self,
  * @self:		a #ccss_style_t.
  * @property_name:	name of the property.
  * @value:		location to store the raw property pointer.
- * 
+ *
  * Insert custom property. This is for custom property implementations only.
  **/
 void
@@ -186,8 +203,56 @@ ccss_style_set_property	(ccss_style_t 			*self,
 	property_id = g_quark_try_string (property_name);
 	g_return_if_fail (property_id);
 
-	g_hash_table_insert (self->properties, 
+	g_hash_table_insert (self->properties,
 			     (gpointer) property_id, (gpointer) value);
+}
+
+/**
+ * ccss_style_interpret_property:
+ * @self:          a #ccss_style_t.
+ * @property_name: name of the property.
+ * @property_ctor: property constructor function.
+ * @user_data:     user data passed to @property_ctor.
+ * @property:      place to store the interpreted property.
+ *
+ * Query for a custom property, interpret it with @property_ctor and
+ * return the interpreted property in @property.
+ *
+ * Returns: %TRUE if property was found and interpretation
+ * was successful.
+ **/
+bool
+ccss_style_interpret_property (ccss_style_t const	 *self,
+                               char const		 *property_name,
+                               ccss_property_create_f	  property_ctor,
+                               void			 *user_data,
+                               ccss_property_base_t	**property)
+{
+	GQuark				 property_id;
+	ccss_property_generic_t const	*generic_property;
+
+	g_return_val_if_fail (self, false);
+	g_return_val_if_fail (property_name, false);
+	g_return_val_if_fail (property_ctor, false);
+
+	property_id = g_quark_try_string (property_name);
+	if (0 == property_id) {
+		/* Property unknown, no need to look up. */
+		return false;
+	}
+
+	g_hash_table_lookup_extended (self->properties,
+				      (gconstpointer) property_id, NULL,
+				      (void **) &generic_property);
+
+	if (generic_property) {
+		*property = property_ctor (ccss_stylesheet_get_grammar (self->stylesheet),
+					   generic_property->values,
+					   user_data);
+		return (bool) *property;
+	}
+
+	return false;
 }
 
 /**
@@ -236,7 +301,7 @@ ccss_style_dump (ccss_style_t const *self)
 	g_hash_table_iter_init (&iter, self->properties);
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property))  {
 
-		if (NULL == property->property_class || 
+		if (NULL == property->property_class ||
 		    NULL == property->property_class->property_convert) {
 			g_warning ("No conversion function for property `%s'",
 				   g_quark_to_string (property_id));

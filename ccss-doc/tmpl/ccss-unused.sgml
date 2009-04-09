@@ -118,14 +118,6 @@ ccss_selector_group_t
 
 @self: 
 
-<!-- ##### STRUCT ccss_property_generic_t ##### -->
-<para>
-
-</para>
-
-@base: 
-@type: 
-
 <!-- ##### STRUCT ccss_property_impl_t ##### -->
 <para>
 
