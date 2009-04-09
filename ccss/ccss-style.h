@@ -25,7 +25,6 @@
 #include <stdint.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
-#include <ccss/ccss-property-generic.h>
 
 CCSS_BEGIN_DECLS
 
