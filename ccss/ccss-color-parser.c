@@ -509,7 +509,7 @@ peek_property_class (void)
 }
 
 ccss_property_class_t const *
-ccss_color_get_ptable (void)
+ccss_color_parser_get_property_classes (void)
 {
 	return _ptable;
 }

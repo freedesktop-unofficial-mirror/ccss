@@ -40,8 +40,8 @@ libccss_1_la_SOURCES = \
 	ccss-position.c \
 	ccss-priv.h \
 	ccss-property.c \
-	ccss-property-generic.c \
-	ccss-property-generic.h \
+	ccss-property-parser.c \
+	ccss-property-parser.h \
 	ccss-selector.c \
 	ccss-selector-group.c \
 	ccss-selector-group.h \

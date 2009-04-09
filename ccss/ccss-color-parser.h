@@ -44,7 +44,7 @@ ccss_color_convert (ccss_color_t const		*property,
 		    void			*value);
 
 ccss_property_class_t const *
-ccss_color_get_ptable (void);
+ccss_color_parser_get_property_classes (void);
 
 CCSS_END_DECLS
 

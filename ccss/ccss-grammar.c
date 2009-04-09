@@ -21,7 +21,7 @@
 
 #include <glib.h>
 #include "ccss-grammar-priv.h"
-#include "ccss-property-generic.h"
+#include "ccss-property-parser.h"
 #include "ccss-stylesheet-priv.h"
 
 #include "ccss-background-parser.h"
@@ -51,7 +51,7 @@ ccss_grammar_create_generic (void)
 	self->properties = g_hash_table_new (g_str_hash, g_str_equal);
 	self->functions = g_hash_table_new (g_str_hash, g_str_equal);
 
-	ccss_grammar_add_properties (self, ccss_property_generic_get_ptable ());
+	ccss_grammar_add_properties (self, ccss_property_parser_get_property_classes ());
 
 	return self;
 }
@@ -72,11 +72,11 @@ ccss_grammar_create_css (void)
 
 	self = ccss_grammar_create_generic ();
 
-	ccss_grammar_add_properties (self, ccss_background_get_ptable ());
-	ccss_grammar_add_properties (self, ccss_border_get_ptable ());
-	ccss_grammar_add_properties (self, ccss_border_image_get_ptable ());
-	ccss_grammar_add_properties (self, ccss_color_get_ptable ());
-	ccss_grammar_add_properties (self, ccss_padding_get_ptable ());
+	ccss_grammar_add_properties (self, ccss_background_parser_get_property_classes ());
+	ccss_grammar_add_properties (self, ccss_border_parser_get_property_classes ());
+	ccss_grammar_add_properties (self, ccss_border_image_parser_get_property_classes ());
+	ccss_grammar_add_properties (self, ccss_color_parser_get_property_classes ());
+	ccss_grammar_add_properties (self, ccss_padding_parser_get_property_classes ());
 
 	return self;
 }

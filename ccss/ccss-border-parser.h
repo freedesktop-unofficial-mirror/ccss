@@ -30,7 +30,7 @@
 CCSS_BEGIN_DECLS
 
 ccss_property_class_t const *
-ccss_border_get_ptable (void);
+ccss_border_parser_get_property_classes (void);
 
 CCSS_END_DECLS
 

@@ -21,7 +21,7 @@
 
 #include <string.h>
 #include "ccss-grammar.h"
-#include "ccss-property-generic.h"
+#include "ccss-property-parser.h"
 #include "config.h"
 
 /**
@@ -163,7 +163,7 @@ peek_property_class (void)
 }
 
 ccss_property_class_t const *
-ccss_property_generic_get_ptable (void)
+ccss_property_parser_get_property_classes (void)
 {
 	return _ptable;
 }

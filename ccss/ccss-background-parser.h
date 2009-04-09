@@ -28,7 +28,7 @@
 CCSS_BEGIN_DECLS
 
 ccss_property_class_t const *
-ccss_background_get_ptable (void);
+ccss_background_parser_get_property_classes (void);
 
 CCSS_END_DECLS
 

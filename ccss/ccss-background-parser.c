@@ -688,7 +688,7 @@ peek_property_class (char const *property_name)
 }
 
 ccss_property_class_t const *
-ccss_background_get_ptable (void)
+ccss_background_parser_get_property_classes (void)
 {
 	return _ptable;
 }

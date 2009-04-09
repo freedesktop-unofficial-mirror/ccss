@@ -1320,7 +1320,7 @@ peek_property_class (char const *property_name)
 }
 
 ccss_property_class_t const *
-ccss_border_get_ptable (void)
+ccss_border_parser_get_property_classes (void)
 {
 	return _ptable;
 }
