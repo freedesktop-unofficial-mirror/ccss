@@ -38,7 +38,9 @@ m4_define([version_iface],
 	m4_eval(100 * ccss_version_major + ccss_version_minor))
 
 AC_SUBST([VERSION_INFO], [version_iface:ccss_version_micro:0])
-
+AC_SUBST([CCSS_VERSION_MAJOR], [ccss_version_major])
+AC_SUBST([CCSS_VERSION_MINOR], [ccss_version_minor])
+AC_SUBST([CCSS_VERSION_MICRO], [ccss_version_micro])
 
 
 ### Checks for configure arguments. ############################################
