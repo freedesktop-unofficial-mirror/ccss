@@ -17,6 +17,7 @@ m4_define([ccss_version],
     [ccss_version_major.ccss_version_minor.ccss_version_micro[]ccss_version_extra])
 
 AC_INIT([libccss], [ccss_version])
+AC_CONFIG_AUX_DIR([build])
 AC_CONFIG_MACRO_DIR([build])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([ccss/ccss-stylesheet.c])
