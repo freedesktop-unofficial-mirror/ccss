@@ -238,7 +238,7 @@ AC_SUBST([CCSS_GTK_DEPS], "$ccss_gtk_reqs libccss-cairo-1")
 ccss_examples_reqs='gtk+-2.0 >= 2.10 librsvg-2.0'
 ccss_examples_pkgs=
 
-AC_ARG_ENABLE([ccss-examples],
+AC_ARG_ENABLE([examples],
               [AS_HELP_STRING([--disable-examples], [disable the build of examples.])],
 [
   want_examples="$enableval"
