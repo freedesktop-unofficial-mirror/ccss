@@ -193,8 +193,9 @@ AC_SUBST([ccss_with_soup], [$want_soup])
 
 
 ### check
-
-PKG_CHECK_MODULES([CCSS_CAIRO], $ccss_cairo_pkgs)
+if test "$want_cairo" = "yes"; then
+  PKG_CHECK_MODULES([CCSS_CAIRO], $ccss_cairo_pkgs)
+fi
 
 # AC_SUBST([CCSS_CAIRO_CFLAGS]) # set further down
 AC_SUBST([CCSS_CAIRO_LIBS])
@@ -223,8 +224,9 @@ AC_SUBST([ccss_with_gtk], [$want_gtk])
 
 
 ### check
-
-PKG_CHECK_MODULES([CCSS_GTK], $ccss_gtk_pkgs)
+if test "$want_gtk" = "yes"; then
+  PKG_CHECK_MODULES([CCSS_GTK], $ccss_gtk_pkgs)
+fi
 
 # AC_SUBST([CCSS_GTK_CFLAGS]) # set further down
 AC_SUBST([CCSS_GTK_LIBS])
@@ -253,7 +255,9 @@ AC_SUBST([ccss_with_examples], [$want_examples])
 
 ### check
 
-PKG_CHECK_MODULES([CCSS_EXAMPLES], $ccss_examples_pkgs)
+if test "$want_examples" = "yes"; then
+  PKG_CHECK_MODULES([CCSS_EXAMPLES], $ccss_examples_pkgs)
+fi
 
 # AC_SUBST([CCSS_EXAMPLES_CFLAGS]) # set further down
 AC_SUBST([CCSS_EXAMPLES_LIBS])
