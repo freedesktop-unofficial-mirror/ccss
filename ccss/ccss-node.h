@@ -33,14 +33,15 @@ typedef struct ccss_node_ ccss_node_t;
 
 /** 
  * ccss_node_is_a_f:
- * @self: a #ccss_node_t.
+ * @self:	a #ccss_node_t.
+ * @type_name:	name to match against, e.g. %div.
  *
  * Hook function to query whether a #ccss_node_t is of a certain type.
  *
  * Returns: %TRUE if matches.
  **/
-typedef bool (*ccss_node_is_a_f) (ccss_node_t const *self, 
-				  char const *type_name);
+typedef bool (*ccss_node_is_a_f) (ccss_node_t const	*self,
+				  char const		*type_name);
 
 /** 
  * ccss_node_get_container_f:
@@ -145,8 +146,12 @@ typedef const char * (*ccss_node_get_style_f) (ccss_node_t const *self);
  * @self:	a #ccss_node_t.
  * @x:		horizontal position.
  * @y:		vertical position.
+ * @width:	width of viewport.
+ * @height:	height of viewport.
  * 
  * Hook function to determine the position of a node in the viewport.
+ *
+ * Returns: %TRUE if a valid viewport position has been assigned to the out parameters.
  **/
 typedef bool (*ccss_node_get_viewport_f) (ccss_node_t const *self, 
 					  uint32_t *x, uint32_t *y,

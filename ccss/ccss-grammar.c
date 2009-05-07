@@ -141,7 +141,7 @@ ccss_grammar_get_reference_count (ccss_grammar_t const *self)
 
 /**
  * ccss_grammar_add_properties:
- * @self: a #ccss_grammar_t.
+ * @self:	a #ccss_grammar_t.
  * @properties:	Null-terminated array of #ccss_property_class_t to register.
  *
  * Register a set of custom CSS properties with the grammar.
@@ -186,6 +186,7 @@ ccss_grammar_lookup_property (ccss_grammar_t const	*self,
 
 /**
  * ccss_grammar_add_functions:
+ * @self:	a #ccss_grammar_t.
  * @functions:	Null-terminated array of #ccss_function_t to register.
  *
  * Register a set of custom css function handlers with the grammar.

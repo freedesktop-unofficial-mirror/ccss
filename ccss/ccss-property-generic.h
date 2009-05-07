@@ -31,9 +31,9 @@ CCSS_BEGIN_DECLS
 
 /**
  * ccss_property_generic_t:
- * @state:	see #ccss_property_state_t.
- * @type:	see #ccss_property_type_t.
- * @content:	container for the actual property value.
+ * @base:	base property.
+ * @name:	name of the property, e.g. %color.
+ * @values:	linked list of values.
  *
  * Implementation of a generic, single-value property.
  **/

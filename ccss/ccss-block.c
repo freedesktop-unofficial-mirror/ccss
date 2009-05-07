@@ -50,8 +50,8 @@ ccss_block_destroy (ccss_block_t *self)
 /**
  * ccss_block_add_property:
  * @self:		a #ccss_block_t.
- * @property_name:	the property's name, e.g. `background-color'.
- * @property		pointer to the property instance.
+ * @property_name:	the property name, e.g. %background-color.
+ * @property:		pointer to the property instance.
  *
  * Adds a property to a CSS block.
  **/

@@ -120,8 +120,8 @@ parse_args_r (GSList		 *args,
 /**
  * ccss_grammar_invoke_function:
  * @self:		a #ccss_grammar_t.
- * @function_name:	name of the function to invoke, e.g. `url'.
- * @args:		arguments passed to the function handler.
+ * @function_name:	name of the function to invoke, e.g. %url.
+ * @values:		arguments passed to the function handler.
  * @user_data:		user-data passed to the function handler.
  *			Overrides the user-data assigned in the function handler's definition.
  *

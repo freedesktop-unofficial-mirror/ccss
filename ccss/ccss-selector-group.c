@@ -28,14 +28,6 @@ typedef struct {
 	GSList *selectors;
 } ccss_selector_set_t;
 
-/**
- * ccss_selector_group_t:
- * @sets:		
- * @min_specificity_e:	
- * @dangling_selectors:
- * 
- * Represents a set of associated styling information. 
- **/
 struct ccss_selector_group_ {
 	GTree		*sets;
 	unsigned int	 n_selectors;
