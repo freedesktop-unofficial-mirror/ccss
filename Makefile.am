@@ -8,6 +8,7 @@ DIST_SUBDIRS = \
 	build \
 	ccss \
 	ccss-doc \
+	ccss-tests \
 	ccss-cairo \
 	ccss-cairo-doc \
 	ccss-gtk \
@@ -18,6 +19,10 @@ SUBDIRS = \
 	ccss \
 	ccss-doc \
 	$(NULL)
+
+if ENABLE_GLIB_TEST
+SUBDIRS += ccss-tests
+endif
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libccss-1.pc
@@ -48,6 +53,10 @@ EXTRA_DIST = \
 	libccss-1.pc.in \
 	libccss-cairo-1.pc.in \
 	libccss-gtk-1.pc.in \
+	$(NULL)
+
+CLEANFILES = \
+	test-report.xml \
 	$(NULL)
 
 PREV_RELEASE=$(CCSS_VERSION_MAJOR).$$(echo "$(CCSS_VERSION_MINOR)-1" | bc)
