@@ -75,6 +75,9 @@ property_convert (ccss_property_generic_t	*self,
 		  ccss_property_type_t		 target,
 		  void				*value)
 {
+	char const	*str;
+	double		 num;
+
 	g_return_val_if_fail (self && value, false);
 
 	switch (target) {
@@ -110,12 +113,17 @@ property_convert (ccss_property_generic_t	*self,
 
 		switch (self->values->type) {
 		case TERM_NUMBER:
-			* (char **) value = g_strdup_printf ("%f",
-							     self->values->content.num->val);
+			num = self->values->content.num->val;
+			* (char **) value = g_strdup_printf ("%f", num);
+			return true;
+		case TERM_HASH:
+			str = cr_string_peek_raw_str (self->values->content.str);
+			* (char **) value = g_strdup_printf ("#%s", str);
 			return true;
 		case TERM_IDENT: /* Fall thru. */
 		case TERM_STRING:
-			* (char **) value = g_strdup (cr_string_peek_raw_str (self->values->content.str));
+			str = cr_string_peek_raw_str (self->values->content.str);
+			* (char **) value = g_strdup (str);
 			return true;
 		default:
 			g_warning (G_STRLOC "Unhandled property type '%d'",
