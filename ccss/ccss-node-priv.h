@@ -23,14 +23,53 @@
 #define CCSS_NODE_PRIV_H
 
 #include <stdbool.h>
+#include <stddef.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-node.h>
 
 CCSS_BEGIN_DECLS
 
 bool
-ccss_node_is_a (ccss_node_t const	*self,
-		char const		*type_name);
+ccss_node_is_a			(ccss_node_t		*self,
+				 char const		*type_name);
+
+ccss_node_t *
+ccss_node_get_container		(ccss_node_t		*self);
+
+ccss_node_t *
+ccss_node_get_base_style	(ccss_node_t		*self);
+
+char const *
+ccss_node_get_type		(ccss_node_t		*self);
+
+ptrdiff_t
+ccss_node_get_instance		(ccss_node_t 		*self);
+
+char const *
+ccss_node_get_id		(ccss_node_t 		*self);
+
+char const *
+ccss_node_get_class		(ccss_node_t 		*self);
+
+char const *
+ccss_node_get_pseudo_class      (ccss_node_t 		*self);
+
+char *
+ccss_node_get_attribute		(ccss_node_t const	*self,
+				 char const		*name);
+
+char const *
+ccss_node_get_style		(ccss_node_t 		*self);
+
+bool
+ccss_node_get_viewport		(ccss_node_t const	*self,
+				 uint32_t		*x,
+				 uint32_t		*y,
+				 uint32_t		*width,
+				 uint32_t		*height);
+
+void
+ccss_node_release		(ccss_node_t		*self);
 
 CCSS_END_DECLS
 

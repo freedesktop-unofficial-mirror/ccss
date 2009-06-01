@@ -70,7 +70,7 @@ ccss_stylesheet_query_type	(ccss_stylesheet_t 		*self,
 
 ccss_style_t *
 ccss_stylesheet_query		(ccss_stylesheet_t 		*self,
-				 ccss_node_t const		*node);
+				 ccss_node_t			*node);
 
 void
 ccss_stylesheet_invalidate_node	(ccss_stylesheet_t const	*self,

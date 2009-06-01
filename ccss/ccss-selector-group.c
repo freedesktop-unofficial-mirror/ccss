@@ -37,7 +37,7 @@ struct ccss_selector_group_ {
 
 static int
 compare (size_t	 key1,
-	 size_t	 key2, 
+	 size_t	 key2,
 	 void	*data)
 {
 	return key1 - key2;
@@ -74,8 +74,8 @@ ccss_selector_group_create (void)
 	ccss_selector_group_t *self;
 
 	self = g_new0 (ccss_selector_group_t, 1);
-	self->sets = g_tree_new_full ((GCompareDataFunc) compare, NULL, NULL, 
-				      (GDestroyNotify) free_set); 
+	self->sets = g_tree_new_full ((GCompareDataFunc) compare, NULL, NULL,
+				      (GDestroyNotify) free_set);
 
 	self->n_selectors = 0;
 	self->min_specificity_e = CCSS_SELECTOR_MAX_SPECIFICITY;
@@ -86,7 +86,7 @@ ccss_selector_group_create (void)
 /**
  * ccss_selector_group_destroy:
  * @self: a #ccss_selector_group_t.
- * 
+ *
  * Free the selector group and all associated resources.
  **/
 void
@@ -102,8 +102,8 @@ ccss_selector_group_destroy (ccss_selector_group_t *self)
  * Takes ownership of the selector.
  */
 void
-ccss_selector_group_add_selector (ccss_selector_group_t	*self, 
-				 ccss_selector_t		*selector)
+ccss_selector_group_add_selector (ccss_selector_group_t	*self,
+				 ccss_selector_t	*selector)
 {
 	ccss_selector_set_t	*set;
 	size_t			 specificity;
@@ -127,8 +127,8 @@ calculate_min_specificity_e (ccss_selector_group_t	*group,
 {
 	unsigned int specificity_e;
 
-	/* The tree is walked in order, so we remember how many 
-	 * specificities `e' will be required to insert the merged selectors at 
+	/* The tree is walked in order, so we remember how many
+	 * specificities `e' will be required to insert the merged selectors at
 	 * the right place. `- 1' because "group->min_specificity_e" already has
 	 * the next free value. */
 	g_assert (((signed) group->min_specificity_e - (signed) n_specificities - 1) >= 0);
@@ -175,7 +175,7 @@ ccss_selector_group_merge_as_base (ccss_selector_group_t	*self,
 	g_assert (self && group);
 
 	info.self = self;
-	info.specificity_e = calculate_min_specificity_e (self, 
+	info.specificity_e = calculate_min_specificity_e (self,
 				self->n_selectors);
 
 	g_tree_foreach (group->sets, (GTraverseFunc) traverse_merge, &info);
@@ -208,7 +208,7 @@ ccss_selector_group_clear_dangling_selectors (ccss_selector_group_t *self)
 }
 
 typedef struct {
-	ccss_node_t const	*node;
+	ccss_node_t 		*node;
 	ccss_selector_group_t	*result_group;
 	bool			 as_base;
 	unsigned int		 specificity_e;
@@ -246,8 +246,8 @@ traverse_query (size_t			 specificity,
 }
 
 bool
-ccss_selector_group_query (ccss_selector_group_t const	*self, 
-			   ccss_node_t const		*node, 
+ccss_selector_group_query (ccss_selector_group_t const	*self,
+			   ccss_node_t			*node,
 			   bool				 as_base,
 			   ccss_selector_group_t	*result_group)
 {
@@ -306,7 +306,7 @@ traverse_apply (size_t			 specificity,
 			}
 
 		} else {	
-			info->ret |= ccss_selector_apply (selector, 
+			info->ret |= ccss_selector_apply (selector,
 							  info->node,
 							  info->style);
 		}
@@ -324,7 +324,7 @@ traverse_apply (size_t			 specificity,
  * Apply the styling information held by #self to #style.
  **/
 bool
-ccss_selector_group_apply (ccss_selector_group_t const	*self, 
+ccss_selector_group_apply (ccss_selector_group_t const	*self,
 			   ccss_node_t const		*node,
 			   ccss_style_t			*style)
 {
@@ -353,7 +353,7 @@ ccss_selector_group_apply (ccss_selector_group_t const	*self,
  * Returns: %TRUE if applicable style information available.
  **/
 bool
-ccss_selector_group_apply_type (ccss_selector_group_t const	*self, 
+ccss_selector_group_apply_type (ccss_selector_group_t const	*self,
 			       char const			*type_name,
 			       ccss_style_t			*style)
 {
