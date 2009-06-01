@@ -424,7 +424,7 @@ ccss_color_create (ccss_grammar_t const	*grammar,
 
 	ret = ccss_color_parse (&c, &value);
 	if (ret) {
-		c.base.property_class = peek_property_class ();
+		ccss_property_init (&c.base, peek_property_class ());
 		self = g_new0 (ccss_color_t, 1);
 		*self = c;
 		return &self->base;
