@@ -88,7 +88,7 @@ main (int	  argc,
 	node.instance = 0xdeadbeef;
 	node.inline_css = "background-color: yellow";
 
-	style = ccss_stylesheet_query (stylesheet, (ccss_node_t const *) &node);
+	style = ccss_stylesheet_query (stylesheet, &node.parent);
 	g_assert (style);
 
 #ifdef CCSS_DEBUG

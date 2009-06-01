@@ -40,8 +40,8 @@ typedef struct ccss_node_ ccss_node_t;
  *
  * Returns: %TRUE if matches.
  **/
-typedef bool (*ccss_node_is_a_f) (ccss_node_t const	*self,
-				  char const		*type_name);
+typedef bool (*ccss_node_is_a_f) (ccss_node_t	*self,
+				  char const	*type_name);
 
 /** 
  * ccss_node_get_container_f:
@@ -212,6 +212,17 @@ typedef struct {
 struct ccss_node_ {
 	/*< private >*/
 	ccss_node_class_t const *node_class;
+
+/* We might cache those too in the future.
+	ccss_node_t     *container;
+	ccss_node_t     *base_style;
+*/
+	ptrdiff_t        instance;
+	char const      *id;
+	char const      *type_name;
+	char const      *css_class;
+	char const      *pseudo_class;
+	char const      *inline_style;
 };
 
 void

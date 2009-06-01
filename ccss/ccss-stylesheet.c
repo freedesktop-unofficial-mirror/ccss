@@ -23,7 +23,7 @@
 #include <glib.h>
 #include "ccss-block-priv.h"
 #include "ccss-grammar-priv.h"
-#include "ccss-node.h"
+#include "ccss-node-priv.h"
 #include "ccss-selector-group.h"
 #include "ccss-selector.h"
 #include "ccss-style-priv.h"
@@ -236,23 +236,20 @@ bail:
  */
 static bool
 query_type_r (ccss_stylesheet_t const	*self,
-	      ccss_node_t const		*node,
-	      ccss_node_t const		*iter,
+	      ccss_node_t 		*node,
+	      ccss_node_t 		*iter,
 	      bool			 as_base,
 	      ccss_selector_group_t	*result_group)
 {
-	ccss_node_class_t const	*node_class;
 	ccss_selector_group_t	*group;
 	char const		*type_name;
 	bool			 ret;
-
-	node_class = node->node_class;
 
 	if (!iter) {
 		iter = node;
 	}
 
-	type_name = node_class->get_type (iter);
+	type_name = ccss_node_get_type (iter);
 
 	ret = false;
 	if (type_name) {
@@ -265,10 +262,10 @@ query_type_r (ccss_stylesheet_t const	*self,
 		}
 
 		/* Try to match base types. */
-		base = node_class->get_base_style (iter);
+		base = ccss_node_get_base_style (iter);
 		if (base) {
 			ret |= query_type_r (self, node, base, true, result_group);
-			node_class->release (base);
+			ccss_node_release (base);
 		}
 	} else {
 		g_warning ("No type name");
@@ -282,10 +279,9 @@ query_type_r (ccss_stylesheet_t const	*self,
  */
 static bool
 query_node (ccss_stylesheet_t const	*self,
-	    ccss_node_t const		*node,
+	    ccss_node_t 		*node,
 	    ccss_style_t		*style)
 {
-	ccss_node_class_t const		*node_class;
 	ccss_selector_group_t const	*universal_group;
 	ccss_selector_group_t		*result_group;
 	char const			*inline_css;
@@ -308,11 +304,10 @@ query_node (ccss_stylesheet_t const	*self,
 	ret |= query_type_r (self, node, node, false, result_group);
 
 	/* Handle inline styling. */
-	node_class = node->node_class;
-	inline_css = node_class->get_style (node);
+	inline_css = ccss_node_get_style (node);
 	if (inline_css) {
 		ptrdiff_t instance;
-		instance = node_class->get_instance (node);
+		instance = ccss_node_get_instance (node);
 		if (instance == 0) {
 			g_warning ("Inline CSS `%s' but instance == 0\n", inline_css);
 		} else {
@@ -402,11 +397,10 @@ inherit_container_style (ccss_style_t const	*container_style,
  **/
 static bool
 query_container_r (ccss_stylesheet_t const	*self,
-		   ccss_node_t const		*node,
+		   ccss_node_t			*node,
 		   GHashTable			*inherit,
 		   ccss_style_t			*style)
 {
-	ccss_node_class_t const	*node_class;
 	ccss_node_t		*container;
 	ccss_style_t		*container_style;
 	bool			 ret;
@@ -414,8 +408,7 @@ query_container_r (ccss_stylesheet_t const	*self,
 	g_return_val_if_fail (style && node, false);
 
 	/* Actually inherit. */
-	node_class = node->node_class;
-	container = node_class->get_container (node);
+	container = ccss_node_get_container (node);
 	if (!container)
 		return false;
 
@@ -435,7 +428,7 @@ query_container_r (ccss_stylesheet_t const	*self,
 		query_container_r (self, container, inherit, style);
 	}
 
-	node_class->release (container), container = NULL;
+	ccss_node_release (container), container = NULL;
 
 	/* Return true if some styling has been found, not necessarily all
 	 * properties resolved. */
@@ -454,7 +447,7 @@ query_container_r (ccss_stylesheet_t const	*self,
  **/
 ccss_style_t *
 ccss_stylesheet_query (ccss_stylesheet_t 	*self,
-		       ccss_node_t const	*node)
+		       ccss_node_t		*node)
 {
 	GHashTable			*inherit;
 	GHashTableIter			 iter;

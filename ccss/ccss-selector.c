@@ -848,21 +848,18 @@ ccss_selector_get_specificity_values (ccss_selector_t const	*self,
 
 static bool
 match_antecessor_r (ccss_selector_t const	*self, 
-		    ccss_node_t const		*node)
+		    ccss_node_t			*node)
 {
-	ccss_node_class_t const	*node_class;
 	ccss_node_t		*container;
 	bool			 is_matching;
 
-	node_class = node->node_class;
-
-	container = node_class->get_container (node);
+	container = ccss_node_get_container (node);
 	if (container) {
 		is_matching = ccss_selector_query (self, container);
 		if (!is_matching) {
 			is_matching = match_antecessor_r (self, container);
 		}
-		node_class->release (container);
+		ccss_node_release (container);
 	} else {
 		is_matching = false;
 	}
@@ -872,17 +869,14 @@ match_antecessor_r (ccss_selector_t const	*self,
 
 bool
 ccss_selector_query (ccss_selector_t const	*self, 
-		     ccss_node_t const		*node)
+		     ccss_node_t 		*node)
 {
-	ccss_node_class_t const	*node_class;
 	char const	*name;
 	char		*value;
 	ptrdiff_t	 instance;
 	bool		 is_matching;
 
 	g_return_val_if_fail (self && node, false);
-
-	node_class = node->node_class;
 
 	is_matching = false;
 	switch (self->modality) {
@@ -900,18 +894,18 @@ ccss_selector_query (ccss_selector_t const	*self,
 		is_matching = true;
 		break;
 	case CCSS_SELECTOR_MODALITY_CLASS:
-		name = node_class->get_class (node);
+		name = ccss_node_get_class (node);
 		is_matching = !g_strcmp0 (name, 
 				((ccss_class_selector_t *) self)->class_name);
 		break;
 	case CCSS_SELECTOR_MODALITY_ID:
-		name = node_class->get_id (node);
+		name = ccss_node_get_id (node);
 		is_matching = !g_strcmp0 (name, 
 				((ccss_id_selector_t *) self)->id);
 		break;
 	case CCSS_SELECTOR_MODALITY_ATTRIBUTE:
 		name = ((ccss_attribute_selector_t *) self)->name;
-		value = node_class->get_attribute (node, name);
+		value = ccss_node_get_attribute (node, name);
 		switch (((ccss_attribute_selector_t *) self)->match) {
 		case CCSS_ATTRIBUTE_SELECTOR_MATCH_EXISTS:
 			is_matching = value ? true : false;
@@ -924,12 +918,12 @@ ccss_selector_query (ccss_selector_t const	*self,
 		g_free (value), value = NULL;
 		break;
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
-		name = node_class->get_pseudo_class (node);
+		name = ccss_node_get_pseudo_class (node);
 		is_matching = !g_strcmp0 (name, 
 			((ccss_pseudo_class_selector_t *) self)->pseudo_class);
 		break;
 	case CCSS_SELECTOR_MODALITY_INSTANCE:
-		instance = node_class->get_instance (node);
+		instance = ccss_node_get_instance (node);
 		is_matching = (instance ==
 				((ccss_instance_selector_t *) self)->instance);
 		break;
@@ -950,11 +944,11 @@ ccss_selector_query (ccss_selector_t const	*self,
 	/* match container */
 	if (self->container) {
 		ccss_node_t *container;
-		container = node_class->get_container (node);
+		container = ccss_node_get_container (node);
 		is_matching = false;
 		if (container) {
 			is_matching = ccss_selector_query (self->container, container);
-			node_class->release (container);
+			ccss_node_release (container);
 		}
 		if (!is_matching) {
 			return false;
@@ -977,7 +971,6 @@ ccss_selector_apply (ccss_selector_t const	*self,
 		     ccss_node_t const		*node,
 		     ccss_style_t		*style)
 {
-	ccss_node_class_t const	*node_class;
 	GHashTableIter		 iter;
 	gpointer		 key;
 	gpointer		 value;
@@ -998,8 +991,7 @@ ccss_selector_apply (ccss_selector_t const	*self,
 	/* Requiring a node instance here would make the type-based API impossible. */
 	if (node) {
 		/* Update viewport (for things like fixed background-images). */
-		node_class = node->node_class;
-		ret = node_class->get_viewport (node, &x, &y, &width, &height);
+		ret = ccss_node_get_viewport (node, &x, &y, &width, &height);
 		if (ret) {
 			style->viewport_x = x;
 			style->viewport_y = y;

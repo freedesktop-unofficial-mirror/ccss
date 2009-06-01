@@ -25,25 +25,25 @@
 #include "config.h"
 
 static bool
-is_a (ccss_node_t const	*self,
+is_a (ccss_node_t	*self,
       char const	*type_name)
 {
 	return FALSE;
 }
 
-static ccss_node_t * 
+static ccss_node_t *
 get_container (ccss_node_t const *self)
 {
 	return NULL;
 }
 
-static ccss_node_t * 
+static ccss_node_t *
 get_base_style (ccss_node_t const *self)
 {
 	return NULL;
 }
 
-static char const * 
+static char const *
 get_type (ccss_node_t const *self)
 {
 	return NULL;
@@ -55,32 +55,32 @@ get_instance (ccss_node_t const *self)
 	return 0;
 }
 
-static char const * 
+static char const *
 get_id (ccss_node_t const *self)
 {
 	return NULL;
 }
 
-static char const * 
+static char const *
 get_class (ccss_node_t const *self)
 {
 	return NULL;
 }
 
-static char const * 
+static char const *
 get_pseudo_class (ccss_node_t const *self)
 {
 	return NULL;
 }
 
-static char * 
+static char *
 get_attribute (ccss_node_t const	*self,
 	       char const	*name)
 {
 	return NULL;
 }
 
-static char const * 
+static char const *
 get_style (ccss_node_t const *self)
 {
 	return NULL;
@@ -137,6 +137,8 @@ ccss_node_init (ccss_node_t		*self,
 
 	g_return_if_fail (self && node_class);
 
+	memset (self, 0, sizeof (*self));
+
 	/* Initialize the node class.
 	 * FIXME: run only once per node class?  */
 	default_vtable = (node_f const *) &_default_node_class;
@@ -157,18 +159,181 @@ ccss_node_init (ccss_node_t		*self,
  * implemented `get_type' is used as a fallback.
  **/
 bool
-ccss_node_is_a (ccss_node_t const	*self,
-		char const		*type_name)
+ccss_node_is_a (ccss_node_t	*self,
+		char const	*type_name)
 {
 	char const *node_type_name;
+
+	g_return_val_if_fail (self, FALSE);
+	g_return_val_if_fail (self->node_class, FALSE);
+	g_return_val_if_fail (type_name, FALSE);
 
 	if (self->node_class->is_a != is_a) {
 		return self->node_class->is_a (self, type_name);
 	} else {
-		node_type_name = self->node_class->get_type (self);
+		node_type_name = ccss_node_get_type (self);
 		return node_type_name ?
-			0 == strcmp (type_name, node_type_name) :
+			0 == g_strcmp0 (type_name, node_type_name) :
 			false;
 	}
+}
+
+ccss_node_t *
+ccss_node_get_container (ccss_node_t *self)
+{
+	g_return_val_if_fail (self, NULL);
+	g_return_val_if_fail (self->node_class, NULL);
+	g_return_val_if_fail (self->node_class->get_container, NULL);
+
+	return self->node_class->get_container (self);
+
+/* We might cache this too in the future.
+	if (NULL == self->container)
+		self->container = self->node_class->get_container (self);
+
+	return self->container;
+*/
+}
+
+ccss_node_t *
+ccss_node_get_base_style (ccss_node_t *self)
+{
+	g_return_val_if_fail (self, NULL);
+	g_return_val_if_fail (self->node_class, NULL);
+	g_return_val_if_fail (self->node_class->get_base_style, NULL);
+
+	return self->node_class->get_base_style (self);
+
+/* We might cache this too in the future.
+	if (NULL == self->base_style)
+		self->base_style = self->node_class->get_base_style (self);
+
+	return self->base_style;
+*/
+}
+
+char const *
+ccss_node_get_type (ccss_node_t *self)
+{
+	g_return_val_if_fail (self, NULL);
+	g_return_val_if_fail (self->node_class, NULL);
+	g_return_val_if_fail (self->node_class->get_type, NULL);
+
+return self->node_class->get_type (self);
+
+	if (NULL == self->type_name)
+		self->type_name = self->node_class->get_type (self);
+
+	return self->type_name;
+}
+
+ptrdiff_t
+ccss_node_get_instance (ccss_node_t *self)
+{
+	g_return_val_if_fail (self, 0);
+	g_return_val_if_fail (self->node_class, 0);
+	g_return_val_if_fail (self->node_class->get_instance, 0);
+
+return self->node_class->get_instance (self);
+
+	if (0 == self->instance)
+		self->instance = self->node_class->get_instance (self);
+
+	return self->instance;
+}
+
+char const *
+ccss_node_get_id (ccss_node_t *self)
+{
+	g_return_val_if_fail (self, NULL);
+	g_return_val_if_fail (self->node_class, NULL);
+	g_return_val_if_fail (self->node_class->get_id, NULL);
+
+return self->node_class->get_id (self);
+
+	if (NULL == self->id)
+		self->id = self->node_class->get_id (self);
+
+	return self->id;
+}
+
+char const *
+ccss_node_get_class (ccss_node_t *self)
+{
+	g_return_val_if_fail (self, NULL);
+	g_return_val_if_fail (self->node_class, NULL);
+	g_return_val_if_fail (self->node_class->get_class, NULL);
+
+return self->node_class->get_class (self);
+
+	if (NULL == self->css_class)
+		self->css_class = self->node_class->get_class (self);
+
+	return self->css_class;
+}
+
+char const *
+ccss_node_get_pseudo_class (ccss_node_t *self)
+{
+	g_return_val_if_fail (self, NULL);
+	g_return_val_if_fail (self->node_class, NULL);
+	g_return_val_if_fail (self->node_class->get_pseudo_class, NULL);
+
+return self->node_class->get_pseudo_class (self);
+
+	if (NULL == self->pseudo_class)
+		self->pseudo_class = self->node_class->get_pseudo_class (self);
+
+	return self->pseudo_class;
+}
+
+char *
+ccss_node_get_attribute (ccss_node_t const	*self,
+			 char const		*name)
+{
+	g_return_val_if_fail (self, NULL);
+	g_return_val_if_fail (self->node_class, NULL);
+	g_return_val_if_fail (self->node_class->get_attribute, NULL);
+
+	return self->node_class->get_attribute (self, name);
+}
+
+char const *
+ccss_node_get_style (ccss_node_t *self)
+{
+	g_return_val_if_fail (self, NULL);
+	g_return_val_if_fail (self->node_class, NULL);
+	g_return_val_if_fail (self->node_class->get_style, NULL);
+
+return self->node_class->get_style (self);
+
+	if (NULL == self->inline_style)
+		self->inline_style = self->node_class->get_style (self);
+
+	return self->inline_style;
+}
+
+bool
+ccss_node_get_viewport (ccss_node_t const	*self,
+			uint32_t		*x,
+			uint32_t		*y,
+			uint32_t		*width,
+			uint32_t		*height)
+{
+	g_return_val_if_fail (self, NULL);
+	g_return_val_if_fail (self->node_class, NULL);
+	g_return_val_if_fail (self->node_class->get_viewport, NULL);
+
+	return self->node_class->get_viewport (self, x, y, width, height);
+}
+
+void
+ccss_node_release (ccss_node_t *self)
+{
+	g_return_if_fail (self);
+	g_return_if_fail (self->node_class);
+	g_return_if_fail (self->node_class->release);
+
+	self->node_class->release (self);
 }
 
