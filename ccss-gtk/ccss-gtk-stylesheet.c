@@ -211,12 +211,12 @@ accumulate_state (ccss_stylesheet_t 	 *stylesheet,
 	char			*color;
 	gboolean		 ret;
 
-	ccss_node_init ((ccss_node_t *) &node, &_node_class);
+	ccss_node_init (&node.parent, &_node_class);
 	node.type_name = type_name;
 	node.id = NULL;
 	node.pseudo_class = state_name;
 	
-	style = ccss_stylesheet_query (stylesheet, (ccss_node_t const *) &node);
+	style = ccss_stylesheet_query (stylesheet, &node.parent);
 	if (!style) {
 		return false;
 	}

@@ -186,13 +186,6 @@ ccss_node_get_container (ccss_node_t *self)
 	g_return_val_if_fail (self->node_class->get_container, NULL);
 
 	return self->node_class->get_container (self);
-
-/* We might cache this too in the future.
-	if (NULL == self->container)
-		self->container = self->node_class->get_container (self);
-
-	return self->container;
-*/
 }
 
 ccss_node_t *
@@ -203,13 +196,6 @@ ccss_node_get_base_style (ccss_node_t *self)
 	g_return_val_if_fail (self->node_class->get_base_style, NULL);
 
 	return self->node_class->get_base_style (self);
-
-/* We might cache this too in the future.
-	if (NULL == self->base_style)
-		self->base_style = self->node_class->get_base_style (self);
-
-	return self->base_style;
-*/
 }
 
 char const *
@@ -308,9 +294,9 @@ ccss_node_get_viewport (ccss_node_t const	*self,
 			uint32_t		*width,
 			uint32_t		*height)
 {
-	g_return_val_if_fail (self, NULL);
-	g_return_val_if_fail (self->node_class, NULL);
-	g_return_val_if_fail (self->node_class->get_viewport, NULL);
+	g_return_val_if_fail (self, FALSE);
+	g_return_val_if_fail (self->node_class, FALSE);
+	g_return_val_if_fail (self->node_class->get_viewport, FALSE);
 
 	return self->node_class->get_viewport (self, x, y, width, height);
 }
