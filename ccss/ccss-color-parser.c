@@ -30,8 +30,6 @@
 static ccss_property_class_t const *
 peek_property_class (void);
 
-/* PONDERING: point to property_class with no-op free()? */
-
 static const struct {
 	char const		*name;
 	const ccss_color_t	 color;
@@ -384,14 +382,38 @@ parse_hex (ccss_color_t	*self,
 			self->green = ((result >>  8) & 0xf) / 15.;
 			self->blue  = ((result >>  4) & 0xf) / 15.;
 			self->alpha = ((result >>  0) & 0xf) / 15.;
-			return true;		
+			return true;
 		} else if (len == 3) {
 			/* #rgb */
 			self->red   = ((result >> 8) & 0xf) / 15.;
 			self->green = ((result >> 4) & 0xf) / 15.;
 			self->blue  = ((result >> 0) & 0xf) / 15.;
 			self->alpha = 1.0;
-			return true;		
+			return true;
+		}
+	}
+
+	return false;
+}
+
+static bool
+parse_rgb_value (float		 *color,
+		 CRTerm const   **iter)
+{
+	if (iter &&
+	    *iter &&
+	    (*iter)->type == TERM_NUMBER) {
+		switch ((*iter)->content.num->type) {
+		case NUM_GENERIC:
+			*color = CLAMP ((*iter)->content.num->val, 0., 255.) / 255.;
+			*iter = (*iter)->next;
+			return true;
+		case NUM_PERCENTAGE:
+			*color = CLAMP ((*iter)->content.num->val, 0., 100.) / 100.;
+			*iter = (*iter)->next;
+			return true;
+		default:
+			return false;
 		}
 	}
 
@@ -406,35 +428,14 @@ parse_rgb (ccss_color_t *self,
 
 	iter = value;
 
-	/* "r" */
-	if (iter &&
-	    iter->type == TERM_NUMBER &&
-	    iter->content.num->type == NUM_GENERIC) {
-		self->red = CLAMP (iter->content.num->val, 0.0, 1.0);
-		iter = iter->next;
-	} else {
+	if (!parse_rgb_value (&self->red, &iter))
 		return false;
-	}
 
-	/* "g" */
-	if (iter &&
-	    iter->type == TERM_NUMBER &&
-	    iter->content.num->type == NUM_GENERIC) {
-		self->green = CLAMP (iter->content.num->val, 0.0, 1.0);
-		iter = iter->next;
-	} else {
+	if (!parse_rgb_value (&self->green, &iter))
 		return false;
-	}
 
-	/* "b" */
-	if (iter &&
-	    iter->type == TERM_NUMBER &&
-	    iter->content.num->type == NUM_GENERIC) {
-		self->blue = CLAMP (iter->content.num->val, 0.0, 1.0);
-		iter = iter->next;
-	} else {
+	if (!parse_rgb_value (&self->blue, &iter))
 		return false;
-	}
 
 	self->alpha = 1.0;
 
@@ -450,41 +451,20 @@ parse_rgba (ccss_color_t *self,
 
 	iter = value;
 
-	/* "r" */
-	if (iter &&
-	    iter->type == TERM_NUMBER &&
-	    iter->content.num->type == NUM_GENERIC) {
-		self->red = CLAMP (iter->content.num->val, 0.0, 1.0);
-		iter = iter->next;
-	} else {
+	if (!parse_rgb_value (&self->red, &iter))
 		return false;
-	}
 
-	/* "g" */
-	if (iter &&
-	    iter->type == TERM_NUMBER &&
-	    iter->content.num->type == NUM_GENERIC) {
-		self->green = CLAMP (iter->content.num->val, 0.0, 1.0);
-		iter = iter->next;
-	} else {
+	if (!parse_rgb_value (&self->green, &iter))
 		return false;
-	}
 
-	/* "b" */
-	if (iter &&
-	    iter->type == TERM_NUMBER &&
-	    iter->content.num->type == NUM_GENERIC) {
-		self->blue = CLAMP (iter->content.num->val, 0.0, 1.0);
-		iter = iter->next;
-	} else {
+	if (!parse_rgb_value (&self->blue, &iter))
 		return false;
-	}
 
-	/* "a" */
+	/* alpha */
 	if (iter &&
 	    iter->type == TERM_NUMBER &&
 	    iter->content.num->type == NUM_GENERIC) {
-		self->alpha = CLAMP (iter->content.num->val, 0.0, 1.0);
+		self->alpha = CLAMP (iter->content.num->val, 0., 1.);
 		iter = iter->next;
 	} else {
 		return false;
@@ -535,17 +515,31 @@ ccss_color_parse (ccss_color_t	 *self,
 		}
 		return false;
 	case TERM_RGB:
-		self->red = (*value)->content.rgb->red;
-		self->green = (*value)->content.rgb->green;
-		self->blue = (*value)->content.rgb->blue;
+		if ((*value)->content.rgb->is_percentage) {
+			self->red = CLAMP ((*value)->content.rgb->red,
+					   0., 100.) / 100.;
+			self->green = CLAMP ((*value)->content.rgb->green,
+					     0., 100.) / 100.;
+			self->blue = CLAMP ((*value)->content.rgb->blue,
+					    0., 100.) / 100.;
+		} else {
+			self->red = CLAMP ((*value)->content.rgb->red,
+					   0., 255.) / 255.;
+			self->green = CLAMP ((*value)->content.rgb->green,
+					     0., 255.) / 255.;
+			self->blue = CLAMP ((*value)->content.rgb->blue,
+					    0., 255.) / 255.;
+		}
 		*value = (*value)->next;
 		return true;
 	case TERM_FUNCTION:
+		/* FIXME: Seems like rgb() and rgba() are handled by TERM_RGB,
+		 * needs some investigation. */
 		str = cr_string_peek_raw_str ((*value)->content.str);
 		if (0 == g_strcmp0 (str, "rgb")) {
 			return parse_rgb (self, (*value)->ext_content.func_param);
 		} else if (0 == g_strcmp0 (str, "rgba")) {
-			return parse_rgba (self, (*value)->ext_content.func_param);		
+			return parse_rgba (self, (*value)->ext_content.func_param);
 		} else {
 			g_warning (G_STRLOC " '%s' not recognised.", str);
 		}
