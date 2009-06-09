@@ -4,15 +4,11 @@ ROADMAP
 
 Also see gtk-css-engine's TODO for now.
 
-0.2
----
-
-* Make ccss_stylesheet_new_from_file take (filename, GError)
-
 0.3
 ---
 
 * Test suite.
+* Make ccss_stylesheet_new_from_file take (filename, GError)
 
 0.4
 ---
