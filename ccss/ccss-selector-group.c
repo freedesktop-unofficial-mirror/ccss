@@ -397,7 +397,7 @@ ccss_selector_group_dump (ccss_selector_group_t const *self)
 	g_tree_foreach (self->sets, (GTraverseFunc) traverse_dump, NULL);
 
 	for (GSList const *iter = self->dangling_selectors; iter != NULL; iter = iter->next) {
-		printf ("(dangling) ");
+		printf ("/* dangling */\n");
 		ccss_selector_dump ((ccss_selector_t const *) iter->data);
 	}
 }

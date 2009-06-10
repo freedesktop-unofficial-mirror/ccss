@@ -199,6 +199,11 @@ border_image_convert (ccss_border_image_t const	*property,
 	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
 		return false;
 
+	if (property->uri == NULL) {
+		* (char **) value = g_strdup ("none");
+		return true;
+	}
+
 	top = ccss_position_serialize (&property->top);
 	right = ccss_position_serialize (&property->right);
 	bottom = ccss_position_serialize (&property->bottom);

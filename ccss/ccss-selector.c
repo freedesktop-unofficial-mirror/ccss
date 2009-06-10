@@ -121,7 +121,7 @@ universal_selector_destroy (ccss_universal_selector_t *self)
 static void
 universal_selector_dump (ccss_universal_selector_t const *self)
 {
-	printf (" *");
+	printf ("*");
 }
 
 /*
@@ -175,7 +175,7 @@ type_selector_destroy (ccss_type_selector_t *self)
 static void
 type_selector_dump (ccss_type_selector_t const *self)
 {
-	printf (" %s", self->type_name);
+	printf ("%s", self->type_name);
 }
 
 /*
@@ -254,7 +254,7 @@ class_selector_destroy (ccss_class_selector_t *self)
 static void
 class_selector_dump (ccss_class_selector_t const *self)
 {
-	printf (".%s", self->class_name);
+	printf ("%s", self->class_name);
 }
 
 /*
@@ -487,7 +487,7 @@ instance_selector_destroy (ccss_instance_selector_t *self)
 static void
 instance_selector_dump (ccss_instance_selector_t const *self)
 {
-	printf (":%x", self->instance);
+	printf ("/*:instance(%x)*/", self->instance);
 }
 
 ccss_selector_t *
@@ -1008,28 +1008,14 @@ ccss_selector_dump (ccss_selector_t const *self)
 {
 	g_assert (self);
 
-	printf ("%p: ", (void *) self);
-
 	if (self->container) {
-		ccss_selector_t const *container;
-		printf ("( ");
-		container = self->container;
-		while (container) {
-			printf("%s < ", ccss_selector_get_key (container));
-			container = container->container;
-		}
-		printf (")");
+		ccss_selector_dump (self->container);
+		printf (" > ");
 	}
 
 	if (self->antecessor) {
-		ccss_selector_t const *container;
-		printf ("( ");
-		container = self->antecessor;
-		while (container) {
-			printf("%s", ccss_selector_get_key (container));
-			container = container->antecessor;
-		}
-		printf (")");
+		ccss_selector_dump (self->antecessor);
+		printf (" ");
 	}
 
 	switch (self->modality) {
@@ -1064,10 +1050,7 @@ ccss_selector_dump (ccss_selector_t const *self)
 	if (self->block) {
 		printf (" {\n");
 		ccss_block_dump (self->block);
-		printf ("}");
+		printf ("}\n\n");
 	}
-
-	printf (" # modality: %d, specificity: %d,%d,%d,%d,%d\n", 
-		self->modality, self->a, self->b, self->c, self->d, self->e);
 }
 

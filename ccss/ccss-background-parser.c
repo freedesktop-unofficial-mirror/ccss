@@ -497,7 +497,11 @@ background_image_convert (ccss_background_image_t const	*property,
 	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
 		return false;
 
-	ret = g_strdup (property->uri);
+	if (property->uri) {
+		ret = g_strdup (property->uri);
+	} else {
+		ret = g_strdup ("none");
+	}
 
 	* (char **) value = ret;
 
