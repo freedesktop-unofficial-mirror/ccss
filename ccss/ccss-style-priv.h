@@ -28,6 +28,8 @@
 #include <ccss/ccss-style.h>
 #include <ccss/ccss-stylesheet.h>
 
+#include <config.h>
+
 CCSS_BEGIN_DECLS
 
 struct ccss_style_ {
@@ -38,6 +40,9 @@ struct ccss_style_ {
 	int32_t			 viewport_y;
 	int32_t			 viewport_width;
 	int32_t			 viewport_height;
+#ifdef CCSS_DEBUG
+	GHashTable		*selectors;
+#endif
 };
 
 ccss_style_t *

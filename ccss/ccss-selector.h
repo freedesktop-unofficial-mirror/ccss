@@ -25,6 +25,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <glib.h>
 #include <ccss/ccss-block.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-node.h>
@@ -122,7 +123,12 @@ ccss_selector_apply (ccss_selector_t const	*self,
 		     ccss_node_t const		*node,
 		     ccss_style_t		*style);
 
-void ccss_selector_dump (ccss_selector_t const *self);
+void
+ccss_selector_serialize_selector	(ccss_selector_t const  *self,
+					 GString		*selector);
+
+void
+ccss_selector_dump			(ccss_selector_t const *self);
 
 CCSS_END_DECLS
 

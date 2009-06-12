@@ -119,9 +119,10 @@ universal_selector_destroy (ccss_universal_selector_t *self)
 }
 
 static void
-universal_selector_dump (ccss_universal_selector_t const *self)
+universal_selector_serialize (ccss_universal_selector_t const	*self,
+			      GString				*string_repr)
 {
-	printf ("*");
+	g_string_append (string_repr, "*");
 }
 
 /*
@@ -173,9 +174,10 @@ type_selector_destroy (ccss_type_selector_t *self)
 }
 
 static void
-type_selector_dump (ccss_type_selector_t const *self)
+type_selector_serialize (ccss_type_selector_t const	*self,
+			 GString			*string_repr)
 {
-	printf ("%s", self->type_name);
+	g_string_append (string_repr, self->type_name);
 }
 
 /*
@@ -252,9 +254,10 @@ class_selector_destroy (ccss_class_selector_t *self)
 }
 
 static void
-class_selector_dump (ccss_class_selector_t const *self)
+class_selector_serialize (ccss_class_selector_t const   *self,
+			  GString			*string_repr)
 {
-	printf ("%s", self->class_name);
+	g_string_append (string_repr, self->class_name);
 }
 
 /*
@@ -306,9 +309,10 @@ id_selector_destroy (ccss_id_selector_t *self)
 }
 
 static void
-id_selector_dump (ccss_id_selector_t const *self)
+id_selector_serialize (ccss_id_selector_t const *self,
+		       GString			*string_repr)
 {
-	printf ("#%s", self->id);
+	g_string_append_printf (string_repr, "#%s", self->id);
 }
 
 /*
@@ -369,14 +373,15 @@ attribute_selector_destroy (ccss_attribute_selector_t *self)
 }
 
 static void
-attribute_selector_dump (ccss_attribute_selector_t const *self)
+attribute_selector_serialize (ccss_attribute_selector_t const   *self,
+			      GString				*string_repr)
 {
 	switch (self->match) {
 	case CCSS_ATTRIBUTE_SELECTOR_MATCH_EXISTS:
-		printf ("[%s]", self->name);
+		g_string_append_printf (string_repr, "[%s]", self->name);
 		break;
 	case CCSS_ATTRIBUTE_SELECTOR_MATCH_EQUALS:
-		printf ("[%s=%s]", self->name, self->value);
+		g_string_append_printf (string_repr, "[%s=%s]", self->name, self->value);
 		break;
 	default:
 		g_assert_not_reached ();
@@ -432,9 +437,10 @@ pseudo_class_selector_destroy (ccss_pseudo_class_selector_t *self)
 }
 
 static void
-pseudo_class_selector_dump (ccss_pseudo_class_selector_t const *self)
+pseudo_class_selector_serialize (ccss_pseudo_class_selector_t const     *self,
+				 GString				*string_repr)
 {
-	printf (":%s", self->pseudo_class);
+	g_string_append_printf (string_repr, ":%s", self->pseudo_class);
 }
 
 /*
@@ -485,9 +491,10 @@ instance_selector_destroy (ccss_instance_selector_t *self)
 }
 
 static void
-instance_selector_dump (ccss_instance_selector_t const *self)
+instance_selector_serialize (ccss_instance_selector_t const     *self,
+			     GString				*string_repr)
 {
-	printf ("/*:instance(%x)*/", self->instance);
+	g_string_append_printf (string_repr, "/*:instance(%x)*/", self->instance);
 }
 
 ccss_selector_t *
@@ -986,6 +993,11 @@ ccss_selector_apply (ccss_selector_t const	*self,
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
 
 		g_hash_table_insert (style->properties, key, value);
+
+#ifdef CCSS_DEBUG
+		/* Track where the property comes from. */
+		g_hash_table_insert (style->selectors, value, (gpointer) self);
+#endif
 	}
 
 	/* Requiring a node instance here would make the type-based API impossible. */
@@ -1003,49 +1015,66 @@ ccss_selector_apply (ccss_selector_t const	*self,
 	return true;
 }
 
-void 
-ccss_selector_dump (ccss_selector_t const *self)
+void
+ccss_selector_serialize_selector (ccss_selector_t const *self,
+				  GString		*selector)
 {
-	g_assert (self);
-
 	if (self->container) {
-		ccss_selector_dump (self->container);
-		printf (" > ");
+		ccss_selector_serialize_selector (self->container, selector);
+		g_string_append (selector, " > ");
 	}
 
 	if (self->antecessor) {
-		ccss_selector_dump (self->antecessor);
-		printf (" ");
+		ccss_selector_serialize_selector (self->antecessor, selector);
+		g_string_append (selector, " ");
 	}
 
 	switch (self->modality) {
 	case CCSS_SELECTOR_MODALITY_UNIVERSAL:
-		universal_selector_dump ((ccss_universal_selector_t *) self);
+		universal_selector_serialize ((ccss_universal_selector_t *) self,
+					      selector);
 		break;
 	case CCSS_SELECTOR_MODALITY_TYPE:
 	case CCSS_SELECTOR_MODALITY_BASE_TYPE:
-		type_selector_dump ((ccss_type_selector_t *) self);
+		type_selector_serialize ((ccss_type_selector_t *) self,
+					 selector);
 		break;
 	case CCSS_SELECTOR_MODALITY_CLASS:
-		class_selector_dump ((ccss_class_selector_t *) self);
+		class_selector_serialize ((ccss_class_selector_t *) self,
+					  selector);
 		break;
 	case CCSS_SELECTOR_MODALITY_ID:
-		id_selector_dump ((ccss_id_selector_t *) self);
+		id_selector_serialize ((ccss_id_selector_t *) self,
+				       selector);
 		break;
 	case CCSS_SELECTOR_MODALITY_ATTRIBUTE:
-		attribute_selector_dump ((ccss_attribute_selector_t *) self);
+		attribute_selector_serialize ((ccss_attribute_selector_t *) self,
+					      selector);
 		break;
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
-		pseudo_class_selector_dump ((ccss_pseudo_class_selector_t *) self);
+		pseudo_class_selector_serialize ((ccss_pseudo_class_selector_t *) self,
+						 selector);
 		break;
 	case CCSS_SELECTOR_MODALITY_INSTANCE:
-		instance_selector_dump ((ccss_instance_selector_t *) self);
+		instance_selector_serialize ((ccss_instance_selector_t *) self,
+					     selector);
 		break;
 	}
 
 	if (self->refinement) {
-		ccss_selector_dump (self->refinement);
+		ccss_selector_serialize_selector (self->refinement, selector);
 	}
+}
+
+void
+ccss_selector_dump (ccss_selector_t const *self)
+{
+	GString *selector;
+
+	selector = g_string_new (NULL);
+	ccss_selector_serialize_selector (self, selector);
+	puts (selector->str);
+	g_string_free (selector, TRUE), selector = NULL;
 
 	if (self->block) {
 		printf (" {\n");

@@ -23,6 +23,7 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-property-generic.h"
+#include "ccss-selector.h"
 #include "ccss-style-priv.h"
 #include "config.h"
 
@@ -39,6 +40,10 @@ ccss_style_create (void)
 	self = g_new0 (ccss_style_t, 1);
 	self->properties = g_hash_table_new ((GHashFunc) g_direct_hash,
 					     (GEqualFunc) g_direct_equal);
+#ifdef CCSS_DEBUG
+	self->selectors = g_hash_table_new ((GHashFunc) g_direct_hash,
+					     (GEqualFunc) g_direct_equal);
+#endif
 
 	return self;
 }
@@ -59,6 +64,9 @@ ccss_style_destroy (ccss_style_t *self)
 	}
 
 	g_hash_table_destroy (self->properties), self->properties = NULL;
+#ifdef CCSS_DEBUG
+	g_hash_table_destroy (self->selectors), self->selectors = NULL;
+#endif
 	g_free (self);
 }
 
@@ -312,7 +320,26 @@ ccss_style_dump (ccss_style_t const *self)
 								  CCSS_PROPERTY_TYPE_STRING,
 								  &strval);
 		if (ret) {
-			printf ("%s: %s;\n", g_quark_to_string (property_id), strval);
+#ifdef CCSS_DEBUG
+			/* Also dump a comment which selector caused each
+			 * property. */
+			ccss_selector_t const *selector =
+				(ccss_selector_t const *)
+					g_hash_table_lookup (self->selectors,
+							     property);
+			GString *string_repr = g_string_new (NULL);
+			ccss_selector_serialize_selector (selector, string_repr);
+			printf ("%s: %s; /* %s */\n",
+				g_quark_to_string (property_id),
+				strval,
+				string_repr->str);
+			g_string_free (string_repr, TRUE);
+#else
+			/* Plain dump in CSS syntax. */
+			printf ("%s: %s;\n",
+				g_quark_to_string (property_id),
+				strval);
+#endif
 			g_free (strval), strval = NULL;
 		} else {
 			g_message ("Failed to serialise property `%s'", g_quark_to_string (property_id));
