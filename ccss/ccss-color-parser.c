@@ -548,7 +548,7 @@ ccss_color_parse (ccss_color_t		 *self,
 			int      matches;
 			rgba = ccss_grammar_invoke_function (grammar,
 							     str,
-							     *value,
+							     (*value)->ext_content.func_param,
 							     user_data);
 			g_return_val_if_fail (rgba, false);
 
@@ -558,14 +558,17 @@ ccss_color_parse (ccss_color_t		 *self,
 					  &self->green,
 					  &self->blue,
 					  &self->alpha);
-			if (matches != 3) {
-				g_warning ("%s: Invalid color '%s'",
-					   G_STRLOC,
-					   rgba);
+			if (matches == 4) {
+				g_free (rgba);
+				return true;
 			}
+			g_warning ("%s: Invalid color '%s'",
+				   G_STRLOC,
+				   rgba);
 			g_free (rgba);
 		}
 		g_warning (G_STRLOC " '%s' not recognised.", str);
+		break;
 	/* fall thru for all other enum values to prevent compiler warnings */
 	case TERM_NO_TYPE:
 	case TERM_NUMBER:
