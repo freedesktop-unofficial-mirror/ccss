@@ -29,6 +29,10 @@ libccss_gtk_1_la_LIBADD = \
 
 libccss_gtk_1_la_SOURCES = \
 	$(headers_DATA) \
+	ccss-gtk-color.c \
+	ccss-gtk-color.h \
+	ccss-gtk-functions.c \
+	ccss-gtk-functions.h \
 	ccss-gtk-grammar.c \
 	ccss-gtk-property.c \
 	ccss-gtk-property.h \

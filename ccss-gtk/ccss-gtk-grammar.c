@@ -23,6 +23,7 @@
 #include <gtk/gtk.h>
 #include <ccss-cairo/ccss-cairo.h>
 #include "ccss-gtk-grammar.h"
+#include "ccss-gtk-functions.h"
 #include "ccss-gtk-property.h"
 #include "config.h"
 
@@ -49,6 +50,7 @@ ccss_gtk_grammar_create (void)
 	ccss_gtk_property_set_fallback_class (fallback_property_class);
 
 	ccss_grammar_add_properties (self, ccss_gtk_property_get_property_classes ());
+	ccss_grammar_add_functions (self, ccss_gtk_functions_get_vtable ());
 
 	return self;
 }
