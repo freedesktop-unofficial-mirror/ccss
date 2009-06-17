@@ -27,9 +27,6 @@
 #include "ccss-color-parser.h"
 #include "config.h"
 
-static ccss_property_class_t const *
-peek_property_class (void);
-
 static const struct {
 	char const		*name;
 	const ccss_color_t	 color;
@@ -593,9 +590,12 @@ ccss_color_factory (ccss_grammar_t const	*grammar,
 
 	ret = ccss_color_parse (&c, grammar, user_data, &values);
 	if (ret) {
-		ccss_property_init (&c.base, peek_property_class ());
+		ccss_property_class_t const *property_class;
+		property_class = ccss_grammar_lookup_property (grammar, name);
+		ccss_property_init (&c.base, property_class);
 		color = g_new0 (ccss_color_t, 1);
 		*color = c;
+		color->base.state = CCSS_PROPERTY_STATE_SET;
 		ccss_block_add_property (self, name, &color->base);
 		return TRUE;
 	}
@@ -641,12 +641,6 @@ static ccss_property_class_t const _ptable[] = {
 	.name = NULL
     }
 };
-
-static ccss_property_class_t const *
-peek_property_class (void)
-{
-	return &_ptable[0];
-}
 
 ccss_property_class_t const *
 ccss_color_parser_get_property_classes (void)
