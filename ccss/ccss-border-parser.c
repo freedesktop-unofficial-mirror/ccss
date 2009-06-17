@@ -211,10 +211,10 @@ border_color_factory (ccss_grammar_t const	*grammar,
 	memset (&c3, 0, sizeof (c3));
 
 	iter = values;
-	if (iter) { ccss_color_parse (&c0, &iter); }
-	if (iter) { ccss_color_parse (&c1, &iter); }
-	if (iter) { ccss_color_parse (&c2, &iter); }
-	if (iter) { ccss_color_parse (&c3, &iter); }
+	if (iter) { ccss_color_parse (&c0, grammar, user_data, &iter); }
+	if (iter) { ccss_color_parse (&c1, grammar, user_data, &iter); }
+	if (iter) { ccss_color_parse (&c2, grammar, user_data, &iter); }
+	if (iter) { ccss_color_parse (&c3, grammar, user_data, &iter); }
 
 	if (CCSS_PROPERTY_STATE_INVALID == c0.base.state) {
 
@@ -618,7 +618,7 @@ border_factory_impl (ccss_grammar_t const	*grammar,
 	}
 
 	if (iter) {
-		ccss_color_parse (&c, &iter);
+		ccss_color_parse (&c, grammar, user_data, &iter);
 	}
 
 	if (c.base.state != CCSS_PROPERTY_STATE_INVALID) {
@@ -1156,10 +1156,10 @@ static ccss_property_class_t const _ptable[] = {
 	.property_inherit = border_radius_inherit
     }, {
 	.name = "border-left-color",
-	.property_create = ccss_color_create,
+	.property_create = NULL,
 	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = NULL,
+	.property_factory = ccss_color_factory,
 	.property_inherit = NULL
     }, {
 	.name = "border-left-style",
@@ -1177,10 +1177,10 @@ static ccss_property_class_t const _ptable[] = {
 	.property_inherit = NULL
     }, {
 	.name = "border-top-color",
-	.property_create = ccss_color_create,
+	.property_create = NULL,
 	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = NULL,
+	.property_factory = ccss_color_factory,
 	.property_inherit = NULL
     }, {
 	.name = "border-top-style",
@@ -1198,10 +1198,10 @@ static ccss_property_class_t const _ptable[] = {
 	.property_inherit = NULL
     }, {
 	.name = "border-right-color",
-	.property_create = ccss_color_create,
+	.property_create = NULL,
 	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = NULL,
+	.property_factory = ccss_color_factory,
 	.property_inherit = NULL
     }, {
 	.name = "border-right-style",
@@ -1219,10 +1219,10 @@ static ccss_property_class_t const _ptable[] = {
 	.property_inherit = NULL
     }, {
 	.name = "border-bottom-color",
-	.property_create = ccss_color_create,
+	.property_create = NULL,
 	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = NULL,
+	.property_factory = ccss_color_factory,
 	.property_inherit = NULL
     }, {
 	.name = "border-bottom-style",

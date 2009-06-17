@@ -38,10 +38,6 @@ typedef struct {
 	float			alpha;
 } ccss_color_t;
 
-bool
-ccss_color_parse (ccss_color_t		 *self,
-		  CRTerm const		**values);
-
 CCSS_END_DECLS
 
 #endif /* CCSS_COLOR_H */

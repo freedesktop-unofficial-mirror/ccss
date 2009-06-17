@@ -273,7 +273,7 @@ background_factory (ccss_grammar_t const	*grammar,
 	/* PONDERING: also support `background-size' here, but let's stick
 	 * to CSS2 for now. */
 	ccss_property_init (&bgc.base, peek_property_class ("background-color"));
-	ret = ccss_color_parse (&bgc, &values);
+	ret = ccss_color_parse (&bgc, grammar, user_data, &values);
 	if (ret) {
 		bg_color = g_new0 (ccss_color_t, 1);
 		*bg_color = bgc;
@@ -633,10 +633,10 @@ static ccss_property_class_t const _ptable[] = {
 	.property_inherit = NULL
     }, {
 	.name = "background-color",
-	.property_create = ccss_color_create,
+	.property_create = NULL,
 	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = NULL,
+	.property_factory = ccss_color_factory,
 	.property_inherit = NULL
     }, {
 	.name = "background-image",

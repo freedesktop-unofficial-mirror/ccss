@@ -30,10 +30,18 @@
 
 CCSS_BEGIN_DECLS
 
-ccss_property_base_t *
-ccss_color_create (ccss_grammar_t const	*grammar,
-		   CRTerm const		*value,
-		   void			*user_data);
+bool
+ccss_color_parse (ccss_color_t			 *self,
+		  ccss_grammar_t const		 *grammar,
+		  void				 *user_data,
+		  CRTerm const			**value);
+
+bool
+ccss_color_factory (ccss_grammar_t const	*grammar,
+		    ccss_block_t		*self,
+		    char const			*name,
+		    CRTerm const		*values,
+		    void			*user_data);
 
 void
 ccss_color_destroy (ccss_color_t *self);

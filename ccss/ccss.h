@@ -27,6 +27,7 @@
 #include <ccss/ccss-border.h>
 #include <ccss/ccss-border-image.h>
 #include <ccss/ccss-color.h>
+#include <ccss/ccss-color-parser.h>
 #include <ccss/ccss-grammar.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-node.h>

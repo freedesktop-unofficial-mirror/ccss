@@ -172,7 +172,7 @@ parse_gdk_color (ccss_grammar_t const	*grammar,
 	g_return_val_if_fail (values && property, false);
 
 	memset (&color, 0, sizeof (color));
-	ret = ccss_color_parse (&color, &values);
+	ret = ccss_color_parse (&color, grammar, user_data, &values);
 	if (ret) {
 		property->content.gdkcolor_val.red = color.red * 65535;
 		property->content.gdkcolor_val.green = color.green * 65535;

@@ -475,8 +475,10 @@ parse_rgba (ccss_color_t *self,
 }
 
 bool
-ccss_color_parse (ccss_color_t	 *self,
-		  CRTerm const	**value)
+ccss_color_parse (ccss_color_t		 *self,
+		  ccss_grammar_t const	 *grammar,
+		  void			 *user_data,
+		  CRTerm const		**value)
 {
 	char const	*str;
 	bool		 ret;
@@ -530,6 +532,7 @@ ccss_color_parse (ccss_color_t	 *self,
 			self->blue = CLAMP ((*value)->content.rgb->blue,
 					    0., 255.) / 255.;
 		}
+		self->alpha = 1.;
 		*value = (*value)->next;
 		return true;
 	case TERM_FUNCTION:
@@ -540,9 +543,29 @@ ccss_color_parse (ccss_color_t	 *self,
 			return parse_rgb (self, (*value)->ext_content.func_param);
 		} else if (0 == g_strcmp0 (str, "rgba")) {
 			return parse_rgba (self, (*value)->ext_content.func_param);
-		} else {
-			g_warning (G_STRLOC " '%s' not recognised.", str);
+		} else if (str){
+			char    *rgba;
+			int      matches;
+			rgba = ccss_grammar_invoke_function (grammar,
+							     str,
+							     *value,
+							     user_data);
+			g_return_val_if_fail (rgba, false);
+
+			matches = sscanf (rgba,
+					  "rgba(%f,%f,%f,%f)",
+					  &self->red,
+					  &self->green,
+					  &self->blue,
+					  &self->alpha);
+			if (matches != 3) {
+				g_warning ("%s: Invalid color '%s'",
+					   G_STRLOC,
+					   rgba);
+			}
+			g_free (rgba);
 		}
+		g_warning (G_STRLOC " '%s' not recognised.", str);
 	/* fall thru for all other enum values to prevent compiler warnings */
 	case TERM_NO_TYPE:
 	case TERM_NUMBER:
@@ -555,26 +578,26 @@ ccss_color_parse (ccss_color_t	 *self,
 	return false;
 }
 
-ccss_property_base_t *
-ccss_color_create (ccss_grammar_t const	*grammar,
-		   CRTerm const		*value,
-		   void			*user_data)
+bool
+ccss_color_factory (ccss_grammar_t const	*grammar,
+		    ccss_block_t		*self,
+		    char const			*name,
+		    CRTerm const		*values,
+		    void			*user_data)
 {
-	ccss_color_t	*self, c;
+	ccss_color_t    *color, c;
 	bool		 ret;
 
-	/* Default to opaque. */
-	c.alpha = 1.0;
-
-	ret = ccss_color_parse (&c, &value);
+	ret = ccss_color_parse (&c, grammar, user_data, &values);
 	if (ret) {
 		ccss_property_init (&c.base, peek_property_class ());
-		self = g_new0 (ccss_color_t, 1);
-		*self = c;
-		return &self->base;
+		color = g_new0 (ccss_color_t, 1);
+		*color = c;
+		ccss_block_add_property (self, name, &color->base);
+		return TRUE;
 	}
 
-	return NULL;
+	return FALSE;
 }
 
 void
@@ -606,10 +629,10 @@ ccss_color_convert (ccss_color_t const		*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "color",
-	.property_create = ccss_color_create,
+	.property_create = NULL,
 	.property_destroy = (ccss_property_destroy_f) g_free,
 	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = NULL,
+	.property_factory = ccss_color_factory,
 	.property_inherit = NULL
     }, {
 	.name = NULL
