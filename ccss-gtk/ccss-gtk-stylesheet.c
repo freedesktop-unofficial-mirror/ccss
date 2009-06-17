@@ -226,24 +226,24 @@ accumulate_state (ccss_stylesheet_t 	 *stylesheet,
 	ret = ccss_style_get_string (style, "color", &color);
 	if (ret && color) {
 		state->flags |= TEXT_SET;
-		strncpy (state->text, color, 8);
+		strncpy (state->text, color, 7); /* '#rrggbb', omit alpha */
 		g_free (color), color = NULL;
 	}
 
 	ret = ccss_style_get_string (style, "background-color", &color);
 	if (ret) {
 		state->flags |= BG_SET;
-		strncpy (state->bg, color, 8);
+		strncpy (state->bg, color, 7); /* '#rrggbb', omit alpha */
 		/* FIXME: also setting "base" to the background color, let's see how this works out. */
 		state->flags |= BASE_SET;
-		strncpy (state->base, color, 8);
+		strncpy (state->base, color, 7); /* '#rrggbb', omit alpha */
 		g_free (color), color = NULL;
 	}
 
 	ret = ccss_style_get_string (style, "border-color", &color);
 	if (ret && color) {
 		state->flags |= FG_SET;
-		strncpy (state->fg, color, 8);
+		strncpy (state->fg, color, 7); /* '#rrggbb', omit alpha */
 		g_free (color), color = NULL;
 	}
 
