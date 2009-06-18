@@ -112,25 +112,16 @@ ccss_cairo_style_draw_line (ccss_style_t const	*self,
 	double				 off;
 
 	stroke.color = (ccss_color_t *) lookup_property_r (self,
-								 "border-color");
-	if (NULL == stroke.color) {
-		stroke.color = NULL;
-	}
-
+							   "border-color");
 	stroke.style = (ccss_border_style_t *) lookup_property_r (self,
 								  "border-style");
-	if (NULL == stroke.style) {
-		stroke.style = NULL;
-	}
-
 	stroke.width = (ccss_border_width_t *) lookup_property_r (self,
 								  "border-width");
 	if (NULL == stroke.width) {
-		stroke.width = NULL;
+		/* No width, short-cut. */
+		return;
 	}
 
-	/* Unlike borders, lines are not drawn inside the box, 
-	 * account for that. */
 	off = stroke.width->width / 2.;
 
 	if (y1 == y2) {
