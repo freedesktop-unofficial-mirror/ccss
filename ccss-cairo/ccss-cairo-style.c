@@ -64,18 +64,15 @@ static ccss_property_base_t const *
 lookup_property_r (ccss_style_t const	*self,
 		   char const		*property_name)
 {
-	ccss_property_base_t const	*property;
 	GQuark				 property_id;
+	ccss_property_base_t const	*property = NULL;
 
 	property_id = g_quark_try_string (property_name);
-	if (0 == property_id) {
-		/* Property unknown, no need to look up. */
-		return NULL;
+	if (property_id) {
+		property = (ccss_property_base_t const *)
+				g_hash_table_lookup (self->properties,
+						     (gpointer) property_id);
 	}
-
-	property = (ccss_property_base_t const *) 
-			g_hash_table_lookup (self->properties,
-					     (gpointer) property_id);
 	if (property) {
 		return property;
 	}
