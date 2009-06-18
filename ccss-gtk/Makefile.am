@@ -23,7 +23,6 @@ libccss_gtk_1_la_LDFLAGS = \
 	$(NULL)
 
 libccss_gtk_1_la_LIBADD = \
-	../ccss/libccss-1.la \
 	$(CCSS_GTK_LIBS) \
 	$(NULL)
 
@@ -46,6 +45,15 @@ headers_DATA = \
 	ccss-gtk-grammar.h \
 	ccss-gtk-stylesheet.h \
 	$(NULL)
+
+bin_PROGRAMS = ccss-stylesheet-to-gtkrc
+
+ccss_stylesheet_to_gtkrc_SOURCES = \
+	ccss-stylesheet-to-gtkrc.c
+
+ccss_stylesheet_to_gtkrc_LDADD = \
+	$(CCSS_GTK_LIBS) \
+	libccss-gtk-1.la
 
 EXTRA_DIST = \
 	ccss-gtk.sym \

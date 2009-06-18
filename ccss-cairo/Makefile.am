@@ -22,7 +22,6 @@ libccss_cairo_1_la_LDFLAGS = \
 	$(NULL)
 
 libccss_cairo_1_la_LIBADD = \
-	../ccss/libccss-1.la \
 	$(CCSS_CAIRO_LIBS) \
 	$(NULL)
 

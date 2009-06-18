@@ -198,6 +198,7 @@ if test "$want_cairo" = "yes"; then
 fi
 
 # AC_SUBST([CCSS_CAIRO_CFLAGS]) # set further down
+CCSS_CAIRO_LIBS="${CCSS_CAIRO_LIBS} "'$(top_builddir)/ccss/libccss-1.la'
 AC_SUBST([CCSS_CAIRO_LIBS])
 AC_SUBST([CCSS_CAIRO_DEPS], "$ccss_cairo_pkgs libccss-1")
 
@@ -229,6 +230,7 @@ if test "$want_gtk" = "yes"; then
 fi
 
 # AC_SUBST([CCSS_GTK_CFLAGS]) # set further down
+CCSS_GTK_LIBS="${CCSS_GTK_LIBS} "'$(top_builddir)/ccss/libccss-1.la $(top_builddir)/ccss-cairo/libccss-cairo-1.la'
 AC_SUBST([CCSS_GTK_LIBS])
 AC_SUBST([CCSS_GTK_DEPS], "$ccss_gtk_reqs libccss-cairo-1")
 
