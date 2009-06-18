@@ -208,9 +208,7 @@ ccss_style_set_property	(ccss_style_t 			*self,
 
 	g_return_if_fail (self && property_name && value);
 
-	property_id = g_quark_try_string (property_name);
-	g_return_if_fail (property_id);
-
+	property_id = g_quark_from_string (property_name);
 	g_hash_table_insert (self->properties,
 			     (gpointer) property_id, (gpointer) value);
 }
