@@ -4,16 +4,25 @@ ROADMAP
 
 Also see gtk-css-engine's TODO for now.
 
-0.3
----
-
-* Test suite.
-* Make ccss_stylesheet_new_from_file take (filename, GError)
-
 0.4
 ---
 
-* Write our own parser (flex, bison).
+* Improve test suite.
+* Cairo-style error handling? Or something else?
+* "char * foo_serialize()" API instead of _dump().
+* _serialize() property class method, serializing should fall back to _convert()
+  should print url('foo').
+
+0.5
+---
+
+* Improve test suite.
+* Use slice allocator and custom list/hash implementations with in-node data.
+
+0.6
+---
+
+* Write our own parser, probably hand-written using GScanner.
 
 Blue Sky
 --------
