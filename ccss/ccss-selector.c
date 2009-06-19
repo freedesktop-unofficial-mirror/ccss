@@ -1122,6 +1122,9 @@ ccss_selector_dump (ccss_selector_t const *self)
 
 	selector = g_string_new (NULL);
 	ccss_selector_serialize_selector (self, selector);
+	g_string_append (selector, " /* ");
+	ccss_selector_serialize_specificity (self, selector);
+	g_string_append (selector, " */\n");
 	puts (selector->str);
 	g_string_free (selector, TRUE), selector = NULL;
 
