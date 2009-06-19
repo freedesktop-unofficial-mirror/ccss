@@ -263,7 +263,7 @@ static void
 class_selector_serialize (ccss_class_selector_t const   *self,
 			  GString			*string_repr)
 {
-	g_string_append (string_repr, self->class_name);
+	g_string_append_printf (string_repr, ".%s", self->class_name);
 }
 
 /*
