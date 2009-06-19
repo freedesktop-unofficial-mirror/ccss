@@ -331,6 +331,24 @@ query_node (ccss_stylesheet_t const	*self,
 	return ret;
 }
 
+#ifdef CCSS_DEBUG
+
+static void
+dump_inherit_properties (GHashTable *inherit)
+{
+	GHashTableIter			iter;
+	GQuark				property_id;
+
+	printf ("inherit: ");
+	g_hash_table_iter_init (&iter, inherit);
+	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, NULL)) {
+		printf ("%s, ", g_quark_to_string (property_id));
+	}
+	printf ("\n");
+}
+
+#endif
+
 static void
 inherit_container_style (ccss_style_t const	*container_style,
 			 GHashTable		*inherit,
@@ -357,6 +375,11 @@ inherit_container_style (ccss_style_t const	*container_style,
 			bool is_resolved;
 
 			if (property->property_class->property_inherit) {
+/* FIXME: should swap parameters and have the style pull from the container
+ * instead. So "style" wants to inherit "background", it can pull
+ * "background-color" and stuff from the container.
+ * Otherwise the approach with the css engine's user-agent.css is restricted
+ * to using shorthand properties for inheritance. */
 				is_resolved = property->property_class->property_inherit (
 						container_style,
 						style);

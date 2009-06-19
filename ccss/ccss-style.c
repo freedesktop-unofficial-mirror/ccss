@@ -239,9 +239,6 @@ ccss_style_set_property_selector (ccss_style_t			*self,
 	ccss_selector_serialize_selector (selector, annotation);
 	g_string_append (annotation, "'");
 
-	g_string_append_printf (annotation, ", '%s'",
-				ccss_property_state_serialize (property->state));
-
 	g_string_append (annotation, ", ");
 	ccss_selector_serialize_specificity (selector, annotation);
 
@@ -365,42 +362,45 @@ ccss_style_dump (ccss_style_t const *self)
 	GQuark				 property_id;
 	ccss_property_base_t const	*property;
 	char				*strval;
-	bool				 ret;
 
 	g_hash_table_iter_init (&iter, self->properties);
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property))  {
 
-		if (NULL == property->property_class ||
-		    NULL == property->property_class->property_convert) {
-			g_warning ("No conversion function for property `%s'",
-				   g_quark_to_string (property_id));
-			continue;
-		}
+		strval = NULL;
+		if (CCSS_PROPERTY_STATE_NONE == property->state ||
+		    CCSS_PROPERTY_STATE_INHERIT == property->state) {
 
-		ret = property->property_class->property_convert (property,
-								  CCSS_PROPERTY_TYPE_STRING,
-								  &strval);
-		if (ret) {
-#ifdef CCSS_DEBUG
-			/* Also dump a comment which selector caused each
-			 * property. */
-			char const *selector = (char const *)
-					g_hash_table_lookup (self->selectors,
-							     property);
-			printf ("%s: %s; /* %s */\n",
-				g_quark_to_string (property_id),
-				strval,
-				selector);
-#else
-			/* Plain dump in CSS syntax. */
-			printf ("%s: %s;\n",
-				g_quark_to_string (property_id),
-				strval);
-#endif /* CCSS_DEBUG */
-			g_free (strval), strval = NULL;
-		} else {
-			g_message ("Failed to serialise property `%s'", g_quark_to_string (property_id));
+			strval = g_strdup (ccss_property_state_serialize (property->state));
+
+		} else if (property->property_class &&
+			   property->property_class->property_convert) {
+
+			property->property_class->property_convert (property,
+								    CCSS_PROPERTY_TYPE_STRING,
+								    &strval);
 		}
+		if (NULL == strval) {
+			strval = g_strdup ("<unknown>");
+		}
+#ifdef CCSS_DEBUG
+{
+		/* Also dump a comment which selector caused each
+		 * property. */
+		char const *selector = (char const *)
+				g_hash_table_lookup (self->selectors,
+						     property);
+		printf ("%s: %s; /* %s */\n",
+			g_quark_to_string (property_id),
+			strval,
+			selector);
+}
+#else
+		/* Plain dump in CSS syntax. */
+		printf ("%s: %s;\n",
+			g_quark_to_string (property_id),
+			strval);
+#endif /* CCSS_DEBUG */
+		g_free (strval), strval = NULL;
 	}
 }
 

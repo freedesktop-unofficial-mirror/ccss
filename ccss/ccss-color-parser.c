@@ -490,13 +490,14 @@ ccss_color_parse (ccss_color_t		 *self,
 	case TERM_IDENT:
 		self->base.state = ccss_property_parse_state (value);
 		switch (self->base.state) {
-		case CCSS_PROPERTY_STATE_INVALID:
-			return false;
 		case CCSS_PROPERTY_STATE_NONE:
 		case CCSS_PROPERTY_STATE_INHERIT:
 			return true;
 		case CCSS_PROPERTY_STATE_SET:
 			break;
+		case CCSS_PROPERTY_STATE_INVALID:
+		default:
+			return false;
 		}
 		str = cr_string_peek_raw_str ((*value)->content.str);
 		ret = parse_name (self, str);
@@ -556,6 +557,7 @@ ccss_color_parse (ccss_color_t		 *self,
 					  &self->blue,
 					  &self->alpha);
 			if (matches == 4) {
+				*value = (*value)->next;
 				g_free (rgba);
 				return true;
 			}

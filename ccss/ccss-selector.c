@@ -1016,7 +1016,6 @@ ccss_selector_apply (ccss_selector_t const	*self,
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
 
 		g_hash_table_insert (style->properties, key, value);
-
 #ifdef CCSS_DEBUG
 		/* Track where the property comes from. */
 		ccss_style_set_property_selector (style,
@@ -1125,11 +1124,11 @@ ccss_selector_dump (ccss_selector_t const *self)
 	g_string_append (selector, " /* ");
 	ccss_selector_serialize_specificity (self, selector);
 	g_string_append (selector, " */\n");
-	puts (selector->str);
+	printf ("%s", selector->str);
 	g_string_free (selector, TRUE), selector = NULL;
 
 	if (self->block) {
-		printf (" {\n");
+		printf ("{\n");
 		ccss_block_dump (self->block);
 		printf ("}\n\n");
 	}

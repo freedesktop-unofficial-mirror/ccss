@@ -272,6 +272,9 @@ background_factory (ccss_grammar_t const	*grammar,
 
 	/* PONDERING: also support `background-size' here, but let's stick
 	 * to CSS2 for now. */
+
+	/* FIXME: set those to their default values. */
+
 	ccss_property_init (&bgc.base, peek_property_class ("background-color"));
 	ret = ccss_color_parse (&bgc, grammar, user_data, &values);
 	if (ret) {
@@ -347,7 +350,7 @@ background_inherit (ccss_style_t const	*container_style,
 		if (PROPERTY_SET (property)) {
 			ccss_style_set_property (style,
 				"background", property);
-			ret = true;
+			ret |= true;
 		}
 	}
 	if (ccss_style_get_property (container_style,

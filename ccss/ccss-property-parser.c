@@ -92,10 +92,6 @@ property_convert (ccss_property_generic_t	*self,
 		break;
 	case CCSS_PROPERTY_TYPE_STRING:
 		switch (self->base.state) {
-		case CCSS_PROPERTY_STATE_INVALID:
-			g_warning (G_STRLOC "Invalid property '%s'",
-				   self->name);
-			return false;
 		case CCSS_PROPERTY_STATE_NONE:
 			* (char **) value = g_strdup ("none");
 			return true;
@@ -108,7 +104,12 @@ property_convert (ccss_property_generic_t	*self,
 					   self->name);
 				return false;			
 			}
-			/* Fall thru. */
+			break;
+		case CCSS_PROPERTY_STATE_INVALID:
+		default:
+			g_warning (G_STRLOC "Invalid property '%s'",
+				   self->name);
+			return false;
 		}
 
 		switch (self->values->type) {

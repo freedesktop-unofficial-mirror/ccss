@@ -81,27 +81,31 @@ ccss_block_dump (ccss_block_t const *self)
 	GQuark				 property_id;
 	ccss_property_base_t const	*property;
 	char				*strval;
-	bool				 ret;
 
 	g_hash_table_iter_init (&iter, self->properties);
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property))  {
 
-		if (NULL == property->property_class || 
-		    NULL == property->property_class->property_convert) {
-			g_warning ("No conversion function for property `%s'",
-				   g_quark_to_string (property_id));
-			continue;
+		strval = NULL;
+		if (CCSS_PROPERTY_STATE_NONE == property->state ||
+		    CCSS_PROPERTY_STATE_INHERIT == property->state) {
+
+			strval = g_strdup (ccss_property_state_serialize (property->state));
+
+		} else if (property->property_class &&
+			   property->property_class->property_convert) {
+
+			property->property_class->property_convert (property,
+								    CCSS_PROPERTY_TYPE_STRING,
+								    &strval);
 		}
 
-		ret = property->property_class->property_convert (property,
-								  CCSS_PROPERTY_TYPE_STRING,
-								  &strval);
-		if (ret) {
-			printf ("%s: %s;\n", g_quark_to_string (property_id), strval);
-			g_free (strval), strval = NULL;
-		} else {
-			g_message ("Failed to serialise property `%s'", g_quark_to_string (property_id));
-		}
+		if (NULL == strval)
+			strval = g_strdup ("<unknown>");
+
+		printf ("\t%s: %s;\n",
+			g_quark_to_string (property_id),
+			strval);
+		g_free (strval);
 	}
 }
 

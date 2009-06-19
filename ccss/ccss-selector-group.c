@@ -305,7 +305,7 @@ traverse_apply (size_t			 specificity,
 								  info->style);
 			}
 
-		} else {	
+		} else {
 			info->ret |= ccss_selector_apply (selector,
 							  info->node,
 							  info->style);
