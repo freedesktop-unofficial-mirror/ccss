@@ -124,6 +124,10 @@ ccss_selector_apply (ccss_selector_t const	*self,
 		     ccss_style_t		*style);
 
 void
+ccss_selector_serialize_specificity     (ccss_selector_t const	*self,
+					 GString		*specificity);
+
+void
 ccss_selector_serialize_selector	(ccss_selector_t const  *self,
 					 GString		*selector);
 

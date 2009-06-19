@@ -39,6 +39,7 @@ struct ccss_style_;
  * @CCSS_PROPERTY_STATE_NONE:		property set to `none', switched off.
  * @CCSS_PROPERTY_STATE_INHERIT:	inherit property from container.
  * @CCSS_PROPERTY_STATE_SET:		property is valid and set.
+ * @CCSS_PROPERTY_STATE_ERROR_OVERFLOW: error state, used for bounds checking.
  *
  * This enum must be embedded as first field in every property implementation.
  *
@@ -48,8 +49,12 @@ typedef enum {
 	CCSS_PROPERTY_STATE_INVALID = 0,
 	CCSS_PROPERTY_STATE_NONE,
 	CCSS_PROPERTY_STATE_INHERIT,
-	CCSS_PROPERTY_STATE_SET
+	CCSS_PROPERTY_STATE_SET,
+	CCSS_PROPERTY_STATE_ERROR_OVERFLOW
 } ccss_property_state_t;
+
+const char *
+ccss_property_state_serialize (ccss_property_state_t self);
 
 /**
  * ccss_property_type_t:

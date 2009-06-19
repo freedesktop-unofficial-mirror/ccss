@@ -26,6 +26,7 @@ ccss_property_t
 @CCSS_PROPERTY_STATE_NONE: 
 @CCSS_PROPERTY_STATE_INHERIT: 
 @CCSS_PROPERTY_STATE_SET: 
+@CCSS_PROPERTY_STATE_ERROR_OVERFLOW: 
 
 <!-- ##### ENUM ccss_property_type_t ##### -->
 <para>

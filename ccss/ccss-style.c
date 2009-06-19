@@ -23,7 +23,6 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-property-generic.h"
-#include "ccss-selector.h"
 #include "ccss-style-priv.h"
 #include "config.h"
 
@@ -197,7 +196,7 @@ ccss_style_get_property	(ccss_style_t const		 *self,
  * ccss_style_set_property:
  * @self:		a #ccss_style_t.
  * @property_name:	name of the property.
- * @value:		location to store the raw property pointer.
+ * @value:		the property to insert into the style.
  *
  * Insert custom property. This is for custom property implementations only.
  **/
@@ -213,6 +212,68 @@ ccss_style_set_property	(ccss_style_t 			*self,
 	property_id = g_quark_from_string (property_name);
 	g_hash_table_insert (self->properties,
 			     (gpointer) property_id, (gpointer) value);
+}
+
+/**
+ * @self:	a #ccss_style_t.
+ * @property:	the property.
+ * @selector:	the selector that caused @property to be applied to this style.
+ *
+ * Track which selector caused assignment of a property to a style. This is for
+ * debugging purpose only, when serialising @self the properties will be
+ * annotated with selector information.
+ **/
+void
+ccss_style_set_property_selector (ccss_style_t			*self,
+				  ccss_property_base_t const	*property,
+				  ccss_selector_t const		*selector)
+{
+#ifdef CCSS_DEBUG
+	GString *annotation;
+
+	g_return_if_fail (self);
+	g_return_if_fail (property);
+	g_return_if_fail (selector);
+
+	annotation = g_string_new ("'");
+	ccss_selector_serialize_selector (selector, annotation);
+	g_string_append (annotation, "'");
+
+	g_string_append_printf (annotation, ", '%s'",
+				ccss_property_state_serialize (property->state));
+
+	g_string_append (annotation, ", ");
+	ccss_selector_serialize_specificity (selector, annotation);
+
+	/* Hash takes ownership. */
+	g_hash_table_insert (self->selectors, (gpointer) property, annotation->str);
+	g_string_free (annotation, FALSE);
+#endif
+}
+
+/**
+ * @self:	a #ccss_style_t.
+ * @property:	the property.
+ * @selector:	the selector that caused @property to be applied to this style.
+ *
+ * Track which selector caused assignment of a property to a style. This is for
+ * debugging purpose only, when serialising @self the properties will be
+ * annotated with selector information.
+ *
+ * See: #ccss_style_set_property_selector
+ **/
+void
+ccss_style_set_property_selector_string (ccss_style_t			*self,
+					 ccss_property_base_t const	*property,
+					 char const			*selector)
+{
+#ifdef CCSS_DEBUG
+	g_return_if_fail (self);
+	g_return_if_fail (property);
+	g_return_if_fail (selector);
+
+	g_hash_table_insert (self->selectors, (gpointer) property, g_strdup (selector));
+#endif
 }
 
 /**

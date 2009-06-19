@@ -372,10 +372,11 @@ inherit_container_style (ccss_style_t const	*container_style,
 						g_hash_table_lookup (container_style->selectors,
 								     property);
 				if (selector) {
-					g_hash_table_insert (style->selectors,
-							     (gpointer) property,
-							     g_strdup (selector));
-				}				     
+					ccss_style_set_property_selector_string (style,
+										 property,
+										 g_strdup (selector));
+
+				}
 }
 #endif
 			}

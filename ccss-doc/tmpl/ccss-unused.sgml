@@ -280,6 +280,24 @@ ccss_selector_group_t
 
 @Returns: 
 
+<!-- ##### FUNCTION ccss_style_set_property_selector ##### -->
+<para>
+
+</para>
+
+@self: 
+@property: 
+@selector: 
+
+<!-- ##### FUNCTION ccss_style_set_property_selector_string ##### -->
+<para>
+
+</para>
+
+@self: 
+@property: 
+@selector: 
+
 <!-- ##### FUNCTION ccss_stylesheet_create_from_buffer ##### -->
 <para>
 

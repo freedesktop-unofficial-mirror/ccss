@@ -1018,14 +1018,10 @@ ccss_selector_apply (ccss_selector_t const	*self,
 		g_hash_table_insert (style->properties, key, value);
 
 #ifdef CCSS_DEBUG
-{
 		/* Track where the property comes from. */
-		GString *selector = g_string_new (NULL);
-		ccss_selector_serialize_selector (self, selector);
-		/* Hash takes ownership. */
-		g_hash_table_insert (style->selectors, value, selector->str);
-		g_string_free (selector, FALSE);
-}
+		ccss_style_set_property_selector (style,
+						  (ccss_property_base_t const *) value,
+						  self);
 #endif
 	}
 
@@ -1042,6 +1038,23 @@ ccss_selector_apply (ccss_selector_t const	*self,
 	}
 
 	return true;
+}
+
+void
+ccss_selector_serialize_specificity (ccss_selector_t const      *self,
+				     GString			*specificity)
+{
+	g_return_if_fail (self);
+	g_return_if_fail (specificity);
+
+	g_string_append_printf (specificity, "%d,%d,%d,%d,%d,%d,%d",
+				self->importance,
+				self->precedence,
+				self->a,
+				self->b,
+				self->c,
+				self->d,
+				self->e);
 }
 
 void

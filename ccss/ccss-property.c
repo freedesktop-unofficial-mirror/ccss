@@ -73,3 +73,33 @@ ccss_property_parse_state (CRTerm const **value)
 	return CCSS_PROPERTY_STATE_SET;
 }
 
+static const struct {
+	ccss_property_state_t    property_state;
+	char const		*name;
+} _property_state_map[] = {
+  { CCSS_PROPERTY_STATE_INVALID,	"invalid" },
+  { CCSS_PROPERTY_STATE_NONE,		"none" },
+  { CCSS_PROPERTY_STATE_INHERIT,	"inherit" },
+  { CCSS_PROPERTY_STATE_SET,		"set" },
+  { CCSS_PROPERTY_STATE_ERROR_OVERFLOW, "<invalid>" }
+};
+
+/**
+ * ccss_property_state_serialize:
+ * @self:       a #ccss_property_state_t.
+ *
+ * Convert a property state into a readable string.
+ *
+ * Returns: textual representation of @self.
+ **/
+const char *
+ccss_property_state_serialize (ccss_property_state_t self)
+{
+	for (unsigned int i = 0; i < CCSS_PROPERTY_STATE_ERROR_OVERFLOW; i++) {
+		if (self == _property_state_map[i].property_state) {
+			return _property_state_map[i].name;
+		}
+	}
+
+	return NULL;
+}
