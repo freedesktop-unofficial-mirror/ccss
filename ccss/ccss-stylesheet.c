@@ -365,6 +365,19 @@ inherit_container_style (ccss_style_t const	*container_style,
 						     (gpointer) property_id,
 						     (gpointer) property);
 				is_resolved = true;
+#ifdef CCSS_DEBUG
+{
+				/* Track where the property comes from. */
+				char const *selector = (char const *)
+						g_hash_table_lookup (container_style->selectors,
+								     property);
+				if (selector) {
+					g_hash_table_insert (style->selectors,
+							     (gpointer) property,
+							     g_strdup (selector));
+				}				     
+}
+#endif
 			}
 
 			/* Remember inherited properties, we can't

@@ -41,8 +41,10 @@ ccss_style_create (void)
 	self->properties = g_hash_table_new ((GHashFunc) g_direct_hash,
 					     (GEqualFunc) g_direct_equal);
 #ifdef CCSS_DEBUG
-	self->selectors = g_hash_table_new ((GHashFunc) g_direct_hash,
-					     (GEqualFunc) g_direct_equal);
+	self->selectors = g_hash_table_new_full ((GHashFunc) g_direct_hash,
+						 (GEqualFunc) g_direct_equal,
+						 NULL,
+						 g_free);
 #endif
 
 	return self;
@@ -321,23 +323,19 @@ ccss_style_dump (ccss_style_t const *self)
 #ifdef CCSS_DEBUG
 			/* Also dump a comment which selector caused each
 			 * property. */
-			ccss_selector_t const *selector =
-				(ccss_selector_t const *)
+			char const *selector = (char const *)
 					g_hash_table_lookup (self->selectors,
 							     property);
-			GString *string_repr = g_string_new (NULL);
-			ccss_selector_serialize_selector (selector, string_repr);
 			printf ("%s: %s; /* %s */\n",
 				g_quark_to_string (property_id),
 				strval,
-				string_repr->str);
-			g_string_free (string_repr, TRUE);
+				selector);
 #else
 			/* Plain dump in CSS syntax. */
 			printf ("%s: %s;\n",
 				g_quark_to_string (property_id),
 				strval);
-#endif
+#endif /* CCSS_DEBUG */
 			g_free (strval), strval = NULL;
 		} else {
 			g_message ("Failed to serialise property `%s'", g_quark_to_string (property_id));

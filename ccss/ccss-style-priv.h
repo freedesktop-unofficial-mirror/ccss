@@ -41,7 +41,7 @@ struct ccss_style_ {
 	int32_t			 viewport_width;
 	int32_t			 viewport_height;
 #ifdef CCSS_DEBUG
-	GHashTable		*selectors;
+	GHashTable		*selectors;     /* Property pointers to string */
 #endif
 };
 

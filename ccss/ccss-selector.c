@@ -28,15 +28,21 @@
 #include "ccss-style-priv.h"
 #include "config.h"
 
+#define CCSS_SELECTOR_MODALITY_IS_VALID(selector_)			       \
+	((selector_)->modality > CCSS_SELECTOR_MODALITY_ERROR_UNDERFLOW &&     \
+	 (selector_)->modality < CCSS_SELECTOR_MODALITY_ERROR_OVERFLOW)
+
 typedef enum {
-	CCSS_SELECTOR_MODALITY_UNIVERSAL,	/* Universal selector. */
+	CCSS_SELECTOR_MODALITY_ERROR_UNDERFLOW = 0,
+	CCSS_SELECTOR_MODALITY_UNIVERSAL = 1,	/* Universal selector. */
 	CCSS_SELECTOR_MODALITY_TYPE,		/* By element type. */
 	CCSS_SELECTOR_MODALITY_BASE_TYPE,	/* By element type. */
 	CCSS_SELECTOR_MODALITY_CLASS,		/* By element class. */
 	CCSS_SELECTOR_MODALITY_ID,		/* By element ID. */
 	CCSS_SELECTOR_MODALITY_ATTRIBUTE,	/* By element attribute. */
 	CCSS_SELECTOR_MODALITY_PSEUDO_CLASS,	/* By pseudo class. */
-	CCSS_SELECTOR_MODALITY_INSTANCE		/* By node instance. */
+	CCSS_SELECTOR_MODALITY_INSTANCE,	/* By node instance. */
+	CCSS_SELECTOR_MODALITY_ERROR_OVERFLOW
 } ccss_selector_modality_t;
 
 /*
@@ -528,6 +534,9 @@ ccss_selector_copy (ccss_selector_t const *original)
 	case CCSS_SELECTOR_MODALITY_INSTANCE:
 		self = instance_selector_dup ((ccss_instance_selector_t const *) original);
 		break;
+	default:
+		g_assert_not_reached ();
+		return FALSE;
 	}
 
 	if (original->refinement) {
@@ -588,7 +597,8 @@ ccss_selector_copy_as_base (ccss_selector_t const	*original,
 void
 ccss_selector_destroy (ccss_selector_t *self)
 {
-	g_assert (self);
+	g_return_if_fail (self);
+	g_return_if_fail (CCSS_SELECTOR_MODALITY_IS_VALID (self));
 
 	if (self->refinement) {
 		ccss_selector_destroy (self->refinement), self->refinement = NULL;
@@ -625,6 +635,8 @@ ccss_selector_destroy (ccss_selector_t *self)
 	case CCSS_SELECTOR_MODALITY_INSTANCE:
 		instance_selector_destroy ((ccss_instance_selector_t *) self);
 		break;
+	default:
+		g_assert_not_reached ();
 	}
 }
 
@@ -708,6 +720,8 @@ ccss_selector_is_type (ccss_selector_t const *self)
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
 	case CCSS_SELECTOR_MODALITY_INSTANCE:
 		break;
+	default:
+		g_assert_not_reached ();
 	}
 
 	return false;
@@ -727,6 +741,8 @@ ccss_selector_is_class (ccss_selector_t const *self)
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
 	case CCSS_SELECTOR_MODALITY_INSTANCE:
 		break;
+	default:
+		g_assert_not_reached ();
 	}
 
 	return false;
@@ -746,6 +762,8 @@ ccss_selector_is_id (ccss_selector_t const *self)
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
 	case CCSS_SELECTOR_MODALITY_INSTANCE:
 		break;
+	default:
+		g_assert_not_reached ();
 	}
 
 	return false;
@@ -808,6 +826,8 @@ ccss_selector_get_key (ccss_selector_t const *self)
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
 	case CCSS_SELECTOR_MODALITY_INSTANCE:
 		break;
+	default:
+		g_assert_not_reached ();
 	}
 
 	return NULL;
@@ -934,6 +954,9 @@ ccss_selector_query (ccss_selector_t const	*self,
 		is_matching = (instance ==
 				((ccss_instance_selector_t *) self)->instance);
 		break;
+	default:
+		g_assert_not_reached ();
+		return false;
 	}
 
 	if (!is_matching) {
@@ -995,8 +1018,14 @@ ccss_selector_apply (ccss_selector_t const	*self,
 		g_hash_table_insert (style->properties, key, value);
 
 #ifdef CCSS_DEBUG
+{
 		/* Track where the property comes from. */
-		g_hash_table_insert (style->selectors, value, (gpointer) self);
+		GString *selector = g_string_new (NULL);
+		ccss_selector_serialize_selector (self, selector);
+		/* Hash takes ownership. */
+		g_hash_table_insert (style->selectors, value, selector->str);
+		g_string_free (selector, FALSE);
+}
 #endif
 	}
 
@@ -1019,6 +1048,10 @@ void
 ccss_selector_serialize_selector (ccss_selector_t const *self,
 				  GString		*selector)
 {
+	g_return_if_fail (self);
+	g_return_if_fail (selector);
+	g_return_if_fail (CCSS_SELECTOR_MODALITY_IS_VALID (self));
+
 	if (self->container) {
 		ccss_selector_serialize_selector (self->container, selector);
 		g_string_append (selector, " > ");
@@ -1059,6 +1092,9 @@ ccss_selector_serialize_selector (ccss_selector_t const *self,
 		instance_selector_serialize ((ccss_instance_selector_t *) self,
 					     selector);
 		break;
+	default:
+		g_assert_not_reached ();
+		return;
 	}
 
 	if (self->refinement) {
