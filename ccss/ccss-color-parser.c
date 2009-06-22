@@ -602,7 +602,6 @@ ccss_color_factory (ccss_grammar_t const	*grammar,
 		ccss_property_init (&c.base, property_class);
 		color = g_new0 (ccss_color_t, 1);
 		*color = c;
-		color->base.state = CCSS_PROPERTY_STATE_SET;
 		ccss_block_add_property (self, name, &color->base);
 		return TRUE;
 	}
