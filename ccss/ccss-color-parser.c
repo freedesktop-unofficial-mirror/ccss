@@ -494,6 +494,7 @@ ccss_color_parse (ccss_color_t		 *self,
 		case CCSS_PROPERTY_STATE_INHERIT:
 			return true;
 		case CCSS_PROPERTY_STATE_SET:
+			/* Process this. */
 			break;
 		case CCSS_PROPERTY_STATE_INVALID:
 		default:
@@ -502,6 +503,7 @@ ccss_color_parse (ccss_color_t		 *self,
 		str = cr_string_peek_raw_str ((*value)->content.str);
 		ret = parse_name (self, str);
 		if (ret) {
+			self->base.state = CCSS_PROPERTY_STATE_SET;
 			*value = (*value)->next;
 			return true;
 		}
@@ -510,6 +512,7 @@ ccss_color_parse (ccss_color_t		 *self,
 		str = cr_string_peek_raw_str ((*value)->content.str);
 		ret = parse_hex (self, str);
 		if (ret) {
+			self->base.state = CCSS_PROPERTY_STATE_SET;
 			*value = (*value)->next;
 			return true;
 		}
@@ -531,6 +534,7 @@ ccss_color_parse (ccss_color_t		 *self,
 					    0., 255.) / 255.;
 		}
 		self->alpha = 1.;
+		self->base.state = CCSS_PROPERTY_STATE_SET;
 		*value = (*value)->next;
 		return true;
 	case TERM_FUNCTION:
@@ -556,15 +560,16 @@ ccss_color_parse (ccss_color_t		 *self,
 					  &self->green,
 					  &self->blue,
 					  &self->alpha);
-			if (matches == 4) {
-				*value = (*value)->next;
-				g_free (rgba);
-				return true;
-			}
-			g_warning ("%s: Invalid color '%s'",
-				   G_STRLOC,
-				   rgba);
 			g_free (rgba);
+			if (matches == 4) {
+				self->base.state = CCSS_PROPERTY_STATE_SET;
+				*value = (*value)->next;
+				return true;
+			} else {
+				g_warning ("%s: Invalid color '%s'",
+					   G_STRLOC,
+					   rgba);
+			}
 		}
 		g_warning (G_STRLOC " '%s' not recognised.", str);
 		break;
