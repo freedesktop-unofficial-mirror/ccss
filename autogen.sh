@@ -31,7 +31,7 @@ autoreconf --force --install --symlink || exit $?
 
 cd $olddir
 
-conf_flags="--enable-maintainer-mode --enable-gtk-doc --enable-shave --enable-debug"
+conf_flags="--enable-gtk-doc --enable-shave --enable-debug"
 
 if test x$NOCONFIGURE = x; then
   echo Running $srcdir/configure $conf_flags "$@" ...
