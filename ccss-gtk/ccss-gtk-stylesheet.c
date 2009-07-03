@@ -32,7 +32,7 @@ typedef struct {
 	ccss_node_t	 parent;
 	char const	*type_name;
 	char const	*id;
-	char const	*pseudo_class;
+	char const	*pseudo_classes[2];
 } Node;
 
 static char const *
@@ -47,10 +47,10 @@ get_id (Node const *self)
 	return self->id;
 }
 
-static char const *
-get_pseudo_class (Node const *self)
+static char const **
+get_pseudo_classes (Node const *self)
 {
-	return self->pseudo_class;
+	return (char const **) self->pseudo_classes;
 }
 
 static ccss_node_class_t _node_class = {
@@ -60,7 +60,7 @@ static ccss_node_class_t _node_class = {
 	.get_id			= (ccss_node_get_id_f) get_id,
 	.get_type		= (ccss_node_get_type_f) get_type,
 	.get_class		= NULL,
-	.get_pseudo_class	= (ccss_node_get_pseudo_class_f) get_pseudo_class,
+	.get_pseudo_classes	= (ccss_node_get_pseudo_classes_f) get_pseudo_classes,
 	.get_attribute		= NULL,
 	.get_viewport		= NULL,
 	.release		= NULL
@@ -214,7 +214,8 @@ accumulate_state (ccss_stylesheet_t 	 *stylesheet,
 	ccss_node_init (&node.parent, &_node_class);
 	node.type_name = type_name;
 	node.id = NULL;
-	node.pseudo_class = state_name;
+	node.pseudo_classes[0] = state_name;
+	node.pseudo_classes[1] = NULL;
 	
 	style = ccss_stylesheet_query (stylesheet, &node.parent);
 	if (!style) {

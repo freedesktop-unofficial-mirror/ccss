@@ -67,8 +67,8 @@ get_class (ccss_node_t const *self)
 	return NULL;
 }
 
-static char const *
-get_pseudo_class (ccss_node_t const *self)
+static char const **
+get_pseudo_classes (ccss_node_t const *self)
 {
 	return NULL;
 }
@@ -110,7 +110,7 @@ static const ccss_node_class_t _default_node_class = {
 	.get_id			= get_id,
 	.get_type		= get_type,
 	.get_class		= get_class,
-	.get_pseudo_class	= get_pseudo_class,
+	.get_pseudo_classes	= get_pseudo_classes,
 	.get_attribute		= get_attribute,
 	.get_style		= get_style,
 	.get_viewport		= get_viewport,
@@ -250,17 +250,17 @@ ccss_node_get_class (ccss_node_t *self)
 	return self->css_class;
 }
 
-char const *
-ccss_node_get_pseudo_class (ccss_node_t *self)
+const char **
+ccss_node_get_pseudo_classes (ccss_node_t *self)
 {
 	g_return_val_if_fail (self, NULL);
 	g_return_val_if_fail (self->node_class, NULL);
-	g_return_val_if_fail (self->node_class->get_pseudo_class, NULL);
+	g_return_val_if_fail (self->node_class->get_pseudo_classes, NULL);
 
-	if (NULL == self->pseudo_class)
-		self->pseudo_class = self->node_class->get_pseudo_class (self);
+	if (NULL == self->pseudo_classes)
+		self->pseudo_classes = self->node_class->get_pseudo_classes (self);
 
-	return self->pseudo_class;
+	return self->pseudo_classes;
 }
 
 char *

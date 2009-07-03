@@ -945,9 +945,12 @@ ccss_selector_query (ccss_selector_t const	*self,
 		g_free (value), value = NULL;
 		break;
 	case CCSS_SELECTOR_MODALITY_PSEUDO_CLASS:
-		name = ccss_node_get_pseudo_class (node);
-		is_matching = !g_strcmp0 (name, 
-			((ccss_pseudo_class_selector_t *) self)->pseudo_class);
+		for (const char **pseudo_classes = ccss_node_get_pseudo_classes (node);
+		     pseudo_classes && *pseudo_classes;
+		     pseudo_classes++) {
+			is_matching = !g_strcmp0 (*pseudo_classes,
+				((ccss_pseudo_class_selector_t *) self)->pseudo_class);
+		}
 		break;
 	case CCSS_SELECTOR_MODALITY_INSTANCE:
 		instance = ccss_node_get_instance (node);

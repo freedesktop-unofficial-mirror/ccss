@@ -156,7 +156,7 @@ ccss_node_t
 @get_id: 
 @get_type: 
 @get_class: 
-@get_pseudo_class: 
+@get_pseudo_classes: 
 @get_attribute: 
 @get_style: 
 @get_viewport: 
@@ -218,15 +218,6 @@ ccss_node_t
 
 
 <!-- ##### USER_FUNCTION ccss_node_get_class_f ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### USER_FUNCTION ccss_node_get_pseudo_class_f ##### -->
 <para>
 
 </para>

@@ -108,15 +108,15 @@ typedef const char * (*ccss_node_get_id_f) (ccss_node_t const *self);
 typedef const char * (*ccss_node_get_class_f) (ccss_node_t const *self);
 
 /** 
- * ccss_node_get_pseudo_class_f:
+ * ccss_node_get_pseudo_classes_f:
  * @self: a #ccss_node_t.
  *
  * Hook function to query the pseudo-class name of a #ccss_node_t.
  *
- * Returns: node pseudo-class name or %NULL. The returned value must be valid until
- * the current stylesheet query returns.
+ * Returns: node pseudo-classes or %NULL. The returned values must be valid
+ * until the current stylesheet query returns.
  **/
-typedef const char * (*ccss_node_get_pseudo_class_f) (ccss_node_t const *self);
+typedef const char ** (*ccss_node_get_pseudo_classes_f) (ccss_node_t const *self);
 
 /** 
  * ccss_node_get_attribute_f:
@@ -174,7 +174,7 @@ typedef void (*ccss_node_release_f) (ccss_node_t *self);
  * @get_id:		a #ccss_node_get_id_f.
  * @get_type:		a #ccss_node_get_type_f.
  * @get_class:		a #ccss_node_get_class_f.
- * @get_pseudo_class:	a #ccss_node_get_pseudo_class_f.
+ * @get_pseudo_classes:	a #ccss_node_get_pseudo_classes_f.
  * @get_attribute:	a #ccss_node_get_attribute_f.
  * @get_style:		a #ccss_node_get_style_f.
  * @get_viewport:	a #ccss_node_get_viewport_f.
@@ -193,7 +193,7 @@ typedef struct {
 	ccss_node_get_id_f		get_id;
 	ccss_node_get_type_f		get_type;
 	ccss_node_get_class_f		get_class;
-	ccss_node_get_pseudo_class_f	get_pseudo_class;
+	ccss_node_get_pseudo_classes_f	get_pseudo_classes;
 	ccss_node_get_attribute_f	get_attribute;
 	ccss_node_get_style_f		get_style;
 	ccss_node_get_viewport_f	get_viewport;
@@ -213,12 +213,12 @@ struct ccss_node_ {
 	/*< private >*/
 	ccss_node_class_t const *node_class;
 
-	ptrdiff_t        instance;
-	char const      *id;
-	char const      *type_name;
-	char const      *css_class;
-	char const      *pseudo_class;
-	char const      *inline_style;
+	ptrdiff_t         instance;
+	char const       *id;
+	char const       *type_name;
+	char const       *css_class;
+	char const      **pseudo_classes;
+	char const       *inline_style;
 };
 
 void

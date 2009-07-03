@@ -111,6 +111,14 @@ ccss_selector_group_t
 @y: 
 @Returns: 
 
+<!-- ##### USER_FUNCTION ccss_node_get_pseudo_class_f ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
 <!-- ##### USER_FUNCTION ccss_property_free_f ##### -->
 <para>
 
