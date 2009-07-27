@@ -592,21 +592,21 @@ ccss_color_factory (ccss_grammar_t const	*grammar,
 		    CRTerm const		*values,
 		    void			*user_data)
 {
-	ccss_color_t    *color, c;
-	bool		 ret;
+	ccss_property_class_t const     *property_class;
+	ccss_color_t			 c;
+	bool				 ret;
 
+	property_class = ccss_grammar_lookup_property (grammar, name);
+	ccss_property_init (&c.base, property_class);
 	ret = ccss_color_parse (&c, grammar, user_data, &values);
 	if (ret) {
-		ccss_property_class_t const *property_class;
-		property_class = ccss_grammar_lookup_property (grammar, name);
-		ccss_property_init (&c.base, property_class);
-		color = g_new0 (ccss_color_t, 1);
+		ccss_color_t *color = g_new0 (ccss_color_t, 1);
 		*color = c;
 		ccss_block_add_property (self, name, &color->base);
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 void
