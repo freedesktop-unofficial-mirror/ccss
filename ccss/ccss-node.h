@@ -198,6 +198,11 @@ typedef struct {
 	ccss_node_get_style_f		get_style;
 	ccss_node_get_viewport_f	get_viewport;
 	ccss_node_release_f		release;
+	void (*_padding_0) (void);
+	void (*_padding_1) (void);
+	void (*_padding_2) (void);
+	void (*_padding_3) (void);
+	void (*_padding_4) (void);
 } ccss_node_class_t;
 
 /**
