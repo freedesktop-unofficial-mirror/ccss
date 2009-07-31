@@ -2,6 +2,30 @@
 NEWS
 ====
 
+Version 0.4, 2009-07-31
+-----------------------
+
+* Support for multiple pseudo-classes per node.
+
+Version 0.3.1, 2009-07-06
+-------------------------
+
+* Improvements to color parsing.
+* Improve css dump function to produce almost valid CSS with debug information in comments.
+
+Version 0.3, 2009-06-02
+-----------------------
+
+* Modular grammars.
+* Cairo-style reference counting.
+* Split libccss-base, -cairo and -gtk libraries.
+* Start of a test-suite.
+
+Version 0.2
+-----------
+
+Not released, internal only.
+
 Version 0.1, 2008-10-17
 -----------------------
 

@@ -56,13 +56,12 @@ Making a release
 
 * NEWS.
 * TODO.
-* Remove extra version in configure.in.
-* Commit to svn.
+* Commit and push.
 * `make distcheck`.
-* Tag in svn.
+* Tag and push.
 * Upload tarball.
 * Announce.
 * Bump version and add extra version in configure.in.
-* Commit to svn.
+* Commit and push.
 * Update web-page.
 
