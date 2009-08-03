@@ -175,9 +175,10 @@ ccss_cairo_background_fill (ccss_background_attachment_t const  *bg_attachment,
 
 	if (bg_color && bg_color->base.state == CCSS_PROPERTY_STATE_SET) {
 
-		cairo_set_source_rgb (cr, bg_color->red, 
-					  bg_color->green, 
-					  bg_color->blue);
+		cairo_set_source_rgba (cr, bg_color->red,
+					   bg_color->green,
+					   bg_color->blue,
+					   bg_color->alpha);
 		cairo_fill_preserve (cr);
 	}
 
