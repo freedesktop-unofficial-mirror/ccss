@@ -202,7 +202,8 @@ style_iterator (ccss_style_t const	 *style,
 static gboolean
 set_base_and_text (char const *type_name)
 {
-	static char const *_text_widgets[] = { "GtkEntry", "GtkTextView" };
+	static char const *_text_widgets[] = { "GtkCellView", "GtkEntry",
+						"GtkTextView" };
 
 	for (unsigned int i = 0; i < G_N_ELEMENTS (_text_widgets); i++) {
 		if (0 == g_strcmp0 (type_name, _text_widgets[i])) {
@@ -221,7 +222,9 @@ get_rc_selector (char const *type_name)
 		char const *rc_selector;
 	} _selectors[] = {
 		/* Apply button's style to its label. */
-		{ "GtkButton", "widget_class \"*.<GtkButton>.*\"" }
+		{ "GtkButton", "widget_class \"*.<GtkButton>.*\"" },
+		/* Apply menu-item's style to its label. */
+		{ "GtkMenuItem", "widget_class \"*.<GtkMenuItem>.*\"" }
 	};
 
 	for (unsigned int i = 0; i < G_N_ELEMENTS (_selectors); i++) {
