@@ -228,6 +228,25 @@ ccss_grammar_lookup_function (ccss_grammar_t const	*self,
 }
 
 /**
+ * ccss_grammar_create_stylesheet:
+ * @self:	a #ccss_grammar_t.
+ *
+ * Create an empty stylesheet associated with grammar @self.
+ *
+ * Returns: an empty #ccss_stylesheet_t.
+ **/
+ccss_stylesheet_t *
+ccss_grammar_create_stylesheet (ccss_grammar_t *self)
+{
+	ccss_stylesheet_t *stylesheet;
+
+	stylesheet = ccss_stylesheet_create ();
+	stylesheet->grammar = ccss_grammar_reference (self);
+
+	return stylesheet;
+}
+
+/**
  * ccss_grammar_create_stylesheet_from_buffer:
  * @self:	a #ccss_grammar_t.
  * @buffer:	buffer to parse.

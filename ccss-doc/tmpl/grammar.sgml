@@ -103,6 +103,15 @@ ccss_grammar_t
 @Returns: 
 
 
+<!-- ##### FUNCTION ccss_grammar_create_stylesheet ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
 <!-- ##### FUNCTION ccss_grammar_create_stylesheet_from_buffer ##### -->
 <para>
 

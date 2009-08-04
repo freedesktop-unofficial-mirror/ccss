@@ -64,6 +64,9 @@ ccss_grammar_lookup_function	(ccss_grammar_t const		*self,
 				 char const			*name);
 
 ccss_stylesheet_t *
+ccss_grammar_create_stylesheet			(ccss_grammar_t	*self);
+
+ccss_stylesheet_t *
 ccss_grammar_create_stylesheet_from_buffer	(ccss_grammar_t	*self,
 						 char const	*buffer,
 						 size_t		 size,
