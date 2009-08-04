@@ -126,35 +126,35 @@ style_iterator (ccss_style_t const	 *style,
 
 	rc_string = NULL;
 	if (G_TYPE_BOOLEAN == self->gtype) {
-		rc_string = g_strdup_printf ("%s%s = %s", 
+		rc_string = g_strdup_printf ("%s%s = %s",
 					     prefix, self->property_name,
-					     self->content.gboolean_val ? 
+					     self->content.gboolean_val ?
 					     "TRUE" : "FALSE");
 	} else if (G_TYPE_STRING == self->gtype) {
-		rc_string = g_strdup_printf ("%s%s = \"%s\"", 
+		rc_string = g_strdup_printf ("%s%s = \"%s\"",
 					     prefix, self->property_name,
 					     self->content.gchararray_val);
 	} else if (G_TYPE_FLOAT == self->gtype) {
-		rc_string = g_strdup_printf ("%s%s = %f", 
+		rc_string = g_strdup_printf ("%s%s = %f",
 					     prefix, self->property_name,
 					     self->content.gfloat_val);
 	} else if (G_TYPE_INT == self->gtype) {
-		rc_string = g_strdup_printf ("%s%s = %d", 
+		rc_string = g_strdup_printf ("%s%s = %d",
 					     prefix, self->property_name,
 					     self->content.gint_val);
 	} else if (G_TYPE_UCHAR == self->gtype) {
-		rc_string = g_strdup_printf ("%s%s = %d", 
+		rc_string = g_strdup_printf ("%s%s = %d",
 					     prefix, self->property_name,
 					     self->content.guchar_val);
 	} else if (GDK_TYPE_COLOR == self->gtype) {
 		char *val;
 		val = gdk_color_to_string (&self->content.gdkcolor_val);
-		rc_string = g_strdup_printf ("%s%s = %s", 
+		rc_string = g_strdup_printf ("%s%s = %s",
 					     prefix, self->property_name,
 					     val);
 		g_free (val);
 	} else if (GTK_TYPE_BORDER == self->gtype) {
-		rc_string = g_strdup_printf ("%s%s = { %d, %d, %d, %d }", 
+		rc_string = g_strdup_printf ("%s%s = { %d, %d, %d, %d }",
 					     prefix, self->property_name,
 					     self->content.gtkborder_val.left,
 					     self->content.gtkborder_val.right,
@@ -165,11 +165,11 @@ style_iterator (ccss_style_t const	 *style,
 		val = self->content.gtkreliefstyle_val == GTK_RELIEF_NORMAL ? "NORMAL" :
 		      self->content.gtkreliefstyle_val == GTK_RELIEF_HALF ? "HALF" :
 		      self->content.gtkreliefstyle_val == GTK_RELIEF_NONE ? "NONE" : "";
-		rc_string = g_strdup_printf ("%s%s = %s", 
+		rc_string = g_strdup_printf ("%s%s = %s",
 					     prefix, self->property_name,
 					     val);
 	} else if (GTK_TYPE_REQUISITION == self->gtype) {
-		rc_string = g_strdup_printf ("%s%s = { %d, %d }", 
+		rc_string = g_strdup_printf ("%s%s = { %d, %d }",
 					     prefix, self->property_name,
 					     self->content.gtkrequisition_val.width,
 					     self->content.gtkrequisition_val.height);
@@ -180,7 +180,7 @@ style_iterator (ccss_style_t const	 *style,
 		      self->content.gtkshadowtype_val == GTK_SHADOW_OUT ? "OUT" :
 		      self->content.gtkshadowtype_val == GTK_SHADOW_ETCHED_IN ? "ETCHED_IN" :
 		      self->content.gtkshadowtype_val == GTK_SHADOW_ETCHED_OUT ? "ETCHED_OUT" : "";
-		rc_string = g_strdup_printf ("%s%s = %s", 
+		rc_string = g_strdup_printf ("%s%s = %s",
 					     prefix, self->property_name,
 					     val);
 	} else if (GTK_TYPE_TOOLBAR_SPACE_STYLE == self->gtype) {
@@ -200,7 +200,7 @@ style_iterator (ccss_style_t const	 *style,
 }
 
 static gboolean
-set_color_to_text (char const *type_name)
+set_base_and_text (char const *type_name)
 {
 	static char const *_text_widgets[] = { "GtkEntry", "GtkTextView" };
 
@@ -250,7 +250,7 @@ accumulate_state (ccss_stylesheet_t 	 *stylesheet,
 	node.id = NULL;
 	node.pseudo_classes[0] = state_name;
 	node.pseudo_classes[1] = NULL;
-	
+
 	style = ccss_stylesheet_query (stylesheet, &node.parent);
 	if (!style) {
 		return false;
@@ -258,14 +258,31 @@ accumulate_state (ccss_stylesheet_t 	 *stylesheet,
 
 	color = NULL;
 
-	if (set_color_to_text (type_name)) {
+	if (set_base_and_text (type_name)) {
+
+		ret = ccss_style_get_string (style, "background-color", &color);
+		if (ret) {
+			state->flags |= BASE_SET;
+			strncpy (state->base, color, 7); /* '#rrggbb', omit alpha */
+			g_free (color), color = NULL;
+		}
+
 		ret = ccss_style_get_string (style, "color", &color);
 		if (ret && color) {
 			state->flags |= TEXT_SET;
 			strncpy (state->text, color, 7); /* '#rrggbb', omit alpha */
 			g_free (color), color = NULL;
 		}
+
 	} else {
+
+		ret = ccss_style_get_string (style, "background-color", &color);
+		if (ret) {
+			state->flags |= BG_SET;
+			strncpy (state->bg, color, 7); /* '#rrggbb', omit alpha */
+			g_free (color), color = NULL;
+		}
+
 		ret = ccss_style_get_string (style, "color", &color);
 		if (ret && color) {
 			state->flags |= FG_SET;
@@ -274,20 +291,9 @@ accumulate_state (ccss_stylesheet_t 	 *stylesheet,
 		}
 	}
 
-
-	ret = ccss_style_get_string (style, "background-color", &color);
-	if (ret) {
-		state->flags |= BG_SET;
-		strncpy (state->bg, color, 7); /* '#rrggbb', omit alpha */
-		/* FIXME: also setting "base" to the background color, let's see how this works out. */
-		state->flags |= BASE_SET;
-		strncpy (state->base, color, 7); /* '#rrggbb', omit alpha */
-		g_free (color), color = NULL;
-	}
-
 	/* Extract style properties, only for default state. */
 	if (style_properties) {
-		ccss_style_foreach (style, (ccss_style_iterator_f) style_iterator, 
+		ccss_style_foreach (style, (ccss_style_iterator_f) style_iterator,
 				    style_properties);
 	}
 
@@ -297,7 +303,7 @@ accumulate_state (ccss_stylesheet_t 	 *stylesheet,
 	return true;
 }
 
-static bool 
+static bool
 accumulate (ccss_stylesheet_t	*stylesheet,
 	    struct RcBlock	*block)
 {
@@ -380,7 +386,7 @@ serialize (struct RcBlock const	*block,
 
 	if (strlen (block->type_name) > 3 &&
 	    0 == strncmp ("Gtk", block->type_name, 3)) {
-		style = g_ascii_strdown (block->type_name + 3, -1);		
+		style = g_ascii_strdown (block->type_name + 3, -1);
 	} else if (0 == strcmp ("*", block->type_name)) {
 		style = g_strdup ("default");
 	} else {
@@ -485,7 +491,7 @@ ccss_gtk_stylesheet_to_gtkrc (ccss_stylesheet_t *self)
 
 	rc_string = g_string_new ("");
 
-	ccss_stylesheet_foreach (self, 
+	ccss_stylesheet_foreach (self,
 				 (ccss_stylesheet_iterator_f) iter_func,
 				 rc_string);
 
