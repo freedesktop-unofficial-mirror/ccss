@@ -200,6 +200,40 @@ style_iterator (ccss_style_t const	 *style,
 }
 
 static gboolean
+set_color_to_text (char const *type_name)
+{
+	static char const *_text_widgets[] = { "GtkEntry", "GtkTextView" };
+
+	for (unsigned int i = 0; i < G_N_ELEMENTS (_text_widgets); i++) {
+		if (0 == g_strcmp0 (type_name, _text_widgets[i])) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+static char const *
+get_rc_selector (char const *type_name)
+{
+	static const struct {
+		char const *type_name;
+		char const *rc_selector;
+	} _selectors[] = {
+		/* Apply button's style to its label. */
+		{ "GtkButton", "widget_class \"*.<GtkButton>.*\"" }
+	};
+
+	for (unsigned int i = 0; i < G_N_ELEMENTS (_selectors); i++) {
+		if (0 == g_strcmp0 (type_name, _selectors[i].type_name)) {
+			return _selectors[i].rc_selector;
+		}
+	}
+
+	return NULL;
+}
+
+static gboolean
 accumulate_state (ccss_stylesheet_t 	 *stylesheet,
 		  char const		 *type_name,
 		  char const		 *state_name,
@@ -224,12 +258,22 @@ accumulate_state (ccss_stylesheet_t 	 *stylesheet,
 
 	color = NULL;
 
-	ret = ccss_style_get_string (style, "color", &color);
-	if (ret && color) {
-		state->flags |= TEXT_SET;
-		strncpy (state->text, color, 7); /* '#rrggbb', omit alpha */
-		g_free (color), color = NULL;
+	if (set_color_to_text (type_name)) {
+		ret = ccss_style_get_string (style, "color", &color);
+		if (ret && color) {
+			state->flags |= TEXT_SET;
+			strncpy (state->text, color, 7); /* '#rrggbb', omit alpha */
+			g_free (color), color = NULL;
+		}
+	} else {
+		ret = ccss_style_get_string (style, "color", &color);
+		if (ret && color) {
+			state->flags |= FG_SET;
+			strncpy (state->fg, color, 7); /* '#rrggbb', omit alpha */
+			g_free (color), color = NULL;
+		}
 	}
+
 
 	ret = ccss_style_get_string (style, "background-color", &color);
 	if (ret) {
@@ -238,13 +282,6 @@ accumulate_state (ccss_stylesheet_t 	 *stylesheet,
 		/* FIXME: also setting "base" to the background color, let's see how this works out. */
 		state->flags |= BASE_SET;
 		strncpy (state->base, color, 7); /* '#rrggbb', omit alpha */
-		g_free (color), color = NULL;
-	}
-
-	ret = ccss_style_get_string (style, "border-color", &color);
-	if (ret && color) {
-		state->flags |= FG_SET;
-		strncpy (state->fg, color, 7); /* '#rrggbb', omit alpha */
 		g_free (color), color = NULL;
 	}
 
@@ -335,9 +372,11 @@ static gboolean
 serialize (struct RcBlock const	*block,
 	   GString		*rc_string)
 {
+	GString		*colors;
 	GSList const	*iter;
 	char		*style;
 	char		*style_name;
+	char const      *rc_selector;
 
 	if (strlen (block->type_name) > 3 &&
 	    0 == strncmp ("Gtk", block->type_name, 3)) {
@@ -354,25 +393,28 @@ serialize (struct RcBlock const	*block,
 	g_string_append_printf (rc_string, "style \"%s\" {\n", style_name);
 
 	/* Colors. */
+	colors = g_string_new (NULL);
 	if (NORMAL_SET & block->flags) {
-		serialize_state (&block->colors[NORMAL], "NORMAL", rc_string);
+		serialize_state (&block->colors[NORMAL], "NORMAL", colors);
 	}
 
 	if (ACTIVE_SET & block->flags) {
-		serialize_state (&block->colors[ACTIVE], "ACTIVE", rc_string);
+		serialize_state (&block->colors[ACTIVE], "ACTIVE", colors);
 	}
 
 	if (PRELIGHT_SET & block->flags) {
-		serialize_state (&block->colors[PRELIGHT], "PRELIGHT", rc_string);
+		serialize_state (&block->colors[PRELIGHT], "PRELIGHT", colors);
 	}
 
 	if (SELECTED_SET & block->flags) {
-		serialize_state (&block->colors[SELECTED], "SELECTED", rc_string);
+		serialize_state (&block->colors[SELECTED], "SELECTED", colors);
 	}
 
 	if (INSENSITIVE_SET & block->flags) {
-		serialize_state (&block->colors[INSENSITIVE], "INSENSITIVE", rc_string);
+		serialize_state (&block->colors[INSENSITIVE], "INSENSITIVE", colors);
 	}
+
+	g_string_append (rc_string, colors->str);
 
 	/* Style properties. */
 	iter = block->style_properties;
@@ -391,6 +433,14 @@ serialize (struct RcBlock const	*block,
 	g_string_append (rc_string, "}\n");
 
 	g_string_append_printf (rc_string, "class \"%s\" style \"%s\"\n\n", block->type_name, style_name);
+
+	/* Need to add a custom selector, i.e. apply this style to child widgets? */
+	rc_selector = get_rc_selector (block->type_name);
+	if (rc_selector) {
+		g_string_append_printf (rc_string, "%s style \"%s\"\n\n", rc_selector, style_name);
+	}
+
+	g_string_free (colors, TRUE);
 	g_free (style_name), style_name = NULL;
 
 	return TRUE;
