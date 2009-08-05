@@ -172,6 +172,9 @@ void
 ccss_property_init (ccss_property_base_t	*self,
 		    ccss_property_class_t const	*property_class);
 
+void
+ccss_property_destroy (ccss_property_base_t *self);
+
 ccss_property_state_t
 ccss_property_parse_state (CRTerm const **value);
 

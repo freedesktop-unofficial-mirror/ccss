@@ -32,7 +32,7 @@ ccss_block_create (void)
 	self->properties = g_hash_table_new_full ((GHashFunc) g_direct_hash, 
 						  (GEqualFunc) g_direct_equal,
 						  NULL,
-						  (GDestroyNotify) g_free);
+						  (GDestroyNotify) ccss_property_destroy);
 
 	return self;
 }

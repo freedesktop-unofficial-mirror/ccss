@@ -104,10 +104,16 @@ module_destroy (ccss_cairo_appearance_module_t *module)
 	module->reference_count--;
 
 	if (module->reference_count == 0) {
+
 		g_hash_table_remove (_module_hash, module->module_path);
 		g_free (module->module_path);
 		g_module_close (module->module);
 		g_free (module);
+
+		if (g_hash_table_size (_module_hash) == 0) {
+			g_hash_table_destroy (_module_hash);
+			_module_hash = NULL;
+		}
 	}
 }
 

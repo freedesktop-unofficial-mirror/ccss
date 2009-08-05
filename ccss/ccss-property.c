@@ -43,6 +43,17 @@ ccss_property_init (ccss_property_base_t	*self,
 	self->state = CCSS_PROPERTY_STATE_INVALID;
 }
 
+void
+ccss_property_destroy (ccss_property_base_t *self)
+{
+	g_return_if_fail (self);
+	g_return_if_fail (self->property_class);
+	g_return_if_fail (self->property_class);
+	g_return_if_fail (self->property_class->property_destroy);
+
+	self->property_class->property_destroy (self);
+}
+
 /**
  * ccss_property_parse_state:
  * @value: iterater of type #CRTerm.
