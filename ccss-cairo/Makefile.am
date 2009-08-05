@@ -7,6 +7,8 @@ AM_CPPFLAGS = \
 	$(CCSS_CAIRO_CFLAGS) \
 	-DCCSS_BUILD \
 	-DCCSS_CAIRO_BUILD \
+	-DCCSS_CAIRO_APPEARANCE_MODULE_INTERFACE_VERSION=\"$(CCSS_CAIRO_APPEARANCE_MODULE_INTERFACE_VERSION)\" \
+	-DCCSS_CAIRO_APPEARANCE_MODULE_PATH=\"$(CCSS_CAIRO_APPEARANCE_MODULE_PATH)\" \
 	$(NULL)
 
 lib_LTLIBRARIES = libccss-cairo-1.la
@@ -27,6 +29,10 @@ libccss_cairo_1_la_LIBADD = \
 
 libccss_cairo_1_la_SOURCES = \
 	$(headers_DATA) \
+	ccss-cairo-appearance.c \
+	ccss-cairo-appearance.h \
+	ccss-cairo-appearance-parser.c \
+	ccss-cairo-appearance-parser.h \
 	ccss-cairo-background.c \
 	ccss-cairo-background.h \
 	ccss-cairo-border.c \

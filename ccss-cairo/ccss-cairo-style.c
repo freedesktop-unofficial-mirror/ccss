@@ -22,6 +22,7 @@
 #include <string.h>
 #include <glib.h>
 #include <ccss/ccss-style-priv.h>	/* PONDERING: use only public headers? */
+#include "ccss-cairo-appearance.h"
 #include "ccss-cairo-background.h"
 #include "ccss-cairo-border.h"
 #include "ccss-cairo-border-image.h"
@@ -343,6 +344,16 @@ ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 	ccss_background_size_t const		*bg_size;
 
 	int32_t l, t, w, h;
+
+	ccss_cairo_appearance_t *appearance = NULL;
+	if (ccss_style_get_property (self,
+				     "appearance",
+				     (ccss_property_base_t const **) &appearance) &&
+	    appearance->draw_function) {
+
+		ccss_cairo_appearance_draw (appearance, self, cr, x, y, width, height);
+		return;
+	}
 
 	gather_outline (self, &bottom, &left, &right, &top,
 			&bottom_left, &bottom_right, &top_left, &top_right);

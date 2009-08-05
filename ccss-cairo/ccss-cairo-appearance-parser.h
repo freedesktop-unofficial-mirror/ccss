@@ -19,27 +19,23 @@
  * MA 02110-1301, USA.
  */
 
-#include "ccss-cairo-appearance-parser.h"
-#include "ccss-cairo-grammar.h"
+#ifndef CCSS_CAIRO_APPEARANCE_PARSER_H
+#define CCSS_CAIRO_APPEARANCE_PARSER_H
 
-/**
- * ccss_cairo_grammar_create:
- *
- * Create a new cairo-grammar instance.
- *
- * The cairo-grammar object provides a factory to load stylesheets restricted to 
- * the supported CSS subset.
- *
- * Returns: a new #ccss_grammar_t instance.
- **/
-ccss_grammar_t *
-ccss_cairo_grammar_create (void)
-{
-	ccss_grammar_t *self;
+#ifndef CCSS_CAIRO_H
+  #ifndef CCSS_CAIRO_BUILD
+    #error "Only <ccss-cairo/ccss-cairo.h> can be included directly."
+  #endif
+#endif
 
-	self = ccss_grammar_create_css ();
-	ccss_grammar_add_properties (self, ccss_cairo_appearance_parser_get_property_classes ());
+#include <ccss/ccss.h>
 
-	return self;
-}
+CCSS_BEGIN_DECLS
+
+ccss_property_class_t const *
+ccss_cairo_appearance_parser_get_property_classes (void);
+
+CCSS_END_DECLS
+
+#endif /* CCSS_CAIRO_APPEARANCE_PARSER_H */
 

@@ -13,6 +13,8 @@ m4_define([ccss_version_extra], [])
 m4_define([ccss_version],
     [ccss_version_major.ccss_version_minor.ccss_version_micro[]ccss_version_extra])
 
+m4_define([ccss_cairo_appearance_module_interface_version], [0.4])
+
 AC_INIT([libccss], [ccss_version])
 AC_CONFIG_AUX_DIR([build])
 AC_CONFIG_MACRO_DIR([build])
@@ -38,7 +40,6 @@ AC_SUBST([VERSION_INFO], [version_iface:ccss_version_micro:0])
 AC_SUBST([CCSS_VERSION_MAJOR], [ccss_version_major])
 AC_SUBST([CCSS_VERSION_MINOR], [ccss_version_minor])
 AC_SUBST([CCSS_VERSION_MICRO], [ccss_version_micro])
-
 
 ### Checks for configure arguments. ############################################
 
@@ -202,6 +203,11 @@ CCSS_CAIRO_LIBS="${CCSS_CAIRO_LIBS} "'$(top_builddir)/ccss/libccss-1.la'
 AC_SUBST([CCSS_CAIRO_LIBS])
 AC_SUBST([CCSS_CAIRO_DEPS], "$ccss_cairo_pkgs libccss-1")
 
+CCSS_CAIRO_APPEARANCE_MODULE_INTERFACE_VERSION=ccss_cairo_appearance_module_interface_version
+AC_SUBST([CCSS_CAIRO_APPEARANCE_MODULE_INTERFACE_VERSION])
+CCSS_CAIRO_APPEARANCE_MODULE_PATH="${libdir}/ccss-1/$CCSS_CAIRO_APPEARANCE_MODULE_INTERFACE_VERSION"
+AC_SUBST([CCSS_CAIRO_APPEARANCE_MODULE_PATH])
+
 
 ### ccss-gtk ###
 
@@ -356,6 +362,7 @@ ccss:                            yes
 ccss-cairo:                      $want_cairo (requires $ccss_cairo_reqs)
     Support for SVG images       $want_rsvg (requires $ccss_cairo_rsvg_reqs)
     Support for SVG fragments    $want_soup (requires $ccss_cairo_soup_reqs)
+    Appearance module path       $CCSS_CAIRO_APPEARANCE_MODULE_PATH
 
 ccss-gtk:                        $want_gtk (requires $ccss_gtk_reqs)
 

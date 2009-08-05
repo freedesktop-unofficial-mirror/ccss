@@ -5,6 +5,8 @@ includedir=@includedir@
 
 ccss_with_rsvg=@ccss_with_rsvg@
 ccss_with_soup=@ccss_with_soup@
+ccss_cairo_appearance_module_interface_version=@CCSS_CAIRO_APPEARANCE_MODULE_INTERFACE_VERSION@
+ccss_cairo_appearance_module_path=@CCSS_CAIRO_APPEARANCE_MODULE_PATH@
 
 Name: libccss-cairo-1
 Description: The Cairo CSS Library
