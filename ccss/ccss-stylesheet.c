@@ -331,24 +331,6 @@ query_node (ccss_stylesheet_t const	*self,
 	return ret;
 }
 
-#ifdef CCSS_DEBUG
-
-static void
-dump_inherit_properties (GHashTable *inherit)
-{
-	GHashTableIter			iter;
-	GQuark				property_id;
-
-	printf ("inherit: ");
-	g_hash_table_iter_init (&iter, inherit);
-	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, NULL)) {
-		printf ("%s, ", g_quark_to_string (property_id));
-	}
-	printf ("\n");
-}
-
-#endif
-
 static void
 inherit_container_style (ccss_style_t const	*container_style,
 			 GHashTable		*inherit,
