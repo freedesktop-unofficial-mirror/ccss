@@ -160,6 +160,7 @@ appearance_factory (ccss_grammar_t const	*grammar,
 		a.module = NULL;
 	}
 
+	a.base.state = CCSS_PROPERTY_STATE_SET;
 	appearance = g_new0 (ccss_cairo_appearance_t, 1);
 	*appearance = a;
 	ccss_block_add_property (self, name, &appearance->base);

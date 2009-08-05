@@ -349,6 +349,7 @@ ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 	if (ccss_style_get_property (self,
 				     "appearance",
 				     (ccss_property_base_t const **) &appearance) &&
+	    appearance->base.state == CCSS_PROPERTY_STATE_SET &&
 	    appearance->draw_function) {
 
 		ccss_cairo_appearance_draw (appearance, self, cr, x, y, width, height);
