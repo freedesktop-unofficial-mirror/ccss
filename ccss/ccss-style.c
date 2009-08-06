@@ -72,6 +72,52 @@ ccss_style_destroy (ccss_style_t *self)
 }
 
 /**
+ * ccss_style_hash:
+ * @self: a #ccss_style_t.
+ *
+ * Calculates a hash value that uniquely identifies a style. If two styles
+ * have the same hash value they are equal.
+ *
+ * A hash value of 0 is returned for %NULL or empty styles.
+ *
+ * Returns: hash value.
+ **/
+uint32_t
+ccss_style_hash (ccss_style_t const *self)
+{
+	uint32_t hash = 0;
+
+	g_return_val_if_fail (self, 0);
+	g_return_val_if_fail (self->properties, 0);
+	g_return_val_if_fail (g_hash_table_size (self->properties), 0);
+
+	{
+	ccss_property_base_t const	*property;
+	GHashTableIter			 iter;
+	int				 n_properties = g_hash_table_size (self->properties);
+	void				*property_ptrs[n_properties * sizeof (void *) + 1];
+	char const			*property_str = (char const *) property_ptrs;
+	int				 i = 0;
+
+	/* Accumulate string of property pointers. */
+	g_hash_table_iter_init (&iter, self->properties);
+	while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &property)) {
+		property_ptrs[i] = (void *) property;
+		i++;
+	}
+	property_ptrs[i] = NULL;
+
+	/* sdbm hash */
+	while (0 != (i = *property_str++)) {
+		hash = i + (hash << 6) + (hash << 16) - hash;
+	}
+
+	}
+
+	return hash;
+}
+
+/**
  * ccss_style_get_stylesheet:
  * @self: a #ccss_gramar_t.
  *

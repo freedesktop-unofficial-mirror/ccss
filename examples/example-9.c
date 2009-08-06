@@ -8,13 +8,23 @@
 
 static gboolean
 expose_cb (GtkWidget		*widget,
-	   GdkEventExpose	*event,
-	   ccss_style_t const	*style)
+	   GdkEventExpose       *event,
+	   ccss_stylesheet_t	*stylesheet)
 {
-	cairo_t *cr;
+	ccss_style_t	*style;
+	cairo_t		*cr;
+	uint32_t	 hash;
+
+	style = ccss_stylesheet_query_type (stylesheet, "box");
+	g_return_val_if_fail (style, FALSE);
+
+	hash = ccss_style_hash (style);
+	g_debug ("%s() style instance='%p' hash='%u'",
+		 __FUNCTION__,
+		 (void *) style,
+		 hash);
 
 	cr = gdk_cairo_create (widget->window);
-
 	ccss_cairo_style_draw_rectangle (style, cr, 
 					 widget->allocation.x + 10,
 					 widget->allocation.y + 10,
@@ -22,6 +32,7 @@ expose_cb (GtkWidget		*widget,
 					 widget->allocation.height - 20);
 
 	cairo_destroy (cr);
+	ccss_style_destroy (style);
 
 	return FALSE;
 }
@@ -40,7 +51,6 @@ main (int	  argc,
 {
 	ccss_grammar_t		*grammar;
 	ccss_stylesheet_t	*stylesheet;
-	ccss_style_t		*style;
 	GtkWidget		*window;
 	GtkWidget		*area;
 
@@ -51,12 +61,6 @@ main (int	  argc,
 							_css, sizeof (_css),
 							NULL);
 
-	style = ccss_stylesheet_query_type (stylesheet, "box");
-	g_assert (style);
-
-#ifdef CCSS_DEBUG
-	ccss_style_dump (style);
-#endif
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size (GTK_WINDOW (window), 160, 90);
 	g_signal_connect (G_OBJECT (window), "delete-event", 
@@ -64,13 +68,12 @@ main (int	  argc,
 
 	area = gtk_drawing_area_new ();
 	gtk_container_add (GTK_CONTAINER (window), area);
-	g_signal_connect (G_OBJECT (area), "expose-event",
-			  G_CALLBACK (expose_cb), style);
+	g_signal_connect (G_OBJECT (area), "expose-event", 
+			  G_CALLBACK (expose_cb), stylesheet);
 
 	gtk_widget_show_all (window);
 	gtk_main ();
 
-	ccss_style_destroy (style);
 	ccss_stylesheet_destroy (stylesheet);
 	ccss_grammar_destroy (grammar);
 

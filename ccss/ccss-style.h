@@ -39,7 +39,10 @@ CCSS_BEGIN_DECLS
 typedef struct ccss_style_ ccss_style_t;
 
 void
-ccss_style_destroy	(ccss_style_t *self);
+ccss_style_destroy	(ccss_style_t		*self);
+
+uint32_t
+ccss_style_hash		(ccss_style_t const     *self);
 
 /* Somewhat hackish */
 struct ccss_stylesheet_ *
