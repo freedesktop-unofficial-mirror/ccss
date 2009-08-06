@@ -5,6 +5,8 @@ NEWS
 Core
 * Deep-free properties when destroying a stylesheet, fixes memory leak.
 * New ccss_style_hash() value can be used to compare styles for equality.
+* Ability to load CSS files and dump the resulting CSS in
+  "ccss-stylesheet-to-gtkrc" for debugging multi-file stylesheets.
 
 Cairo
 * Support for loadable modules to hook in custom CSS3 "appearance" renderers.
