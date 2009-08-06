@@ -352,8 +352,10 @@ ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 	    appearance->base.state == CCSS_PROPERTY_STATE_SET &&
 	    appearance->draw_function) {
 
-		ccss_cairo_appearance_draw (appearance, self, cr, x, y, width, height);
-		return;
+		bool ret = appearance->draw_function (self, cr,
+						      x, y, width, height);
+		if (ret)
+			return;
 	}
 
 	gather_outline (self, &bottom, &left, &right, &top,

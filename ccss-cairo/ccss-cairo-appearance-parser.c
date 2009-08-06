@@ -117,11 +117,11 @@ module_destroy (ccss_cairo_appearance_module_t *module)
 	}
 }
 
-static ccss_cairo_style_draw_f
+static ccss_cairo_appearance_draw_f
 module_get_symbol (ccss_cairo_appearance_module_t const       *module,
 		   char const		*name)
 {
-	ccss_cairo_style_draw_f draw_func = NULL;
+	ccss_cairo_appearance_draw_f draw_func = NULL;
 
 	g_return_val_if_fail (module, NULL);
 	g_return_val_if_fail (name, NULL);

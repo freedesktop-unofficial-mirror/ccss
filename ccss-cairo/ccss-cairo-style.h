@@ -49,14 +49,6 @@ typedef enum {
 	CCSS_CAIRO_GAP_SIDE_BOTTOM
 } ccss_cairo_gap_side_t;
 
-typedef void
-(*ccss_cairo_style_draw_f) (ccss_style_t const	*self,
-			    cairo_t		*cr,
-			    int			 x,
-			    int			 y,
-			    int			 width,
-			    int			 height);
-
 void
 ccss_cairo_style_draw_line (ccss_style_t const	*self,
 			    cairo_t		*cr, 

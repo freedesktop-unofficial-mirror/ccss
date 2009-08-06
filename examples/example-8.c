@@ -13,7 +13,7 @@
 G_MODULE_EXPORT char const *
 ccss_appearance_module_get_interface_version (void);
 
-G_MODULE_EXPORT void
+G_MODULE_EXPORT bool
 custom_box (ccss_style_t const	*self,
 	    cairo_t		*cr,
 	    int			 x,
@@ -27,7 +27,7 @@ ccss_appearance_module_get_interface_version (void)
 	return CCSS_CAIRO_APPEARANCE_MODULE_INTERFACE_VERSION;
 }
 
-G_MODULE_EXPORT void
+G_MODULE_EXPORT bool
 custom_box (ccss_style_t const	*self,
 	    cairo_t		*cr,
 	    int			 x,
@@ -37,8 +37,10 @@ custom_box (ccss_style_t const	*self,
 {
 	cairo_rectangle (cr, x, y, width, height);
 	cairo_set_line_width (cr, 3);
-	cairo_set_line_cap (cr, CAIRO_LINE_JOIN_MITER);
+	cairo_set_line_cap (cr, CAIRO_LINE_JOIN_ROUND);
 	cairo_stroke (cr);
+
+	return true;
 }
 
 /*
@@ -79,6 +81,7 @@ main (int	  argc,
 	ccss_stylesheet_t	*stylesheet;
 	ccss_style_t		*style;
 	GtkWidget		*window;
+	GtkWidget		*area;
 
 	gtk_init (&argc, &argv);
 
@@ -98,7 +101,10 @@ main (int	  argc,
 	gtk_widget_set_app_paintable (window, TRUE);
 	g_signal_connect (G_OBJECT (window), "delete-event", 
 			  G_CALLBACK (gtk_main_quit), NULL);
-	g_signal_connect (G_OBJECT (window), "expose-event", 
+
+	area = gtk_drawing_area_new ();
+	gtk_container_add (GTK_CONTAINER (window), area);
+	g_signal_connect (G_OBJECT (area), "expose-event",
 			  G_CALLBACK (expose_cb), style);
 
 	gtk_widget_show_all (window);

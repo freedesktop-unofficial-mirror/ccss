@@ -29,7 +29,6 @@ libccss_cairo_1_la_LIBADD = \
 
 libccss_cairo_1_la_SOURCES = \
 	$(headers_DATA) \
-	ccss-cairo-appearance.c \
 	ccss-cairo-appearance.h \
 	ccss-cairo-appearance-parser.c \
 	ccss-cairo-appearance-parser.h \
