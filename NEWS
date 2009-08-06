@@ -2,6 +2,17 @@
 NEWS
 ====
 
+Core
+* Deep-free properties when destroying a stylesheet, fixes memory leak.
+* New ccss_style_hash() value can be used to compare styles for equality.
+
+Cairo
+* Support for loadable modules to hook in custom CSS3 "appearance" renderers.
+* Draw background with alpha channel.
+
+Gtk
+* Improvements to gtk[rc] compatibility.
+
 Version 0.4, 2009-07-31
 -----------------------
 
