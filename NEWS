@@ -7,6 +7,7 @@ Core
 * New ccss_style_hash() value can be used to compare styles for equality.
 * Ability to load CSS files and dump the resulting CSS in
   "ccss-stylesheet-to-gtkrc" for debugging multi-file stylesheets.
+* New ccss_stylesheet_unload() to unload css files or buffers.
 
 Cairo
 * Support for loadable modules to hook in custom CSS3 "appearance" renderers.
