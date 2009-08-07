@@ -8,10 +8,10 @@ ccss_with_soup=@ccss_with_soup@
 ccss_cairo_appearance_module_interface_version=@CCSS_CAIRO_APPEARANCE_MODULE_INTERFACE_VERSION@
 ccss_cairo_appearance_module_path=@CCSS_CAIRO_APPEARANCE_MODULE_PATH@
 
-Name: libccss-cairo-1
+Name: ccss-cairo-1
 Description: The Cairo CSS Library
 Version: @VERSION@
 Requires: @CCSS_CAIRO_DEPS@
 Libs: -L${libdir} -lccss-cairo-1
-Cflags: -I${includedir}/libccss-1
+Cflags: -I${includedir}/ccss-1
 

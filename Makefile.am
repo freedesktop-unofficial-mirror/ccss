@@ -25,16 +25,16 @@ SUBDIRS += ccss-tests
 endif
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libccss-1.pc
+pkgconfig_DATA = ccss-1.pc
 
 if CCSS_WITH_CAIRO
 SUBDIRS += ccss-cairo ccss-cairo-doc
-pkgconfig_DATA += libccss-cairo-1.pc
+pkgconfig_DATA += ccss-cairo-1.pc
 endif
 
 if CCSS_WITH_GTK
 SUBDIRS += ccss-gtk
-pkgconfig_DATA += libccss-gtk-1.pc
+pkgconfig_DATA += ccss-gtk-1.pc
 endif
 
 if CCSS_WITH_EXAMPLES
@@ -50,9 +50,9 @@ EXTRA_DIST = \
 	README \
 	TODO \
 	autogen.sh \
-	libccss-1.pc.in \
-	libccss-cairo-1.pc.in \
-	libccss-gtk-1.pc.in \
+	ccss-1.pc.in \
+	ccss-cairo-1.pc.in \
+	ccss-gtk-1.pc.in \
 	$(NULL)
 
 CLEANFILES = \

@@ -3,10 +3,10 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: libccss-1
+Name: ccss-1
 Description: The Cairo CSS Library
 Version: @VERSION@
 Requires: @CCSS_DEPS@
 Libs: -L${libdir} -lccss-1
-Cflags: -I${includedir}/libccss-1
+Cflags: -I${includedir}/ccss-1
 

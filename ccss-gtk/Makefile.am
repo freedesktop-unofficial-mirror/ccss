@@ -38,7 +38,7 @@ libccss_gtk_1_la_SOURCES = \
 	ccss-gtk-stylesheet.c \
 	$(NULL)
 
-headersdir = $(includedir)/libccss-1/ccss-gtk
+headersdir = $(includedir)/ccss-1/ccss-gtk
 
 headers_DATA = \
 	ccss-gtk.h \

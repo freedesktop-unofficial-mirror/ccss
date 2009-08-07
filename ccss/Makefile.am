@@ -58,7 +58,7 @@ libccss_1_la_SOURCES = \
 	ccss-stylesheet-priv.h \
 	$(NULL)
 
-headersdir = $(includedir)/libccss-1/ccss
+headersdir = $(includedir)/ccss-1/ccss
 
 headers_DATA = \
 	ccss-background.h \

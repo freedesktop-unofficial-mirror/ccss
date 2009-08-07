@@ -49,7 +49,7 @@ libccss_cairo_1_la_SOURCES = \
 	ccss-cairo-style.h \
 	$(NULL)
 
-headersdir = $(includedir)/libccss-1/ccss-cairo
+headersdir = $(includedir)/ccss-1/ccss-cairo
 
 headers_DATA = \
 	ccss-cairo.h \

@@ -2,6 +2,8 @@
 NEWS
 ====
 
+* Use 'ccss' name consistently, drop 'lib' prefix where possible.
+
 Core
 * Deep-free properties when destroying a stylesheet, fixes memory leak.
 * New ccss_style_hash() value can be used to compare styles for equality.

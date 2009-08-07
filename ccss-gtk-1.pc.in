@@ -3,10 +3,10 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: libccss-gtk-1
+Name: ccss-gtk-1
 Description: The Gtk+ CSS Library
 Version: @VERSION@
 Requires: @CCSS_GTK_DEPS@
 Libs: -L${libdir} -lccss-gtk-1
-Cflags: -I${includedir}/libccss-1
+Cflags: -I${includedir}/ccss-1
 
