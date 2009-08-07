@@ -69,7 +69,7 @@ expose_cb (GtkWidget		*widget,
 
 static char const _css[] = "				\
 	box { 						\
-		appearance: custom_box example-8;	\
+		ccss-appearance: custom_box example-8;	\
 	}						\
 ";
 
