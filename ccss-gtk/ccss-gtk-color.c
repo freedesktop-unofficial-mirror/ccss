@@ -24,6 +24,7 @@
  * MA 02110-1301, USA.
  */
 
+#include <stdbool.h>
 #include <gtk/gtk.h>
 #include "ccss-gtk-color.h"
 #include "config.h"
@@ -36,19 +37,19 @@ ccss_gtk_color_lookup (char const     *spec,
 	GHashTable	*colors;
 	GdkColor	*system_color;
 
-	g_return_val_if_fail (spec, FALSE);
+	g_return_val_if_fail (spec, false);
 
 	settings = gtk_settings_get_default ();
 	colors = NULL;
 	g_object_get (G_OBJECT (settings), "color-hash", &colors, NULL);
-	g_return_val_if_fail (colors, FALSE);
+	g_return_val_if_fail (colors, false);
 
 	system_color = (GdkColor *) g_hash_table_lookup (colors, spec);
 	if (system_color) {
 		color->red = system_color->red;
 		color->green = system_color->green;
 		color->blue = system_color->blue;
-		return TRUE;
+		return true;
 	}
 
 	/* Try to parse the color. */
@@ -215,7 +216,7 @@ ccss_gtk_color_mix (double		 factor,
 	result->green = factor * color1->green + (1.0 - factor) * color2->green;
 	result->blue  = factor * color1->blue  + (1.0 - factor) * color2->blue;
 
-	return TRUE;
+	return true;
 }
 
 bool
@@ -250,6 +251,6 @@ ccss_gtk_color_shade (double	 factor,
   color->green = (guint16) (green * 65535.0);
   color->blue = (guint16) (blue * 65535.0);
 
-  return TRUE;
+  return true;
 }
 

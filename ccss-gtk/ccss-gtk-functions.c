@@ -52,7 +52,7 @@ url (GSList const	*args,
 	soup_uri_set_path (uri, resolved_path);
 	g_free (resolved_path), resolved_path = NULL;
 
-	ret = soup_uri_to_string (uri, FALSE);
+	ret = soup_uri_to_string (uri, false);
 	soup_uri_free (uri), uri = NULL;
 #else
 	char const *given_path;
@@ -77,7 +77,7 @@ color_walk_r (GdkColor		 *color,
 	char const	*token;
 	gboolean	 ret;
 
-	g_return_val_if_fail (*args && (*args)->data, FALSE);
+	g_return_val_if_fail (*args && (*args)->data, false);
 
 	if (function)
 		token = function;
@@ -88,50 +88,50 @@ color_walk_r (GdkColor		 *color,
 
 		double red, green, blue;
 
-		if (!function) { *args = (*args)->next; if (!*args) return FALSE; }
+		if (!function) { *args = (*args)->next; if (!*args) return false; }
 
 		/* red */
 		red = g_ascii_strtod ((char const *) (*args)->data, NULL);
-		*args = (*args)->next; if (!*args) return FALSE;
+		*args = (*args)->next; if (!*args) return false;
 
 		/* "," */
-		if (0 != g_strcmp0(",", (char const *) (*args)->data)) return FALSE;
-		*args = (*args)->next; if (!*args) return FALSE;
+		if (0 != g_strcmp0(",", (char const *) (*args)->data)) return false;
+		*args = (*args)->next; if (!*args) return false;
 
 		/* green */
 		green = g_ascii_strtod ((char const *) (*args)->data, NULL);
-		*args = (*args)->next; if (!*args) return FALSE;
+		*args = (*args)->next; if (!*args) return false;
 
 		/* "," */
-		if (0 != g_strcmp0(",", (char const *) (*args)->data)) return FALSE;
-		*args = (*args)->next; if (!*args) return FALSE;
+		if (0 != g_strcmp0(",", (char const *) (*args)->data)) return false;
+		*args = (*args)->next; if (!*args) return false;
 
 		/* blue */
 		blue = g_ascii_strtod ((char const *) (*args)->data, NULL);
 
 		if (!function) {
 			/* ")" */
-			*args = (*args)->next; if (!*args) return FALSE;
-			if (0 != g_strcmp0(")", (char const *) (*args)->data)) return FALSE;
+			*args = (*args)->next; if (!*args) return false;
+			if (0 != g_strcmp0(")", (char const *) (*args)->data)) return false;
 		}
 
 		color->red = (guint16) (red * 65535.0);
 		color->green = (guint16) (green * 65535.0);
 		color->blue = (guint16) (blue * 65535.0);
 
-		return TRUE;
+		return true;
 
 	} else if (0 == g_strcmp0 ("gtk-color(", token)) {
 
-		if (!function) { *args = (*args)->next; if (!*args) return FALSE; }
+		if (!function) { *args = (*args)->next; if (!*args) return false; }
 
 		/* color */
 		ret = ccss_gtk_color_lookup ((char const *) (*args)->data, color);
 
 		if (!function) {
 			/* ")" */
-			*args = (*args)->next; if (!*args) return FALSE;
-			if (0 != g_strcmp0(")", (char const *) (*args)->data)) return FALSE;
+			*args = (*args)->next; if (!*args) return false;
+			if (0 != g_strcmp0(")", (char const *) (*args)->data)) return false;
 		}
 
 		return ret;
@@ -141,83 +141,83 @@ color_walk_r (GdkColor		 *color,
 		GdkColor color1;
 		GdkColor color2;
 
-		if (!function) { *args = (*args)->next; if (!*args) return FALSE; }
+		if (!function) { *args = (*args)->next; if (!*args) return false; }
 
 		/* factor */
 		factor = g_ascii_strtod ((char const *) (*args)->data, NULL);
-		*args = (*args)->next; if (!*args) return FALSE;
+		*args = (*args)->next; if (!*args) return false;
 
 		/* "," */
-		if (0 != g_strcmp0(",", (char const *) (*args)->data)) return FALSE;
-		*args = (*args)->next; if (!*args) return FALSE;
+		if (0 != g_strcmp0(",", (char const *) (*args)->data)) return false;
+		*args = (*args)->next; if (!*args) return false;
 
 		/* color1 */
-		if (!color_walk_r (&color1, args, NULL)) return FALSE;
+		if (!color_walk_r (&color1, args, NULL)) return false;
 
 		/* "," */
-		if (0 != g_strcmp0(",", (char const *) (*args)->data)) return FALSE;
-		*args = (*args)->next; if (!*args) return FALSE;
+		if (0 != g_strcmp0(",", (char const *) (*args)->data)) return false;
+		*args = (*args)->next; if (!*args) return false;
 
 		/* color2 */
-		if (!color_walk_r (&color2, args, NULL)) return FALSE;
+		if (!color_walk_r (&color2, args, NULL)) return false;
 
 		if (!function) {
 			/* ")" */
-			*args = (*args)->next; if (!*args) return FALSE;
-			if (0 != g_strcmp0(")", (char const *) (*args)->data)) return FALSE;
+			*args = (*args)->next; if (!*args) return false;
+			if (0 != g_strcmp0(")", (char const *) (*args)->data)) return false;
 		}
 
 		return ccss_gtk_color_mix (factor, &color1, &color2, color);
 
 	} else if (0 == g_strcmp0 ("gtk-shade(", token)) {
 
-		if (!function) { *args = (*args)->next; if (!*args) return FALSE; }
+		if (!function) { *args = (*args)->next; if (!*args) return false; }
 
 		/* factor */
 		factor = g_ascii_strtod ((char const *) (*args)->data, NULL);
-		*args = (*args)->next; if (!*args) return FALSE;
+		*args = (*args)->next; if (!*args) return false;
 
 		/* "," */
-		if (0 != g_strcmp0(",", (char const *) (*args)->data)) return FALSE;
-		*args = (*args)->next; if (!*args) return FALSE;
+		if (0 != g_strcmp0(",", (char const *) (*args)->data)) return false;
+		*args = (*args)->next; if (!*args) return false;
 
 		/* color */
-		if (!color_walk_r (color, args, NULL)) return FALSE;
+		if (!color_walk_r (color, args, NULL)) return false;
 
 		if (!function) {
 			/* ")" */
-			*args = (*args)->next; if (!*args) return FALSE;
-			if (0 != g_strcmp0(")", (char const *) (*args)->data)) return FALSE;
+			*args = (*args)->next; if (!*args) return false;
+			if (0 != g_strcmp0(")", (char const *) (*args)->data)) return false;
 		}
 
 		return ccss_gtk_color_shade (factor, color);
 
 	} else if (0 == g_strcmp0 ("gtk-darker(", token)) {
 
-		if (!function) { *args = (*args)->next; if (!*args) return FALSE; }
+		if (!function) { *args = (*args)->next; if (!*args) return false; }
 
 		/* color */
-		if (!color_walk_r (color, args, NULL)) return FALSE;
+		if (!color_walk_r (color, args, NULL)) return false;
 
 		if (!function) {
 			/* ")" */
-			*args = (*args)->next; if (!*args) return FALSE;
-			if (0 != g_strcmp0(")", (char const *) (*args)->data)) return FALSE;
+			*args = (*args)->next; if (!*args) return false;
+			if (0 != g_strcmp0(")", (char const *) (*args)->data)) return false;
 		}
 
 		return ccss_gtk_color_shade (0.7, color);
 
 	} else if (0 == g_strcmp0 ("gtk-lighter(", token)) {
 
-		if (!function) { *args = (*args)->next; if (!*args) return FALSE; }
+		if (!function) { *args = (*args)->next; if (!*args) return false; }
 
 		/* color */
-		if (!color_walk_r (color, args, NULL)) return FALSE;
+		if (!color_walk_r (color, args, NULL)) return false;
 
 		if (!function) {
 			/* ")" */
-			*args = (*args)->next; if (!*args) return FALSE;
-			if (0 != g_strcmp0(")", (char const *) (*args)->data)) return FALSE;
+			*args = (*args)->next; if (!*args) return false;
+			if (0 != g_strcmp0(")", (char const *) (*args)->data)) return false;
 		}
 
 		return ccss_gtk_color_shade (1.3, color);
@@ -230,7 +230,7 @@ color_walk_r (GdkColor		 *color,
 		return ret;
 	}
 
-	return FALSE;
+	return false;
 }
 
 static char *
@@ -245,7 +245,7 @@ dump (GSList const *args)
 		g_string_append (str, (char const *) iter->data);
 	}
 
-	return g_string_free (str, FALSE);
+	return g_string_free (str, false);
 }
 
 static char *

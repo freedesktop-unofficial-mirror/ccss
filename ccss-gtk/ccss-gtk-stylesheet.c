@@ -393,7 +393,7 @@ serialize (struct RcBlock const	*block,
 	} else if (0 == strcmp ("*", block->type_name)) {
 		style = g_strdup ("default");
 	} else {
-		return FALSE;
+		return false;
 	}
 
 	style_name = g_strdup_printf ("gce-%s", style);
@@ -449,10 +449,10 @@ serialize (struct RcBlock const	*block,
 		g_string_append_printf (rc_string, "%s style \"%s\"\n\n", rc_selector, style_name);
 	}
 
-	g_string_free (colors, TRUE);
+	g_string_free (colors, true);
 	g_free (style_name), style_name = NULL;
 
-	return TRUE;
+	return true;
 }
 
 static void
@@ -499,7 +499,7 @@ ccss_gtk_stylesheet_to_gtkrc (ccss_stylesheet_t *self)
 				 rc_string);
 
 	str = rc_string->str;
-	g_string_free (rc_string, FALSE), rc_string = NULL;
+	g_string_free (rc_string, false), rc_string = NULL;
 	return str;
 }
 

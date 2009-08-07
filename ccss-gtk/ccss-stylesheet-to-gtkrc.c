@@ -20,13 +20,14 @@
  */
 
 #include <glib.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ccss-gtk/ccss-gtk.h>
 #include <gtk/gtk.h>
 #include "config.h"
 
-static bool _dump = FALSE;
+static bool _dump = false;
 static char const *_user_agent_file = NULL;
 static char const *_user_file = NULL;
 static char const *_author_file = NULL;
@@ -53,14 +54,14 @@ main (int	  argc,
 
 	context = g_option_context_new (" - CSS to GTKRC converter");
 	g_option_context_add_main_entries (context, _options, NULL);
-	g_option_context_add_group (context, gtk_get_option_group (TRUE));
+	g_option_context_add_group (context, gtk_get_option_group (true));
 	if (!g_option_context_parse (context, &argc, &argv, &error)) {
 		g_critical ("%s : %s", G_STRLOC, error->message);
 		g_clear_error (&error);
 		return EXIT_FAILURE;
 	}
 	if (!(_user_agent_file || _user_file || _author_file || _files)) {
-		char *help = g_option_context_get_help (context, TRUE, NULL);
+		char *help = g_option_context_get_help (context, true, NULL);
 		fputs (help, stderr);
 		g_free (help), help = NULL;
 		return EXIT_SUCCESS;

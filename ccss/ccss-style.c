@@ -290,7 +290,7 @@ ccss_style_set_property_selector (ccss_style_t			*self,
 
 	/* Hash takes ownership. */
 	g_hash_table_insert (self->selectors, (gpointer) property, annotation->str);
-	g_string_free (annotation, FALSE);
+	g_string_free (annotation, false);
 #endif
 }
 

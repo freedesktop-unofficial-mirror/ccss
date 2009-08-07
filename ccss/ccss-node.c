@@ -28,7 +28,7 @@ static bool
 is_a (ccss_node_t	*self,
       char const	*type_name)
 {
-	return FALSE;
+	return false;
 }
 
 static ccss_node_t *
@@ -165,9 +165,9 @@ ccss_node_is_a (ccss_node_t	*self,
 {
 	char const *node_type_name;
 
-	g_return_val_if_fail (self, FALSE);
-	g_return_val_if_fail (self->node_class, FALSE);
-	g_return_val_if_fail (type_name, FALSE);
+	g_return_val_if_fail (self, false);
+	g_return_val_if_fail (self->node_class, false);
+	g_return_val_if_fail (type_name, false);
 
 	if (self->node_class->is_a != is_a) {
 		return self->node_class->is_a (self, type_name);
@@ -297,9 +297,9 @@ ccss_node_get_viewport (ccss_node_t const	*self,
 			uint32_t		*width,
 			uint32_t		*height)
 {
-	g_return_val_if_fail (self, FALSE);
-	g_return_val_if_fail (self->node_class, FALSE);
-	g_return_val_if_fail (self->node_class->get_viewport, FALSE);
+	g_return_val_if_fail (self, false);
+	g_return_val_if_fail (self->node_class, false);
+	g_return_val_if_fail (self->node_class->get_viewport, false);
 
 	return self->node_class->get_viewport (self, x, y, width, height);
 }

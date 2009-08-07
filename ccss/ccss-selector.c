@@ -555,7 +555,7 @@ ccss_selector_copy (ccss_selector_t const *original)
 		break;
 	default:
 		g_assert_not_reached ();
-		return FALSE;
+		return false;
 	}
 
 	if (original->refinement) {
@@ -1159,7 +1159,7 @@ ccss_selector_dump (ccss_selector_t const *self)
 	ccss_selector_serialize_specificity (self, selector);
 	g_string_append (selector, " */\n");
 	printf ("%s", selector->str);
-	g_string_free (selector, TRUE), selector = NULL;
+	g_string_free (selector, true), selector = NULL;
 
 	if (self->block) {
 		printf ("{\n");
