@@ -266,16 +266,25 @@ ccss_grammar_create_stylesheet_from_buffer (ccss_grammar_t	*self,
 	ccss_stylesheet_t	*stylesheet;
 	enum CRStatus		 ret;
 
+	g_return_val_if_fail (self, NULL);
+	g_return_val_if_fail (buffer, NULL);
+	g_return_val_if_fail (size, NULL);
+
 	stylesheet = ccss_stylesheet_create ();
 	stylesheet->grammar = ccss_grammar_reference (self);
+	stylesheet->current_descriptor++;
 
-	ret = ccss_grammar_parse_buffer (self, buffer, size, 
-					CCSS_STYLESHEET_AUTHOR, user_data,
-					stylesheet->groups, stylesheet->blocks);
+	ret = ccss_grammar_parse_buffer (self, buffer, size,
+					 CCSS_STYLESHEET_AUTHOR, 
+					 stylesheet->current_descriptor,
+					 user_data,
+					 stylesheet->groups, stylesheet->blocks);
 
 	if (CR_OK == ret) {
 		ccss_stylesheet_fix_dangling_selectors (stylesheet);
 		return stylesheet;
+	} else {
+		/* TODO clean up using stylesheet->current_descriptor */
 	}
 
 	return NULL;
@@ -299,16 +308,24 @@ ccss_grammar_create_stylesheet_from_file (ccss_grammar_t	*self,
 	ccss_stylesheet_t	*stylesheet;
 	enum CRStatus		 ret;
 
+	g_return_val_if_fail (self, NULL);
+	g_return_val_if_fail (css_file, NULL);
+
 	stylesheet = ccss_stylesheet_create ();
 	stylesheet->grammar = ccss_grammar_reference (self);
+	stylesheet->current_descriptor++;
 
-	ret = ccss_grammar_parse_file (self, css_file, CCSS_STYLESHEET_AUTHOR,
-				       user_data, stylesheet->groups,
-				       stylesheet->blocks);
+	ret = ccss_grammar_parse_file (self, css_file,
+				       CCSS_STYLESHEET_AUTHOR,
+				       stylesheet->current_descriptor,
+				       user_data,
+				       stylesheet->groups, stylesheet->blocks);
 
 	if (CR_OK == ret) {
 		ccss_stylesheet_fix_dangling_selectors (stylesheet);
 		return stylesheet;
+	} else {
+		/* TODO clean up using stylesheet->current_descriptor */
 	}
 
 	return NULL;

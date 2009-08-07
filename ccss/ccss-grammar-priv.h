@@ -50,6 +50,7 @@ enum CRStatus
 ccss_grammar_parse_file (ccss_grammar_t const		*self,
 			 char const			*css_file, 
 			 ccss_stylesheet_precedence_t	 precedence,
+			 unsigned int			 stylesheet_descriptor,
 			 void				*user_data,
 			 GHashTable			*groups,
 			 GHashTable			*blocks);
@@ -59,6 +60,7 @@ ccss_grammar_parse_buffer (ccss_grammar_t const		*self,
 			   char const			*buffer,
 			   size_t			 buffer_size,
 			   ccss_stylesheet_precedence_t	 precedence,
+			   unsigned int			 stylesheet_descriptor,
 			   void				*user_data,
 			   GHashTable			*groups,
 			   GHashTable			*blocks);
@@ -67,6 +69,7 @@ enum CRStatus
 ccss_grammar_parse_inline (ccss_grammar_t const		*self,
 			   char const			*buffer,
 			   ccss_stylesheet_precedence_t	 precedence,
+			   unsigned int			 stylesheet_descriptor,
 			   ptrdiff_t			 instance,
 			   void				*user_data,
 			   ccss_selector_group_t	*result_group,

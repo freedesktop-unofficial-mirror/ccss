@@ -68,6 +68,19 @@ ccss_stylesheet_t
 @Returns: 
 
 
+<!-- ##### FUNCTION ccss_stylesheet_add_from_buffer ##### -->
+<para>
+
+</para>
+
+@self: 
+@buffer: 
+@size: 
+@precedence: 
+@user_data: 
+@Returns: 
+
+
 <!-- ##### FUNCTION ccss_stylesheet_add_from_file ##### -->
 <para>
 
@@ -90,15 +103,6 @@ ccss_stylesheet_t
 @user_data: 
 
 
-<!-- ##### FUNCTION ccss_stylesheet_invalidate_node ##### -->
-<para>
-
-</para>
-
-@self: 
-@instance: 
-
-
 <!-- ##### FUNCTION ccss_stylesheet_query_type ##### -->
 <para>
 
@@ -116,6 +120,16 @@ ccss_stylesheet_t
 
 @self: 
 @node: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_stylesheet_unload ##### -->
+<para>
+
+</para>
+
+@self: 
+@descriptor: 
 @Returns: 
 
 

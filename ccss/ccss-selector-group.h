@@ -40,6 +40,10 @@ void
 ccss_selector_group_destroy	(ccss_selector_group_t		*self);
 
 bool
+ccss_selector_group_unload	(ccss_selector_group_t		*self,
+				 unsigned int			 descriptor);
+
+bool
 ccss_selector_group_apply_type (ccss_selector_group_t const	*self, 
 				char const			*type,
 				ccss_style_t			*style);

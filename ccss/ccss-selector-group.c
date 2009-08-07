@@ -98,6 +98,86 @@ ccss_selector_group_destroy (ccss_selector_group_t *self)
 	g_free (self);
 }
 
+typedef struct {
+	unsigned int     descriptor;
+	GSList		*empty_sets;
+	bool		 ret;
+} traverse_unload_info_t;
+
+static bool
+traverse_unload (size_t			 specificity,
+		 ccss_selector_set_t 	*set,
+		 traverse_unload_info_t	*info)
+{
+	ccss_selector_t	*selector;
+	GSList		*iter;
+
+	g_assert (info);
+
+	iter = set->selectors;
+	while (iter) {
+		selector = (ccss_selector_t *) iter->data;
+		if (ccss_selector_get_descriptor (selector) == info->descriptor) {
+			ccss_selector_destroy (selector);
+			if (iter == set->selectors) {
+				/* Removing the last element? */
+				iter = g_slist_delete_link (iter, iter);
+				if (NULL == iter) {
+					/* Yes, remember to remove the node. */
+					info->empty_sets = g_slist_prepend (info->empty_sets,
+									    GSIZE_TO_POINTER (specificity));
+					set->selectors = NULL;
+				} else {
+					/* No, but new head. */
+					set->selectors = iter;
+				}
+			} else {
+				iter = g_slist_delete_link (iter, iter);
+			}
+			info->ret = true;
+		} else {
+			iter = iter->next;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * ccss_selector_group_unload:
+ * @self:	a #ccss_selector_group_t.
+ * @descriptor  descriptor of a part that was loaded.
+ *
+ * Unload a CSS file, buffer or inline style that was loaded into the selector group.
+ *
+ * Returns: %TRUE if anything had been unloaded.
+ */
+bool
+ccss_selector_group_unload (ccss_selector_group_t	*self,
+			    unsigned int		 descriptor)
+{
+	GSList			*iter;
+	traverse_unload_info_t   info;
+
+	g_return_val_if_fail (self, false);
+	g_return_val_if_fail (descriptor, false);
+
+	info.descriptor = descriptor;
+	info.empty_sets = NULL;
+	info.ret = false;
+
+	g_tree_foreach (self->sets, (GTraverseFunc) traverse_unload, &info);
+
+	/* Prune empty sets. */
+	iter = info.empty_sets;
+	while (iter) {
+		g_tree_remove (self->sets, iter->data);
+		iter = g_slist_delete_link (iter, iter);
+	}
+
+	return info.ret;
+}
+
 /*
  * Takes ownership of the selector.
  */

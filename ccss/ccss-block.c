@@ -29,6 +29,7 @@ ccss_block_create (void)
 	ccss_block_t *self;
 
 	self = g_new0 (ccss_block_t, 1);
+	self->reference_count = 1;
 	self->properties = g_hash_table_new_full ((GHashFunc) g_direct_hash, 
 						  (GEqualFunc) g_direct_equal,
 						  NULL,
@@ -42,10 +43,23 @@ ccss_block_destroy (ccss_block_t *self)
 {
 	g_return_if_fail (self && self->properties);
 
-	g_hash_table_destroy (self->properties), self->properties = NULL;
-	g_free (self);
+	self->reference_count--;
+
+	if (self->reference_count == 0) {
+		g_hash_table_destroy (self->properties), self->properties = NULL;
+		g_free (self);
+	}
 }
 
+ccss_block_t *
+ccss_block_reference (ccss_block_t *self)
+{
+	g_return_val_if_fail (self, NULL);
+
+	self->reference_count++;
+
+	return self;
+}
 
 /**
  * ccss_block_add_property:

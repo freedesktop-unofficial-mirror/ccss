@@ -256,6 +256,7 @@ ccss_node_t
 </para>
 
 @self: 
+@descriptor: 
 @Returns: 
 
 

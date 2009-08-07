@@ -37,9 +37,14 @@ ccss_stylesheet_create (void)
 
 	self = g_new0 (ccss_stylesheet_t, 1);
 	self->reference_count = 1;
-	self->blocks = g_hash_table_new_full (g_direct_hash, g_direct_equal,
-					      NULL, (GDestroyNotify) ccss_block_destroy);
-	self->groups = g_hash_table_new (g_str_hash, g_str_equal);
+	self->blocks = g_hash_table_new_full (g_direct_hash,
+					      g_direct_equal,
+					      NULL,
+					      (GDestroyNotify) ccss_block_destroy);
+	self->groups = g_hash_table_new_full (g_str_hash,
+					      g_str_equal,
+					      NULL,
+					      (GDestroyNotify) ccss_selector_group_destroy);
 
 	return self;
 }
@@ -90,16 +95,17 @@ ccss_stylesheet_fix_dangling_selectors (ccss_stylesheet_t *self)
 
 /**
  * ccss_stylesheet_add_from_file:
- * @self:	#ccss_stylesheet_t instance or %NULL.
+ * @self:	a #ccss_stylesheet_t.
  * @css_file:	file to parse.
  * @precedence:	see #ccss_stylesheet_precedence_t.
  * @user_data:	user-data passed to property- and function-handlers.
  *
  * Load a CSS file with a given precedence.
  *
- * Returns: a #ccss_stylesheet_t representation of the CSS file.
+ * Returns: a stylesheet descriptor that can be used to unload the CSS file
+ *          contents from the stylesheet instance.
  **/
-ccss_stylesheet_t *
+unsigned int
 ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
 			       char const			*css_file,
 			       ccss_stylesheet_precedence_t	 precedence,
@@ -107,16 +113,88 @@ ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
 {
 	enum CRStatus ret;
 
-	g_return_val_if_fail (self && css_file, NULL);
+	g_return_val_if_fail (self, 0);
+	g_return_val_if_fail (css_file, 0);
 
+	self->current_descriptor++;
 	ret = ccss_grammar_parse_file (self->grammar, css_file, precedence,
+				       self->current_descriptor,
 				       user_data, self->groups, self->blocks);
 	if (CR_OK == ret) {
 		ccss_stylesheet_fix_dangling_selectors (self);
-		return self;
+		return self->current_descriptor;
+	} else {
+		/* TODO clean up using self->current_descriptor */
+		return 0;
+	}
+}
+
+/**
+ * ccss_stylesheet_add_from_buffer:
+ * @self:	a #ccss_stylesheet_t.
+ * @buffer:	buffer to parse.
+ * @size:	size of the buffer.
+ * @precedence:	see #ccss_stylesheet_precedence_t.
+ * @user_data:	user-data passed to property- and function-handlers.
+ *
+ * Load a CSS file with a given precedence.
+ *
+ * Returns: a stylesheet descriptor that can be used to unload the CSS file
+ *          contents from the stylesheet instance.
+ **/
+unsigned int
+ccss_stylesheet_add_from_buffer	(ccss_stylesheet_t		*self,
+				 char const			*buffer,
+				 size_t				 size,
+				 ccss_stylesheet_precedence_t	 precedence,
+				 void				*user_data)
+{
+	enum CRStatus ret;
+
+	g_return_val_if_fail (self, 0);
+	g_return_val_if_fail (buffer, 0);
+	g_return_val_if_fail (size, 0);
+
+	self->current_descriptor++;
+	ret = ccss_grammar_parse_buffer (self->grammar, buffer, size, precedence,
+					 self->current_descriptor,
+					 user_data,
+					 self->groups, self->blocks);
+	if (CR_OK == ret) {
+		ccss_stylesheet_fix_dangling_selectors (self);
+		return self->current_descriptor;
+	} else {
+		/* TODO clean up using self->current_descriptor */
+		return 0;
+	}
+}
+
+/**
+ * ccss_stylesheet_unload:
+ * @self:	a #ccss_stylesheet_t.
+ * @descriptor  descriptor of a part that was loaded.
+ *
+ * Unload a CSS file, buffer or inline style that was loaded into the stylesheet.
+ *
+ * Returns: %TRUE if anything had been unloaded.
+ */
+bool
+ccss_stylesheet_unload (ccss_stylesheet_t	*self,
+			unsigned int		 descriptor)
+{
+	ccss_selector_group_t	*group;
+	GHashTableIter		 iter;
+	bool			 ret;
+
+	g_return_val_if_fail (self, false);
+
+	ret = false;
+	g_hash_table_iter_init (&iter, self->groups);
+	while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &group)) {
+		ret |= ccss_selector_group_unload (group, descriptor);
 	}
 
-	return NULL;
+	return ret;
 }
 
 /**
@@ -278,13 +356,14 @@ query_type_r (ccss_stylesheet_t const	*self,
  * Do not recurse containers.
  */
 static bool
-query_node (ccss_stylesheet_t const	*self,
-	    ccss_node_t 		*node,
-	    ccss_style_t		*style)
+query_node (ccss_stylesheet_t 	*self,
+	    ccss_node_t 	*node,
+	    ccss_style_t	*style)
 {
 	ccss_selector_group_t const	*universal_group;
 	ccss_selector_group_t		*result_group;
 	char const			*inline_css;
+	unsigned int			 prospective_descriptor;
 	enum CRStatus			 status;
 	bool				 ret;
 
@@ -304,7 +383,8 @@ query_node (ccss_stylesheet_t const	*self,
 	ret |= query_type_r (self, node, node, false, result_group);
 
 	/* Handle inline styling. */
-	inline_css = ccss_node_get_style (node);
+	prospective_descriptor = self->current_descriptor + 1;
+	inline_css = ccss_node_get_style (node, prospective_descriptor);
 	if (inline_css) {
 		ptrdiff_t instance;
 		instance = ccss_node_get_instance (node);
@@ -316,10 +396,16 @@ query_node (ccss_stylesheet_t const	*self,
 			status = ccss_grammar_parse_inline (self->grammar,
 							    inline_css,
 							    CCSS_STYLESHEET_AUTHOR,
+							    prospective_descriptor,
 							    instance, NULL,
 							    result_group,
 							    self->blocks);
 			ret |= (status == CR_OK);
+			if (CR_OK == ret) {
+				self->current_descriptor = prospective_descriptor;
+			} else {
+				/* TODO clean up using prospective_descriptor. */
+			}
 		}
 	}
 
@@ -415,10 +501,10 @@ inherit_container_style (ccss_style_t const	*container_style,
  * successful or if no inheritance is required.
  **/
 static bool
-query_container_r (ccss_stylesheet_t const	*self,
-		   ccss_node_t			*node,
-		   GHashTable			*inherit,
-		   ccss_style_t			*style)
+query_container_r (ccss_stylesheet_t 	*self,
+		   ccss_node_t		*node,
+		   GHashTable		*inherit,
+		   ccss_style_t		*style)
 {
 	ccss_node_t		*container;
 	ccss_style_t		*container_style;
@@ -521,22 +607,6 @@ ccss_stylesheet_query (ccss_stylesheet_t 	*self,
 	}
 
 	return style;
-}
-
-/**
- * ccss_stylesheet_invalidate_node:
- * @self:	a #ccss_stylesheet_t.
- * @instance:	an instance identifyer, as returned by #ccss_node_get_instance_f.
- *
- * Frees parsed inline CSS asocciated to a document node.
- **/
-void
-ccss_stylesheet_invalidate_node (ccss_stylesheet_t const	*self,
-				 ptrdiff_t			 instance)
-{
-	g_assert (self && self->blocks);
-
-	g_hash_table_remove (self->blocks, (gconstpointer) instance);
 }
 
 /**

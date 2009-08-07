@@ -81,7 +81,8 @@ get_attribute (ccss_node_t const	*self,
 }
 
 static char const *
-get_style (ccss_node_t const *self)
+get_style (ccss_node_t const    *self,
+	   unsigned int		 descriptor)
 {
 	return NULL;
 }
@@ -275,14 +276,16 @@ ccss_node_get_attribute (ccss_node_t const	*self,
 }
 
 char const *
-ccss_node_get_style (ccss_node_t *self)
+ccss_node_get_style (ccss_node_t	*self,
+		     unsigned int	 descriptor)
 {
 	g_return_val_if_fail (self, NULL);
 	g_return_val_if_fail (self->node_class, NULL);
 	g_return_val_if_fail (self->node_class->get_style, NULL);
 
 	if (NULL == self->inline_style)
-		self->inline_style = self->node_class->get_style (self);
+		self->inline_style = self->node_class->get_style (self,
+								  descriptor);
 
 	return self->inline_style;
 }

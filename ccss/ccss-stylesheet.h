@@ -58,11 +58,22 @@ ccss_stylesheet_get_reference_count	(ccss_stylesheet_t const *self);
 struct ccss_grammar_ *
 ccss_stylesheet_get_grammar		(ccss_stylesheet_t const *self);
 
-ccss_stylesheet_t *
+unsigned int
 ccss_stylesheet_add_from_file	(ccss_stylesheet_t		*self,
 				 char const			*css_file,
 				 ccss_stylesheet_precedence_t	 precedence,
 				 void				*user_data);
+
+unsigned int
+ccss_stylesheet_add_from_buffer	(ccss_stylesheet_t		*self,
+				 char const			*buffer,
+				 size_t				 size,
+				 ccss_stylesheet_precedence_t	 precedence,
+				 void				*user_data);
+
+bool
+ccss_stylesheet_unload		(ccss_stylesheet_t		*self,
+				 unsigned int			 descriptor);
 
 ccss_style_t *
 ccss_stylesheet_query_type	(ccss_stylesheet_t 		*self,
@@ -71,10 +82,6 @@ ccss_stylesheet_query_type	(ccss_stylesheet_t 		*self,
 ccss_style_t *
 ccss_stylesheet_query		(ccss_stylesheet_t 		*self,
 				 ccss_node_t			*node);
-
-void
-ccss_stylesheet_invalidate_node	(ccss_stylesheet_t const	*self,
-				 ptrdiff_t			 instance);
 
 /**
  * ccss_stylesheet_iterator_f:

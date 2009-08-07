@@ -134,12 +134,16 @@ typedef char * (*ccss_node_get_attribute_f) (ccss_node_t const	*self,
 /**
  * ccss_node_get_style_f:
  * @self: a #ccss_node_t.
+ * @descriptor: handle to unload this style from the stylesheet later on.
  *
  * Hook function to query a #ccss_node_t's inline CSS style.
  *
+ * See: ccss_stylesheet_unload().
+ *
  * Returns: the node's CSS properties or %NULL.
  **/
-typedef const char * (*ccss_node_get_style_f) (ccss_node_t const *self);
+typedef const char * (*ccss_node_get_style_f) (ccss_node_t const	*self,
+					       unsigned int		 descriptor);
 
 /**
  * ccss_node_get_viewport_f:

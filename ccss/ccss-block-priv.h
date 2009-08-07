@@ -35,11 +35,13 @@ CCSS_BEGIN_DECLS
  **/
 struct ccss_block_ {
 	/*< private >*/
-	GHashTable *properties;
+	unsigned int     reference_count;
+	GHashTable      *properties;
 };
 
 ccss_block_t *	ccss_block_create	(void);
 void		ccss_block_destroy	(ccss_block_t *self);
+ccss_block_t *	ccss_block_reference	(ccss_block_t *self);
 
 void		ccss_block_dump	(ccss_block_t const *self);
 

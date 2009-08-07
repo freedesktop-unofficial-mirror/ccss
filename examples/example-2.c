@@ -26,7 +26,8 @@ get_instance (node_t const *self)
 }
 
 static char const *
-get_style (node_t const *self)
+get_style (node_t const		*self,
+	   unsigned int		 descriptor)
 {
 	return self->inline_css;
 }

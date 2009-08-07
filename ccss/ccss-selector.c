@@ -53,6 +53,7 @@ typedef enum {
  */
 struct ccss_selector_ {
 	ccss_selector_modality_t	 modality;
+	unsigned int			 stylesheet_descriptor;
 	unsigned int			 importance : 2;
 	unsigned int			 precedence : 5;
 	unsigned int			 a : 5;
@@ -63,7 +64,7 @@ struct ccss_selector_ {
 	struct ccss_selector_	*refinement;
 	struct ccss_selector_	*container;
 	struct ccss_selector_	*antecessor;
-	ccss_block_t const	*block;
+	ccss_block_t			*block;
 };
 
 static void
@@ -73,6 +74,7 @@ selector_sync (ccss_selector_t const	*self,
 	g_assert (self && to);
 
 	to->modality = self->modality;
+	to->stylesheet_descriptor = self->stylesheet_descriptor;
 	to->importance = self->importance;
 	to->precedence = self->precedence;
 	to->a = self->a;
@@ -83,7 +85,7 @@ selector_sync (ccss_selector_t const	*self,
 	to->refinement = NULL;
 	to->container = NULL;
 	to->antecessor = NULL;
-	to->block = self->block;
+	to->block = ccss_block_reference (self->block);
 }
 
 /*
@@ -92,13 +94,15 @@ selector_sync (ccss_selector_t const	*self,
 typedef ccss_selector_t ccss_universal_selector_t;
 
 ccss_selector_t * 
-ccss_universal_selector_create (unsigned int		precedence,
-			     ccss_selector_importance_t	importance)
+ccss_universal_selector_create (unsigned int			precedence,
+				unsigned int			stylesheet_descriptor,
+				ccss_selector_importance_t	importance)
 {
 	ccss_universal_selector_t *self;
 
 	self = g_new0 (ccss_universal_selector_t, 1);
 	self->modality = CCSS_SELECTOR_MODALITY_UNIVERSAL;
+	self->stylesheet_descriptor = stylesheet_descriptor;
 	self->importance = importance;
 	self->precedence = precedence;
 
@@ -141,8 +145,9 @@ typedef struct {
 
 ccss_selector_t *
 ccss_type_selector_create (char const			*type_name,
-			unsigned int			 precedence,
-			ccss_selector_importance_t	 importance)
+			   unsigned int			 precedence,
+			   unsigned int			 stylesheet_descriptor,
+			   ccss_selector_importance_t	 importance)
 {
 	ccss_type_selector_t *self;
 
@@ -150,6 +155,7 @@ ccss_type_selector_create (char const			*type_name,
 
 	self = g_new0 (ccss_type_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_TYPE;
+	self->parent.stylesheet_descriptor = stylesheet_descriptor;
 	self->parent.importance = importance;
 	self->parent.precedence = precedence;
 	self->parent.d = 1;
@@ -192,16 +198,19 @@ type_selector_serialize (ccss_type_selector_t const	*self,
  */
 ccss_selector_t * 
 ccss_base_type_selector_create (char const			*type_name,
-			     unsigned int		 precedence,
-			     ccss_selector_importance_t	 importance,
-			     unsigned int		 specificity_e)
+				unsigned int			 precedence,
+				unsigned int			 stylesheet_descriptor,
+				ccss_selector_importance_t	 importance,
+				unsigned int			 specificity_e)
 {
 	ccss_selector_t *self;
 
-	self = ccss_type_selector_create (type_name, precedence, importance);
+	self = ccss_type_selector_create (type_name,
+					  precedence,
+					  stylesheet_descriptor,
+					  importance);
 	self->modality = CCSS_SELECTOR_MODALITY_BASE_TYPE;
-	self->importance = importance;
-	self->precedence = precedence;
+
 	self->a = 0;
 	self->b = 0;
 	self->c = 0;
@@ -221,8 +230,9 @@ typedef struct {
 
 ccss_selector_t *
 ccss_class_selector_create (char const			*class_name,
-			 unsigned int			 precedence,
-			 ccss_selector_importance_t	 importance)
+			    unsigned int		 precedence,
+			    unsigned int		 stylesheet_descriptor,
+			    ccss_selector_importance_t	 importance)
 {
 	ccss_class_selector_t *self;
 
@@ -230,6 +240,7 @@ ccss_class_selector_create (char const			*class_name,
 
 	self = g_new0 (ccss_class_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_CLASS;
+	self->parent.stylesheet_descriptor = stylesheet_descriptor;
 	self->parent.importance = importance;
 	self->parent.precedence = precedence;
 	self->parent.c = 1;
@@ -276,8 +287,9 @@ typedef struct {
 
 ccss_selector_t *
 ccss_id_selector_create (char const			*id,
-		      unsigned int			 precedence,
-		      ccss_selector_importance_t	 importance)
+			 unsigned int			 precedence,
+			 unsigned int			 stylesheet_descriptor,
+			 ccss_selector_importance_t	 importance)
 {
 	ccss_id_selector_t *self;
 
@@ -285,6 +297,7 @@ ccss_id_selector_create (char const			*id,
 
 	self = g_new0 (ccss_id_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_ID;
+	self->parent.stylesheet_descriptor = stylesheet_descriptor;
 	self->parent.importance = importance;
 	self->parent.precedence = precedence;
 	self->parent.b = 1;
@@ -332,11 +345,12 @@ typedef struct {
 } ccss_attribute_selector_t;
 
 ccss_selector_t *
-ccss_attribute_selector_create (char const				*name,
-			     char const				*value,
-			     ccss_attribute_selector_match_t	 match,
-			     unsigned int			 precedence,
-			     ccss_selector_importance_t		 importance)
+ccss_attribute_selector_create (char const			*name,
+				char const			*value,
+				ccss_attribute_selector_match_t	 match,
+				unsigned int			 precedence,
+				unsigned int			 stylesheet_descriptor,
+				ccss_selector_importance_t	 importance)
 {
 	ccss_attribute_selector_t *self;
 
@@ -344,6 +358,7 @@ ccss_attribute_selector_create (char const				*name,
 
 	self = g_new0 (ccss_attribute_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_ATTRIBUTE;
+	self->parent.stylesheet_descriptor = stylesheet_descriptor;
 	self->parent.importance = importance;
 	self->parent.precedence = precedence;
 	self->parent.c = 1;
@@ -404,8 +419,9 @@ typedef struct {
 
 ccss_selector_t *
 ccss_pseudo_class_selector_create (char const			*pseudo_class,
-				unsigned int			 precedence,
-				ccss_selector_importance_t	 importance)
+				   unsigned int			 precedence,
+				   unsigned int			 stylesheet_descriptor,
+				   ccss_selector_importance_t	 importance)
 {
 	ccss_pseudo_class_selector_t *self;
 
@@ -413,6 +429,7 @@ ccss_pseudo_class_selector_create (char const			*pseudo_class,
 
 	self = g_new0 (ccss_pseudo_class_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_PSEUDO_CLASS;
+	self->parent.stylesheet_descriptor = stylesheet_descriptor;
 	self->parent.importance = importance;
 	self->parent.precedence = precedence;
 	self->parent.d = 1;
@@ -459,8 +476,9 @@ typedef struct {
 
 ccss_selector_t *
 ccss_instance_selector_create (ptrdiff_t			instance,
-			    unsigned int		precedence,
-			    ccss_selector_importance_t	importance)
+			       unsigned int			precedence,
+			       unsigned int			stylesheet_descriptor,
+			       ccss_selector_importance_t	importance)
 {
 	ccss_instance_selector_t *self;
 
@@ -468,6 +486,7 @@ ccss_instance_selector_create (ptrdiff_t			instance,
 
 	self = g_new0 (ccss_instance_selector_t, 1);
 	self->parent.modality = CCSS_SELECTOR_MODALITY_INSTANCE;
+	self->parent.stylesheet_descriptor = stylesheet_descriptor;
 	self->parent.importance = importance;
 	self->parent.precedence = precedence;
 	self->parent.a = 1;
@@ -610,6 +629,11 @@ ccss_selector_destroy (ccss_selector_t *self)
 
 	if (self->antecessor) {
 		ccss_selector_destroy (self->antecessor), self->antecessor = NULL;
+	}
+
+	/* Only the innermost type selector references the block. */
+	if (self->block) {
+		ccss_block_destroy (self->block);
 	}
 
 	switch (self->modality) {
@@ -778,12 +802,12 @@ ccss_selector_get_block (ccss_selector_t const *self)
 }
 
 void
-ccss_selector_set_block (ccss_selector_t		*self,
-			ccss_block_t const	*block)
+ccss_selector_set_block (ccss_selector_t	*self,
+			ccss_block_t		*block)
 {
-	g_assert (self);
+	g_assert (self && self->block == NULL);
 
-	self->block = block;
+	self->block = ccss_block_reference (block);
 }
 
 ccss_selector_importance_t
@@ -831,6 +855,12 @@ ccss_selector_get_key (ccss_selector_t const *self)
 	}
 
 	return NULL;
+}
+
+unsigned int
+ccss_selector_get_descriptor (ccss_selector_t const *self)
+{
+	return self->stylesheet_descriptor;
 }
 
 uint32_t
@@ -1125,6 +1155,7 @@ ccss_selector_dump (ccss_selector_t const *self)
 	selector = g_string_new (NULL);
 	ccss_selector_serialize_selector (self, selector);
 	g_string_append (selector, " /* ");
+	g_string_append_printf (selector, "'%d' ", self->stylesheet_descriptor);
 	ccss_selector_serialize_specificity (self, selector);
 	g_string_append (selector, " */\n");
 	printf ("%s", selector->str);

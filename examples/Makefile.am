@@ -25,6 +25,7 @@ noinst_PROGRAMS = \
 	example-7 \
 	example-8 \
 	example-9 \
+	example-10 \
 	$(NULL)
 
 noinst_LTLIBRARIES = libexample-8-noinst.la
@@ -64,6 +65,8 @@ libexample_8_la_LDFLAGS = -avoid-version -export-dynamic -module -no-undefined
 libexample_8_la_SOURCES = example-8.c
 
 example_9_SOURCES = example-9.c
+
+example_10_SOURCES = example-10.c
 
 EXTRA_DIST = \
 	example-3.png \

@@ -59,7 +59,8 @@ ccss_node_get_attribute		(ccss_node_t const	*self,
 				 char const		*name);
 
 char const *
-ccss_node_get_style		(ccss_node_t 		*self);
+ccss_node_get_style		(ccss_node_t 		*self,
+				 unsigned int		 descriptor);
 
 bool
 ccss_node_get_viewport		(ccss_node_t const	*self,

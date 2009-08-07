@@ -330,6 +330,14 @@ ccss_selector_group_t
 
 @self: 
 
+<!-- ##### FUNCTION ccss_stylesheet_invalidate_node ##### -->
+<para>
+
+</para>
+
+@self: 
+@instance: 
+
 <!-- ##### FUNCTION ccss_stylesheet_iter_init ##### -->
 <para>
 

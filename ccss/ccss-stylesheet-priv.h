@@ -34,6 +34,7 @@ CCSS_BEGIN_DECLS
  * @grammar:		The grammar for this stylesheet.
  * @blocks:		List owning all blocks parsed from the stylesheet.
  * @groups:		Associates type names with all applying selectors.
+ * @current_descriptor: descriptor of the recently loaded CSS file or buffer.
  *
  * Represents a parsed instance of a stylesheet.
  **/
@@ -43,6 +44,7 @@ struct ccss_stylesheet_ {
 	ccss_grammar_t	*grammar;
 	GHashTable	*blocks;
 	GHashTable	*groups;
+	unsigned int     current_descriptor;
 };
 
 ccss_stylesheet_t *

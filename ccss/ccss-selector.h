@@ -53,59 +53,69 @@ typedef enum {
 
 ccss_selector_t *
 ccss_universal_selector_create	(unsigned int			 precedence,
+				 unsigned int			 stylesheet_descriptor,
 				 ccss_selector_importance_t	 importance);
 ccss_selector_t *
 ccss_type_selector_create	(char const			*type_name,
 				 unsigned int			 precedence,
+				 unsigned int			 stylesheet_descriptor,
 				 ccss_selector_importance_t	 importance);
 ccss_selector_t *
 ccss_base_type_selector_create	(char const			*type_name,
 				 unsigned int			 precedence,
+				 unsigned int			 stylesheet_descriptor,
 				 ccss_selector_importance_t	 importance,
 				 unsigned int			 specificity_e);
 ccss_selector_t *
 ccss_class_selector_create	(char const			*class_name,
 				 unsigned int			 precedence,
+				 unsigned int			 stylesheet_descriptor,
 				 ccss_selector_importance_t	 importance);
 ccss_selector_t *
 ccss_id_selector_create		(char const			*id,
 				 unsigned int			 precedence,
+				 unsigned int			 stylesheet_descriptor,
 				 ccss_selector_importance_t	 importance);
 ccss_selector_t *
 ccss_attribute_selector_create	(char const			*name,
 				 char const			*value,
 				 ccss_attribute_selector_match_t match,
 				 unsigned int			 precedence,
+				 unsigned int			 stylesheet_descriptor,
 				 ccss_selector_importance_t	 importance);
 ccss_selector_t *
 ccss_pseudo_class_selector_create (char const			*pseudo_class,
-				 unsigned int			 precedence,
-				 ccss_selector_importance_t	 importance);
+				   unsigned int			 precedence,
+				   unsigned int			 stylesheet_descriptor,
+				   ccss_selector_importance_t	 importance);
 ccss_selector_t *
 ccss_instance_selector_create	(ptrdiff_t			 instance,
 				 unsigned int			 precedence,
+				 unsigned int			 stylesheet_descriptor,
 				 ccss_selector_importance_t	 importance);
+
+void ccss_selector_destroy	(ccss_selector_t		*self);
 
 ccss_selector_t * ccss_selector_copy		(ccss_selector_t const *original);
 ccss_selector_t * ccss_selector_copy_as_base	(ccss_selector_t const *original,
-						 int specificity_e);
+						 int			specificity_e);
 
-void ccss_selector_destroy	(ccss_selector_t *self);
-
-void		 ccss_selector_refine		(ccss_selector_t *self, ccss_selector_t *selector);
-ccss_selector_t * ccss_selector_append_child	(ccss_selector_t *self, ccss_selector_t *selector);
-ccss_selector_t * ccss_selector_append_descendant	(ccss_selector_t *self, ccss_selector_t *selector);
+void		  ccss_selector_refine		  (ccss_selector_t *self, ccss_selector_t *selector);
+ccss_selector_t * ccss_selector_append_child	  (ccss_selector_t *self, ccss_selector_t *selector);
+ccss_selector_t * ccss_selector_append_descendant (ccss_selector_t *self, ccss_selector_t *selector);
 
 bool ccss_selector_is_type	(ccss_selector_t const *self);
 bool ccss_selector_is_class	(ccss_selector_t const *self);
-bool ccss_selector_is_id		(ccss_selector_t const *self);
+bool ccss_selector_is_id	(ccss_selector_t const *self);
 
-ccss_block_t const *	ccss_selector_get_block	(ccss_selector_t const *self);
-void			ccss_selector_set_block	(ccss_selector_t *self, ccss_block_t const *block);
+ccss_block_t const *	ccss_selector_get_block	(ccss_selector_t const  *self);
+void			ccss_selector_set_block	(ccss_selector_t	*self,
+						 ccss_block_t		*block);
 
 char const *			ccss_selector_get_key		(ccss_selector_t const *self);
 ccss_selector_importance_t	ccss_selector_get_importance	(ccss_selector_t const *self);
 /*ccss_stylesheet_precedence_t	ccss_selector_get_precedence	(ccss_selector_t const *self);*/
+unsigned int			ccss_selector_get_descriptor	(ccss_selector_t const *self);
 uint32_t			ccss_selector_get_specificity	(ccss_selector_t const *self);
 void				ccss_selector_get_specificity_values	(ccss_selector_t const *self, 
 									 unsigned int *a,
