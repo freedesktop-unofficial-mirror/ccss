@@ -284,10 +284,10 @@ ccss_grammar_create_stylesheet_from_buffer (ccss_grammar_t	*self,
 		ccss_stylesheet_fix_dangling_selectors (stylesheet);
 		return stylesheet;
 	} else {
-		/* TODO clean up using stylesheet->current_descriptor */
+		ccss_stylesheet_unload (stylesheet,
+					stylesheet->current_descriptor);
+		return NULL;
 	}
-
-	return NULL;
 }
 
 /**
@@ -325,9 +325,9 @@ ccss_grammar_create_stylesheet_from_file (ccss_grammar_t	*self,
 		ccss_stylesheet_fix_dangling_selectors (stylesheet);
 		return stylesheet;
 	} else {
-		/* TODO clean up using stylesheet->current_descriptor */
+		ccss_stylesheet_unload (stylesheet,
+					stylesheet->current_descriptor);
+		return NULL;
 	}
-
-	return NULL;
 }
 

@@ -124,7 +124,7 @@ ccss_stylesheet_add_from_file (ccss_stylesheet_t		*self,
 		ccss_stylesheet_fix_dangling_selectors (self);
 		return self->current_descriptor;
 	} else {
-		/* TODO clean up using self->current_descriptor */
+		ccss_stylesheet_unload (self, self->current_descriptor);
 		return 0;
 	}
 }
@@ -164,7 +164,7 @@ ccss_stylesheet_add_from_buffer	(ccss_stylesheet_t		*self,
 		ccss_stylesheet_fix_dangling_selectors (self);
 		return self->current_descriptor;
 	} else {
-		/* TODO clean up using self->current_descriptor */
+		ccss_stylesheet_unload (self, self->current_descriptor);
 		return 0;
 	}
 }
@@ -404,7 +404,8 @@ query_node (ccss_stylesheet_t 	*self,
 			if (CR_OK == ret) {
 				self->current_descriptor = prospective_descriptor;
 			} else {
-				/* TODO clean up using prospective_descriptor. */
+				ccss_stylesheet_unload (self,
+							prospective_descriptor);
 			}
 		}
 	}
