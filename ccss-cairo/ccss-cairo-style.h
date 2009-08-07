@@ -50,39 +50,23 @@ typedef enum {
 } ccss_cairo_gap_side_t;
 
 void
-ccss_cairo_style_draw_line (ccss_style_t const	*self,
-			    cairo_t		*cr, 
-			    int			 x1,
-			    int			 x2,
-			    int			 y1,
-			    int			 y2);
-
-void
-ccss_cairo_style_draw_outline (ccss_style_t const	*self,
-			       cairo_t			*cr, 
-			       int			 x,
-			       int			 y,
-			       int			 width,
-			       int			 height);
-
-void
 ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 				 cairo_t		*cr, 
-				 int			 x,
-				 int			 y,
-				 int			 width,
-				 int			 height);
+				 double			 x,
+				 double			 y,
+				 double			 width,
+				 double			 height);
 
 void
 ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 					  cairo_t			*cr, 
-					  int				 x,
-					  int				 y,
-					  int				 width,
-					  int				 height, 
+					  double			 x,
+					  double			 y,
+					  double			 width,
+					  double			 height,
 					  ccss_cairo_gap_side_t		 gap_side,
-					  int				 gap_start,
-					  int				 gap_width);
+					  double			 gap_start,
+					  double			 gap_width);
 
 bool
 ccss_cairo_style_get_double (ccss_style_t const	*self,

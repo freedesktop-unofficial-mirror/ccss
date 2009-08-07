@@ -28,10 +28,8 @@
 
 static cairo_pattern_t *
 create_pattern (ccss_cairo_image_t const	*image,
-		double				 width,
-		double				 height,
-		double				 tile_width,
-		double				 tile_height)
+		int				 width,
+		int				 height)
 {
 	cairo_t			*cr;
 	cairo_surface_t		*surface;
@@ -79,8 +77,8 @@ repeat (ccss_cairo_image_t const	*image,
 	/* Create pattern for (width + tile_width, height + tile_height)
 	 * so we can account for `background-position'. */
 	pattern = create_pattern (image,
-				  width + tile_width, height + tile_height,
-				  tile_width, tile_height);
+				  width + tile_width,
+				  height + tile_height);
 	g_return_if_fail (pattern);
 
 	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_NONE);
@@ -102,8 +100,8 @@ repeat_x (ccss_cairo_image_t const	*image,
 	/* Create pattern for (width + tile_width, tile_height)
 	 * so we can account for `background-position'. */
 	pattern = create_pattern (image,
-				  width + tile_width, tile_height,
-				  tile_width, tile_height);
+				  width + tile_width,
+				  tile_height);
 	g_return_if_fail (pattern);
 
 	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_NONE);
@@ -125,8 +123,8 @@ repeat_y (ccss_cairo_image_t const	*image,
 	/* Create pattern for (tile_width, height + tile_height)
 	 * so we can account for `background-position'. */
 	pattern = create_pattern (image,
-				  tile_width, height + tile_height,
-				  tile_width, tile_height);
+				  tile_width,
+				  height + tile_height);
 	g_return_if_fail (pattern);
 
 	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_NONE);
@@ -153,17 +151,17 @@ no_repeat (ccss_cairo_image_t const	*image,
  * the background. The path is not modified.
  **/
 void
-ccss_cairo_background_fill (ccss_background_attachment_t const  *bg_attachment, 
+ccss_cairo_background_fill (ccss_background_attachment_t const  *bg_attachment,
 			    ccss_color_t const			*bg_color,
 			    ccss_background_image_t const       *bg_image,
 			    ccss_background_position_t const    *bg_position,
 			    ccss_background_repeat_t const      *bg_repeat,
 			    ccss_background_size_t const	*bg_size,
 			    cairo_t				*cr,
-			    int32_t				 x,
-			    int32_t				 y, 
-			    int32_t				 width,
-			    int32_t				 height)
+			    double				 x,
+			    double				 y,
+			    double				 width,
+			    double				 height)
 {
 	cairo_status_t	status;
 	double		dx;

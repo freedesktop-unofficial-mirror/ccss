@@ -27,32 +27,6 @@ ccss_style_t
 @CCSS_CAIRO_GAP_SIDE_TOP: 
 @CCSS_CAIRO_GAP_SIDE_BOTTOM: 
 
-<!-- ##### FUNCTION ccss_cairo_style_draw_line ##### -->
-<para>
-
-</para>
-
-@self: 
-@cr: 
-@x1: 
-@x2: 
-@y1: 
-@y2: 
-
-
-<!-- ##### FUNCTION ccss_cairo_style_draw_outline ##### -->
-<para>
-
-</para>
-
-@self: 
-@cr: 
-@x: 
-@y: 
-@width: 
-@height: 
-
-
 <!-- ##### FUNCTION ccss_cairo_style_draw_rectangle ##### -->
 <para>
 

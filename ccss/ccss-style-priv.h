@@ -37,10 +37,10 @@ struct ccss_style_ {
 	/*< private >*/
 	ccss_stylesheet_t	*stylesheet;
 	GHashTable		*properties;
-	int32_t			 viewport_x;
-	int32_t			 viewport_y;
-	int32_t			 viewport_width;
-	int32_t			 viewport_height;
+	double			 viewport_x;
+	double			 viewport_y;
+	double			 viewport_width;
+	double			 viewport_height;
 #ifdef CCSS_DEBUG
 	GHashTable		*selectors;     /* Property pointers to string */
 #endif

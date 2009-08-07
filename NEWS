@@ -14,6 +14,9 @@ Core
 Cairo
 * Support for loadable modules to hook in custom CSS3 "appearance" renderers.
 * Draw background with alpha channel.
+* Move to double precision coordinates.
+* Consolidate drawing functions (no more "outline", "line"), use double precision
+  coordinates.
 
 Gtk
 * Improvements to gtk[rc] compatibility.

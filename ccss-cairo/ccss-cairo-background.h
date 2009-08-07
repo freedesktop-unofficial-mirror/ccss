@@ -36,17 +36,17 @@
 CCSS_BEGIN_DECLS
 
 void
-ccss_cairo_background_fill (ccss_background_attachment_t const  *bg_attachment, 
+ccss_cairo_background_fill (ccss_background_attachment_t const  *bg_attachment,
 			    ccss_color_t const			*bg_color,
 			    ccss_background_image_t const       *bg_image,
 			    ccss_background_position_t const    *bg_position,
 			    ccss_background_repeat_t const      *bg_repeat,
 			    ccss_background_size_t const	*bg_size,
 			    cairo_t				*cr,
-			    int32_t				 x,
-			    int32_t				 y, 
-			    int32_t				 width,
-			    int32_t				 height);
+			    double				 x,
+			    double				 y,
+			    double				 width,
+			    double				 height);
 
 CCSS_END_DECLS
 

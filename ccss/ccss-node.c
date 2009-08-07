@@ -75,7 +75,7 @@ get_pseudo_classes (ccss_node_t const *self)
 
 static char *
 get_attribute (ccss_node_t const	*self,
-	       char const	*name)
+	       char const		*name)
 {
 	return NULL;
 }
@@ -89,10 +89,10 @@ get_style (ccss_node_t const    *self,
 
 static bool
 get_viewport (ccss_node_t const	*self,
-	      uint32_t		*x,
-	      uint32_t		*y,
-	      uint32_t		*width,
-	      uint32_t		*height)
+	      double		*x,
+	      double		*y,
+	      double		*width,
+	      double		*height)
 {
 	return false;
 }
@@ -292,10 +292,10 @@ ccss_node_get_style (ccss_node_t	*self,
 
 bool
 ccss_node_get_viewport (ccss_node_t const	*self,
-			uint32_t		*x,
-			uint32_t		*y,
-			uint32_t		*width,
-			uint32_t		*height)
+			double			*x,
+			double			*y,
+			double			*width,
+			double			*height)
 {
 	g_return_val_if_fail (self, false);
 	g_return_val_if_fail (self->node_class, false);

@@ -7,8 +7,6 @@ Also see gtk-css-engine's TODO for now.
 0.5
 ---
 
-* Move to double coordinates.
-* Get rid of draw_line() functions?
 * Implement gaps by passing a custom property "-gce-gap" with a ccss_property_t
   that contains a cairo_rectangle_t? Or -gce-gap-side, -gce-gap-start, -gce-gap-width?
 * Improve test suite. Libxml backend for cascading tests?

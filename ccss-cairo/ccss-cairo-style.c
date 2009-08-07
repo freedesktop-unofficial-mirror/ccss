@@ -87,54 +87,6 @@ lookup_property_r (ccss_style_t const	*self,
 	return NULL;
 }
 
-/**
- * ccss_cairo_style_draw_line:
- * @self:	a #ccss_style_t.
- * @cr:		the target to draw onto.
- * @x1:		the starting x coordinate.
- * @x2:		the ending x coordinate.
- * @y1:		the starting y coordinate.
- * @y2:		the ending y coordinate.
- *
- * Draw a line using the given style instance.
- **/
-void
-ccss_cairo_style_draw_line (ccss_style_t const	*self,
-			    cairo_t		*cr, 
-			    int			 x1,
-			    int			 x2,
-			    int			 y1,
-			    int			 y2)
-{
-	ccss_border_stroke_t		 stroke;
-	double				 off;
-
-	stroke.color = (ccss_color_t *) lookup_property_r (self,
-							   "border-color");
-	stroke.style = (ccss_border_style_t *) lookup_property_r (self,
-								  "border-style");
-	stroke.width = (ccss_border_width_t *) lookup_property_r (self,
-								  "border-width");
-	if (NULL == stroke.width) {
-		/* No width, short-cut. */
-		return;
-	}
-
-	off = stroke.width->width / 2.;
-
-	if (y1 == y2) {
-		ccss_cairo_border_draw (NULL, NULL, &stroke, NULL,
-					NULL, NULL, NULL, NULL,
-					CCSS_BORDER_VISIBILITY_SHOW_ALL,
-					cr, x1, y1 - off, x2 - x1, 0);
-	} else {
-		ccss_cairo_border_draw (&stroke, NULL, NULL, NULL,
-					NULL, NULL, NULL, NULL,
-					CCSS_BORDER_VISIBILITY_SHOW_ALL,
-					cr, x1 - off, y1, 0, y2 - y1);
-	}
-}
-
 static void
 gather_stroke (ccss_style_t const		*self,
 	       char const			*color_prop,
@@ -274,43 +226,6 @@ gather_background (ccss_style_t const			 *self,
 }
 
 /**
- * ccss_cairo_style_draw_outline:
- * @self:	a #ccss_style_t.
- * @cr:		the target to draw onto.
- * @x:		the starting x coordinate.
- * @y:		the starting y coordinate.
- * @width:	width of the outline to draw.
- * @height:	height of the outline to draw.
- *
- * Draw an outline using this style instance. Information about how to draw
- * this style's background is diregarded.
- **/
-void
-ccss_cairo_style_draw_outline (ccss_style_t const	*self,
-			       cairo_t			*cr, 
-			       int			 x,
-			       int			 y,
-			       int			 width,
-			       int			 height)
-{
-	ccss_border_stroke_t		 bottom, left, right, top;
-	ccss_border_join_t const	*bottom_left;
-	ccss_border_join_t const	*bottom_right;
-	ccss_border_join_t const	*top_left;
-	ccss_border_join_t const	*top_right;
-
-	gather_outline (self, &bottom, &left, &right, &top,
-			&bottom_left, &bottom_right, &top_left, &top_right);
-
-	ccss_cairo_border_draw (&left, top_left, 
-				&top, top_right,
-				&right, bottom_right,
-				&bottom, bottom_left,
-				CCSS_BORDER_VISIBILITY_SHOW_ALL,
-				cr, x, y, width, height);
-}
-
-/**
  * ccss_cairo_style_draw_rectangle:
  * @self:	a #ccss_style_t.
  * @cr:		the target to draw onto.
@@ -324,10 +239,10 @@ ccss_cairo_style_draw_outline (ccss_style_t const	*self,
 void
 ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 				 cairo_t		*cr, 
-				 int			 x,
-				 int			 y,
-				 int			 width,
-				 int			 height)
+				 double			 x,
+				 double			 y,
+				 double			 width,
+				 double			 height)
 {
 	ccss_border_stroke_t		 bottom, left, right, top;
 	ccss_border_join_t const	*bottom_left;
@@ -343,7 +258,7 @@ ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 	ccss_background_repeat_t const		*bg_repeat;
 	ccss_background_size_t const		*bg_size;
 
-	int32_t l, t, w, h;
+	double l, t, w, h;
 
 	ccss_cairo_appearance_t *appearance = NULL;
 	if (ccss_style_get_property (self,
@@ -428,13 +343,13 @@ ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 void
 ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 					  cairo_t			*cr, 
-					  int				 x,
-					  int				 y,
-					  int				 width,
-					  int				 height, 
+					  double			 x,
+					  double			 y,
+					  double			 width,
+					  double			 height,
 					  ccss_cairo_gap_side_t		 gap_side,
-					  int				 gap_start,
-					  int				 gap_width)
+					  double			 gap_start,
+					  double			 gap_width)
 {
 	ccss_border_stroke_t		 bottom, left, right, top;
 	ccss_border_join_t const	*bl;
@@ -453,7 +368,8 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 	ccss_border_join_t bottom_right = { .base.state = CCSS_PROPERTY_STATE_SET, .radius = 0 };
 	ccss_border_join_t top_left = { .base.state = CCSS_PROPERTY_STATE_SET, .radius = 0 };
 	ccss_border_join_t top_right = { .base.state = CCSS_PROPERTY_STATE_SET, .radius = 0 };
-	int32_t l, t, w, h;
+
+	double l, t, w, h;
 
 	gather_outline (self, &bottom, &left, &right, &top,
 			&bl, &br, &tl, &tr);

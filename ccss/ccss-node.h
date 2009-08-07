@@ -157,9 +157,11 @@ typedef const char * (*ccss_node_get_style_f) (ccss_node_t const	*self,
  *
  * Returns: %TRUE if a valid viewport position has been assigned to the out parameters.
  **/
-typedef bool (*ccss_node_get_viewport_f) (ccss_node_t const *self, 
-					  uint32_t *x, uint32_t *y,
-					  uint32_t *width, uint32_t *height);
+typedef bool (*ccss_node_get_viewport_f) (ccss_node_t const     *self,
+					  double		*x,
+					  double		*y,
+					  double		*width,
+					  double		*height);
 
 /** 
  * ccss_node_release_f:

@@ -61,9 +61,9 @@ struct ccss_selector_ {
 	unsigned int			 c : 5;
 	unsigned int			 d : 5;
 	unsigned int			 e : 5;
-	struct ccss_selector_	*refinement;
-	struct ccss_selector_	*container;
-	struct ccss_selector_	*antecessor;
+	struct ccss_selector_		*refinement;
+	struct ccss_selector_		*container;
+	struct ccss_selector_		*antecessor;
 	ccss_block_t			*block;
 };
 
@@ -85,7 +85,11 @@ selector_sync (ccss_selector_t const	*self,
 	to->refinement = NULL;
 	to->container = NULL;
 	to->antecessor = NULL;
-	to->block = ccss_block_reference (self->block);
+	if (self->block) {
+		to->block = ccss_block_reference (self->block);
+	} else {
+		to->block = NULL;
+	}
 }
 
 /*
@@ -1037,7 +1041,7 @@ ccss_selector_apply (ccss_selector_t const	*self,
 	GHashTableIter		 iter;
 	gpointer		 key;
 	gpointer		 value;
-	uint32_t		 x, y, width, height;
+	double			 x, y, width, height;
 	bool			 ret;
 
 	g_return_val_if_fail (self && self->block && style, false);

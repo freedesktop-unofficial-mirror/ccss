@@ -22,7 +22,6 @@
 #include <gmodule.h>
 #include "ccss-cairo-appearance.h"
 #include "ccss-cairo-appearance-parser.h"
-#include "ccss-cairo-style.h"
 #include "config.h"
 
 typedef char const *
