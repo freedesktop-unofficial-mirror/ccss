@@ -56,3 +56,36 @@ ccss_style_t
 @gap_width: 
 
 
+<!-- ##### FUNCTION ccss_cairo_style_get_double ##### -->
+<para>
+
+</para>
+
+@self: 
+@property_name: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_cairo_style_get_string ##### -->
+<para>
+
+</para>
+
+@self: 
+@property_name: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION ccss_cairo_style_get_property ##### -->
+<para>
+
+</para>
+
+@self: 
+@property_name: 
+@property: 
+@Returns: 
+
+

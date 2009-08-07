@@ -1,5 +1,6 @@
 ccss_cairo_grammar_create
-ccss_cairo_style_draw_line
-ccss_cairo_style_draw_outline
 ccss_cairo_style_draw_rectangle
 ccss_cairo_style_draw_rectangle_with_gap
+ccss_cairo_style_get_double
+ccss_cairo_style_get_string
+ccss_cairo_style_get_property
