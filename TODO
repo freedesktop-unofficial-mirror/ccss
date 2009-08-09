@@ -9,6 +9,8 @@ Also see gtk-css-engine's TODO for now.
 
 * Implement gaps by passing a custom property "-gce-gap" with a ccss_property_t
   that contains a cairo_rectangle_t? Or -gce-gap-side, -gce-gap-start, -gce-gap-width?
+* Ship clearlooks' gtkrc hacks as a separate file and include it in the themes.
+* Move over gce-node, separate them.
 * Improve test suite. Libxml backend for cascading tests?
 * Cairo-style error handling? Or something else?
 * "char * foo_serialize()" API instead of _dump().

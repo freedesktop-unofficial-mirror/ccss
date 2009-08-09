@@ -12,6 +12,7 @@ DIST_SUBDIRS = \
 	ccss-cairo \
 	ccss-cairo-doc \
 	ccss-gtk \
+	ccss-gtk-doc \
 	examples \
 	$(NULL)
 

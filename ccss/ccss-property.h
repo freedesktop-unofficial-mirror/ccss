@@ -146,6 +146,8 @@ typedef bool (*ccss_property_inherit_f) (struct ccss_style_ const	*container_sty
  * @property_inherit:	inherit hook, see #ccss_property_inherit_f.
  *
  * Property interpretation vtable entry.
+ *
+ * TODO: drop vtable functions 'property' prefix.
  **/
 typedef struct {
 	char const		*name;
@@ -162,6 +164,8 @@ typedef struct {
  * @state:		property state, see #ccss_property_state_t.
  *
  * This structure has to be embedded at the beginning of every custom property.
+ *
+ * TODO: Rename to ccss_property_t.
  **/
 struct ccss_property_base_ {
 	ccss_property_class_t const	*property_class;

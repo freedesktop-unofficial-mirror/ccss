@@ -30,6 +30,25 @@
 #include "ccss-cairo-property.h"
 #include "config.h"
 
+typedef struct {
+	ccss_property_base_t	base;
+	ccss_cairo_gap_side_t   side;
+} gap_side_t;
+
+typedef struct {
+	ccss_property_base_t	base;
+	double			start;
+} gap_start_t;
+
+typedef struct {
+	ccss_property_base_t	base;
+	double			width;
+} gap_width_t;
+
+
+static ccss_property_class_t const *
+peek_property_class (char const *property_name);
+
 struct {
 	char const *name;
 	char const *fallback;
@@ -371,6 +390,64 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 
 	double l, t, w, h;
 
+	ccss_cairo_appearance_t *appearance = NULL;
+	if (ccss_style_get_property (self,
+				     "ccss-appearance",
+				     (ccss_property_base_t const **) &appearance) &&
+	    appearance->base.state == CCSS_PROPERTY_STATE_SET &&
+	    appearance->draw_function) {
+
+		static GQuark gap_side_id = 0;
+		static GQuark gap_start_id = 0;
+		static GQuark gap_width_id = 0;
+
+		gap_side_t gap_side_property;
+		gap_start_t gap_start_property;
+		gap_width_t gap_width_property;
+
+		bool ret;
+
+		if (gap_side_id == 0)
+			gap_side_id = g_quark_from_static_string ("ccss-gap-side");
+		ccss_property_init (&gap_side_property.base,
+				    peek_property_class ("ccss-gap-side"));
+		gap_side_property.side = gap_side;
+		gap_side_property.base.state = CCSS_PROPERTY_STATE_SET;
+		g_hash_table_insert (self->properties,
+				     (gpointer) gap_side_id,
+				     &gap_side_property);
+
+		if (gap_start_id == 0)
+			gap_start_id = g_quark_from_static_string ("ccss-gap-start");
+		ccss_property_init (&gap_start_property.base,
+				    peek_property_class ("ccss-gap-start"));
+		gap_start_property.start = gap_start;
+		gap_start_property.base.state = CCSS_PROPERTY_STATE_SET;
+		g_hash_table_insert (self->properties,
+				     (gpointer) gap_start_id,
+				     &gap_start_property);
+
+		if (gap_width_id == 0)
+			gap_width_id = g_quark_from_static_string ("ccss-gap-width");
+		ccss_property_init (&gap_width_property.base,
+				    peek_property_class ("ccss-gap-width"));
+		gap_width_property.width = gap_width;
+		gap_width_property.base.state = CCSS_PROPERTY_STATE_SET;
+		g_hash_table_insert (self->properties,
+				     (gpointer) gap_width_id,
+				     &gap_width_property);
+
+		ret = appearance->draw_function (self, cr,
+						 x, y, width, height);
+
+		g_hash_table_remove (self->properties, (gpointer) gap_side_id);
+		g_hash_table_remove (self->properties, (gpointer) gap_start_id);
+		g_hash_table_remove (self->properties, (gpointer) gap_width_id);
+
+		if (ret)
+			return;
+	}
+
 	gather_outline (self, &bottom, &left, &right, &top,
 			&bl, &br, &tl, &tr);
 
@@ -675,5 +752,123 @@ ccss_cairo_style_get_property (ccss_style_t const		 *self,
 	*property = lookup_property_r (self, property_name);
 
 	return (bool) *property;
+}
+
+static void
+gap_destroy_nop (ccss_property_base_t *property)
+{
+	/* Gap properties are stack-allocated. */
+}
+
+static bool
+gap_side_convert (gap_side_t const	*property,
+		  ccss_property_type_t	 target,
+		  void			*value)
+{
+	g_return_val_if_fail (property && value, false);
+
+	if (CCSS_PROPERTY_TYPE_DOUBLE == target)
+		return false;
+
+	switch (property->side) {
+	case CCSS_CAIRO_GAP_SIDE_LEFT:
+		* (char const **) value = g_strdup ("left");
+		break;
+	case CCSS_CAIRO_GAP_SIDE_RIGHT:
+		* (char const **) value = g_strdup ("right");
+		break;
+	case CCSS_CAIRO_GAP_SIDE_TOP:
+		* (char const **) value = g_strdup ("top");
+		break;
+	case CCSS_CAIRO_GAP_SIDE_BOTTOM:
+		* (char const **) value = g_strdup ("bottom");
+		break;
+	}
+
+	return true;
+}
+
+static bool
+gap_start_convert (gap_start_t const	*property,
+		   ccss_property_type_t	 target,
+		   void			*value)
+{
+	g_return_val_if_fail (property && value, false);
+
+	switch (target) {
+	case CCSS_PROPERTY_TYPE_DOUBLE:
+		* (double *) value = property->start;
+		return true;
+	case CCSS_PROPERTY_TYPE_STRING:
+		* (char **) value = g_strdup_printf ("%f", property->start);
+		return true;
+	default:
+		g_assert_not_reached ();
+		return false;
+	}
+
+	return false;
+}
+
+static bool
+gap_width_convert (gap_width_t const	*property,
+		   ccss_property_type_t	 target,
+		   void			*value)
+{
+	g_return_val_if_fail (property && value, false);
+
+	switch (target) {
+	case CCSS_PROPERTY_TYPE_DOUBLE:
+		* (double *) value = property->width;
+		return true;
+	case CCSS_PROPERTY_TYPE_STRING:
+		* (char **) value = g_strdup_printf ("%f", property->width);
+		return true;
+	default:
+		g_assert_not_reached ();
+		return false;
+	}
+
+	return false;
+}
+
+static ccss_property_class_t const _ptable[] = {
+    {
+	.name = "ccss-gap-side",
+	.property_create = NULL,
+	.property_destroy = (ccss_property_destroy_f) gap_destroy_nop,
+	.property_convert = (ccss_property_convert_f) gap_side_convert,
+	.property_factory = NULL,
+	.property_inherit = NULL
+    }, {
+	.name = "ccss-gap-start",
+	.property_create = NULL,
+	.property_destroy = (ccss_property_destroy_f) gap_destroy_nop,
+	.property_convert = (ccss_property_convert_f) gap_start_convert,
+	.property_factory = NULL,
+	.property_inherit = NULL
+    }, {
+	.name = "ccss-gap-width",
+	.property_create = NULL,
+	.property_destroy = (ccss_property_destroy_f) gap_destroy_nop,
+	.property_convert = (ccss_property_convert_f) gap_width_convert,
+	.property_factory = NULL,
+	.property_inherit = NULL
+    }, {
+	.name = NULL
+    }
+};
+
+static ccss_property_class_t const *
+peek_property_class (char const *property_name)
+{
+	for (unsigned int i = 0; i < G_N_ELEMENTS (_ptable); i++) {
+		if (0 == g_strcmp0 (property_name, _ptable[i].name))
+			return &_ptable[i];
+	}
+
+	g_return_val_if_fail (0, NULL);
+
+	return NULL;
 }
 

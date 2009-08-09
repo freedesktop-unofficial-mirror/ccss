@@ -40,6 +40,8 @@ custom_box (ccss_style_t const	*self,
 	cairo_set_line_cap (cr, CAIRO_LINE_JOIN_ROUND);
 	cairo_stroke (cr);
 
+	ccss_style_dump (self);
+
 	return true;
 }
 
@@ -56,11 +58,14 @@ expose_cb (GtkWidget		*widget,
 
 	cr = gdk_cairo_create (widget->window);
 
-	ccss_cairo_style_draw_rectangle (style, cr, 
-					 widget->allocation.x + 10,
-					 widget->allocation.y + 10,
-					 widget->allocation.width - 20, 
-					 widget->allocation.height - 20);
+	ccss_cairo_style_draw_rectangle_with_gap (style, cr,
+						  widget->allocation.x + 10,
+						  widget->allocation.y + 10,
+						  widget->allocation.width - 20,
+						  widget->allocation.height - 20,
+						  CCSS_CAIRO_GAP_SIDE_TOP,
+						  10,
+						  30);
 
 	cairo_destroy (cr);
 
