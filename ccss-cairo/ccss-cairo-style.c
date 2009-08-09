@@ -543,7 +543,7 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 					CCSS_BORDER_VISIBILITY_HIDE_BOTTOM_LEFT |
 					CCSS_BORDER_ROUNDING_UNRESTRICTED,
 					cr, x, y + gap_start + gap_width - 1, 
-					0, height - gap_start - gap_width);
+					0, height - gap_start - gap_width + 1);
 			}
 			/* Rounding reaches until start of gap? */
 			if (top_left.radius < gap_start) {
@@ -584,7 +584,7 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 					CCSS_BORDER_VISIBILITY_HIDE_TOP_RIGHT |
 					CCSS_BORDER_ROUNDING_UNRESTRICTED,
 					cr, x + gap_start + gap_width - 1, y, 
-					width - gap_start - gap_width, 0);
+					width - gap_start - gap_width + 1, 0);
 			}
 		}
 		ccss_cairo_border_draw (&left, &top_left, 
@@ -616,7 +616,7 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 					CCSS_BORDER_VISIBILITY_HIDE_RIGHT_BOTTOM |
 					CCSS_BORDER_ROUNDING_UNRESTRICTED,
 					cr, x + width, y + gap_start + gap_width - 1, 
-					0, height - gap_start - gap_width);
+					0, height - gap_start - gap_width + 1);
 			}
 		}
 		ccss_cairo_border_draw (&left, &top_left,
@@ -639,7 +639,7 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 					CCSS_BORDER_VISIBILITY_HIDE_RIGHT_BOTTOM |
 					CCSS_BORDER_ROUNDING_UNRESTRICTED,
 					cr, x + gap_start + gap_width - 1, y + height,
-					width - gap_start - gap_width, 0);
+					width - gap_start - gap_width + 1, 0);
 			}
 			/* Rounding reaches until start of gap? */
 			if (bottom_left.radius < gap_start) {
