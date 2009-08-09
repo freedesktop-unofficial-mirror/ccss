@@ -42,7 +42,7 @@ extra_files =
 # CFLAGS and LDFLAGS for compiling scan program. Only needed
 # if $(DOC_MODULE).types is non-empty.
 GTKDOC_CFLAGS = # -I$(top_srcdir) $(CCSS_CFLAGS)
-GTKDOC_LIBS = # $(top_builddir)/libccss/ccss/libccss.la $(CCSS_LIBS)
+GTKDOC_LIBS = # $(CCSS_LIBS) $(top_builddir)/libccss/ccss/libccss.la
 
 if GTK_DOC_INSTALLED
 include $(top_srcdir)/gtk-doc.make

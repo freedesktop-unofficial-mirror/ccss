@@ -30,7 +30,7 @@ TODO
   <part id="dependencies">
     <title>CCSS: Dependencies</title>
     <para>
-CCSS depends on the following libraries:
+The CCSS library depends on the following libraries:
 <variablelist>
 
 <varlistentry>

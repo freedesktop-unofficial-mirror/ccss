@@ -33,7 +33,7 @@ pkgconfig_DATA += ccss-cairo-1.pc
 endif
 
 if CCSS_WITH_GTK
-SUBDIRS += ccss-gtk
+SUBDIRS += ccss-gtk ccss-gtk-doc
 pkgconfig_DATA += ccss-gtk-1.pc
 endif
 

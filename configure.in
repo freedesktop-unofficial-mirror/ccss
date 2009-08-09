@@ -344,6 +344,8 @@ AC_CONFIG_FILES([
 
   ccss-gtk-1.pc
   ccss-gtk/Makefile
+  ccss-gtk-doc/Makefile
+  ccss-gtk-doc/version.xml
 
   examples/Makefile
 ])

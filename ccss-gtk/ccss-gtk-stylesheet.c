@@ -484,6 +484,15 @@ iter_func (ccss_stylesheet_t	*stylesheet,
 	}
 }
 
+/**
+ * ccss_gtk_stylesheet_to_gtkrc:
+ * @self: a #ccss_stylesheet_t.
+ *
+ * Convert a stylesheet to a gtkrc string. CSS and gtkrc do not match one to
+ * one onto each other so this is a best effort conversion.
+ *
+ * Returns: a gtkrc string.
+ */
 char *
 ccss_gtk_stylesheet_to_gtkrc (ccss_stylesheet_t *self)
 {
