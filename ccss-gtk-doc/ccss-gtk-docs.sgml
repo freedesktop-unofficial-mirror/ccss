@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+<!ENTITY ccss_grammar_t			SYSTEM "xml/grammar.xml">
+<!ENTITY ccss_stylesheet_t			SYSTEM "xml/stylesheet.xml">
+
+<!ENTITY TreeIndex			SYSTEM "xml/tree_index.sgml">
+
+]>
+<book id="index">
+  <bookinfo>
+    <title>CCSS/Gtk+ Reference Manual</title>
+  </bookinfo>
+
+  <part id="intro">
+    <title>CCSS: Introduction</title>
+    <partintro id="ccss-into">
+    <para>
+TODO
+    </para>
+    </partintro>
+  </part>
+
+  <part id="dependencies">
+    <title>CCSS: Dependencies</title>
+    <para>
+The CCSS/Gtk+ library depends on the following libraries:
+<variablelist>
+
+<varlistentry>
+<term><link linkend="glib" title="GLib">GLib</link></term>
+<listitem><para>
+A general-purpose utility library, not specific to graphical user interfaces.
+GLib provides many useful data types, macros, type conversions,
+string utilities, file utilities, a main loop abstraction, and so on.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><link linkend="gtk" title="Gtk+">Gtk+</link></term>
+<listitem><para>
+GTK+ is a library for creating graphical user interfaces. It works on many UNIX-like platforms, Windows, and on framebuffer devices. GTK+ is released under the GNU Library General Public License (GNU LGPL), which allows for flexible licensing of client applications. GTK+ has a C-based object-oriented architecture that allows for maximum flexibility. Bindings for other languages have been written, including C++, Objective-C, Guile/Scheme, Perl, Python, TOM, Ada95, Free Pascal, and Eiffel.
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+    </para>
+</part>
+
+<part id="ccss-users">
+  <title>Projects using CCSS/Gtk+</title>
+  <partintro id="ccss-projects">
+  <para>
+CCSS is used by
+<variablelist>
+<varlistentry>
+<term><ulink url="http://www.gnome.org/~robsta/gtk-css-engine/">Gtk CSS Engine</ulink></term>
+<listitem><para>
+The Gtk CSS Engine
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+  </para>
+  </partintro>
+</part>
+
+<part id="api">
+  <title>API Reference</title>
+    <partintro id="ccss-api-ref">
+      <para>
+TODO.
+      </para>
+    </partintro>
+  <chapter id="basic">
+    <title>Basic Usage</title>
+    &ccss_grammar_t;
+    &ccss_stylesheet_t;
+  </chapter>
+ </part>
+<index id="ccss-gtk-index"> <!-- TODO how to get index -->
+&TreeIndex;
+</index>
+</book>
+
