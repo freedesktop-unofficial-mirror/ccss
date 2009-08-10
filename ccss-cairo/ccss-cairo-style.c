@@ -689,13 +689,13 @@ ccss_cairo_style_get_double (ccss_style_t const	*self,
 
 	/* Have conversion function? */
 	g_return_val_if_fail (property->property_class, false);
-	if (NULL == property->property_class->property_convert) {
+	if (NULL == property->property_class->convert) {
 		return false;
 	}
 
-	return property->property_class->property_convert (property,
-							   CCSS_PROPERTY_TYPE_DOUBLE,
-							   value);
+	return property->property_class->convert (property,
+						  CCSS_PROPERTY_TYPE_DOUBLE,
+						  value);
 }
 
 /**
@@ -723,13 +723,13 @@ ccss_cairo_style_get_string (ccss_style_t const	 *self,
 
 	/* Have conversion function? */
 	g_return_val_if_fail (property->property_class, false);
-	if (NULL == property->property_class->property_convert) {
+	if (NULL == property->property_class->convert) {
 		return false;
 	}
 
-	return property->property_class->property_convert (property,
-							   CCSS_PROPERTY_TYPE_STRING,
-							   value);
+	return property->property_class->convert (property,
+						  CCSS_PROPERTY_TYPE_STRING,
+						  value);
 }
 
 /**
@@ -835,25 +835,25 @@ gap_width_convert (gap_width_t const	*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "ccss-gap-side",
-	.property_create = NULL,
-	.property_destroy = (ccss_property_destroy_f) gap_destroy_nop,
-	.property_convert = (ccss_property_convert_f) gap_side_convert,
-	.property_factory = NULL,
-	.property_inherit = NULL
+	.create = NULL,
+	.destroy = (ccss_property_destroy_f) gap_destroy_nop,
+	.convert = (ccss_property_convert_f) gap_side_convert,
+	.factory = NULL,
+	.inherit = NULL
     }, {
 	.name = "ccss-gap-start",
-	.property_create = NULL,
-	.property_destroy = (ccss_property_destroy_f) gap_destroy_nop,
-	.property_convert = (ccss_property_convert_f) gap_start_convert,
-	.property_factory = NULL,
-	.property_inherit = NULL
+	.create = NULL,
+	.destroy = (ccss_property_destroy_f) gap_destroy_nop,
+	.convert = (ccss_property_convert_f) gap_start_convert,
+	.factory = NULL,
+	.inherit = NULL
     }, {
 	.name = "ccss-gap-width",
-	.property_create = NULL,
-	.property_destroy = (ccss_property_destroy_f) gap_destroy_nop,
-	.property_convert = (ccss_property_convert_f) gap_width_convert,
-	.property_factory = NULL,
-	.property_inherit = NULL
+	.create = NULL,
+	.destroy = (ccss_property_destroy_f) gap_destroy_nop,
+	.convert = (ccss_property_convert_f) gap_width_convert,
+	.factory = NULL,
+	.inherit = NULL
     }, {
 	.name = NULL
     }

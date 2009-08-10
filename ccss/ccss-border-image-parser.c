@@ -251,11 +251,11 @@ border_image_convert (ccss_border_image_t const	*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "border-image",
-	.property_create = border_image_create,
-	.property_destroy = (ccss_property_destroy_f) border_image_destroy,
-	.property_convert = (ccss_property_convert_f) border_image_convert,
-	.property_factory = NULL,
-	.property_inherit = NULL
+	.create = border_image_create,
+	.destroy = (ccss_property_destroy_f) border_image_destroy,
+	.convert = (ccss_property_convert_f) border_image_convert,
+	.factory = NULL,
+	.inherit = NULL
     }, {
 	.name = NULL
     }

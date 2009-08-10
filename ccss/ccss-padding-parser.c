@@ -240,39 +240,39 @@ padding_inherit (ccss_style_t const	*container_style,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "padding-top",
-	.property_create = padding_create,
-	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) padding_convert,
-	.property_factory = NULL,
-	.property_inherit = NULL
+	.create = padding_create,
+	.destroy = (ccss_property_destroy_f) g_free,
+	.convert = (ccss_property_convert_f) padding_convert,
+	.factory = NULL,
+	.inherit = NULL
     }, {
 	.name = "padding-right",
-	.property_create = padding_create,
-	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) padding_convert,
-	.property_factory = NULL,
-	.property_inherit = NULL
+	.create = padding_create,
+	.destroy = (ccss_property_destroy_f) g_free,
+	.convert = (ccss_property_convert_f) padding_convert,
+	.factory = NULL,
+	.inherit = NULL
     }, {
 	.name = "padding-bottom",
-	.property_create = padding_create,
-	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) padding_convert,
-	.property_factory = NULL,
-	.property_inherit = NULL
+	.create = padding_create,
+	.destroy = (ccss_property_destroy_f) g_free,
+	.convert = (ccss_property_convert_f) padding_convert,
+	.factory = NULL,
+	.inherit = NULL
     }, {
 	.name = "padding-left",
-	.property_create = padding_create,
-	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) padding_convert,
-	.property_factory = NULL,
-	.property_inherit = NULL
+	.create = padding_create,
+	.destroy = (ccss_property_destroy_f) g_free,
+	.convert = (ccss_property_convert_f) padding_convert,
+	.factory = NULL,
+	.inherit = NULL
     }, {
 	.name = "padding",
-	.property_create = NULL,
-	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) padding_convert,
-	.property_factory = padding_factory,
-	.property_inherit = padding_inherit
+	.create = NULL,
+	.destroy = (ccss_property_destroy_f) g_free,
+	.convert = (ccss_property_convert_f) padding_convert,
+	.factory = padding_factory,
+	.inherit = padding_inherit
     }, {
 	.name = NULL
     }

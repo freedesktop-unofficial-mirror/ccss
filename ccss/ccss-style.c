@@ -161,13 +161,13 @@ ccss_style_get_double (ccss_style_t const	*self,
 
 	/* Have conversion function? */
 	g_return_val_if_fail (property->property_class, false);
-	if (NULL == property->property_class->property_convert) {
+	if (NULL == property->property_class->convert) {
 		return false;
 	}
 
-	return property->property_class->property_convert (property,
-							   CCSS_PROPERTY_TYPE_DOUBLE,
-							   value);
+	return property->property_class->convert (property,
+						  CCSS_PROPERTY_TYPE_DOUBLE,
+						  value);
 }
 
 /**
@@ -199,13 +199,13 @@ ccss_style_get_string (ccss_style_t const	 *self,
 
 	/* Have conversion function? */
 	g_return_val_if_fail (property->property_class, false);
-	if (NULL == property->property_class->property_convert) {
+	if (NULL == property->property_class->convert) {
 		return false;
 	}
 
-	return property->property_class->property_convert (property,
-							   CCSS_PROPERTY_TYPE_STRING,
-							   value);
+	return property->property_class->convert (property,
+						  CCSS_PROPERTY_TYPE_STRING,
+						  value);
 }
 
 /**
@@ -419,11 +419,11 @@ ccss_style_dump (ccss_style_t const *self)
 			strval = g_strdup (ccss_property_state_serialize (property->state));
 
 		} else if (property->property_class &&
-			   property->property_class->property_convert) {
+			   property->property_class->convert) {
 
-			property->property_class->property_convert (property,
-								    CCSS_PROPERTY_TYPE_STRING,
-								    &strval);
+			property->property_class->convert (property,
+							   CCSS_PROPERTY_TYPE_STRING,
+							   &strval);
 		}
 		if (NULL == strval) {
 			strval = g_strdup ("<unknown>");

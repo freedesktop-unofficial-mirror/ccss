@@ -137,25 +137,41 @@ typedef bool (*ccss_property_inherit_f) (struct ccss_style_ const	*container_sty
 					 struct ccss_style_		*style);
 
 /**
+ * ccss_property_serialize_f:
+ * @self:	pointer to property instance.
+ *
+ * Hook function to reformat a property to CSS syntax.
+ *
+ * Returns: %TRUE if property inheritance could be resolved.
+ **/
+typedef char * (*ccss_property_serialize_f) (ccss_property_base_t const *self);
+
+/**
  * ccss_property_class_t:
- * @name:		property name.
- * @property_create:	allocation hook, see #ccss_property_create_f.
- * @property_destroy:	deallocation hook, see #ccss_property_destroy_f.
- * @property_convert:	conversion hook, see #ccss_property_convert_f.
- * @property_factory:	factory hook, see #ccss_property_factory_f.
- * @property_inherit:	inherit hook, see #ccss_property_inherit_f.
+ * @name:	property name.
+ * @create:	allocation hook, see #ccss_property_create_f.
+ * @destroy:	deallocation hook, see #ccss_property_destroy_f.
+ * @convert:	conversion hook, see #ccss_property_convert_f.
+ * @factory:	factory hook, see #ccss_property_factory_f.
+ * @inherit:	inherit hook, see #ccss_property_inherit_f.
+ * @inherit:	inherit hook, see #ccss_property_inherit_f.
+ * @serialize:	serialize hook, see #ccss_property_serialize_f.
  *
  * Property interpretation vtable entry.
- *
- * TODO: drop vtable functions 'property' prefix.
  **/
 typedef struct {
-	char const		*name;
-	ccss_property_create_f	 property_create;
-	ccss_property_destroy_f	 property_destroy;
-	ccss_property_convert_f	 property_convert;
-	ccss_property_factory_f	 property_factory;
-	ccss_property_inherit_f	 property_inherit;
+	char const			*name;
+	ccss_property_create_f		 create;
+	ccss_property_destroy_f		 destroy;
+	ccss_property_convert_f		 convert;
+	ccss_property_factory_f		 factory;
+	ccss_property_inherit_f		 inherit;
+	ccss_property_serialize_f	 serialize;
+	void (*_padding_0) (void);
+	void (*_padding_1) (void);
+	void (*_padding_2) (void);
+	void (*_padding_3) (void);
+	void (*_padding_4) (void);
 } ccss_property_class_t;
 
 /**

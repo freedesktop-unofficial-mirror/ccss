@@ -7,9 +7,8 @@ Also see gtk-css-engine's TODO for now.
 0.5
 ---
 
-* Ship clearlooks' gtkrc hacks as a separate file and include it in the themes.
-* Move over gce-node, separate them.
-* Improve test suite. Libxml backend for cascading tests?
+* Move over gce-node, separate them?
+* Improve test suite. Libxml backend for cascading tests.
 * Cairo-style error handling? Or something else?
 * "char * foo_serialize()" API instead of _dump().
 * _serialize() property class method, serializing should fall back to _convert()

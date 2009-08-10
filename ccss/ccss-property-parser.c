@@ -144,11 +144,11 @@ property_convert (ccss_property_generic_t	*self,
 ccss_property_class_t const _ptable[] = {
   { 
 	.name = "*",
-	.property_create = NULL,
-	.property_destroy = (ccss_property_destroy_f) property_destroy,
-	.property_convert = (ccss_property_convert_f) property_convert,
-	.property_factory = property_factory,
-	.property_inherit = NULL
+	.create = NULL,
+	.destroy = (ccss_property_destroy_f) property_destroy,
+	.convert = (ccss_property_convert_f) property_convert,
+	.factory = property_factory,
+	.inherit = NULL
   }, { 
 	.name = NULL
   }

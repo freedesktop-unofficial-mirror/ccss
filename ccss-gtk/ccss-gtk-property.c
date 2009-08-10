@@ -525,19 +525,19 @@ property_factory (ccss_grammar_t const	*grammar,
 
 	/* Fall back. */
 	g_return_val_if_fail (_fallback_property_class, false);
-	g_return_val_if_fail (_fallback_property_class->property_factory, false);
-	return _fallback_property_class->property_factory (grammar, block, name,
-							  values, user_data);
+	g_return_val_if_fail (_fallback_property_class->factory, false);
+	return _fallback_property_class->factory (grammar, block, name,
+						  values, user_data);
 }
 
 static ccss_property_class_t const _properties[] = {
     {
 	.name = "*",
-	.property_create = NULL,
-	.property_destroy = (ccss_property_destroy_f) property_destroy,
-	.property_convert = (ccss_property_convert_f) property_convert,
-	.property_factory = property_factory,
-	.property_inherit = NULL
+	.create = NULL,
+	.destroy = (ccss_property_destroy_f) property_destroy,
+	.convert = (ccss_property_convert_f) property_convert,
+	.factory = property_factory,
+	.inherit = NULL
     }, {
 	.name = NULL
     }
@@ -566,7 +566,7 @@ ccss_gtk_property_set_fallback_class (ccss_property_class_t const *property_clas
 bool
 ccss_gtk_property_is_style_property (ccss_property_base_t const *self)
 {
-	return self->property_class->property_destroy ==
+	return self->property_class->destroy ==
 			(ccss_property_destroy_f) property_destroy;
 }
 

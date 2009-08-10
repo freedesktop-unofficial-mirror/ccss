@@ -362,14 +362,14 @@ property_cb (CRDocHandler	*handler,
 						info->grammar->properties, "*");
 	}
 
-	if (property_class->property_factory) {
-		property_class->property_factory (info->grammar, block,
-						  property_name, values,
-						  info->user_data);
-	} else if (property_class->property_create) {
-		property = property_class->property_create (info->grammar,
-							    values,
-							    info->user_data);
+	if (property_class->factory) {
+		property_class->factory (info->grammar, block,
+					 property_name, values,
+					 info->user_data);
+	} else if (property_class->create) {
+		property = property_class->create (info->grammar,
+						   values,
+						   info->user_data);
 		if (property) {
 			ccss_block_add_property (block, property_name,
 						 property);

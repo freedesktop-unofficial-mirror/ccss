@@ -70,10 +70,10 @@ font_family_convert (font_family_t const	*self,
 static ccss_property_class_t const _properties[] = {
     {
 	.name = "font-family",
-	.property_create = (ccss_property_create_f) font_family_new,
-	.property_destroy = (ccss_property_destroy_f) font_family_free,
-	.property_convert = (ccss_property_convert_f) font_family_convert,
-	.property_factory = NULL
+	.create = (ccss_property_create_f) font_family_new,
+	.destroy = (ccss_property_destroy_f) font_family_free,
+	.convert = (ccss_property_convert_f) font_family_convert,
+	.factory = NULL
     }, {
 	.name = NULL
     }

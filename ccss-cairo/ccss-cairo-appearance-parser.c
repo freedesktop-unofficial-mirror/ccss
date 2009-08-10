@@ -214,11 +214,11 @@ appearance_destroy (ccss_cairo_appearance_t *self)
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "ccss-appearance",
-	.property_create = NULL,
-	.property_destroy = (ccss_property_destroy_f) appearance_destroy,
-	.property_convert = (ccss_property_convert_f) appearance_convert,
-	.property_factory = appearance_factory,
-	.property_inherit = NULL
+	.create = NULL,
+	.destroy = (ccss_property_destroy_f) appearance_destroy,
+	.convert = (ccss_property_convert_f) appearance_convert,
+	.factory = appearance_factory,
+	.inherit = NULL
     }, {
 	.name = NULL
     }

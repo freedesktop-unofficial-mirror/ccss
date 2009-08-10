@@ -106,9 +106,9 @@ ccss_block_dump (ccss_block_t const *self)
 			strval = g_strdup (ccss_property_state_serialize (property->state));
 
 		} else if (property->property_class &&
-			   property->property_class->property_convert) {
+			   property->property_class->convert) {
 
-			property->property_class->property_convert (property,
+			property->property_class->convert (property,
 								    CCSS_PROPERTY_TYPE_STRING,
 								    &strval);
 		}

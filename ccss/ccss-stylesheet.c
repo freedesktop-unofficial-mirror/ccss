@@ -443,15 +443,14 @@ inherit_container_style (ccss_style_t const	*container_style,
 
 			bool is_resolved;
 
-			if (property->property_class->property_inherit) {
+			if (property->property_class->inherit) {
 /* FIXME: should swap parameters and have the style pull from the container
  * instead. So "style" wants to inherit "background", it can pull
  * "background-color" and stuff from the container.
  * Otherwise the approach with the css engine's user-agent.css is restricted
  * to using shorthand properties for inheritance. */
-				is_resolved = property->property_class->property_inherit (
-						container_style,
-						style);
+				is_resolved = property->property_class->inherit
+						(container_style, style);
 			} else {
 				g_hash_table_insert (style->properties,
 						     (gpointer) property_id,

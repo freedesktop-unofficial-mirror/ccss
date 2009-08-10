@@ -49,9 +49,9 @@ ccss_property_destroy (ccss_property_base_t *self)
 	g_return_if_fail (self);
 	g_return_if_fail (self->property_class);
 	g_return_if_fail (self->property_class);
-	g_return_if_fail (self->property_class->property_destroy);
+	g_return_if_fail (self->property_class->destroy);
 
-	self->property_class->property_destroy (self);
+	self->property_class->destroy (self);
 }
 
 /**

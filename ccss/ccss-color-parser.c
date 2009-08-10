@@ -638,11 +638,11 @@ ccss_color_convert (ccss_color_t const		*property,
 static ccss_property_class_t const _ptable[] = {
     {
 	.name = "color",
-	.property_create = NULL,
-	.property_destroy = (ccss_property_destroy_f) g_free,
-	.property_convert = (ccss_property_convert_f) ccss_color_convert,
-	.property_factory = ccss_color_factory,
-	.property_inherit = NULL
+	.create = NULL,
+	.destroy = (ccss_property_destroy_f) g_free,
+	.convert = (ccss_property_convert_f) ccss_color_convert,
+	.factory = ccss_color_factory,
+	.inherit = NULL
     }, {
 	.name = NULL
     }
