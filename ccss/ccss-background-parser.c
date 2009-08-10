@@ -633,49 +633,56 @@ static ccss_property_class_t const _ptable[] = {
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) background_attachment_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "background-color",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) ccss_color_convert,
 	.factory = ccss_color_factory,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "background-image",
 	.create = background_image_create,
 	.destroy = (ccss_property_destroy_f) background_image_destroy,
 	.convert = (ccss_property_convert_f) background_image_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "background-position",
 	.create = background_position_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) background_position_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "background-repeat",
 	.create = background_repeat_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) background_repeat_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "background-size",
 	.create = background_size_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) background_size_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "background",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = NULL,
 	.factory = background_factory,
-	.inherit = background_inherit
+	.inherit = background_inherit,
+	.serialize = NULL
     }, {
 	.name = NULL
     }

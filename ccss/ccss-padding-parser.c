@@ -244,35 +244,40 @@ static ccss_property_class_t const _ptable[] = {
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) padding_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "padding-right",
 	.create = padding_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) padding_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "padding-bottom",
 	.create = padding_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) padding_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "padding-left",
 	.create = padding_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) padding_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "padding",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) padding_convert,
 	.factory = padding_factory,
-	.inherit = padding_inherit
+	.inherit = padding_inherit,
+	.serialize = NULL
     }, {
 	.name = NULL
     }

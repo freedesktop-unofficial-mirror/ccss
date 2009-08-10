@@ -839,21 +839,24 @@ static ccss_property_class_t const _ptable[] = {
 	.destroy = (ccss_property_destroy_f) gap_destroy_nop,
 	.convert = (ccss_property_convert_f) gap_side_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "ccss-gap-start",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) gap_destroy_nop,
 	.convert = (ccss_property_convert_f) gap_start_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "ccss-gap-width",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) gap_destroy_nop,
 	.convert = (ccss_property_convert_f) gap_width_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = NULL
     }

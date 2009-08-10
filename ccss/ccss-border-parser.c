@@ -1125,182 +1125,208 @@ static ccss_property_class_t const _ptable[] = {
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_radius_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-bottom-right-radius",
 	.create = border_radius_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_radius_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-bottom-left-radius",
 	.create = border_radius_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_radius_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-top-left-radius",
 	.create = border_radius_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_radius_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-radius",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_radius_convert,
 	.factory = border_radius_factory,
-	.inherit = border_radius_inherit
+	.inherit = border_radius_inherit,
+	.serialize = NULL
     }, {
 	.name = "border-left-color",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) ccss_color_convert,
 	.factory = ccss_color_factory,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-left-style",
 	.create = border_style_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_style_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-left-width",
 	.create = border_width_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_width_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-top-color",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) ccss_color_convert,
 	.factory = ccss_color_factory,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-top-style",
 	.create = border_style_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_style_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-top-width",
 	.create = border_width_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_width_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-right-color",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) ccss_color_convert,
 	.factory = ccss_color_factory,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-right-style",
 	.create = border_style_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_style_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-right-width",
 	.create = border_width_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_width_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-bottom-color",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) ccss_color_convert,
 	.factory = ccss_color_factory,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-bottom-style",
 	.create = border_style_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_style_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-bottom-width",
 	.create = border_width_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_width_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = "border-left",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = NULL,
 	.factory = border_left_factory,
-	.inherit = border_left_inherit
+	.inherit = border_left_inherit,
+	.serialize = NULL
     }, {
 	.name = "border-top",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = NULL,
 	.factory = border_top_factory,
-	.inherit = border_top_inherit
+	.inherit = border_top_inherit,
+	.serialize = NULL
     }, {
 	.name = "border-right",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = NULL,
 	.factory = border_right_factory,
-	.inherit = border_right_inherit
+	.inherit = border_right_inherit,
+	.serialize = NULL
     }, {
 	.name = "border-bottom",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = NULL,
 	.factory = border_bottom_factory,
-	.inherit = border_bottom_inherit
+	.inherit = border_bottom_inherit,
+	.serialize = NULL
     }, {
 	.name = "border-color",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) ccss_color_convert,
 	.factory = border_color_factory,
-	.inherit = border_color_inherit
+	.inherit = border_color_inherit,
+	.serialize = NULL
     }, {
 	.name = "border-style",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_style_convert,
 	.factory = border_style_factory,
-	.inherit = border_style_inherit
+	.inherit = border_style_inherit,
+	.serialize = NULL
     }, {
 	.name = "border-width",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_width_convert,
 	.factory = border_width_factory,
-	.inherit = border_width_inherit
+	.inherit = border_width_inherit,
+	.serialize = NULL
     }, {
 	.name = "border",
 	.create = NULL,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = NULL,
 	.factory = border_factory,
-	.inherit = border_inherit
+	.inherit = border_inherit,
+	.serialize = NULL
     }, {
 	.name = "border-spacing",
 	.create = border_spacing_create,
 	.destroy = (ccss_property_destroy_f) g_free,
 	.convert = (ccss_property_convert_f) border_spacing_convert,
 	.factory = NULL,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = NULL,
     }

@@ -218,7 +218,8 @@ static ccss_property_class_t const _ptable[] = {
 	.destroy = (ccss_property_destroy_f) appearance_destroy,
 	.convert = (ccss_property_convert_f) appearance_convert,
 	.factory = appearance_factory,
-	.inherit = NULL
+	.inherit = NULL,
+	.serialize = NULL
     }, {
 	.name = NULL
     }
