@@ -15,11 +15,11 @@ peek_property_class (void);
  */
 
 typedef struct {
-	ccss_property_base_t	 base;
-	char			*font_family;
+	ccss_property_t	 base;
+	char		*font_family;
 } font_family_t;
 
-static ccss_property_base_t *
+static ccss_property_t *
 font_family_new (ccss_grammar_t	*grammar,
 		 CRTerm const	*values,
 		 void		*user_data)
@@ -34,7 +34,7 @@ font_family_new (ccss_grammar_t	*grammar,
 	case TERM_IDENT:
 	case TERM_STRING:
 		self = g_new0 (font_family_t, 1);
-		ccss_property_init ((ccss_property_base_t *) self, peek_property_class ());
+		ccss_property_init ((ccss_property_t *) self, peek_property_class ());
 		self->font_family = g_strdup (cr_string_peek_raw_str (values->content.str));
 		break;
 	default:
@@ -42,7 +42,7 @@ font_family_new (ccss_grammar_t	*grammar,
 		;
 	}
 
-	return (ccss_property_base_t *) self;
+	return (ccss_property_t *) self;
 }
 
 static void
@@ -96,10 +96,10 @@ expose_cb (GtkWidget		*widget,
 	   GdkEventExpose	*event,
 	   ccss_style_t const	*style)
 {
-	cairo_t				 *cr;
-	ccss_property_base_t const	 *property;
-	PangoContext			 *context;
-	PangoLayout			 *layout;
+	cairo_t			 *cr;
+	ccss_property_t const	 *property;
+	PangoContext		 *context;
+	PangoLayout		 *layout;
 
 	cr = gdk_cairo_create (widget->window);
 

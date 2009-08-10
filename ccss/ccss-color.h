@@ -30,12 +30,12 @@
 CCSS_BEGIN_DECLS
 
 typedef struct {
-	ccss_property_base_t	base;
+	ccss_property_t	base;
 
-	float			red;
-	float			green;
-	float			blue;
-	float			alpha;
+	float		red;
+	float		green;
+	float		blue;
+	float		alpha;
 } ccss_color_t;
 
 CCSS_END_DECLS

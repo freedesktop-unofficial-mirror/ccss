@@ -52,10 +52,10 @@ typedef struct {
 } ccss_cairo_appearance_module_t;
 
 typedef struct {
-	ccss_property_base_t			 base;
-	char					*appearance;
-	ccss_cairo_appearance_module_t		*module;
-	ccss_cairo_appearance_draw_f		 draw_function;
+	ccss_property_t			 base;
+	char				*appearance;
+	ccss_cairo_appearance_module_t	*module;
+	ccss_cairo_appearance_draw_f	 draw_function;
 } ccss_cairo_appearance_t;
 
 CCSS_END_DECLS

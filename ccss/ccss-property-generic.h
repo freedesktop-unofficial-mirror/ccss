@@ -38,7 +38,7 @@ CCSS_BEGIN_DECLS
  * Implementation of a generic, single-value property.
  **/
 typedef struct {
-	ccss_property_base_t	base;
+	ccss_property_t		 base;
 
 	char			*name;
 	CRTerm			*values;

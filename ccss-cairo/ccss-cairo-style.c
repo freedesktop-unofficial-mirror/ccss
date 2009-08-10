@@ -31,17 +31,17 @@
 #include "config.h"
 
 typedef struct {
-	ccss_property_base_t	base;
-	ccss_cairo_gap_side_t   side;
+	ccss_property_t		base;
+	ccss_cairo_gap_side_t	side;
 } gap_side_t;
 
 typedef struct {
-	ccss_property_base_t	base;
+	ccss_property_t		base;
 	double			start;
 } gap_start_t;
 
 typedef struct {
-	ccss_property_base_t	base;
+	ccss_property_t		base;
 	double			width;
 } gap_width_t;
 
@@ -80,16 +80,16 @@ struct {
 };
 
 /* Look up a property, take fallback into account. */
-static ccss_property_base_t const *
+static ccss_property_t const *
 lookup_property_r (ccss_style_t const	*self,
 		   char const		*property_name)
 {
-	GQuark				 property_id;
-	ccss_property_base_t const	*property = NULL;
+	GQuark			 property_id;
+	ccss_property_t const	*property = NULL;
 
 	property_id = g_quark_try_string (property_name);
 	if (property_id) {
-		property = (ccss_property_base_t const *)
+		property = (ccss_property_t const *)
 				g_hash_table_lookup (self->properties,
 						     (gpointer) property_id);
 	}
@@ -282,7 +282,7 @@ ccss_cairo_style_draw_rectangle (ccss_style_t const	*self,
 	ccss_cairo_appearance_t *appearance = NULL;
 	if (ccss_style_get_property (self,
 				     "ccss-appearance",
-				     (ccss_property_base_t const **) &appearance) &&
+				     (ccss_property_t const **) &appearance) &&
 	    appearance->base.state == CCSS_PROPERTY_STATE_SET &&
 	    appearance->draw_function) {
 
@@ -393,7 +393,7 @@ ccss_cairo_style_draw_rectangle_with_gap (ccss_style_t const		*self,
 	ccss_cairo_appearance_t *appearance = NULL;
 	if (ccss_style_get_property (self,
 				     "ccss-appearance",
-				     (ccss_property_base_t const **) &appearance) &&
+				     (ccss_property_t const **) &appearance) &&
 	    appearance->base.state == CCSS_PROPERTY_STATE_SET &&
 	    appearance->draw_function) {
 
@@ -679,7 +679,7 @@ ccss_cairo_style_get_double (ccss_style_t const	*self,
 			     char const		*property_name,
 			     double		*value)
 {
-	ccss_property_base_t const *property;
+	ccss_property_t const *property;
 
 	g_return_val_if_fail (self && property_name && value, false);
 
@@ -713,7 +713,7 @@ ccss_cairo_style_get_string (ccss_style_t const	 *self,
 			     char const		 *property_name,
 			     char		**value)
 {
-	ccss_property_base_t const *property;
+	ccss_property_t const *property;
 
 	g_return_val_if_fail (self && property_name && value, false);
 
@@ -743,9 +743,9 @@ ccss_cairo_style_get_string (ccss_style_t const	 *self,
  * Returns: %TRUE if the property was found.
  **/
 bool
-ccss_cairo_style_get_property (ccss_style_t const		 *self,
-			       char const			 *property_name,
-			       ccss_property_base_t const	**property)
+ccss_cairo_style_get_property (ccss_style_t const	 *self,
+			       char const		 *property_name,
+			       ccss_property_t const	**property)
 {
 	g_return_val_if_fail (self && property_name && property, false);
 
@@ -755,7 +755,7 @@ ccss_cairo_style_get_property (ccss_style_t const		 *self,
 }
 
 static void
-gap_destroy_nop (ccss_property_base_t *property)
+gap_destroy_nop (ccss_property_t *property)
 {
 	/* Gap properties are stack-allocated. */
 }

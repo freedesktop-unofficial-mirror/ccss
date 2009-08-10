@@ -28,9 +28,9 @@
 CCSS_BEGIN_DECLS
 
 typedef struct {
-	ccss_property_base_t	base;
+	ccss_property_t	base;
 
-	double			padding;
+	double		padding;
 } ccss_padding_t;
 
 CCSS_END_DECLS

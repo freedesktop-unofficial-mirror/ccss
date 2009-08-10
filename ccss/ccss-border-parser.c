@@ -69,7 +69,7 @@
 	(CCSS_PROPERTY_STATE_INHERIT == property_->state)
 
 typedef struct {
-	ccss_property_base_t	 base;
+	ccss_property_t	 	 base;
 	ccss_border_width_t	*width;
 	ccss_border_style_t	*style;
 	ccss_color_t const	*color;
@@ -256,8 +256,8 @@ static bool
 border_color_inherit (ccss_style_t const	*container_style,
 		      ccss_style_t		*style)
 {
-	ccss_property_base_t const	*property;
-	bool				 ret;
+	ccss_property_t const	*property;
+	bool			 ret;
 
 	ret = false;
 
@@ -386,8 +386,8 @@ static bool
 border_style_inherit (ccss_style_t const	*container_style,
 		      ccss_style_t		*style)
 {
-	ccss_property_base_t const	*property;
-	bool				 ret;
+	ccss_property_t const	*property;
+	bool			 ret;
 
 	ret = false;
 
@@ -516,8 +516,8 @@ static bool
 border_width_inherit (ccss_style_t const	*container_style,
 		      ccss_style_t		*style)
 {
-	ccss_property_base_t const	*property;
-	bool				 ret;
+	ccss_property_t const	*property;
+	bool			 ret;
 
 	if (ccss_style_get_property (container_style,
 				"border-width", &property)) {
@@ -721,9 +721,9 @@ border_side_inherit_impl (ccss_style_t const	*container_style,
 			  char const		*side,
 			  ccss_style_t		*style)
 {
-	ccss_property_base_t const	*property;
-	char				*property_name;
-	bool				 ret;
+	ccss_property_t const	*property;
+	char			*property_name;
+	bool			 ret;
 
 	g_return_val_if_fail (container_style && side && style, false);
 
@@ -830,7 +830,7 @@ border_inherit (ccss_style_t const	*container_style,
 	return ret;
 }
 
-static ccss_property_base_t *
+static ccss_property_t *
 border_radius_create (ccss_grammar_t const	*grammar,
 		      CRTerm const		*value,
 		      void			*user_data)
@@ -920,8 +920,8 @@ static bool
 border_radius_inherit (ccss_style_t const	*container_style,
 		       ccss_style_t		*style)
 {
-	ccss_property_base_t const	*property;
-	bool				 ret;
+	ccss_property_t const	*property;
+	bool			 ret;
 
 	ret = false;
 
@@ -999,7 +999,7 @@ border_radius_convert (ccss_border_join_t const	*property,
 	return false;
 }
 
-static ccss_property_base_t *
+static ccss_property_t *
 border_style_create (ccss_grammar_t const	*grammar,
 		     CRTerm const		*value,
 		     void			*user_data)
@@ -1034,7 +1034,7 @@ border_style_convert (ccss_border_style_t const	*property,
 	return true;
 }
 
-static ccss_property_base_t *
+static ccss_property_t *
 border_width_create (ccss_grammar_t const	*grammar,
 		     CRTerm const		*value,
 		     void			*user_data)
@@ -1076,7 +1076,7 @@ border_width_convert (ccss_border_width_t const	*property,
 	return false;
 }
 
-static ccss_property_base_t *
+static ccss_property_t *
 border_spacing_create (ccss_grammar_t const	*grammar,
 		       CRTerm const		*value,
 		       void			*user_data)

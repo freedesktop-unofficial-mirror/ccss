@@ -27,14 +27,14 @@
 
 /**
  * ccss_property_init:
- * @self:		a #ccss_property_base_t.
+ * @self:		a #ccss_property_t.
  * @property_class:	a #ccss_property_class_t vtable.
  *
  * Initializes @self, needs to be called before the property is
  * registered with ccss.
  **/
 void
-ccss_property_init (ccss_property_base_t	*self,
+ccss_property_init (ccss_property_t		*self,
 		    ccss_property_class_t const	*property_class)
 {
 	g_assert (self && property_class);
@@ -44,7 +44,7 @@ ccss_property_init (ccss_property_base_t	*self,
 }
 
 void
-ccss_property_destroy (ccss_property_base_t *self)
+ccss_property_destroy (ccss_property_t *self)
 {
 	g_return_if_fail (self);
 	g_return_if_fail (self->property_class);

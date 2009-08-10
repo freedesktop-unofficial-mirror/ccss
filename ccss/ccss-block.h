@@ -32,7 +32,7 @@ typedef struct ccss_block_ ccss_block_t;
 void
 ccss_block_add_property (ccss_block_t		*self,
 			 char const		*property_name,
-			 ccss_property_base_t	*property);
+			 ccss_property_t	*property);
 
 CCSS_END_DECLS
 

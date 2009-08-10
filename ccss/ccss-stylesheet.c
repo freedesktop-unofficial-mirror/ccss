@@ -423,10 +423,10 @@ inherit_container_style (ccss_style_t const	*container_style,
 			 GHashTable		*inherit,
 			 ccss_style_t		*style)
 {
-	GHashTableIter			 iter;
-	GQuark				 property_id;
-	ccss_property_base_t const	*property;
-	GSList				*removals;
+	GHashTableIter		 iter;
+	GQuark			 property_id;
+	ccss_property_t const	*property;
+	GSList			*removals;
 
 	/* Check which properties from the `inherit' set can be resolved. */
 	removals = NULL;
@@ -434,7 +434,7 @@ inherit_container_style (ccss_style_t const	*container_style,
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, NULL)) {
 
 		/* Look up property in the container's style. */
-		property = (ccss_property_base_t const *)
+		property = (ccss_property_t const *)
 				g_hash_table_lookup (container_style->properties,
 						     (gpointer) property_id);
 		if (property &&
@@ -554,12 +554,12 @@ ccss_style_t *
 ccss_stylesheet_query (ccss_stylesheet_t 	*self,
 		       ccss_node_t		*node)
 {
-	GHashTable			*inherit;
-	GHashTableIter			 iter;
-	GQuark				 property_id;
-	ccss_property_base_t const	*property;
-	ccss_style_t			*style;
-	bool				 ret;
+	GHashTable		*inherit;
+	GHashTableIter		 iter;
+	GQuark			 property_id;
+	ccss_property_t const	*property;
+	ccss_style_t		*style;
+	bool			 ret;
 
 	g_return_val_if_fail (self, NULL);
 	g_return_val_if_fail (node, NULL);

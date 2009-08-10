@@ -104,7 +104,7 @@ style_iterator (ccss_style_t const	 *style,
 		char const		 *property_name,
 		GSList			**style_properties)
 {
-	ccss_property_base_t const	*property;
+	ccss_property_t const		*property;
 	ccss_gtk_property_t const	*self;
 	char				*prefix;
 	char				*rc_string;

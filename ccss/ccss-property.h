@@ -68,7 +68,7 @@ typedef enum {
 	CCSS_PROPERTY_TYPE_STRING
 } ccss_property_type_t;
 
-typedef struct ccss_property_base_ ccss_property_base_t;
+typedef struct ccss_property_ ccss_property_t;
 
 /**
  * ccss_property_create_f:
@@ -80,9 +80,9 @@ typedef struct ccss_property_base_ ccss_property_base_t;
  *
  * Returns: pointer to the allocated property instance or %NULL if parsing fails.
  **/
-typedef ccss_property_base_t * (*ccss_property_create_f) (struct ccss_grammar_ const	*grammar,
-							  CRTerm const			*values,
-							  void				*user_data);
+typedef ccss_property_t * (*ccss_property_create_f) (struct ccss_grammar_ const	*grammar,
+						     CRTerm const		*values,
+						     void			*user_data);
 
 /**
  * ccss_property_destroy_f:
@@ -90,7 +90,7 @@ typedef ccss_property_base_t * (*ccss_property_create_f) (struct ccss_grammar_ c
  *
  * Hook function for deallocating a property instance.
  **/
-typedef void (*ccss_property_destroy_f) (ccss_property_base_t *self);
+typedef void (*ccss_property_destroy_f) (ccss_property_t *self);
 
 /** 
  * ccss_property_convert_f:
@@ -102,7 +102,7 @@ typedef void (*ccss_property_destroy_f) (ccss_property_base_t *self);
  *
  * Returns: %TRUE if the conversion was successful.
  **/
-typedef bool (*ccss_property_convert_f) (ccss_property_base_t const	*self,
+typedef bool (*ccss_property_convert_f) (ccss_property_t const	*self,
 					 ccss_property_type_t		 target,
 					 void				*value);
 
@@ -144,7 +144,7 @@ typedef bool (*ccss_property_inherit_f) (struct ccss_style_ const	*container_sty
  *
  * Returns: %TRUE if property inheritance could be resolved.
  **/
-typedef char * (*ccss_property_serialize_f) (ccss_property_base_t const *self);
+typedef char * (*ccss_property_serialize_f) (ccss_property_t const *self);
 
 /**
  * ccss_property_class_t:
@@ -175,25 +175,23 @@ typedef struct {
 } ccss_property_class_t;
 
 /**
- * ccss_property_base_t:
+ * ccss_property_t:
  * @property_class:	class descriptor, see #ccss_property_class_t.
  * @state:		property state, see #ccss_property_state_t.
  *
  * This structure has to be embedded at the beginning of every custom property.
- *
- * TODO: Rename to ccss_property_t.
  **/
-struct ccss_property_base_ {
+struct ccss_property_ {
 	ccss_property_class_t const	*property_class;
 	ccss_property_state_t		 state;
 };
 
 void
-ccss_property_init (ccss_property_base_t	*self,
+ccss_property_init (ccss_property_t	*self,
 		    ccss_property_class_t const	*property_class);
 
 void
-ccss_property_destroy (ccss_property_base_t *self);
+ccss_property_destroy (ccss_property_t *self);
 
 ccss_property_state_t
 ccss_property_parse_state (CRTerm const **value);

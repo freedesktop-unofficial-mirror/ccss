@@ -84,7 +84,7 @@ test_color (void)
 		color = NULL;
 		ret = ccss_style_get_property (style,
 					       "color",
-					       (ccss_property_base_t const **) &color);
+					       (ccss_property_t const **) &color);
 		g_assert (ret);
 		g_assert (color->base.state == CCSS_PROPERTY_STATE_SET);
 

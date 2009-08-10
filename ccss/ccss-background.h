@@ -32,7 +32,7 @@
 CCSS_BEGIN_DECLS
 
 typedef struct {
-	ccss_property_base_t	base;
+	ccss_property_t		base;
 
 	enum ccss_background_attachment {
 		CCSS_BACKGROUND_SCROLL,
@@ -41,20 +41,20 @@ typedef struct {
 } ccss_background_attachment_t;
 
 typedef struct {
-	ccss_property_base_t	base;
+	ccss_property_t		 base;
 
 	char			*uri;
 } ccss_background_image_t;
 
 typedef struct {
-	ccss_property_base_t	base;
+	ccss_property_t		base;
 
 	ccss_position_t		hpos;
 	ccss_position_t		vpos;
 } ccss_background_position_t;
 
 typedef struct {
-	ccss_property_base_t	base;
+	ccss_property_t		base;
 
 	enum ccss_background_repeat {
 		CCSS_BACKGROUND_REPEAT = 0,
@@ -65,14 +65,14 @@ typedef struct {
 } ccss_background_repeat_t;
 
 typedef struct {
-	ccss_property_base_t	base;
+	ccss_property_t		base;
 
 	ccss_position_t		width;
 	ccss_position_t		height;
 } ccss_background_size_t;
 
 typedef struct {
-	ccss_property_base_t		base;
+	ccss_property_t			base;
 
 	ccss_background_attachment_t	bg_attachment;
 	ccss_color_t			bg_color;

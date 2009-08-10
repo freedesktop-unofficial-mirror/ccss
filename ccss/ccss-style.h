@@ -59,21 +59,21 @@ ccss_style_get_string	(ccss_style_t const	 *self,
 			 char			**value);
 
 bool
-ccss_style_get_property	(ccss_style_t const		 *self,
-			 char const			 *property_name,
-			 ccss_property_base_t const	**value);
+ccss_style_get_property	(ccss_style_t const	 *self,
+			 char const		 *property_name,
+			 ccss_property_t const	**value);
 
 void
-ccss_style_set_property	(ccss_style_t 			*self,
-			 char const			*property_name,
-			 ccss_property_base_t const	*value);
+ccss_style_set_property	(ccss_style_t 		*self,
+			 char const		*property_name,
+			 ccss_property_t const	*value);
 
 bool
 ccss_style_interpret_property (ccss_style_t const	 *self,
                                char const		 *property_name,
                                ccss_property_create_f	  property_ctor,
                                void			 *user_data,
-                               ccss_property_base_t	**property);
+                               ccss_property_t		**property);
 
 /**
  * ccss_style_iterator_f:

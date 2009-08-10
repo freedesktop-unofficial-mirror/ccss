@@ -80,6 +80,9 @@ ccss_stylesheet_dump
 <SECTION>
 <TITLE>ccss_property_t</TITLE>
 <FILE>property</FILE>
+ccss_property_class_t
+ccss_property_t
+ccss_property_generic_t
 ccss_property_state_t
 ccss_property_type_t
 ccss_property_create_f
@@ -88,9 +91,6 @@ ccss_property_convert_f
 ccss_property_factory_f
 ccss_property_inherit_f
 ccss_property_serialize_f
-ccss_property_class_t
-ccss_property_base_t
-ccss_property_generic_t
 ccss_property_init
 </SECTION>
 

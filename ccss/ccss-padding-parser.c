@@ -62,7 +62,7 @@ parse_padding (CRTerm const	**value,
 	return false;
 }
 
-static ccss_property_base_t *
+static ccss_property_t *
 padding_create (ccss_grammar_t const	*grammar,
 		CRTerm const		*value,
 		void			*user_data)
@@ -182,8 +182,8 @@ static bool
 padding_inherit (ccss_style_t const	*container_style,
 		 ccss_style_t		*style)
 {
-	ccss_property_base_t const	*property;
-	bool				 ret;
+	ccss_property_t const	*property;
+	bool			 ret;
 
 	if (ccss_style_get_property (container_style,
 				"padding", &property)) {

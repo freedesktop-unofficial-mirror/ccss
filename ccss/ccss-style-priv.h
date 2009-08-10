@@ -50,14 +50,14 @@ ccss_style_t *
 ccss_style_create (void);
 
 void
-ccss_style_set_property_selector (ccss_style_t			*self,
-				  ccss_property_base_t const	*property,
-				  ccss_selector_t const		*selector);
+ccss_style_set_property_selector (ccss_style_t		*self,
+				  ccss_property_t const	*property,
+				  ccss_selector_t const	*selector);
 
 void
-ccss_style_set_property_selector_string (ccss_style_t			*self,
-					 ccss_property_base_t const	*property,
-					 char const			*selector);
+ccss_style_set_property_selector_string (ccss_style_t		*self,
+					 ccss_property_t const	*property,
+					 char const		*selector);
 
 CCSS_END_DECLS
 

@@ -32,7 +32,7 @@
 #include <gtk/gtk.h>
 
 typedef struct {
-	ccss_property_base_t	 base;
+	ccss_property_t		 base;
 	char			*class_name;
 	char			*property_name;
 	GType			 gtype;
@@ -52,7 +52,7 @@ typedef struct {
 } ccss_gtk_property_t;
 
 bool
-ccss_gtk_property_is_style_property (ccss_property_base_t const *self);
+ccss_gtk_property_is_style_property (ccss_property_t const *self);
 
 ccss_property_class_t const *
 ccss_gtk_property_get_property_classes (void);

@@ -321,7 +321,7 @@ property_cb (CRDocHandler	*handler,
 	ccss_block_t			*block;
 	char const 			*property_name;
 	ccss_property_class_t const	*property_class;
-	ccss_property_base_t		*property;
+	ccss_property_t			*property;
 
 	info = HANDLER_GET_INFO (handler);
 

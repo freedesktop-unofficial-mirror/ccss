@@ -92,12 +92,12 @@ ccss_style_hash (ccss_style_t const *self)
 	g_return_val_if_fail (g_hash_table_size (self->properties), 0);
 
 	{
-	ccss_property_base_t const	*property;
-	GHashTableIter			 iter;
-	int				 n_properties = g_hash_table_size (self->properties);
-	void				*property_ptrs[n_properties * sizeof (void *) + 1];
-	char const			*property_str = (char const *) property_ptrs;
-	int				 i = 0;
+	ccss_property_t const	*property;
+	GHashTableIter		 iter;
+	int			 n_properties = g_hash_table_size (self->properties);
+	void			*property_ptrs[n_properties * sizeof (void *) + 1];
+	char const		*property_str = (char const *) property_ptrs;
+	int			 i = 0;
 
 	/* Accumulate string of property pointers. */
 	g_hash_table_iter_init (&iter, self->properties);
@@ -147,8 +147,8 @@ ccss_style_get_double (ccss_style_t const	*self,
 		       char const		*property_name,
 		       double			*value)
 {
-	ccss_property_base_t const	*property;
-	bool				 ret;
+	ccss_property_t const	*property;
+	bool			 ret;
 
 	g_return_val_if_fail (self && property_name && value, false);
 
@@ -185,8 +185,8 @@ ccss_style_get_string (ccss_style_t const	 *self,
 		       char const		 *property_name,
 		       char			**value)
 {
-	ccss_property_base_t const	*property;
-	bool				 ret;
+	ccss_property_t const	*property;
+	bool			 ret;
 
 	g_return_val_if_fail (self && property_name && value, false);
 
@@ -219,9 +219,9 @@ ccss_style_get_string (ccss_style_t const	 *self,
  * Returns: %TRUE if the property was found.
  **/
 bool
-ccss_style_get_property	(ccss_style_t const		 *self,
-			 char const			 *property_name,
-			 ccss_property_base_t const	**property)
+ccss_style_get_property	(ccss_style_t const	 *self,
+			 char const		 *property_name,
+			 ccss_property_t const	**property)
 {
 	GQuark property_id;
 
@@ -247,9 +247,9 @@ ccss_style_get_property	(ccss_style_t const		 *self,
  * Insert custom property. This is for custom property implementations only.
  **/
 void
-ccss_style_set_property	(ccss_style_t 			*self,
-			 char const			*property_name,
-			 ccss_property_base_t const	*value)
+ccss_style_set_property	(ccss_style_t		*self,
+			 char const		*property_name,
+			 ccss_property_t const	*value)
 {
 	GQuark property_id;
 
@@ -270,9 +270,9 @@ ccss_style_set_property	(ccss_style_t 			*self,
  * annotated with selector information.
  **/
 void
-ccss_style_set_property_selector (ccss_style_t			*self,
-				  ccss_property_base_t const	*property,
-				  ccss_selector_t const		*selector)
+ccss_style_set_property_selector (ccss_style_t		*self,
+				  ccss_property_t const	*property,
+				  ccss_selector_t const	*selector)
 {
 #ifdef CCSS_DEBUG
 	GString *annotation;
@@ -306,9 +306,9 @@ ccss_style_set_property_selector (ccss_style_t			*self,
  * See: #ccss_style_set_property_selector
  **/
 void
-ccss_style_set_property_selector_string (ccss_style_t			*self,
-					 ccss_property_base_t const	*property,
-					 char const			*selector)
+ccss_style_set_property_selector_string (ccss_style_t		*self,
+					 ccss_property_t const	*property,
+					 char const		*selector)
 {
 #ifdef CCSS_DEBUG
 	g_return_if_fail (self);
@@ -338,7 +338,7 @@ ccss_style_interpret_property (ccss_style_t const	 *self,
                                char const		 *property_name,
                                ccss_property_create_f	  property_ctor,
                                void			 *user_data,
-                               ccss_property_base_t	**property)
+                               ccss_property_t		**property)
 {
 	GQuark				 property_id;
 	ccss_property_generic_t const	*generic_property;
@@ -404,10 +404,10 @@ ccss_style_foreach (ccss_style_t const		*self,
 void
 ccss_style_dump (ccss_style_t const *self)
 {
-	GHashTableIter			 iter;
-	GQuark				 property_id;
-	ccss_property_base_t const	*property;
-	char				*strval;
+	GHashTableIter		 iter;
+	GQuark			 property_id;
+	ccss_property_t const	*property;
+	char			*strval;
 
 	g_hash_table_iter_init (&iter, self->properties);
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property))  {

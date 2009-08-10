@@ -79,9 +79,9 @@ ccss_cairo_style_get_string (ccss_style_t const	 *self,
 			     char		**value);
 
 bool
-ccss_cairo_style_get_property (ccss_style_t const		 *self,
-			       char const			 *property_name,
-			       ccss_property_base_t const	**property);
+ccss_cairo_style_get_property (ccss_style_t const	 *self,
+			       char const		 *property_name,
+			       ccss_property_t const	**property);
 
 CCSS_END_DECLS
 

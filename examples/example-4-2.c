@@ -8,11 +8,11 @@
 #include "config.h"
 
 typedef struct {
-	ccss_property_base_t	 base;
-	char const		*font_family;   /* Owned by the stylesheet. */
+	ccss_property_t	 base;
+	char const	*font_family;   /* Owned by the stylesheet. */
 } font_family_t;
 
-static ccss_property_base_t *
+static ccss_property_t *
 font_family_new (ccss_grammar_t	*grammar,
 		 CRTerm const	*values,
 		 void		*user_data)
@@ -34,7 +34,7 @@ font_family_new (ccss_grammar_t	*grammar,
 		;
 	}
 
-	return (ccss_property_base_t *) self;
+	return (ccss_property_t *) self;
 }
 
 static gboolean
@@ -51,7 +51,7 @@ expose_cb (GtkWidget		*widget,
 	ccss_style_interpret_property (style, "font-family",
 				       (ccss_property_create_f) font_family_new,
 				       NULL,
-				       (ccss_property_base_t **) &property);
+				       (ccss_property_t **) &property);
 	if (property) {
 		PangoContext    *context;
 		PangoLayout	*layout;

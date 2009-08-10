@@ -89,7 +89,7 @@ border_image_parse (ccss_border_image_t		 *image,
 /*
  * FIXME: create all the border-image tiles here and save some time while painting.
  */
-static ccss_property_base_t *
+static ccss_property_t *
 border_image_create (ccss_grammar_t const	*grammar,
 		     CRTerm const		*values,
 		     void			*user_data)

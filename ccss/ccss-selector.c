@@ -1056,7 +1056,7 @@ ccss_selector_apply (ccss_selector_t const	*self,
 #ifdef CCSS_DEBUG
 		/* Track where the property comes from. */
 		ccss_style_set_property_selector (style,
-						  (ccss_property_base_t const *) value,
+						  (ccss_property_t const *) value,
 						  self);
 #endif
 	}

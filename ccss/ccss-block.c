@@ -72,7 +72,7 @@ ccss_block_reference (ccss_block_t *self)
 void
 ccss_block_add_property (ccss_block_t		*self,
 			 char const		*property_name,
-			 ccss_property_base_t	*property)
+			 ccss_property_t	*property)
 {
 	GQuark property_id;
 
@@ -91,10 +91,10 @@ ccss_block_add_property (ccss_block_t		*self,
 void
 ccss_block_dump (ccss_block_t const *self)
 {
-	GHashTableIter			 iter;
-	GQuark				 property_id;
-	ccss_property_base_t const	*property;
-	char				*strval;
+	GHashTableIter		 iter;
+	GQuark			 property_id;
+	ccss_property_t const	*property;
+	char			*strval;
 
 	g_hash_table_iter_init (&iter, self->properties);
 	while (g_hash_table_iter_next (&iter, (gpointer *) &property_id, (gpointer *) &property))  {

@@ -36,7 +36,7 @@
 
 /* Dummy property to hook up the inheritance function. */
 typedef struct {
-	ccss_property_base_t			 base;
+	ccss_property_t				 base;
 	ccss_background_attachment_t const	*bg_attachment;
 	ccss_background_image_t const		*bg_image;
 	ccss_background_position_t const	*bg_position;
@@ -340,8 +340,8 @@ static bool
 background_inherit (ccss_style_t const	*container_style,
 		    ccss_style_t	*style)
 {
-	ccss_property_base_t const	*property;
-	bool				 ret;
+	ccss_property_t const	*property;
+	bool			 ret;
 
 	ret = false;
 
@@ -412,7 +412,7 @@ background_inherit (ccss_style_t const	*container_style,
 	return ret;
 }
 
-static ccss_property_base_t *
+static ccss_property_t *
 background_attachment_create (ccss_grammar_t const	*grammar,
 			      CRTerm const		*values,
 			      void			*user_data)
@@ -461,7 +461,7 @@ background_attachment_convert (ccss_background_attachment_t const	*property,
 	return true;
 }
 
-static ccss_property_base_t *
+static ccss_property_t *
 background_image_create (ccss_grammar_t const	*grammar,
 			 CRTerm const		*values,
 			 void			*user_data)
@@ -511,7 +511,7 @@ background_image_convert (ccss_background_image_t const	*property,
 	return true;
 }
 
-static ccss_property_base_t *
+static ccss_property_t *
 background_position_create (ccss_grammar_t const	*grammar,
 			    CRTerm const		*values,
 			    void			*user_data)
@@ -541,7 +541,7 @@ background_position_convert (ccss_background_position_t const	*property,
 	return false;
 }
 
-static ccss_property_base_t *
+static ccss_property_t *
 background_repeat_create (ccss_grammar_t const	*grammar,
 			  CRTerm const		*values,
 			  void			*user_data)
@@ -596,7 +596,7 @@ background_repeat_convert (ccss_background_repeat_t const	*property,
 	return true;
 }
 
-static ccss_property_base_t *
+static ccss_property_t *
 background_size_create (ccss_grammar_t const	*grammar,
 			CRTerm const		*values,
 			void			*user_data)
