@@ -41,7 +41,7 @@ property_factory (ccss_grammar_t const	*grammar,
 
 	memset (&p, 0, sizeof (p));
 
-	p.base.property_class = peek_property_class ();
+	p.base.vtable = peek_property_class ();
 	p.base.state = ccss_property_parse_state (&values);
 	p.name = g_strdup (name);
 	if (p.base.state == CCSS_PROPERTY_STATE_SET) {

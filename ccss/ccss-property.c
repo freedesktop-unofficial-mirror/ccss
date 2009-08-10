@@ -39,7 +39,7 @@ ccss_property_init (ccss_property_t		*self,
 {
 	g_assert (self && property_class);
 
-	self->property_class = property_class;
+	self->vtable = property_class;
 	self->state = CCSS_PROPERTY_STATE_INVALID;
 }
 
@@ -47,11 +47,11 @@ void
 ccss_property_destroy (ccss_property_t *self)
 {
 	g_return_if_fail (self);
-	g_return_if_fail (self->property_class);
-	g_return_if_fail (self->property_class);
-	g_return_if_fail (self->property_class->destroy);
+	g_return_if_fail (self->vtable);
+	g_return_if_fail (self->vtable);
+	g_return_if_fail (self->vtable->destroy);
 
-	self->property_class->destroy (self);
+	self->vtable->destroy (self);
 }
 
 /**

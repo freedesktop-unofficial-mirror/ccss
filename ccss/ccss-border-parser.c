@@ -31,7 +31,7 @@
 
 #define INSERT_BORDER_COLOR(block_, prop_name_, prop_, prop_ptr_)	       \
 	G_STMT_START {							       \
-	prop_.base.property_class = peek_property_class (prop_name_);	       \
+	prop_.base.vtable = peek_property_class (prop_name_);		       \
 	prop_ptr_ = g_new0 (ccss_color_t, 1);				       \
 	*prop_ptr_ = prop_;						       \
 	ccss_block_add_property (block_, prop_name_, &prop_ptr_->base);	       \
@@ -39,7 +39,7 @@
 
 #define INSERT_BORDER_STYLE(block_, prop_name_, prop_, prop_ptr_)	       \
 	G_STMT_START {							       \
-	prop_.base.property_class = peek_property_class (prop_name_);	       \
+	prop_.base.vtable = peek_property_class (prop_name_);		       \
 	prop_ptr_ = g_new0 (ccss_border_style_t, 1);			       \
 	*prop_ptr_ = prop_;						       \
 	ccss_block_add_property (block_, prop_name_, &prop_ptr_->base);	       \
@@ -47,7 +47,7 @@
 
 #define INSERT_BORDER_WIDTH(block_, prop_name_, prop_, prop_ptr_)	       \
 	G_STMT_START {							       \
-	prop_.base.property_class = peek_property_class (prop_name_);	       \
+	prop_.base.vtable = peek_property_class (prop_name_);		       \
 	prop_ptr_ = g_new0 (ccss_border_width_t, 1);			       \
 	*prop_ptr_ = prop_;						       \
 	ccss_block_add_property (block_, prop_name_, &prop_ptr_->base);	       \
@@ -55,7 +55,7 @@
 
 #define INSERT_BORDER_RADIUS(block_, prop_name_, prop_, prop_ptr_)	       \
 	G_STMT_START {							       \
-	prop_.base.property_class = peek_property_class (prop_name_);	       \
+	prop_.base.vtable = peek_property_class (prop_name_);		       \
 	prop_ptr_ = g_new0 (ccss_border_join_t, 1);			       \
 	*prop_ptr_ = prop_;						       \
 	ccss_block_add_property (block_, prop_name_, &prop_ptr_->base);	       \

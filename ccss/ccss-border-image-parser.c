@@ -102,7 +102,7 @@ border_image_create (ccss_grammar_t const	*grammar,
 	bool			 ret;
 
 	memset (&bimg, 0, sizeof (bimg));
-	bimg.base.property_class = peek_property_class ();
+	bimg.base.vtable = peek_property_class ();
 
 	iter = values;
 

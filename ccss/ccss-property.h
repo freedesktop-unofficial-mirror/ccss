@@ -176,13 +176,13 @@ typedef struct {
 
 /**
  * ccss_property_t:
- * @property_class:	class descriptor, see #ccss_property_class_t.
- * @state:		property state, see #ccss_property_state_t.
+ * @vtable:	class descriptor, see #ccss_property_class_t.
+ * @state:	property state, see #ccss_property_state_t.
  *
  * This structure has to be embedded at the beginning of every custom property.
  **/
 struct ccss_property_ {
-	ccss_property_class_t const	*property_class;
+	ccss_property_class_t const	*vtable;
 	ccss_property_state_t		 state;
 };
 

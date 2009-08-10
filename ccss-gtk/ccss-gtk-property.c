@@ -567,7 +567,7 @@ ccss_gtk_property_set_fallback_class (ccss_property_class_t const *property_clas
 bool
 ccss_gtk_property_is_style_property (ccss_property_t const *self)
 {
-	return self->property_class->destroy ==
+	return self->vtable->destroy ==
 			(ccss_property_destroy_f) property_destroy;
 }
 
