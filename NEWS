@@ -2,7 +2,10 @@
 NEWS
 ====
 
-* Use 'ccss' name consistently, drop 'lib' prefix where possible.
+Version 0.4, 2009-08-11
+-----------------------
+
+* Use 'ccss' name consistently, drop 'lib' prefix where possible (e.g. pkg-config files).
 
 Core
 * Deep-free properties when destroying a stylesheet, fixes memory leak.

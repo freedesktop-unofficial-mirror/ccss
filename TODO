@@ -2,21 +2,15 @@
 ROADMAP
 =======
 
-Also see gtk-css-engine's TODO for now.
-
-0.5
+0.6
 ---
 
-* Move over gce-node, separate them?
+* Move over gce-node from the CSS engine, separate them?
 * Improve test suite. Libxml backend for cascading tests.
 * Cairo-style error handling? Or something else?
 * "char * foo_serialize()" API instead of _dump().
 * _serialize() property class method, serializing should fall back to _convert()
   should print url('foo').
-
-0.6
----
-
 * Improve test suite.
 * Use slice allocator and custom list/hash implementations with in-node data.
 
