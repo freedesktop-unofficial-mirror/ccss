@@ -50,6 +50,7 @@ main (int	  argc,
 	ccss_stylesheet_t	*stylesheet;
 	ccss_style_t		*style;
 	GtkWidget		*window;
+	GtkWidget		*area;
 
 	gtk_init (&argc, &argv);
 
@@ -66,10 +67,12 @@ main (int	  argc,
 #endif
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size (GTK_WINDOW (window), 160, 90);
-	gtk_widget_set_app_paintable (window, TRUE);
 	g_signal_connect (G_OBJECT (window), "delete-event", 
 			  G_CALLBACK (gtk_main_quit), NULL);
-	g_signal_connect (G_OBJECT (window), "expose-event", 
+
+	area = gtk_drawing_area_new ();
+	gtk_container_add (GTK_CONTAINER (window), area);
+	g_signal_connect (G_OBJECT (area), "expose-event",
 			  G_CALLBACK (expose_cb), style);
 
 	gtk_widget_show_all (window);
