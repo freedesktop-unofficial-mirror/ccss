@@ -43,7 +43,7 @@ struct ccss_style_;
  *
  * This enum must be embedded as first field in every property implementation.
  *
- * TODO: turn into flags and add CCSS_PROPERTY_STATE_UNRESOLVED.
+ * <!-- PONDERING: turn into flags and add CCSS_PROPERTY_STATE_UNRESOLVED. -->
  **/
 typedef enum {
 	CCSS_PROPERTY_STATE_INVALID = 0,
@@ -167,6 +167,7 @@ typedef struct {
 	ccss_property_factory_f		 factory;
 	ccss_property_inherit_f		 inherit;
 	ccss_property_serialize_f	 serialize;
+	/*< private >*/
 	void (*_padding_0) (void);
 	void (*_padding_1) (void);
 	void (*_padding_2) (void);

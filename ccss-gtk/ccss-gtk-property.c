@@ -515,11 +515,10 @@ property_factory (ccss_grammar_t const	*grammar,
 		}
 		return (bool) self;
 	} else if (g_ascii_isupper (name[0])) {
-		// TODO introspect style property and feed back to gtk directly.
+		// FIXME introspect style property and feed back to gtk directly.
 		// Non-gtk style properties (wnck, nautilus, ...) can't be
 		// resolved offline because css2gtkrc doesn't link against them.
 		// May cause some breakage, let's see how it goes.
-		// TODO link css2gtkrc against gtk.
 	}
 
 

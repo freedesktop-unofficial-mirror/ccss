@@ -131,13 +131,6 @@ test_generic_property (void)
 	style = ccss_stylesheet_query_type (stylesheet, "foo");
 	g_assert (style);
 
-	/* TODO: find out how to rund a test that's supposed to fail.
-	 * this issues a warning which aborts
-	if (g_test_verbose ()) g_print ("converting to double");
-	ret = ccss_style_get_double (style, "bar", &dval);
-	g_assert (!ret);
-	*/
-
 	if (g_test_verbose ()) g_print ("converting to string");
 	sval = NULL;
 	ret = ccss_style_get_string (style, "bar", &sval);

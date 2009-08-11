@@ -204,6 +204,7 @@ typedef struct {
 	ccss_node_get_style_f		get_style;
 	ccss_node_get_viewport_f	get_viewport;
 	ccss_node_release_f		release;
+	/*< private >*/
 	void (*_padding_0) (void);
 	void (*_padding_1) (void);
 	void (*_padding_2) (void);
