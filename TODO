@@ -5,7 +5,7 @@ ROADMAP
 0.6
 ---
 
-* Move over gce-node from the CSS engine, separate them?
+* Support multiple classes per node, similar to pseudo-classes.
 * Improve test suite. Libxml backend for cascading tests.
 * Cairo-style error handling? Or something else?
 * "char * foo_serialize()" API instead of _dump().

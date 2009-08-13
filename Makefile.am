@@ -64,3 +64,25 @@ ChangeLog: configure.in
 	@echo Creating ChangeLog ...
 	$(top_srcdir)/build/gen-changelog.pl > $@
 
+CSSS_FDO_BASE_PATH=annarchy.freedesktop.org:public_html/ccss
+CCSS_FDO_DOCS_PATH=$(CSSS_FDO_BASE_PATH)/ccss-$(CCSS_VERSION_MAJOR).$(CCSS_VERSION_MINOR)-doc
+
+# The tarball-upload target not active to prevent accidental uploads.
+upload: doc-upload # tarball-upload
+
+doc-upload:
+	ssh annarchy.freedesktop.org "mkdir public_html/ccss/ccss-$(CCSS_VERSION_MAJOR).$(CCSS_VERSION_MINOR)-doc"
+	scp -r ccss-doc/html $(CCSS_FDO_DOCS_PATH)/ccss
+	scp -r ccss-cairo-doc/html $(CCSS_FDO_DOCS_PATH)/ccss-cairo
+	scp -r ccss-gtk-doc/html $(CCSS_FDO_DOCS_PATH)/ccss-gtk
+
+#TARBALL=$(PACKAGE)-$(VERSION).tar.gz
+#CHECKSUMS=$(PACKAGE)-$(VERSION).md5sum
+#
+#tarball-upload: checksum
+#	scp $(TARBALL) $(CSSS_FDO_BASE_PATH)
+#	scp $(CHECKSUMS) $(CSSS_FDO_BASE_PATH)
+#
+#$(CHECKSUMS): $(TARBALL)
+#	md5sum $< > $@
+
