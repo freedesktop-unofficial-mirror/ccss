@@ -223,14 +223,14 @@ typedef struct {
  **/
 struct ccss_node_ {
 	/*< private >*/
-	ccss_node_class_t const *node_class;
+	CCSS_DEPRECATED (ccss_node_class_t const *node_class);
 
-	ptrdiff_t         instance;
-	char const       *id;
-	char const       *type_name;
-	char const       *css_class;
-	char const      **pseudo_classes;
-	char const       *inline_style;
+	CCSS_DEPRECATED (ptrdiff_t         instance);
+	CCSS_DEPRECATED (char const       *id);
+	CCSS_DEPRECATED (char const       *type_name);
+	CCSS_DEPRECATED (char const       *css_class);
+	CCSS_DEPRECATED (char const      **pseudo_classes);
+	CCSS_DEPRECATED (char const       *inline_style);
 };
 
 void
