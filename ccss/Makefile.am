@@ -32,6 +32,7 @@ libccss_1_la_SOURCES = \
 	ccss-block-priv.h \
 	ccss-border-parser.c \
 	ccss-border-parser.h \
+	ccss-border-image.c \
 	ccss-border-image-parser.c \
 	ccss-border-image-parser.h \
 	ccss-color.c \

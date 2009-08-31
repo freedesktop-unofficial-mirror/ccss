@@ -22,7 +22,6 @@
 #ifndef CCSS_BORDER_IMAGE_H
 #define CCSS_BORDER_IMAGE_H
 
-#include <stdint.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-position.h>
 #include <ccss/ccss-property.h>
@@ -36,16 +35,37 @@ typedef enum {
 } ccss_border_image_tiling_t;
 
 typedef struct {
-	ccss_property_t			base;
+	CCSS_DEPRECATED (ccss_property_t		 base);
 
-	char				*uri;
-	ccss_position_t			 top;
-	ccss_position_t			 right;
-	ccss_position_t			 bottom;
-	ccss_position_t			 left;
-	ccss_border_image_tiling_t	 top_middle_bottom_horizontal_tiling;
-	ccss_border_image_tiling_t	 left_middle_right_vertical_tiling;
+	CCSS_DEPRECATED (char				*uri);
+	CCSS_DEPRECATED (ccss_position_t		 top);
+	CCSS_DEPRECATED (ccss_position_t		 right);
+	CCSS_DEPRECATED (ccss_position_t		 bottom);
+	CCSS_DEPRECATED (ccss_position_t		 left);
+	CCSS_DEPRECATED (ccss_border_image_tiling_t	 top_middle_bottom_horizontal_tiling);
+	CCSS_DEPRECATED (ccss_border_image_tiling_t	 left_middle_right_vertical_tiling);
 } ccss_border_image_t;
+
+char const *
+ccss_border_image_get_uri (ccss_border_image_t const *self);
+
+ccss_position_t const *
+ccss_border_image_get_top (ccss_border_image_t const *self);
+
+ccss_position_t const *
+ccss_border_image_get_right (ccss_border_image_t const *self);
+
+ccss_position_t const *
+ccss_border_image_get_bottom (ccss_border_image_t const *self);
+
+ccss_position_t const *
+ccss_border_image_get_left (ccss_border_image_t const *self);
+
+ccss_border_image_tiling_t
+ccss_border_image_get_top_middle_bottom_horizontal_tiling (ccss_border_image_t const *self);
+
+ccss_border_image_tiling_t
+ccss_border_image_get_left_middle_right_vertical_tiling (ccss_border_image_t const *self);
 
 CCSS_END_DECLS
 
