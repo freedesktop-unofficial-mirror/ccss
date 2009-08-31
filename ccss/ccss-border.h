@@ -23,8 +23,6 @@
 #ifndef CCSS_BORDER_H
 #define CCSS_BORDER_H
 
-#include <stdbool.h>
-#include <stdint.h>
 #include <ccss/ccss-color.h>
 #include <ccss/ccss-macros.h>
 
@@ -57,31 +55,37 @@ typedef enum {
 } ccss_border_drawing_flags_t;
 
 typedef struct {
-	ccss_property_t			base;
+	CCSS_DEPRECATED (ccss_property_t		base);
 
-	ccss_border_style_type_t	style;
+	CCSS_DEPRECATED (ccss_border_style_type_t	style);
 } ccss_border_style_t;
 
-typedef struct {
-	ccss_property_t			base;
+ccss_border_style_type_t
+ccss_border_style_get_style (ccss_border_style_t const *self);
 
-	double				width;
+typedef struct {
+	CCSS_DEPRECATED (ccss_property_t	base);
+
+	CCSS_DEPRECATED (double			width);
 } ccss_border_width_t;
+
+double
+ccss_border_width_get_width (ccss_border_width_t const *self);
 
 /* FIXME: introduce generic "double" value struct. */
 typedef ccss_border_width_t ccss_border_spacing_t;
 
-typedef struct {
-	ccss_color_t const *		color;
-	ccss_border_style_t const *	style;
-	ccss_border_width_t const *	width;
-} ccss_border_stroke_t; 
+double
+ccss_border_spacing_get_spacing (ccss_border_spacing_t const *self);
 
 typedef struct {
-	ccss_property_t			base;
+	CCSS_DEPRECATED (ccss_property_t	base);
 
-	double				radius;
+	CCSS_DEPRECATED (double			radius);
 } ccss_border_join_t;	/* FIXME: rename to `border-radius'? */
+
+double
+ccss_border_join_get_radius (ccss_border_join_t const *self);
 
 CCSS_END_DECLS
 

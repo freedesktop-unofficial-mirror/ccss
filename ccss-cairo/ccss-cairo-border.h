@@ -34,6 +34,12 @@
 
 CCSS_BEGIN_DECLS
 
+typedef struct {
+	ccss_color_t const *		color;
+	ccss_border_style_t const *	style;
+	ccss_border_width_t const *	width;
+} ccss_border_stroke_t;
+
 void
 ccss_cairo_border_clamp_radii (double     x,
 			       double     y, 

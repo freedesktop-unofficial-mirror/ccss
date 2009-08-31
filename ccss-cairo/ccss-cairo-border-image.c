@@ -19,6 +19,9 @@
  * MA 02110-1301, USA.
  */
 
+/* Direct access to struct members for fun and profit. */
+#include <ccss/ccss-macros.h>
+
 #include "ccss-cairo-border-image.h"
 #include "ccss-cairo-image-cache.h"
 #include "config.h"

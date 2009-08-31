@@ -737,7 +737,7 @@ ccss_cairo_style_get_string (ccss_style_t const	 *self,
  * ccss_cairo_style_get_property:
  * @self:		a #ccss_style_t.
  * @property_name:	name of the property.
- * @value:		location to store the property.
+ * @property:		location to store the property.
  * 
  * Query a custom property with fallbacks, e.g. `border-color' if `border-left-color' is not given.
  *
