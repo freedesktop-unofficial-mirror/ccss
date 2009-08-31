@@ -19,42 +19,23 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_COLOR_PARSER_H
-#define CCSS_COLOR_PARSER_H
+#ifndef CCSS_POSITION_PARSER_H
+#define CCSS_POSITION_PARSER_H
 
 #include <stdbool.h>
+#include <stdint.h>
 #include <libcroco/libcroco.h>
-#include <ccss/ccss-color.h>
-#include <ccss/ccss-grammar.h>
 #include <ccss/ccss-macros.h>
+#include <ccss/ccss-position.h>
 
 CCSS_BEGIN_DECLS
 
 bool
-ccss_color_parse (ccss_color_t			 *self,
-		  ccss_grammar_t const		 *grammar,
-		  void				 *user_data,
-		  CRTerm const			**value);
-
-bool
-ccss_color_factory (ccss_grammar_t const	*grammar,
-		    ccss_block_t		*self,
-		    char const			*name,
-		    CRTerm const		*values,
-		    void			*user_data);
-
-void
-ccss_color_destroy (ccss_color_t *self);
-
-bool
-ccss_color_convert (ccss_color_t const		*property,
-		    ccss_property_type_t	 target,
-		    void			*value);
-
-ccss_property_class_t const *
-ccss_color_parser_get_property_classes (void);
+ccss_position_parse	(ccss_position_t	 *self,
+			 uint32_t		  flags, 
+			 CRTerm const		**value);
 
 CCSS_END_DECLS
 
-#endif /* CCSS_COLOR_PARSER_H */
+#endif /* CCSS_POSITION_PARSER_H */
 

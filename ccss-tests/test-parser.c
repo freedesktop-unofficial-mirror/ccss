@@ -86,7 +86,7 @@ test_color (void)
 					       "color",
 					       (ccss_property_t const **) &color);
 		g_assert (ret);
-		g_assert (color->base.state == CCSS_PROPERTY_STATE_SET);
+		g_assert (ccss_property_get_state (&color->base) == CCSS_PROPERTY_STATE_SET);
 
 		/* Only compare defined values (i.e. > 0). */
 		if (_values[i][0] >= 0.)

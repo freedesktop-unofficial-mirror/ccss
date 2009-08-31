@@ -22,12 +22,17 @@
 #ifndef CCSS_H
 #define CCSS_H
 
+#if defined(__GNUC__) && !defined(CCSS_DEPRECATED)
+  #define CCSS_DEPRECATED(sym) sym __attribute__ ((deprecated))
+#else
+  #define CCSS_DEPRECATED(sym) sym
+#endif
+
 #include <ccss/ccss-background.h>
 #include <ccss/ccss-block.h>
 #include <ccss/ccss-border.h>
 #include <ccss/ccss-border-image.h>
 #include <ccss/ccss-color.h>
-#include <ccss/ccss-color-parser.h>
 #include <ccss/ccss-grammar.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-node.h>

@@ -21,7 +21,8 @@
 
 #include <string.h>
 #include <glib.h>
-#include <ccss/ccss-style-priv.h>	/* PONDERING: use only public headers? */
+#include <ccss/ccss-property-impl.h>
+#include "ccss/ccss-style-priv.h"	/* PONDERING: use only public headers? */
 #include "ccss-cairo-appearance.h"
 #include "ccss-cairo-background.h"
 #include "ccss-cairo-border.h"

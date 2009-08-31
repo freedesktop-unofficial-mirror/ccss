@@ -20,9 +20,10 @@
  */
 
 #include <string.h>
+#include "ccss-grammar.h"
 #include "ccss-padding.h"
 #include "ccss-padding-parser.h"
-#include "ccss-grammar.h"
+#include "ccss-property-impl.h"
 #include "config.h"
 
 #define INSERT_PADDING(block_, prop_name_, prop_, prop_ptr_)		       \

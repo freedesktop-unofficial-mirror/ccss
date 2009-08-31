@@ -24,7 +24,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include "ccss-color-parser.h"
+#include "ccss-color-impl.h"
+#include "ccss-property-impl.h"
 #include "config.h"
 
 static const struct {

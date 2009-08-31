@@ -23,6 +23,8 @@
 #include "ccss-border-image.h"
 #include "ccss-border-image-parser.h"
 #include "ccss-grammar.h"
+#include "ccss-position-parser.h"
+#include "ccss-property-impl.h"
 #include "config.h"
 
 static ccss_property_class_t const *

@@ -92,6 +92,7 @@ ccss_property_factory_f
 ccss_property_inherit_f
 ccss_property_serialize_f
 ccss_property_init
+ccss_property_get_state
 </SECTION>
 
 <SECTION>

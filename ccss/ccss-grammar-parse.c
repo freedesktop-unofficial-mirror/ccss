@@ -25,7 +25,7 @@
 #include <libcroco/libcroco.h>
 #include "ccss-block-priv.h"
 #include "ccss-grammar-priv.h"
-#include "ccss-property.h"
+#include "ccss-property-impl.h"
 #include "ccss-selector.h"
 #include "ccss-selector-group.h"
 #include "config.h"

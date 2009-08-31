@@ -22,7 +22,6 @@
 #ifndef CCSS_GRAMMAR_H
 #define CCSS_GRAMMAR_H
 
-#include <libcroco/libcroco.h>
 #include <ccss/ccss-function.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
@@ -75,12 +74,6 @@ ccss_stylesheet_t *
 ccss_grammar_create_stylesheet_from_file	(ccss_grammar_t	*self,
 						 char const	*css_file,
 						 void		*user_data);
-
-char *
-ccss_grammar_invoke_function (ccss_grammar_t const	*self,
-			      char const		*function_name,
-			      CRTerm const		*values,
-			      void			*user_data);
 
 CCSS_END_DECLS
 

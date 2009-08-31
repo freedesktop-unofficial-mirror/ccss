@@ -68,13 +68,6 @@ ccss_style_set_property	(ccss_style_t 		*self,
 			 char const		*property_name,
 			 ccss_property_t const	*value);
 
-bool
-ccss_style_interpret_property (ccss_style_t const	 *self,
-                               char const		 *property_name,
-                               ccss_property_create_f	  property_ctor,
-                               void			 *user_data,
-                               ccss_property_t		**property);
-
 /**
  * ccss_style_iterator_f:
  * @self:		a #ccss_style_t.

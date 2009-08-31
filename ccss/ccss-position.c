@@ -20,7 +20,7 @@
  */
 
 #include <glib.h>
-#include "ccss-position.h"
+#include "ccss-position-parser.h"
 #include "config.h"
 
 static const struct {

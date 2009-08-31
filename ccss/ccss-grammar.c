@@ -27,8 +27,9 @@
 #include "ccss-background-parser.h"
 #include "ccss-border-parser.h"
 #include "ccss-border-image-parser.h"
-#include "ccss-color-parser.h"
+#include "ccss-color-impl.h"
 #include "ccss-padding-parser.h"
+#include "ccss-property-impl.h"
 
 #include "config.h"
 

@@ -23,15 +23,9 @@
 #define CCSS_PROPERTY_H
 
 #include <stdbool.h>
-#include <libcroco/libcroco.h>
 #include <ccss/ccss-macros.h>
 
 CCSS_BEGIN_DECLS
-
-/* Avoid circular dependencies. */
-struct ccss_block_;
-struct ccss_grammar_;
-struct ccss_style_;
 
 /**
  * ccss_property_state_t:
@@ -68,112 +62,8 @@ typedef enum {
 	CCSS_PROPERTY_TYPE_STRING
 } ccss_property_type_t;
 
-typedef struct ccss_property_ ccss_property_t;
-
-/**
- * ccss_property_create_f:
- * @grammar:	the grammar associated with this property.
- * @values:	libcroco CSS values to parse for the property, see #CRTerm.
- * @user_data:	user data passed to property- or function-handler.
- *
- * Hook function for instantiating a property.
- *
- * Returns: pointer to the allocated property instance or %NULL if parsing fails.
- **/
-typedef ccss_property_t * (*ccss_property_create_f) (struct ccss_grammar_ const	*grammar,
-						     CRTerm const		*values,
-						     void			*user_data);
-
-/**
- * ccss_property_destroy_f:
- * @self:	pointer to property instance.
- *
- * Hook function for deallocating a property instance.
- **/
-typedef void (*ccss_property_destroy_f) (ccss_property_t *self);
-
-/** 
- * ccss_property_convert_f:
- * @self:	pointer to property instance.
- * @target:	conversion target type, see #ccss_property_type_t.
- * @value:	pointer to memory location where to place the converted value.
- *
- * Hook function for converting a property instance.
- *
- * Returns: %TRUE if the conversion was successful.
- **/
-typedef bool (*ccss_property_convert_f) (ccss_property_t const	*self,
-					 ccss_property_type_t		 target,
-					 void				*value);
-
-/**
- * ccss_property_factory_f:
- * @grammar:	the grammar associated with this property.
- * @block:	the #ccss_block_t the properties will be associated to.
- * @name:	name of the property.
- * @values:	libcroco CSS values to parse for the property, see #CRTerm.
- * @user_data:	user data passed to property- or function-handler.
- *
- * Hook function to handle the creation of multiple properties from a single CSS property, e.g. `border'.
- *
- * Returns: %TRUE when sucessful.
- **/
-typedef bool (*ccss_property_factory_f) (struct ccss_grammar_ const	*grammar,
-					 struct ccss_block_		*block,
-					 char const			*name,
-					 CRTerm const			*values,
-					 void				*user_data);
-
-/**
- * ccss_property_inherit_f:
- * @container_style:	style to inherit from.
- * @style:		style to inherit to.
- *
- * Hook function to inherit multi-value properties like `border'.
- *
- * Returns: %TRUE if property inheritance could be resolved.
- **/
-typedef bool (*ccss_property_inherit_f) (struct ccss_style_ const	*container_style,
-					 struct ccss_style_		*style);
-
-/**
- * ccss_property_serialize_f:
- * @self:	pointer to property instance.
- *
- * Hook function to reformat a property to CSS syntax.
- *
- * Returns: %TRUE if property inheritance could be resolved.
- **/
-typedef char * (*ccss_property_serialize_f) (ccss_property_t const *self);
-
-/**
- * ccss_property_class_t:
- * @name:	property name.
- * @create:	allocation hook, see #ccss_property_create_f.
- * @destroy:	deallocation hook, see #ccss_property_destroy_f.
- * @convert:	conversion hook, see #ccss_property_convert_f.
- * @factory:	factory hook, see #ccss_property_factory_f.
- * @inherit:	inherit hook, see #ccss_property_inherit_f.
- * @inherit:	inherit hook, see #ccss_property_inherit_f.
- * @serialize:	serialize hook, see #ccss_property_serialize_f.
- *
- * Property interpretation vtable entry.
- **/
-typedef struct {
-	char const			*name;
-	ccss_property_create_f		 create;
-	ccss_property_destroy_f		 destroy;
-	ccss_property_convert_f		 convert;
-	ccss_property_factory_f		 factory;
-	ccss_property_inherit_f		 inherit;
-	ccss_property_serialize_f	 serialize;
-	/*< private >*/
-	void (*_padding_0) (void);
-	void (*_padding_1) (void);
-	void (*_padding_2) (void);
-	void (*_padding_3) (void);
-	void (*_padding_4) (void);
-} ccss_property_class_t;
+typedef struct ccss_property_		ccss_property_t;
+typedef struct ccss_property_class_     ccss_property_class_t;
 
 /**
  * ccss_property_t:
@@ -183,19 +73,13 @@ typedef struct {
  * This structure has to be embedded at the beginning of every custom property.
  **/
 struct ccss_property_ {
-	ccss_property_class_t const	*vtable;
-	ccss_property_state_t		 state;
+	/*< private >*/
+	CCSS_DEPRECATED (ccss_property_class_t const	*vtable);
+	CCSS_DEPRECATED (ccss_property_state_t		 state);
 };
 
-void
-ccss_property_init (ccss_property_t	*self,
-		    ccss_property_class_t const	*property_class);
-
-void
-ccss_property_destroy (ccss_property_t *self);
-
 ccss_property_state_t
-ccss_property_parse_state (CRTerm const **value);
+ccss_property_get_state (ccss_property_t const *self);
 
 CCSS_END_DECLS
 

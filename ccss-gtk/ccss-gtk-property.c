@@ -21,6 +21,8 @@
 
 #include <math.h>
 #include <string.h>
+#include <ccss/ccss-color-impl.h>
+#include <ccss/ccss-property-impl.h>
 #include "ccss-gtk-property.h"
 
 static ccss_property_class_t const *

@@ -24,7 +24,9 @@
 #include <glib.h>
 #include "ccss-background-parser.h"
 #include "ccss-background.h"
-#include "ccss-color-parser.h"
+#include "ccss-color-impl.h"
+#include "ccss-position-parser.h"
+#include "ccss-property-impl.h"
 #include "config.h"
 
 #define PROPERTY_SET(property_)					\

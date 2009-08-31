@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include "ccss-property.h"
+#include "ccss-property-impl.h"
 #include "config.h"
 
 /**
@@ -52,6 +52,22 @@ ccss_property_destroy (ccss_property_t *self)
 	g_return_if_fail (self->vtable->destroy);
 
 	self->vtable->destroy (self);
+}
+
+/**
+ * ccss_property_get_state:
+ * @self: a #ccss_property_t.
+ *
+ * Get the properties' state.
+ *
+ * Returns: a #ccss_property_state_t.
+ **/
+ccss_property_state_t
+ccss_property_get_state (ccss_property_t const *self)
+{
+	g_return_val_if_fail (self, CCSS_PROPERTY_STATE_INVALID);
+
+	return self->state;
 }
 
 /**

@@ -22,6 +22,7 @@
 #include <math.h>
 #include <string.h>
 #include <glib.h>
+#include <ccss/ccss-property-impl.h>
 #include "ccss-cairo-background.h"
 #include "ccss-cairo-image-cache.h"
 #include "config.h"

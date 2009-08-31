@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ccss/ccss.h>
+#include <glib.h>
 #include "config.h"
 
 static char const _css[] = "		\
@@ -19,7 +20,7 @@ main (int	  argc,
 	ccss_stylesheet_t	*stylesheet;
 	ccss_style_t		*style;
 	double			 spacing;
-	gboolean		 ret;
+	bool			 ret;
 
 	grammar = ccss_grammar_create_css ();
 	stylesheet = ccss_grammar_create_stylesheet_from_buffer (grammar,

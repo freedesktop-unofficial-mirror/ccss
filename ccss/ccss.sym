@@ -21,6 +21,7 @@ ccss_position_get_vsize
 ccss_position_parse
 ccss_position_serialize
 ccss_property_init
+ccss_property_get_state
 ccss_property_parse_state
 ccss_style_destroy
 ccss_style_dump

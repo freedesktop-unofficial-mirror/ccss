@@ -24,6 +24,7 @@
 #include "ccss-block-priv.h"
 #include "ccss-grammar-priv.h"
 #include "ccss-node-priv.h"
+#include "ccss-property-impl.h"
 #include "ccss-selector-group.h"
 #include "ccss-selector.h"
 #include "ccss-style-priv.h"

@@ -21,6 +21,7 @@
 
 #include <glib.h>
 #include "ccss-block-priv.h"
+#include "ccss-property-impl.h"
 #include "config.h"
 
 ccss_block_t *

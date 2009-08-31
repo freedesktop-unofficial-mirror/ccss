@@ -24,7 +24,6 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <libcroco/libcroco.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-color.h>
 #include <ccss/ccss-position.h>

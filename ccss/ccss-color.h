@@ -23,7 +23,6 @@
 #define CCSS_COLOR_H
 
 #include <stdbool.h>
-#include <libcroco/libcroco.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-property.h>
 

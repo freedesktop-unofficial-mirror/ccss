@@ -4,6 +4,7 @@
 #include <string.h>
 #include <cairo.h>
 #include <ccss-cairo/ccss-cairo.h>
+#include <ccss/ccss-property-impl.h>
 #include <gtk/gtk.h>
 #include "config.h"
 

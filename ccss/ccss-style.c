@@ -23,6 +23,7 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-property-generic.h"
+#include "ccss-property-impl.h"
 #include "ccss-style-priv.h"
 #include "config.h"
 

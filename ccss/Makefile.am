@@ -44,6 +44,7 @@ libccss_1_la_SOURCES = \
 	ccss-padding-parser.c \
 	ccss-padding-parser.h \
 	ccss-position.c \
+	ccss-position-parser.h \
 	ccss-property.c \
 	ccss-property-generic.h \
 	ccss-property-parser.c \
@@ -66,7 +67,7 @@ headers_DATA = \
 	ccss-border.h \
 	ccss-border-image.h \
 	ccss-color.h \
-	ccss-color-parser.h \
+	ccss-color-impl.h \
 	ccss-function.h \
 	ccss-grammar.h \
 	ccss.h \
@@ -75,6 +76,7 @@ headers_DATA = \
 	ccss-padding.h \
 	ccss-position.h \
 	ccss-property.h \
+	ccss-property-impl.h \
 	ccss-style.h \
 	ccss-stylesheet.h \
 	$(NULL)

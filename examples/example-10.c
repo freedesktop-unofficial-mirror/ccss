@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ccss/ccss.h>
+#include <glib.h>
 #include "config.h"
 
 static char const _css_1[] = "		\

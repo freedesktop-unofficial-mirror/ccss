@@ -22,6 +22,7 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-grammar-priv.h"
+#include "ccss-property-impl.h"
 #include "config.h"
 
 static GSList *

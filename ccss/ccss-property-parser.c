@@ -24,6 +24,7 @@
 #include <libcroco/libcroco.h>
 #include "ccss-grammar.h"
 #include "ccss-property-generic.h"
+#include "ccss-property-impl.h"
 #include "ccss-property-parser.h"
 #include "config.h"
 

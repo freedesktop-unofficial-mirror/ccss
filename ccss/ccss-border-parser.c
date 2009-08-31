@@ -26,7 +26,8 @@
 #include <glib.h>
 #include "ccss-border.h"
 #include "ccss-border-parser.h"
-#include "ccss-color-parser.h"
+#include "ccss-color-impl.h"
+#include "ccss-property-impl.h"
 #include "config.h"
 
 #define INSERT_BORDER_COLOR(block_, prop_name_, prop_, prop_ptr_)	       \

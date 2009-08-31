@@ -24,7 +24,6 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <libcroco/libcroco.h>
 #include <ccss/ccss-macros.h>
 
 CCSS_BEGIN_DECLS
@@ -64,11 +63,6 @@ typedef struct {
 	ccss_position_type_t	type;
 	double			value;
 } ccss_position_t;
-
-bool
-ccss_position_parse	(ccss_position_t	 *self,
-			 uint32_t		  flags, 
-			 CRTerm const		**value);
 
 double
 ccss_position_get_pos	(ccss_position_t const	*self,

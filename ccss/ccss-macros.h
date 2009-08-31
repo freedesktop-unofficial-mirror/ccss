@@ -23,18 +23,25 @@
 #define CCSS_MACROS_H
 
 /* Every header needs this one, so force single includes here. */
-#ifndef CCSS_H
-  #ifndef CCSS_BUILD
+#if !defined(CCSS_H) && !defined(CCSS_BUILD)
+  #ifdef CCSS_STANDALONE_HEADER
+    #error "Toplevel header <ccss/ccss.h> needs to be included before standalone header."
+  #else
     #error "Only <ccss/ccss.h> can be included directly."
   #endif
 #endif
 
 #ifdef  __cplusplus
-# define CCSS_BEGIN_DECLS  extern "C" {
-# define CCSS_END_DECLS    }
+  #define CCSS_BEGIN_DECLS  extern "C" {
+  #define CCSS_END_DECLS    }
 #else
-# define CCSS_BEGIN_DECLS
-# define CCSS_END_DECLS
+  #define CCSS_BEGIN_DECLS
+  #define CCSS_END_DECLS
+#endif
+
+/* Internally we'd like to use the struct fields directly. */
+#ifndef CCSS_DEPRECATED
+  #define CCSS_DEPRECATED(sym) sym
 #endif
 
 #endif /* CCSS_MACROS_H */
