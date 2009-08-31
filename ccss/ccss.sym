@@ -1,4 +1,8 @@
 ccss_block_add_property
+ccss_color_get_alpha
+ccss_color_get_blue
+ccss_color_get_green
+ccss_color_get_red
 ccss_color_parse
 ccss_grammar_add_functions
 ccss_grammar_add_properties
@@ -14,6 +18,7 @@ ccss_grammar_lookup_function
 ccss_grammar_lookup_property
 ccss_grammar_reference
 ccss_node_init
+ccss_padding_get_padding
 ccss_position_get_hsize
 ccss_position_get_pos
 ccss_position_get_size

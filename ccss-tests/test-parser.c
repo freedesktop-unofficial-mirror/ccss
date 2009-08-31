@@ -86,17 +86,17 @@ test_color (void)
 					       "color",
 					       (ccss_property_t const **) &color);
 		g_assert (ret);
-		g_assert (ccss_property_get_state (&color->base) == CCSS_PROPERTY_STATE_SET);
+		g_assert (ccss_property_get_state ((ccss_property_t *) color) == CCSS_PROPERTY_STATE_SET);
 
 		/* Only compare defined values (i.e. > 0). */
 		if (_values[i][0] >= 0.)
-			ccss_assert_float_equal (color->red, _values[i][0]);
+			ccss_assert_float_equal (ccss_color_get_red (color), _values[i][0]);
 		if (_values[i][1] >= 0.)
-			ccss_assert_float_equal (color->green, _values[i][1]);
+			ccss_assert_float_equal (ccss_color_get_green (color), _values[i][1]);
 		if (_values[i][2] >= 0.)
-			ccss_assert_float_equal (color->blue, _values[i][2]);
+			ccss_assert_float_equal (ccss_color_get_blue (color), _values[i][2]);
 		if (_values[i][3] >= 0.)
-			ccss_assert_float_equal (color->alpha, _values[i][3]);
+			ccss_assert_float_equal (ccss_color_get_alpha (color), _values[i][3]);
 
 		ccss_style_destroy (style);
 	}

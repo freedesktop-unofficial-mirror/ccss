@@ -19,36 +19,38 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_COLOR_H
-#define CCSS_COLOR_H
-
-#include <ccss/ccss-macros.h>
-#include <ccss/ccss-property.h>
-
-CCSS_BEGIN_DECLS
-
-typedef struct {
-	CCSS_DEPRECATED (ccss_property_t	base);
-
-	CCSS_DEPRECATED (float			red);
-	CCSS_DEPRECATED (float			green);
-	CCSS_DEPRECATED (float			blue);
-	CCSS_DEPRECATED (float			alpha);
-} ccss_color_t;
+#include <glib.h>
+#include "ccss-color.h"
 
 double
-ccss_color_get_red	(ccss_color_t const *self);
+ccss_color_get_red (ccss_color_t const *self)
+{
+	g_return_val_if_fail (self, 0);
+
+	return self->red;
+}
 
 double
-ccss_color_get_green	(ccss_color_t const *self);
+ccss_color_get_green (ccss_color_t const *self)
+{
+	g_return_val_if_fail (self, 0);
+
+	return self->green;
+}
 
 double
-ccss_color_get_blue	(ccss_color_t const *self);
+ccss_color_get_blue (ccss_color_t const *self)
+{
+	g_return_val_if_fail (self, 0);
+
+	return self->blue;
+}
 
 double
-ccss_color_get_alpha	(ccss_color_t const *self);
+ccss_color_get_alpha (ccss_color_t const *self)
+{
+	g_return_val_if_fail (self, 0);
 
-CCSS_END_DECLS
-
-#endif /* CCSS_COLOR_H */
+	return self->alpha;
+}
 
