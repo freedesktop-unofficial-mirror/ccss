@@ -2,7 +2,10 @@
 NEWS
 ====
 
-Version 0.4, 2009-08-11
+* Implement accessor functions to structs and deprecate field access.
+
+
+Version 0.5, 2009-08-11
 -----------------------
 
 * Use 'ccss' name consistently, drop 'lib' prefix where possible (e.g. pkg-config files).
