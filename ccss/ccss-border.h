@@ -55,6 +55,7 @@ typedef enum {
 } ccss_border_drawing_flags_t;
 
 typedef struct {
+	/*< private >*/
 	CCSS_DEPRECATED (ccss_property_t		base);
 
 	CCSS_DEPRECATED (ccss_border_style_type_t	style);
@@ -64,6 +65,7 @@ ccss_border_style_type_t
 ccss_border_style_get_style (ccss_border_style_t const *self);
 
 typedef struct {
+	/*< private >*/
 	CCSS_DEPRECATED (ccss_property_t	base);
 
 	CCSS_DEPRECATED (double			width);
@@ -79,6 +81,7 @@ double
 ccss_border_spacing_get_spacing (ccss_border_spacing_t const *self);
 
 typedef struct {
+	/*< private >*/
 	CCSS_DEPRECATED (ccss_property_t	base);
 
 	CCSS_DEPRECATED (double			radius);

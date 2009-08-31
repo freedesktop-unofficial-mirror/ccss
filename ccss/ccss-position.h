@@ -60,6 +60,7 @@ typedef enum {
 } ccss_position_type_t;
 
 typedef struct {
+	/*< private >*/
 	CCSS_DEPRECATED (ccss_position_type_t	type);
 	CCSS_DEPRECATED (double			value);
 } ccss_position_t;

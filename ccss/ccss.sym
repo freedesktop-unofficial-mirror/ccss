@@ -52,6 +52,7 @@ ccss_position_serialize
 ccss_property_init
 ccss_property_get_state
 ccss_property_parse_state
+ccss_property_state_serialize
 ccss_style_destroy
 ccss_style_dump
 ccss_style_foreach

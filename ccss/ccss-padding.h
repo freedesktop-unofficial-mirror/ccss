@@ -28,6 +28,7 @@
 CCSS_BEGIN_DECLS
 
 typedef struct {
+	/*< private >*/
 	CCSS_DEPRECATED (ccss_property_t	base);
 
 	CCSS_DEPRECATED (double			padding);

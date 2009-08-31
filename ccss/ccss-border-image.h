@@ -35,6 +35,7 @@ typedef enum {
 } ccss_border_image_tiling_t;
 
 typedef struct {
+	/*< private >*/
 	CCSS_DEPRECATED (ccss_property_t		 base);
 
 	CCSS_DEPRECATED (char				*uri);

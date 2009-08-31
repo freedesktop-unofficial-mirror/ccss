@@ -59,6 +59,7 @@ typedef char * (*ccss_function_f) (struct _GSList const	*args,
  * This datastructure represents one line in the libccss' consumers vtable.
  **/
 struct ccss_function_ {
+	/*< private >*/
 	CCSS_DEPRECATED (char const		*name);
 	CCSS_DEPRECATED (ccss_function_f	 function);
 	CCSS_DEPRECATED (void			*user_data);

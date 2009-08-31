@@ -34,6 +34,7 @@ typedef enum {
 } ccss_background_attachment_type_t;
 
 typedef struct {
+	/*< private >*/
 	CCSS_DEPRECATED (ccss_property_t			base);
 
 	CCSS_DEPRECATED (ccss_background_attachment_type_t	attachment);
@@ -43,6 +44,7 @@ ccss_background_attachment_type_t
 ccss_background_attachment_get_attachment (ccss_background_attachment_t const *self);
 
 typedef struct {
+	/*< private >*/
 	CCSS_DEPRECATED (ccss_property_t	 base);
 
 	CCSS_DEPRECATED (char			*uri);
@@ -52,6 +54,7 @@ char const *
 ccss_background_image_get_uri (ccss_background_image_t const *self);
 
 typedef struct {
+	/*< private >*/
 	CCSS_DEPRECATED (ccss_property_t		base);
 
 	CCSS_DEPRECATED (ccss_position_t		hpos);
@@ -72,6 +75,7 @@ typedef enum {
 } ccss_background_repeat_type_t;
 
 typedef struct {
+	/*< private >*/
 	CCSS_DEPRECATED (ccss_property_t		base);
 
 	CCSS_DEPRECATED (ccss_background_repeat_type_t  repeat);
@@ -81,6 +85,7 @@ ccss_background_repeat_type_t
 ccss_background_repeat_get_repeat (ccss_background_repeat_t const *self);
 
 typedef struct {
+	/*< private >*/
 	CCSS_DEPRECATED (ccss_property_t		base);
 
 	CCSS_DEPRECATED (ccss_position_t		width);
@@ -94,6 +99,7 @@ ccss_position_t const *
 ccss_background_size_get_width (ccss_background_size_t const *self);
 
 typedef struct {
+	/*< private >*/
 	CCSS_DEPRECATED (ccss_property_t		base);
 
 	CCSS_DEPRECATED (ccss_background_attachment_t	bg_attachment);
