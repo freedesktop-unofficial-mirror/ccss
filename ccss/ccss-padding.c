@@ -19,24 +19,15 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_PADDING_H
-#define CCSS_PADDING_H
-
-#include <ccss/ccss-macros.h>
-#include <ccss/ccss-property.h>
-
-CCSS_BEGIN_DECLS
-
-typedef struct {
-	CCSS_DEPRECATED (ccss_property_t	base);
-
-	CCSS_DEPRECATED (double			padding);
-} ccss_padding_t;
+#include <glib.h>
+#include "ccss-padding.h"
+#include "config.h"
 
 double
-ccss_padding_get_padding (ccss_padding_t const *self);
+ccss_padding_get_padding (ccss_padding_t const *self)
+{
+	g_return_val_if_fail (self, 0);
 
-CCSS_END_DECLS
-
-#endif /* CCSS_PADDING_H */
+	return self->padding;
+}
 
