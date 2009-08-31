@@ -20,6 +20,7 @@
  */
 
 #include <ccss/ccss.h>
+#include <ccss/ccss-function-impl.h>
 #include <gtk/gtk.h>
 #include "ccss-gtk-functions.h"
 #include "ccss-gtk-color.h"

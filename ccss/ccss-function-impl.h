@@ -20,53 +20,51 @@
  */
 
 /*
- * Declarations for the implementation of custom colors.
+ * Declarations for the implementation of custom functions.
  * This declarations are not to be considered part of the stable
  * ccss interface. Use with care.
  *
  * FIXME: split out to a section of its own in the docs.
  */
 
-#ifndef CCSS_COLOR_IMPL_H
-#define CCSS_COLOR_IMPL_H
+#ifndef CCSS_FUNCTION_IMPL_H
+#define CCSS_FUNCTION_IMPL_H
 
-/* Allow standalone inclusion. */
-#define CCSS_STANDALONE_HEADER
-
-#include <stdbool.h>
-#include <libcroco/libcroco.h>
-#include <ccss/ccss-block.h>
-#include <ccss/ccss-color.h>
-#include <ccss/ccss-grammar.h>
+#include <ccss/ccss-function.h>
 #include <ccss/ccss-macros.h>
 
 CCSS_BEGIN_DECLS
 
-bool
-ccss_color_parse (ccss_color_t			 *self,
-		  ccss_grammar_t const		 *grammar,
-		  void				 *user_data,
-		  CRTerm const			**value);
+/* Let's just forward declare this, so we don't have to pull in <glib.h>. */
+struct _GSList;
 
-bool
-ccss_color_factory (ccss_grammar_t const	*grammar,
-		    ccss_block_t		*self,
-		    char const			*name,
-		    CRTerm const		*values,
-		    void			*user_data);
+/**
+ * ccss_function_f:
+ * @args:	argument-list passed to the function.
+ * @user_data:	user data associated to the function handler.
+ * 
+ * Prototype for a custom `CSS function' handler.
+ *
+ * Returns: the function's result as a string.
+ **/
+typedef char * (*ccss_function_f) (struct _GSList const	*args,
+				   void			*user_data);
 
-void
-ccss_color_destroy (ccss_color_t *self);
-
-bool
-ccss_color_convert (ccss_color_t const		*property,
-		    ccss_property_type_t	 target,
-		    void			*value);
-
-ccss_property_class_t const *
-ccss_color_parser_get_property_classes (void);
+/**
+ * ccss_function_t:
+ * @name:	identifier of the function, as used in CSS.
+ * @function:	handler, see #ccss_function_f.
+ * @user_data:	data to pass to the function handler.
+ *
+ * This datastructure represents one line in the libccss' consumers vtable.
+ **/
+struct ccss_function_ {
+	CCSS_DEPRECATED (char const		*name);
+	CCSS_DEPRECATED (ccss_function_f	 function);
+	CCSS_DEPRECATED (void			*user_data);
+};
 
 CCSS_END_DECLS
 
-#endif /* CCSS_COLOR_IMPL_H */
+#endif /* CCSS_FUNCTION_IMPL_H */
 

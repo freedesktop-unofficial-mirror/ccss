@@ -20,6 +20,7 @@
  */
 
 #include <string.h>
+#include "ccss-block.h"
 #include "ccss-grammar.h"
 #include "ccss-padding.h"
 #include "ccss-padding-parser.h"

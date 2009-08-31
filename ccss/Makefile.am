@@ -70,6 +70,7 @@ headers_DATA = \
 	ccss-color.h \
 	ccss-color-impl.h \
 	ccss-function.h \
+	ccss-function-impl.h \
 	ccss-grammar.h \
 	ccss.h \
 	ccss-macros.h \

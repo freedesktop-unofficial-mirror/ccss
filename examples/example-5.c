@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <cairo.h>
 #include <ccss-cairo/ccss-cairo.h>
+#include <ccss/ccss-function-impl.h>
 #include <gtk/gtk.h>
 #include "config.h"
 
