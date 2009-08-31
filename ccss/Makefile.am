@@ -26,6 +26,7 @@ libccss_1_la_LIBADD = \
 
 libccss_1_la_SOURCES = \
 	$(headers_DATA) \
+	ccss-background.c \
 	ccss-background-parser.c \
 	ccss-background-parser.h \
 	ccss-block.c \

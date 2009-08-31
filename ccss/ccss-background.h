@@ -22,64 +22,105 @@
 #ifndef CCSS_BACKGROUND_H
 #define CCSS_BACKGROUND_H
 
-#include <stdbool.h>
-#include <stdint.h>
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-color.h>
 #include <ccss/ccss-position.h>
 
 CCSS_BEGIN_DECLS
 
-typedef struct {
-	ccss_property_t		base;
+typedef enum {
+	CCSS_BACKGROUND_SCROLL = 0,
+	CCSS_BACKGROUND_FIXED
+} ccss_background_attachment_type_t;
 
-	enum ccss_background_attachment {
-		CCSS_BACKGROUND_SCROLL,
-		CCSS_BACKGROUND_FIXED
-	}			attachment;
+typedef struct {
+	CCSS_DEPRECATED (ccss_property_t			base);
+
+	CCSS_DEPRECATED (ccss_background_attachment_type_t	attachment);
 } ccss_background_attachment_t;
 
-typedef struct {
-	ccss_property_t		 base;
+ccss_background_attachment_type_t
+ccss_background_attachment_get_attachment (ccss_background_attachment_t const *self);
 
-	char			*uri;
+typedef struct {
+	CCSS_DEPRECATED (ccss_property_t	 base);
+
+	CCSS_DEPRECATED (char			*uri);
 } ccss_background_image_t;
 
-typedef struct {
-	ccss_property_t		base;
+char const *
+ccss_background_image_get_uri (ccss_background_image_t const *self);
 
-	ccss_position_t		hpos;
-	ccss_position_t		vpos;
+typedef struct {
+	CCSS_DEPRECATED (ccss_property_t		base);
+
+	CCSS_DEPRECATED (ccss_position_t		hpos);
+	CCSS_DEPRECATED (ccss_position_t		vpos);
 } ccss_background_position_t;
 
-typedef struct {
-	ccss_property_t		base;
+ccss_position_t const *
+ccss_background_position_get_horizontal_position (ccss_background_position_t const *self);
 
-	enum ccss_background_repeat {
-		CCSS_BACKGROUND_REPEAT = 0,
-		CCSS_BACKGROUND_REPEAT_X,
-		CCSS_BACKGROUND_REPEAT_Y,
-		CCSS_BACKGROUND_NO_REPEAT
-	}			repeat;
+ccss_position_t const *
+ccss_background_position_get_vertical_position (ccss_background_position_t const *self);
+
+typedef enum {
+	CCSS_BACKGROUND_REPEAT = 0,
+	CCSS_BACKGROUND_REPEAT_X,
+	CCSS_BACKGROUND_REPEAT_Y,
+	CCSS_BACKGROUND_NO_REPEAT
+} ccss_background_repeat_type_t;
+
+typedef struct {
+	CCSS_DEPRECATED (ccss_property_t		base);
+
+	CCSS_DEPRECATED (ccss_background_repeat_type_t  repeat);
 } ccss_background_repeat_t;
 
-typedef struct {
-	ccss_property_t		base;
+ccss_background_repeat_type_t
+ccss_background_repeat_get_repeat (ccss_background_repeat_t const *self);
 
-	ccss_position_t		width;
-	ccss_position_t		height;
+typedef struct {
+	CCSS_DEPRECATED (ccss_property_t		base);
+
+	CCSS_DEPRECATED (ccss_position_t		width);
+	CCSS_DEPRECATED (ccss_position_t		height);
 } ccss_background_size_t;
 
-typedef struct {
-	ccss_property_t			base;
+ccss_position_t const *
+ccss_background_size_get_height (ccss_background_size_t const *self);
 
-	ccss_background_attachment_t	bg_attachment;
-	ccss_color_t			bg_color;
-	ccss_background_image_t		bg_image;
-	ccss_background_position_t	bg_position;
-	ccss_background_repeat_t	bg_repeat;
-	ccss_background_size_t		bg_size;
+ccss_position_t const *
+ccss_background_size_get_width (ccss_background_size_t const *self);
+
+typedef struct {
+	CCSS_DEPRECATED (ccss_property_t		base);
+
+	CCSS_DEPRECATED (ccss_background_attachment_t	bg_attachment);
+	CCSS_DEPRECATED (ccss_color_t			bg_color);
+	CCSS_DEPRECATED (ccss_background_image_t	bg_image);
+	CCSS_DEPRECATED (ccss_background_position_t	bg_position);
+	CCSS_DEPRECATED (ccss_background_repeat_t	bg_repeat);
+	CCSS_DEPRECATED (ccss_background_size_t		bg_size);
 } ccss_background_t;
+
+ccss_background_attachment_t const *
+ccss_background_get_attachment (ccss_background_t const *self);
+
+ccss_color_t const *
+ccss_background_get_color (ccss_background_t const *self);
+
+ccss_background_image_t const *
+ccss_background_get_image (ccss_background_t const *self);
+
+ccss_background_position_t const *
+ccss_background_get_position (ccss_background_t const *self);
+
+ccss_background_repeat_t const *
+ccss_background_get_repeat (ccss_background_t const *self);
+
+ccss_background_size_t const *
+ccss_background_get_size (ccss_background_t const *self);
 
 CCSS_END_DECLS
 

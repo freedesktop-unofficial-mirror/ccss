@@ -52,7 +52,7 @@ peek_property_class (char const *property_name);
 
 static const struct {
 	char const				*name;
-	const enum ccss_background_repeat	 repeat;
+	const ccss_background_repeat_type_t	 repeat;
 } _repeat_map[] = {
   { "repeat",		CCSS_BACKGROUND_REPEAT		},
   { "repeat-x",		CCSS_BACKGROUND_REPEAT_X	},
