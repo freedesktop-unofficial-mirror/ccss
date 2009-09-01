@@ -22,9 +22,6 @@
 #ifndef CCSS_GRAMMAR_PRIV_H
 #define CCSS_GRAMMAR_PRIV_H
 
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdlib.h>
 #include <glib.h>
 #include <libcroco/libcroco.h>
 #include <ccss/ccss-grammar.h>

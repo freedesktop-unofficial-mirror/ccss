@@ -25,6 +25,7 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-color-impl.h"
+#include "ccss-function-impl.h"
 #include "ccss-property-impl.h"
 #include "config.h"
 

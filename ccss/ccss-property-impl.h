@@ -19,13 +19,17 @@
  * MA 02110-1301, USA.
  */
 
-/*
+/**
+ * SECTION:property-impl
+ * @short_description: internal functionality associated to ccss_property_t.
+ * @see_also: #ccss_property_t
+ * @stability: Unstable
+ * @include: ccss/ccss-property-impl.h
+ *
  * Declarations for the implementation of custom properties.
  * This declarations are not to be considered part of the stable
  * ccss interface. Use with care.
- *
- * FIXME: split out to a section of its own in the docs.
- */
+ **/
 
 #ifndef CCSS_PROPERTY_IMPL_H
 #define CCSS_PROPERTY_IMPL_H
@@ -148,6 +152,22 @@ struct ccss_property_class_ {
 	void (*_padding_4) (void);
 };
 
+/**
+ * ccss_property_generic_t:
+ * @base:	base property.
+ * @name:	name of the property, e.g. %color.
+ * @values:	linked list of values.
+ *
+ * Implementation of a generic, single-value property.
+ **/
+typedef struct {
+	/*< private >*/
+	CCSS_DEPRECATED (ccss_property_t	 base);
+
+	CCSS_DEPRECATED (char			*name);
+	CCSS_DEPRECATED (CRTerm			*values);
+} ccss_property_generic_t;
+
 ccss_property_state_t
 ccss_property_parse_state       (CRTerm const			**value);
 
@@ -164,12 +184,6 @@ ccss_style_interpret_property   (struct ccss_style_ const	 *self,
 				 ccss_property_create_f		  property_ctor,
 				 void				 *user_data,
 				 ccss_property_t		**property);
-
-char *
-ccss_grammar_invoke_function	(struct ccss_grammar_ const	 *self,
-				 char const			 *function_name,
-				 CRTerm const			 *values,
-				 void				 *user_data);
 
 CCSS_END_DECLS
 

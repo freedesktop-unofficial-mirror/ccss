@@ -19,13 +19,17 @@
  * MA 02110-1301, USA.
  */
 
-/*
- * Declarations for the implementation of custom colors.
+/**
+ * SECTION:color-impl
+ * @short_description: internal functionality associated to ccss_color_t.
+ * @see_also: #ccss_color_t
+ * @stability: Unstable
+ * @include: ccss/ccss-color-impl.h
+ *
+ * Declarations for the implementation of custom colours.
  * This declarations are not to be considered part of the stable
  * ccss interface. Use with care.
- *
- * FIXME: split out to a section of its own in the docs.
- */
+ **/
 
 #ifndef CCSS_COLOR_IMPL_H
 #define CCSS_COLOR_IMPL_H

@@ -2,21 +2,24 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
                "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 
-<!ENTITY ccss_background_t   SYSTEM "xml/background.xml">
-<!ENTITY ccss_block_t        SYSTEM "xml/block.xml">
-<!ENTITY ccss_border_t			 SYSTEM "xml/border.xml">
-<!ENTITY ccss_border_image_t SYSTEM "xml/border-image.xml">
-<!ENTITY ccss_color_t        SYSTEM "xml/color.xml">
-<!ENTITY ccss_function_t     SYSTEM "xml/function.xml">
-<!ENTITY ccss_grammar_t      SYSTEM "xml/grammar.xml">
-<!ENTITY ccss_node_t         SYSTEM "xml/node.xml">
-<!ENTITY ccss_padding_t      SYSTEM "xml/padding.xml">
-<!ENTITY ccss_position_t     SYSTEM "xml/position.xml">
-<!ENTITY ccss_property_t     SYSTEM "xml/property.xml">
-<!ENTITY ccss_style_t        SYSTEM "xml/style.xml">
-<!ENTITY ccss_stylesheet_t   SYSTEM "xml/stylesheet.xml">
+<!ENTITY ccss_background_t        SYSTEM "xml/background.xml">
+<!ENTITY ccss_block_t             SYSTEM "xml/block.xml">
+<!ENTITY ccss_border_t			      SYSTEM "xml/border.xml">
+<!ENTITY ccss_border_image_t      SYSTEM "xml/border-image.xml">
+<!ENTITY ccss_color_t             SYSTEM "xml/color.xml">
+<!ENTITY ccss_color_impl_t        SYSTEM "xml/color-impl.xml">
+<!ENTITY ccss_function_t          SYSTEM "xml/function.xml">
+<!ENTITY ccss_function_impl_t     SYSTEM "xml/function-impl.xml">
+<!ENTITY ccss_grammar_t           SYSTEM "xml/grammar.xml">
+<!ENTITY ccss_node_t              SYSTEM "xml/node.xml">
+<!ENTITY ccss_padding_t           SYSTEM "xml/padding.xml">
+<!ENTITY ccss_position_t          SYSTEM "xml/position.xml">
+<!ENTITY ccss_property_t          SYSTEM "xml/property.xml">
+<!ENTITY ccss_property_impl_t     SYSTEM "xml/property-impl.xml">
+<!ENTITY ccss_style_t             SYSTEM "xml/style.xml">
+<!ENTITY ccss_stylesheet_t        SYSTEM "xml/stylesheet.xml">
 
-<!ENTITY TreeIndex           SYSTEM "xml/tree_index.sgml">
+<!ENTITY TreeIndex                SYSTEM "xml/tree_index.sgml">
 
 ]>
 <book id="index">
@@ -101,6 +104,12 @@ TODO.
     &ccss_property_t;
     &ccss_style_t;
     &ccss_stylesheet_t;
+  </chapter>
+  <chapter id="unstable">
+    <title>Unstable interfaces</title>
+    &ccss_color_impl_t;
+    &ccss_function_impl_t;
+    &ccss_property_impl_t;
   </chapter>
  </part>
 <index id="ccss-index">

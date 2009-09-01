@@ -68,6 +68,11 @@ ccss_color_get_alpha
 ccss_color_get_blue
 ccss_color_get_green
 ccss_color_get_red
+</SECTION>
+
+<SECTION>
+<TITLE>ccss_color_t internals</TITLE>
+<FILE>color-impl</FILE>
 ccss_color_parse
 </SECTION>
 
@@ -83,6 +88,13 @@ ccss_function_reference
 </SECTION>
 
 <SECTION>
+<TITLE>ccss_function_t internals</TITLE>
+<FILE>function-impl</FILE>
+ccss_grammar_add_functions
+ccss_grammar_invoke_function
+</SECTION>
+
+<SECTION>
 <TITLE>ccss_grammar_t</TITLE>
 <FILE>grammar</FILE>
 ccss_grammar_t
@@ -93,12 +105,10 @@ ccss_grammar_reference
 ccss_grammar_get_reference_count
 ccss_grammar_add_properties
 ccss_grammar_lookup_property
-ccss_grammar_add_functions
 ccss_grammar_lookup_function
 ccss_grammar_create_stylesheet
 ccss_grammar_create_stylesheet_from_buffer
 ccss_grammar_create_stylesheet_from_file
-ccss_grammar_invoke_function
 </SECTION>
 
 <TITLE>ccss_node_t</TITLE>
@@ -178,17 +188,23 @@ ccss_position_serialize
 <FILE>property</FILE>
 ccss_property_class_t
 ccss_property_t
-ccss_property_generic_t
 ccss_property_state_t
 ccss_property_type_t
+ccss_property_get_state
+ccss_property_state_serialize
+</SECTION>
+
+<SECTION>
+<TITLE>ccss_property_t internals</TITLE>
+<FILE>property-impl</FILE>
 ccss_property_create_f
 ccss_property_destroy_f
 ccss_property_convert_f
 ccss_property_factory_f
 ccss_property_inherit_f
 ccss_property_serialize_f
+ccss_property_generic_t
 ccss_property_init
-ccss_property_get_state
-ccss_property_state_serialize
+ccss_property_parse_state
 </SECTION>
 

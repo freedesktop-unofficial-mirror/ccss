@@ -22,6 +22,7 @@
 #include <string.h>
 #include "ccss-border-image.h"
 #include "ccss-border-image-parser.h"
+#include "ccss-function-impl.h"
 #include "ccss-grammar.h"
 #include "ccss-position-parser.h"
 #include "ccss-property-impl.h"

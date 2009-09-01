@@ -26,6 +26,7 @@
 #include "ccss-background.h"
 #include "ccss-block.h"
 #include "ccss-color-impl.h"
+#include "ccss-function-impl.h"
 #include "ccss-position-parser.h"
 #include "ccss-property-impl.h"
 #include "config.h"
