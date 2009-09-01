@@ -32,7 +32,8 @@
 
 CCSS_BEGIN_DECLS
 
-ccss_function_t const * ccss_gtk_functions_get_vtable (void);
+ccss_function_t *
+ccss_gtk_functions_peek_vtable (void);
 
 CCSS_END_DECLS
 

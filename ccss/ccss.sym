@@ -28,6 +28,11 @@ ccss_color_get_blue
 ccss_color_get_green
 ccss_color_get_red
 ccss_color_parse
+ccss_function_create
+ccss_function_destroy
+ccss_function_get_reference_count
+ccss_function_reference
+ccss_grammar_add_function
 ccss_grammar_add_functions
 ccss_grammar_add_properties
 ccss_grammar_create_css

@@ -55,8 +55,8 @@ ccss_grammar_lookup_property	(ccss_grammar_t const		*self,
 				 char const			*name);
 
 void
-ccss_grammar_add_functions	(ccss_grammar_t			*self,
-				 ccss_function_t const		*functions);
+ccss_grammar_add_function	(ccss_grammar_t			*self,
+				 ccss_function_t		*function);
 
 ccss_function_t const *
 ccss_grammar_lookup_function	(ccss_grammar_t const		*self,

@@ -39,6 +39,7 @@ libccss_1_la_SOURCES = \
 	ccss-border-image-parser.h \
 	ccss-color.c \
 	ccss-color-parser.c \
+	ccss-function.c \
 	ccss-grammar.c \
 	ccss-grammar-function.c \
 	ccss-grammar-parse.c \

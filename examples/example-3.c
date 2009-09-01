@@ -52,9 +52,9 @@ url (GSList const	*args,
 	return uri;
 }
 
-static ccss_function_t const _functions[] = 
+static ccss_function_t _functions[] =
 {
-  { "url",	url,	NULL },
+  { "url",	url,	1 },
   { NULL }
 };
 

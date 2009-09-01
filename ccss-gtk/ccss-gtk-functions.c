@@ -367,20 +367,20 @@ darker (GSList const	*args,
 						      result.blue / 65535.0);
 }
 
-static ccss_function_t const _functions[] =
+ccss_function_t *
+ccss_gtk_functions_peek_vtable (void)
 {
-  { "url",		url,		NULL },
-  { "gtk-color",	color,		NULL },
-  { "gtk-mix",		mix,		NULL },
-  { "gtk-shade",	shade,		NULL },
-  { "gtk-lighter",	lighter,	NULL },
-  { "gtk-darker",	darker,		NULL },
-  { NULL }
-};
+	static ccss_function_t _functions[] =
+	{
+	  { "url",		url,		1 },
+	  { "gtk-color",	color,		1 },
+	  { "gtk-mix",		mix,		1 },
+	  { "gtk-shade",	shade,		1 },
+	  { "gtk-lighter",	lighter,	1 },
+	  { "gtk-darker",	darker,		1 },
+	  { NULL }
+	};
 
-ccss_function_t const *
-ccss_gtk_functions_get_vtable (void)
-{
 	return _functions;
 }
 

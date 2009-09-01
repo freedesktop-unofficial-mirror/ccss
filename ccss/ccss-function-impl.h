@@ -35,26 +35,14 @@
 
 CCSS_BEGIN_DECLS
 
-/* Let's just forward declare this, so we don't have to pull in <glib.h>. */
-struct _GSList;
-
-/**
- * ccss_function_f:
- * @args:	argument-list passed to the function.
- * @user_data:	user data associated to the function handler.
- * 
- * Prototype for a custom `CSS function' handler.
- *
- * Returns: the function's result as a string.
- **/
-typedef char * (*ccss_function_f) (struct _GSList const	*args,
-				   void			*user_data);
+/* Avoid circular dependencies. */
+struct ccss_grammar_;
 
 /**
  * ccss_function_t:
- * @name:	identifier of the function, as used in CSS.
- * @function:	handler, see #ccss_function_f.
- * @user_data:	data to pass to the function handler.
+ * @name:		identifier of the function, as used in CSS.
+ * @function:		handler, see #ccss_function_f.
+ * @reference_count:	the reference count.
  *
  * This datastructure represents one line in the libccss' consumers vtable.
  **/
@@ -62,8 +50,12 @@ struct ccss_function_ {
 	/*< private >*/
 	CCSS_DEPRECATED (char const		*name);
 	CCSS_DEPRECATED (ccss_function_f	 function);
-	CCSS_DEPRECATED (void			*user_data);
+	CCSS_DEPRECATED (unsigned int		 reference_count);
 };
+
+void
+ccss_grammar_add_functions	(struct ccss_grammar_		*self,
+				 ccss_function_t		*functions);
 
 CCSS_END_DECLS
 

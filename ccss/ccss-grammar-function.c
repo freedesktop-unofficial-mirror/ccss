@@ -140,7 +140,6 @@ ccss_grammar_invoke_function (ccss_grammar_t const	*self,
 {
 	ccss_function_t const	*handler;
 	GSList			*args;
-	void			*actual_user_data;
 	char			*ret;
 
 	g_return_val_if_fail (self && function_name, NULL);
@@ -158,12 +157,7 @@ ccss_grammar_invoke_function (ccss_grammar_t const	*self,
 	args = g_slist_reverse (args);
 
 	/* dispatch */
-	if (user_data) {
-		actual_user_data = user_data;
-	} else {
-		actual_user_data = handler->user_data;
-	}
-	ret = handler->function (args, actual_user_data);
+	ret = handler->function (args, user_data);
 
 	/* free args */
 	while (args) {

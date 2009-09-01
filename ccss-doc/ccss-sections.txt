@@ -72,6 +72,17 @@ ccss_color_parse
 </SECTION>
 
 <SECTION>
+<TITLE>ccss_function_t</TITLE>
+<FILE>function</FILE>
+ccss_function_f
+ccss_function_t
+ccss_function_create
+ccss_function_destroy
+ccss_function_get_reference_count
+ccss_function_reference
+</SECTION>
+
+<SECTION>
 <TITLE>ccss_grammar_t</TITLE>
 <FILE>grammar</FILE>
 ccss_grammar_t
@@ -179,12 +190,5 @@ ccss_property_serialize_f
 ccss_property_init
 ccss_property_get_state
 ccss_property_state_serialize
-</SECTION>
-
-<SECTION>
-<TITLE>ccss_function_t</TITLE>
-<FILE>function</FILE>
-ccss_function_f
-ccss_function_t
 </SECTION>
 

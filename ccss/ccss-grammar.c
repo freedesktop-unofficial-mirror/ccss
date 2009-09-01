@@ -51,7 +51,10 @@ ccss_grammar_create_generic (void)
 	self = g_new0 (ccss_grammar_t, 1);
 	self->reference_count = 1;
 	self->properties = g_hash_table_new (g_str_hash, g_str_equal);
-	self->functions = g_hash_table_new (g_str_hash, g_str_equal);
+	self->functions = g_hash_table_new_full (g_str_hash,
+						 g_str_equal,
+						 NULL,
+						 (GDestroyNotify) ccss_function_destroy);
 
 	ccss_grammar_add_properties (self, ccss_property_parser_get_property_classes ());
 
@@ -187,6 +190,28 @@ ccss_grammar_lookup_property (ccss_grammar_t const	*self,
 }
 
 /**
+ * ccss_grammar_add_function:
+ * @self:	a #ccss_grammar_t.
+ * @function:	a #ccss_function_t to register.
+ *
+ * Register a single custom css function handler with the grammar.
+ **/
+void
+ccss_grammar_add_function (ccss_grammar_t	*self,
+			   ccss_function_t	*function)
+{
+	g_return_if_fail (self);
+	g_return_if_fail (function);
+
+	/* Handler already exists? */
+	g_warn_if_fail (NULL == g_hash_table_lookup (self->functions, function->name));
+
+	g_hash_table_insert (self->functions,
+			     (gpointer) function->name,
+			     ccss_function_reference (function));
+}
+
+/**
  * ccss_grammar_add_functions:
  * @self:	a #ccss_grammar_t.
  * @functions:	Null-terminated array of #ccss_function_t to register.
@@ -194,8 +219,8 @@ ccss_grammar_lookup_property (ccss_grammar_t const	*self,
  * Register a set of custom css function handlers with the grammar.
  **/
 void
-ccss_grammar_add_functions (ccss_grammar_t		*self,
-			    ccss_function_t const	*functions)
+ccss_grammar_add_functions (ccss_grammar_t	*self,
+			    ccss_function_t	*functions)
 {
 	g_return_if_fail (self && functions);
 
@@ -206,7 +231,7 @@ ccss_grammar_add_functions (ccss_grammar_t		*self,
 
 		g_hash_table_insert (self->functions,
 				     (gpointer) functions[i].name,
-				     (gpointer) &functions[i]);
+				     ccss_function_reference (&functions[i]));
 	}
 }
 
