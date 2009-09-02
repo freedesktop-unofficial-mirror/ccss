@@ -44,6 +44,7 @@ libccss_1_la_SOURCES = \
 	ccss-grammar-function.c \
 	ccss-grammar-parse.c \
 	ccss-grammar-priv.h \
+	ccss-macros-priv.h \
 	ccss-node.c \
 	ccss-node-priv.h \
 	ccss-padding.c \

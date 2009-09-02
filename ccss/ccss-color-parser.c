@@ -26,6 +26,7 @@
 #include <glib.h>
 #include "ccss-color-impl.h"
 #include "ccss-function-impl.h"
+#include "ccss-macros-priv.h"
 #include "ccss-property-impl.h"
 #include "config.h"
 
@@ -556,12 +557,14 @@ ccss_color_parse (ccss_color_t		 *self,
 							     user_data);
 			g_return_val_if_fail (rgba, false);
 
-			matches = sscanf (rgba,
-					  "rgba(%f,%f,%f,%f)",
-					  &self->red,
-					  &self->green,
-					  &self->blue,
-					  &self->alpha);
+			CCSS_LOCALE_TRANSACTION ("C",
+				matches = sscanf (rgba,
+						  "rgba(%f,%f,%f,%f)",
+						  &self->red,
+						  &self->green,
+						  &self->blue,
+						  &self->alpha);
+			);
 			g_free (rgba);
 			if (matches == 4) {
 				self->base.state = CCSS_PROPERTY_STATE_SET;
