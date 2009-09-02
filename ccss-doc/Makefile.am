@@ -50,3 +50,8 @@ CLEANFILES += ccss-scan.*
 .PHONY : dist-hook-local
 endif
 
+EXTRA_DIST = \
+	$(DOC_MAIN_SGML_FILE) \
+	ccss.hierarchy \
+	$(NULL)
+

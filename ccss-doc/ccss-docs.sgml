@@ -91,19 +91,22 @@ TODO.
     </partintro>
   <chapter id="basic">
     <title>Basic Usage</title>
-    &ccss_background_t;
     &ccss_block_t;
-    &ccss_border_t;
-    &ccss_border_image_t;
-    &ccss_color_t;
     &ccss_function_t;
     &ccss_grammar_t;
     &ccss_node_t;
+    &ccss_style_t;
+    &ccss_stylesheet_t;
+  </chapter>
+  <chapter id="properties">
+    <title>CSS properties</title>
+    &ccss_background_t;
+    &ccss_border_t;
+    &ccss_border_image_t;
+    &ccss_color_t;
     &ccss_padding_t;
     &ccss_position_t;
     &ccss_property_t;
-    &ccss_style_t;
-    &ccss_stylesheet_t;
   </chapter>
   <chapter id="unstable">
     <title>Unstable interfaces</title>
