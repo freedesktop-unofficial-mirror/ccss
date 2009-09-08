@@ -955,9 +955,12 @@ ccss_selector_query (ccss_selector_t const	*self,
 		is_matching = true;
 		break;
 	case CCSS_SELECTOR_MODALITY_CLASS:
-		name = ccss_node_get_class (node);
-		is_matching = !g_strcmp0 (name, 
+		for (const char **classes = ccss_node_get_classes (node);
+		     classes && *classes;
+		     classes++) {
+			is_matching = !g_strcmp0 (*classes,
 				((ccss_class_selector_t *) self)->class_name);
+		}
 		break;
 	case CCSS_SELECTOR_MODALITY_ID:
 		name = ccss_node_get_id (node);

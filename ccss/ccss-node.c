@@ -61,8 +61,8 @@ get_id (ccss_node_t const *self)
 	return NULL;
 }
 
-static char const *
-get_class (ccss_node_t const *self)
+static char const **
+get_classes (ccss_node_t const *self)
 {
 	return NULL;
 }
@@ -110,7 +110,7 @@ static const ccss_node_class_t _default_node_class = {
 	.get_instance		= get_instance,
 	.get_id			= get_id,
 	.get_type		= get_type,
-	.get_class		= get_class,
+	.get_classes		= get_classes,
 	.get_pseudo_classes	= get_pseudo_classes,
 	.get_attribute		= get_attribute,
 	.get_style		= get_style,
@@ -238,17 +238,17 @@ ccss_node_get_id (ccss_node_t *self)
 	return self->id;
 }
 
-char const *
-ccss_node_get_class (ccss_node_t *self)
+const char **
+ccss_node_get_classes (ccss_node_t *self)
 {
 	g_return_val_if_fail (self, NULL);
 	g_return_val_if_fail (self->node_class, NULL);
-	g_return_val_if_fail (self->node_class->get_class, NULL);
+	g_return_val_if_fail (self->node_class->get_classes, NULL);
 
-	if (NULL == self->css_class)
-		self->css_class = self->node_class->get_class (self);
+	if (NULL == self->css_classes)
+		self->css_classes = self->node_class->get_classes (self);
 
-	return self->css_class;
+	return self->css_classes;
 }
 
 const char **

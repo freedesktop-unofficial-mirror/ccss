@@ -48,11 +48,11 @@ ccss_node_get_instance		(ccss_node_t 		*self);
 char const *
 ccss_node_get_id		(ccss_node_t 		*self);
 
-char const *
-ccss_node_get_class		(ccss_node_t 		*self);
+const char **
+ccss_node_get_classes           (ccss_node_t 		*self);
 
 const char **
-ccss_node_get_pseudo_classes      (ccss_node_t 		*self);
+ccss_node_get_pseudo_classes    (ccss_node_t 		*self);
 
 char *
 ccss_node_get_attribute		(ccss_node_t const	*self,

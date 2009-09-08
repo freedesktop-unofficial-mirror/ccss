@@ -10,7 +10,7 @@ DOC_MAIN_SGML_FILE=ccss-docs.sgml
 DOC_SOURCE_DIR=../ccss
 
 # Extra options to pass to gtkdoc-scangobj
-SCANGOBJ_OPTIONS= --nogtkinit --type-init-func="ccss_init ()" 
+SCANGOBJ_OPTIONS= --nogtkinit --type-init-func="ccss_init ()"
 
 # Extra options to supply to gtkdoc-scan
 SCAN_OPTIONS=
@@ -48,9 +48,11 @@ if GTK_DOC_INSTALLED
 include $(top_srcdir)/gtk-doc.make
 CLEANFILES += ccss-scan.*
 .PHONY : dist-hook-local
+else
+EXTRA_DIST =
 endif
 
-EXTRA_DIST = \
+EXTRA_DIST += \
 	$(DOC_MAIN_SGML_FILE) \
 	ccss.hierarchy \
 	$(NULL)

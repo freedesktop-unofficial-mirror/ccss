@@ -3,6 +3,7 @@ NEWS
 ====
 
 * Implement accessor functions to structs and deprecate field access.
+* Support for multiple CSS classes per node.
 
 
 Version 0.5, 2009-08-11

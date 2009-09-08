@@ -121,7 +121,7 @@ ccss_node_get_base_style_f
 ccss_node_get_instance_f
 ccss_node_get_id_f
 ccss_node_get_type_f
-ccss_node_get_class_f
+ccss_node_get_classes_f
 ccss_node_get_pseudo_class_f
 ccss_node_get_attribute_f
 ccss_node_get_style_f

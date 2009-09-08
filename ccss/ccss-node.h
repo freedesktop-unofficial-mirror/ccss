@@ -97,15 +97,15 @@ typedef ptrdiff_t (*ccss_node_get_instance_f) (ccss_node_t const *self);
 typedef const char * (*ccss_node_get_id_f) (ccss_node_t const *self);
 
 /** 
- * ccss_node_get_class_f:
+ * ccss_node_get_classes_f:
  * @self: a #ccss_node_t.
  *
- * Hook function to query the class name of a #ccss_node_t.
+ * Hook function to query the class names of a #ccss_node_t.
  *
- * Returns: node class name or %NULL. The returned value must be valid until
- * the current stylesheet query returns.
+ * Returns: %NULL-terminated node classes arry or %NULL.
+ * The returned values must be valid until the current stylesheet query returns.
  **/
-typedef const char * (*ccss_node_get_class_f) (ccss_node_t const *self);
+typedef const char ** (*ccss_node_get_classes_f) (ccss_node_t const *self);
 
 /** 
  * ccss_node_get_pseudo_classes_f:
@@ -113,8 +113,8 @@ typedef const char * (*ccss_node_get_class_f) (ccss_node_t const *self);
  *
  * Hook function to query the pseudo-class name of a #ccss_node_t.
  *
- * Returns: node pseudo-classes or %NULL. The returned values must be valid
- * until the current stylesheet query returns.
+ * Returns: %NULL-terminated node pseudo-classes array or %NULL.
+ * The returned values must be valid until the current stylesheet query returns.
  **/
 typedef const char ** (*ccss_node_get_pseudo_classes_f) (ccss_node_t const *self);
 
@@ -179,7 +179,7 @@ typedef void (*ccss_node_release_f) (ccss_node_t *self);
  * @get_instance:	a #ccss_node_get_instance_f.
  * @get_id:		a #ccss_node_get_id_f.
  * @get_type:		a #ccss_node_get_type_f.
- * @get_class:		a #ccss_node_get_class_f.
+ * @get_classes:	a #ccss_node_get_classes_f.
  * @get_pseudo_classes:	a #ccss_node_get_pseudo_classes_f.
  * @get_attribute:	a #ccss_node_get_attribute_f.
  * @get_style:		a #ccss_node_get_style_f.
@@ -198,7 +198,7 @@ typedef struct {
 	ccss_node_get_instance_f	get_instance;
 	ccss_node_get_id_f		get_id;
 	ccss_node_get_type_f		get_type;
-	ccss_node_get_class_f		get_class;
+	ccss_node_get_classes_f		get_classes;
 	ccss_node_get_pseudo_classes_f	get_pseudo_classes;
 	ccss_node_get_attribute_f	get_attribute;
 	ccss_node_get_style_f		get_style;
@@ -228,9 +228,14 @@ struct ccss_node_ {
 	CCSS_DEPRECATED (ptrdiff_t         instance);
 	CCSS_DEPRECATED (char const       *id);
 	CCSS_DEPRECATED (char const       *type_name);
-	CCSS_DEPRECATED (char const       *css_class);
+	CCSS_DEPRECATED (char const      **css_classes);
 	CCSS_DEPRECATED (char const      **pseudo_classes);
 	CCSS_DEPRECATED (char const       *inline_style);
+	CCSS_DEPRECATED (void		  *_padding_0);
+	CCSS_DEPRECATED (void		  *_padding_1);
+	CCSS_DEPRECATED (void		  *_padding_2);
+	CCSS_DEPRECATED (void		  *_padding_3);
+	CCSS_DEPRECATED (void		  *_padding_4);
 };
 
 void
