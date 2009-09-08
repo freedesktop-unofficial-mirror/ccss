@@ -5,6 +5,7 @@ ROADMAP
 0.6
 ---
 
+* Finish sealing.
 * Support multiple classes per node, similar to pseudo-classes.
 * Improve test suite. Libxml backend for cascading tests.
 * Cairo-style error handling? Or something else?
