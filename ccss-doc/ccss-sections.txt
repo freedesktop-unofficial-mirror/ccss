@@ -113,6 +113,7 @@ ccss_grammar_create_stylesheet_from_file
 
 <TITLE>ccss_node_t</TITLE>
 <FILE>node</FILE>
+CCSS_NODE_CLASS_N_METHODS
 ccss_node_t
 ccss_node_class_t
 ccss_node_is_a_f
@@ -127,7 +128,9 @@ ccss_node_get_attribute_f
 ccss_node_get_style_f
 ccss_node_get_viewport_f
 ccss_node_release_f
-ccss_node_init
+ccss_node_create
+ccss_node_destroy
+ccss_node_get_user_data
 </SECTION>
 
 <SECTION>

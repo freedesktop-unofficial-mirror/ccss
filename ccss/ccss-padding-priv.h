@@ -19,38 +19,23 @@
  * MA 02110-1301, USA.
  */
 
-#include <glib.h>
-#include "ccss-color-impl.h"
+#ifndef CCSS_PADDING_PRIV_H
+#define CCSS_PADDING_PRIV_H
 
-double
-ccss_color_get_red (ccss_color_t const *self)
-{
-	g_return_val_if_fail (self, 0);
+#include <ccss/ccss-macros.h>
+#include <ccss/ccss-padding.h>
+#include <ccss/ccss-property-impl.h>
 
-	return self->red;
-}
+CCSS_BEGIN_DECLS
 
-double
-ccss_color_get_green (ccss_color_t const *self)
-{
-	g_return_val_if_fail (self, 0);
+struct ccss_padding_ {
+	/*< private >*/
+	CCSS_DEPRECATED (ccss_property_t	base);
 
-	return self->green;
-}
+	CCSS_DEPRECATED (double			padding);
+};
 
-double
-ccss_color_get_blue (ccss_color_t const *self)
-{
-	g_return_val_if_fail (self, 0);
+CCSS_END_DECLS
 
-	return self->blue;
-}
-
-double
-ccss_color_get_alpha (ccss_color_t const *self)
-{
-	g_return_val_if_fail (self, 0);
-
-	return self->alpha;
-}
+#endif /* CCSS_PADDING_PRIV_H */
 

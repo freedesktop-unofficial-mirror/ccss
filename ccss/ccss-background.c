@@ -20,7 +20,7 @@
  */
 
 #include <glib.h>
-#include "ccss-background.h"
+#include "ccss-background-priv.h"
 
 ccss_background_attachment_type_t
 ccss_background_attachment_get_attachment (ccss_background_attachment_t const *self)

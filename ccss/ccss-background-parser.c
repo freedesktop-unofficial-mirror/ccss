@@ -23,7 +23,7 @@
 #include <string.h>
 #include <glib.h>
 #include "ccss-background-parser.h"
-#include "ccss-background.h"
+#include "ccss-background-priv.h"
 #include "ccss-block.h"
 #include "ccss-color-impl.h"
 #include "ccss-function-impl.h"

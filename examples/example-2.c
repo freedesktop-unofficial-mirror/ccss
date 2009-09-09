@@ -7,35 +7,49 @@
 #include "config.h"
 
 typedef struct {
-	ccss_node_t	 parent;
 	char const	*type_name;
 	ptrdiff_t	 instance;
 	char const	*inline_css;
-} node_t;
+} nodeinfo_t;
 
 static char const *
-get_type (node_t const *self)
+get_type (ccss_node_t const *self)
 {
-	return self->type_name;
+	nodeinfo_t *info = ccss_node_get_user_data (self);
+
+	return info->type_name;
 }
 
 static ptrdiff_t
-get_instance (node_t const *self)
+get_instance (ccss_node_t const *self)
 {
-	return self->instance;
+	nodeinfo_t *info = ccss_node_get_user_data (self);
+
+	return info->instance;
 }
 
 static char const *
-get_style (node_t const		*self,
+get_style (ccss_node_t const	*self,
 	   unsigned int		 descriptor)
 {
-	return self->inline_css;
+	nodeinfo_t *info = ccss_node_get_user_data (self);
+
+	return info->inline_css;
 }
 
 static ccss_node_class_t _node_class = {
-	.get_type		= (ccss_node_get_type_f) get_type,
-	.get_instance		= (ccss_node_get_instance_f) get_instance,
-	.get_style		= (ccss_node_get_style_f) get_style
+	.is_a			= NULL,
+	.get_container		= NULL,
+	.get_base_style		= NULL,
+	.get_instance		= get_instance,
+	.get_id			= NULL,
+	.get_type		= get_type,
+	.get_classes		= NULL,
+	.get_pseudo_classes	= NULL,
+	.get_attribute		= NULL,
+	.get_style		= get_style,
+	.get_viewport		= NULL,
+	.release		= NULL
 };
 
 static gboolean
@@ -74,9 +88,10 @@ main (int	  argc,
 	ccss_grammar_t		*grammar;
 	ccss_stylesheet_t	*stylesheet;
 	ccss_style_t		*style;
-	node_t			 node;
+	ccss_node_t		*node;
 	GtkWidget		*window;
 	GtkWidget		*area;
+	nodeinfo_t		 info;
 
 	gtk_init (&argc, &argv);
 
@@ -84,13 +99,14 @@ main (int	  argc,
 	stylesheet = ccss_grammar_create_stylesheet_from_buffer (grammar,
 							_css, sizeof (_css),
 							NULL);
-
-	ccss_node_init ((ccss_node_t *) &node, &_node_class);
-	node.type_name = "box";
-	node.instance = 0xdeadbeef;
-	node.inline_css = "background-color: yellow";
-
-	style = ccss_stylesheet_query (stylesheet, &node.parent);
+	info.type_name = "box";
+	info.instance = 0xdeadbeef;
+	info.inline_css = "background-color: yellow";
+	node = ccss_node_create (&_node_class,
+				 CCSS_NODE_CLASS_N_METHODS (_node_class),
+				 &info);
+	style = ccss_stylesheet_query (stylesheet, node);
+	ccss_node_destroy (node);
 	g_assert (style);
 
 #ifdef CCSS_DEBUG

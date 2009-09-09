@@ -24,8 +24,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include "ccss-border.h"
 #include "ccss-border-parser.h"
+#include "ccss-border-priv.h"
 #include "ccss-color-impl.h"
 #include "ccss-property-impl.h"
 #include "config.h"

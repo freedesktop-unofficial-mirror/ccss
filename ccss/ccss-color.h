@@ -23,19 +23,10 @@
 #define CCSS_COLOR_H
 
 #include <ccss/ccss-macros.h>
-#include <ccss/ccss-property.h>
 
 CCSS_BEGIN_DECLS
 
-typedef struct {
-	/*< private >*/
-	CCSS_DEPRECATED (ccss_property_t	base);
-
-	CCSS_DEPRECATED (float			red);
-	CCSS_DEPRECATED (float			green);
-	CCSS_DEPRECATED (float			blue);
-	CCSS_DEPRECATED (float			alpha);
-} ccss_color_t;
+typedef struct ccss_color_ ccss_color_t;
 
 double
 ccss_color_get_red	(ccss_color_t const *self);

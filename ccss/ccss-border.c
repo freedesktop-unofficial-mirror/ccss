@@ -21,7 +21,7 @@
  */
 
 #include <glib.h>
-#include "ccss-border.h"
+#include "ccss-border-priv.h"
 
 ccss_border_style_type_t
 ccss_border_style_get_style (ccss_border_style_t const *self)

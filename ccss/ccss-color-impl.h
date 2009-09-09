@@ -43,8 +43,19 @@
 #include <ccss/ccss-color.h>
 #include <ccss/ccss-grammar.h>
 #include <ccss/ccss-macros.h>
+#include <ccss/ccss-property-impl.h>
 
 CCSS_BEGIN_DECLS
+
+struct ccss_color_ {
+	/*< private >*/
+	CCSS_DEPRECATED (ccss_property_t	base);
+
+	CCSS_DEPRECATED (float			red);
+	CCSS_DEPRECATED (float			green);
+	CCSS_DEPRECATED (float			blue);
+	CCSS_DEPRECATED (float			alpha);
+};
 
 bool
 ccss_color_parse (ccss_color_t			 *self,

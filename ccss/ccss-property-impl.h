@@ -153,6 +153,19 @@ struct ccss_property_class_ {
 };
 
 /**
+ * ccss_property_t:
+ * @vtable:	class descriptor, see #ccss_property_class_t.
+ * @state:	property state, see #ccss_property_state_t.
+ *
+ * This structure has to be embedded at the beginning of every custom property.
+ **/
+struct ccss_property_ {
+	/*< private >*/
+	CCSS_DEPRECATED (ccss_property_class_t const	*vtable);
+	CCSS_DEPRECATED (ccss_property_state_t		 state);
+};
+
+/**
  * ccss_property_generic_t:
  * @base:	base property.
  * @name:	name of the property, e.g. %color.

@@ -20,7 +20,7 @@
  */
 
 #include <glib.h>
-#include "ccss-padding.h"
+#include "ccss-padding-priv.h"
 #include "config.h"
 
 double

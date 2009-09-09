@@ -20,7 +20,7 @@
  */
 
 #include <glib.h>
-#include "ccss-border-image.h"
+#include "ccss-border-image-priv.h"
 
 char const *
 ccss_border_image_get_uri (ccss_border_image_t const *self)

@@ -46,7 +46,9 @@ ccss_grammar_invoke_function
 ccss_grammar_lookup_function
 ccss_grammar_lookup_property
 ccss_grammar_reference
-ccss_node_init
+ccss_node_create
+ccss_node_destroy
+ccss_node_get_user_data
 ccss_padding_get_padding
 ccss_position_get_hsize
 ccss_position_get_pos

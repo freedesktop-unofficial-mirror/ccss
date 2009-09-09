@@ -40,12 +40,12 @@ typedef struct ccss_node_ ccss_node_t;
  *
  * Returns: %TRUE if matches.
  **/
-typedef bool (*ccss_node_is_a_f) (ccss_node_t	*self,
-				  char const	*type_name);
+typedef bool (*ccss_node_is_a_f) (ccss_node_t const	*self,
+				  char const		*type_name);
 
 /** 
  * ccss_node_get_container_f:
- * @self: a #ccss_node_t.
+ * @self:	a #ccss_node_t.
  *
  * Hook function to query the container of a #ccss_node_t.
  *
@@ -55,7 +55,7 @@ typedef ccss_node_t * (*ccss_node_get_container_f) (ccss_node_t const *self);
 
 /** 
  * ccss_node_get_base_style_f:
- * @self: a #ccss_node_t.
+ * @self:	a #ccss_node_t.
  *
  * Hook function to query the name of the style a #ccss_node_t derives from.
  *
@@ -66,7 +66,7 @@ typedef ccss_node_t * (*ccss_node_get_base_style_f) (ccss_node_t const *self);
 
 /** 
  * ccss_node_get_type_f:
- * @self: a #ccss_node_t.
+ * @self:	a #ccss_node_t.
  *
  * Hook function to query the type name of a #ccss_node_t.
  *
@@ -77,7 +77,7 @@ typedef const char * (*ccss_node_get_type_f) (ccss_node_t const *self);
 
 /**
  * ccss_node_get_instance_f:
- * @self: a #ccss_node_t.
+ * @self:	a #ccss_node_t.
  * 
  * Hook function to query for a unique numerical representation of a #ccss_node_t.
  *
@@ -87,7 +87,7 @@ typedef ptrdiff_t (*ccss_node_get_instance_f) (ccss_node_t const *self);
 
 /** 
  * ccss_node_get_id_f:
- * @self: a #ccss_node_t.
+ * @self:	a #ccss_node_t.
  *
  * Hook function to query the ID of a #ccss_node_t.
  *
@@ -98,7 +98,7 @@ typedef const char * (*ccss_node_get_id_f) (ccss_node_t const *self);
 
 /** 
  * ccss_node_get_classes_f:
- * @self: a #ccss_node_t.
+ * @self:	a #ccss_node_t.
  *
  * Hook function to query the class names of a #ccss_node_t.
  *
@@ -109,7 +109,7 @@ typedef const char ** (*ccss_node_get_classes_f) (ccss_node_t const *self);
 
 /** 
  * ccss_node_get_pseudo_classes_f:
- * @self: a #ccss_node_t.
+ * @self:	a #ccss_node_t.
  *
  * Hook function to query the pseudo-class name of a #ccss_node_t.
  *
@@ -120,8 +120,8 @@ typedef const char ** (*ccss_node_get_pseudo_classes_f) (ccss_node_t const *self
 
 /** 
  * ccss_node_get_attribute_f:
- * @self: a #ccss_node_t.
- * @name: attribute name.
+ * @self:	a #ccss_node_t.
+ * @name:	attribute name.
  *
  * Hook function to query a #ccss_node_t's attributes.
  *
@@ -133,8 +133,8 @@ typedef char * (*ccss_node_get_attribute_f) (ccss_node_t const	*self,
 
 /**
  * ccss_node_get_style_f:
- * @self: a #ccss_node_t.
- * @descriptor: handle to unload this style from the stylesheet later on.
+ * @self:	a #ccss_node_t.
+ * @descriptor:	handle to unload this style from the stylesheet later on.
  *
  * Hook function to query a #ccss_node_t's inline CSS style.
  *
@@ -165,7 +165,7 @@ typedef bool (*ccss_node_get_viewport_f) (ccss_node_t const     *self,
 
 /** 
  * ccss_node_release_f:
- * @self: a #ccss_node_t.
+ * @self:	a #ccss_node_t.
  *
  * Hook function to deallocate a #ccss_node_t instance.
  **/
@@ -189,7 +189,8 @@ typedef void (*ccss_node_release_f) (ccss_node_t *self);
  * Dispatch table a CCSS consumer has to fill so the selection engine can 
  * retrieve information about the document the document.
  *
- * The implemented dispatch table needs to be passed to #ccss_node_init.
+ * The implemented dispatch table needs to be passed to #ccss_node_create.
+ * All fields have to be initialised to either a node function or %NULL.
  **/
 typedef struct {
 	ccss_node_is_a_f		is_a;
@@ -204,43 +205,28 @@ typedef struct {
 	ccss_node_get_style_f		get_style;
 	ccss_node_get_viewport_f	get_viewport;
 	ccss_node_release_f		release;
-	/*< private >*/
-	void (*_padding_0) (void);
-	void (*_padding_1) (void);
-	void (*_padding_2) (void);
-	void (*_padding_3) (void);
-	void (*_padding_4) (void);
 } ccss_node_class_t;
 
 /**
- * ccss_node_t:
- * 
- * Stack-allocatable struct representing a document node. Used for querying the 
- * #ccss_stylesheet_t.
- * 
- * <emphasis>Memory management:</emphasis> Unless specified otherwise, objects 
- * of this kind are under the responsibility of the libccss consumer.
+ * CCSS_NODE_CLASS_N_METHODS:
+ *
+ * Returns the number of methods in a #ccss_node_class_t vtable.
+ *
+ * See: #ccss_node_class_t.
  **/
-struct ccss_node_ {
-	/*< private >*/
-	CCSS_DEPRECATED (ccss_node_class_t const *node_class);
+#define CCSS_NODE_CLASS_N_METHODS(vtable_) \
+		(sizeof (vtable_) / sizeof (void (*)(void)))
 
-	CCSS_DEPRECATED (ptrdiff_t         instance);
-	CCSS_DEPRECATED (char const       *id);
-	CCSS_DEPRECATED (char const       *type_name);
-	CCSS_DEPRECATED (char const      **css_classes);
-	CCSS_DEPRECATED (char const      **pseudo_classes);
-	CCSS_DEPRECATED (char const       *inline_style);
-	CCSS_DEPRECATED (void		  *_padding_0);
-	CCSS_DEPRECATED (void		  *_padding_1);
-	CCSS_DEPRECATED (void		  *_padding_2);
-	CCSS_DEPRECATED (void		  *_padding_3);
-	CCSS_DEPRECATED (void		  *_padding_4);
-};
+ccss_node_t *
+ccss_node_create	(ccss_node_class_t const	*node_class,
+			 unsigned int			 n_methods,
+			 void				*user_data);
 
 void
-ccss_node_init (ccss_node_t		*self,
-		ccss_node_class_t	*node_class);
+ccss_node_destroy       (ccss_node_t			*self);
+
+void *
+ccss_node_get_user_data (ccss_node_t const		*self);
 
 CCSS_END_DECLS
 

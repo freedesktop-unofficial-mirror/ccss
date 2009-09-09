@@ -28,9 +28,7 @@
   #endif
 #endif
 
-#include <stdint.h>
 #include <cairo.h>
-#include <libcroco/libcroco.h>
 #include <ccss/ccss.h>
 
 CCSS_BEGIN_DECLS

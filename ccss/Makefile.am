@@ -29,12 +29,15 @@ libccss_1_la_SOURCES = \
 	ccss-background.c \
 	ccss-background-parser.c \
 	ccss-background-parser.h \
+	ccss-background-priv.h \
 	ccss-block.c \
 	ccss-block-priv.h \
 	ccss-border.c \
+	ccss-border-priv.h \
 	ccss-border-parser.c \
 	ccss-border-parser.h \
 	ccss-border-image.c \
+	ccss-border-image-priv.h \
 	ccss-border-image-parser.c \
 	ccss-border-image-parser.h \
 	ccss-color.c \
@@ -48,9 +51,11 @@ libccss_1_la_SOURCES = \
 	ccss-node.c \
 	ccss-node-priv.h \
 	ccss-padding.c \
+	ccss-padding-priv.h \
 	ccss-padding-parser.c \
 	ccss-padding-parser.h \
 	ccss-position.c \
+	ccss-position-priv.h \
 	ccss-position-parser.h \
 	ccss-property.c \
 	ccss-property-parser.c \

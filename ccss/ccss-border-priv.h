@@ -19,38 +19,49 @@
  * MA 02110-1301, USA.
  */
 
-#include <glib.h>
-#include "ccss-color-impl.h"
+#ifndef CCSS_BORDER_PRIV_H
+#define CCSS_BORDER_PRIV_H
 
-double
-ccss_color_get_red (ccss_color_t const *self)
-{
-	g_return_val_if_fail (self, 0);
+#include <ccss/ccss-macros.h>
+#include <ccss/ccss-border.h>
+#include <ccss/ccss-property-impl.h>
 
-	return self->red;
-}
+CCSS_BEGIN_DECLS
 
-double
-ccss_color_get_green (ccss_color_t const *self)
-{
-	g_return_val_if_fail (self, 0);
+/*
+ * Border style.
+ */
 
-	return self->green;
-}
+struct ccss_border_style_ {
+	/*< private >*/
+	CCSS_DEPRECATED (ccss_property_t		base);
 
-double
-ccss_color_get_blue (ccss_color_t const *self)
-{
-	g_return_val_if_fail (self, 0);
+	CCSS_DEPRECATED (ccss_border_style_type_t	style);
+};
 
-	return self->blue;
-}
+/*
+ * Border width.
+ */
 
-double
-ccss_color_get_alpha (ccss_color_t const *self)
-{
-	g_return_val_if_fail (self, 0);
+struct ccss_border_width_ {
+	/*< private >*/
+	CCSS_DEPRECATED (ccss_property_t	base);
 
-	return self->alpha;
-}
+	CCSS_DEPRECATED (double			width);
+};
+
+/*
+ * Border join.
+ */
+
+struct ccss_border_join_ {
+	/*< private >*/
+	CCSS_DEPRECATED (ccss_property_t	base);
+
+	CCSS_DEPRECATED (double			radius);
+};
+
+CCSS_END_DECLS
+
+#endif /* CCSS_BORDER_PRIV_H */
 

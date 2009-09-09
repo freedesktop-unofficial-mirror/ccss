@@ -20,7 +20,7 @@
  */
 
 #include <string.h>
-#include "ccss-border-image.h"
+#include "ccss-border-image-priv.h"
 #include "ccss-border-image-parser.h"
 #include "ccss-function-impl.h"
 #include "ccss-grammar.h"

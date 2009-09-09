@@ -20,7 +20,7 @@
  */
 
 #include <gmodule.h>
-#include <ccss/ccss-property-impl.h>
+#include "ccss/ccss-property-impl.h"
 #include "ccss-cairo-appearance.h"
 #include "ccss-cairo-appearance-parser.h"
 #include "config.h"

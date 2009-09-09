@@ -29,6 +29,26 @@
 
 CCSS_BEGIN_DECLS
 
+/**
+ * ccss_node_t:
+ *
+ * Represents a DOM node object.
+ **/
+struct ccss_node_ {
+	/*< private >*/
+	CCSS_DEPRECATED (ccss_node_class_t const node_class);
+
+	CCSS_DEPRECATED (void		 *user_data);
+
+	/* Cache */
+	CCSS_DEPRECATED (ptrdiff_t	  instance);
+	CCSS_DEPRECATED (char const	 *id);
+	CCSS_DEPRECATED (char const	 *type_name);
+	CCSS_DEPRECATED (char const	**css_classes);
+	CCSS_DEPRECATED (char const	**pseudo_classes);
+	CCSS_DEPRECATED (char const	 *inline_style);
+};
+
 bool
 ccss_node_is_a			(ccss_node_t		*self,
 				 char const		*type_name);

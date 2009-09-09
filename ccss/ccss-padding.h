@@ -23,16 +23,10 @@
 #define CCSS_PADDING_H
 
 #include <ccss/ccss-macros.h>
-#include <ccss/ccss-property.h>
 
 CCSS_BEGIN_DECLS
 
-typedef struct {
-	/*< private >*/
-	CCSS_DEPRECATED (ccss_property_t	base);
-
-	CCSS_DEPRECATED (double			padding);
-} ccss_padding_t;
+typedef struct ccss_padding_ ccss_padding_t;
 
 double
 ccss_padding_get_padding (ccss_padding_t const *self);

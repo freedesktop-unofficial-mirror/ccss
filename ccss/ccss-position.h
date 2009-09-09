@@ -59,11 +59,7 @@ typedef enum {
 					  CCSS_POSITION_COVER
 } ccss_position_type_t;
 
-typedef struct {
-	/*< private >*/
-	CCSS_DEPRECATED (ccss_position_type_t	type);
-	CCSS_DEPRECATED (double			value);
-} ccss_position_t;
+typedef struct ccss_position_ ccss_position_t;
 
 double
 ccss_position_get_pos	(ccss_position_t const	*self,

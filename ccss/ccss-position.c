@@ -21,6 +21,7 @@
 
 #include <glib.h>
 #include "ccss-position-parser.h"
+#include "ccss-position-priv.h"
 #include "config.h"
 
 static const struct {

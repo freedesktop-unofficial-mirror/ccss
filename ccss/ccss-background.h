@@ -28,38 +28,34 @@
 
 CCSS_BEGIN_DECLS
 
+/*
+ * Background attachment.
+ */
+
 typedef enum {
 	CCSS_BACKGROUND_SCROLL = 0,
 	CCSS_BACKGROUND_FIXED
 } ccss_background_attachment_type_t;
 
-typedef struct {
-	/*< private >*/
-	CCSS_DEPRECATED (ccss_property_t			base);
-
-	CCSS_DEPRECATED (ccss_background_attachment_type_t	attachment);
-} ccss_background_attachment_t;
+typedef struct ccss_background_attachment_ ccss_background_attachment_t;
 
 ccss_background_attachment_type_t
 ccss_background_attachment_get_attachment (ccss_background_attachment_t const *self);
 
-typedef struct {
-	/*< private >*/
-	CCSS_DEPRECATED (ccss_property_t	 base);
+/*
+ * Background image.
+ */
 
-	CCSS_DEPRECATED (char			*uri);
-} ccss_background_image_t;
+typedef struct ccss_background_image_ ccss_background_image_t;
 
 char const *
 ccss_background_image_get_uri (ccss_background_image_t const *self);
 
-typedef struct {
-	/*< private >*/
-	CCSS_DEPRECATED (ccss_property_t		base);
+/*
+ * Background position.
+ */
 
-	CCSS_DEPRECATED (ccss_position_t		hpos);
-	CCSS_DEPRECATED (ccss_position_t		vpos);
-} ccss_background_position_t;
+typedef struct ccss_background_position_ ccss_background_position_t;
 
 ccss_position_t const *
 ccss_background_position_get_horizontal_position (ccss_background_position_t const *self);
@@ -74,23 +70,20 @@ typedef enum {
 	CCSS_BACKGROUND_NO_REPEAT
 } ccss_background_repeat_type_t;
 
-typedef struct {
-	/*< private >*/
-	CCSS_DEPRECATED (ccss_property_t		base);
+/*
+ * Background repeat.
+ */
 
-	CCSS_DEPRECATED (ccss_background_repeat_type_t  repeat);
-} ccss_background_repeat_t;
+typedef struct ccss_background_repeat_ ccss_background_repeat_t;
 
 ccss_background_repeat_type_t
 ccss_background_repeat_get_repeat (ccss_background_repeat_t const *self);
 
-typedef struct {
-	/*< private >*/
-	CCSS_DEPRECATED (ccss_property_t		base);
+/*
+ * Background size.
+ */
 
-	CCSS_DEPRECATED (ccss_position_t		width);
-	CCSS_DEPRECATED (ccss_position_t		height);
-} ccss_background_size_t;
+typedef struct ccss_background_size_ ccss_background_size_t;
 
 ccss_position_t const *
 ccss_background_size_get_height (ccss_background_size_t const *self);
@@ -98,17 +91,11 @@ ccss_background_size_get_height (ccss_background_size_t const *self);
 ccss_position_t const *
 ccss_background_size_get_width (ccss_background_size_t const *self);
 
-typedef struct {
-	/*< private >*/
-	CCSS_DEPRECATED (ccss_property_t		base);
+/*
+ * Background.
+ */
 
-	CCSS_DEPRECATED (ccss_background_attachment_t	bg_attachment);
-	CCSS_DEPRECATED (ccss_color_t			bg_color);
-	CCSS_DEPRECATED (ccss_background_image_t	bg_image);
-	CCSS_DEPRECATED (ccss_background_position_t	bg_position);
-	CCSS_DEPRECATED (ccss_background_repeat_t	bg_repeat);
-	CCSS_DEPRECATED (ccss_background_size_t		bg_size);
-} ccss_background_t;
+typedef struct ccss_background_ ccss_background_t;
 
 ccss_background_attachment_t const *
 ccss_background_get_attachment (ccss_background_t const *self);

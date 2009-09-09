@@ -23,7 +23,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include <ccss/ccss-property-impl.h>
+#include "ccss/ccss-border-priv.h"
+#include "ccss/ccss-color-impl.h"
+#include "ccss/ccss-property-impl.h"
 #include "ccss-cairo-border.h"
 #include "config.h"
 

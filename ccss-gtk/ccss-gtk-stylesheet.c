@@ -25,42 +25,47 @@
 #include "config.h"
 
 /*
- * Node implementation for querying the stylesheet.
+ * Widget implementation for querying the stylesheet.
  */
 
 typedef struct {
-	ccss_node_t	 parent;
 	char const	*type_name;
 	char const	*id;
 	char const	*pseudo_classes[2];
-} Node;
+} Widget;
 
 static char const *
-get_type (Node const *self)
+get_type (ccss_node_t const *self)
 {
-	return self->type_name;
+	Widget *w = ccss_node_get_user_data (self);
+
+	return w->type_name;
 }
 
 static char const *
-get_id (Node const *self)
+get_id (ccss_node_t const *self)
 {
-	return self->id;
+	Widget *w = ccss_node_get_user_data (self);
+
+	return w->id;
 }
 
 static char const **
-get_pseudo_classes (Node const *self)
+get_pseudo_classes (ccss_node_t const *self)
 {
-	return (char const **) self->pseudo_classes;
+	Widget *w = ccss_node_get_user_data (self);
+
+	return (char const **) w->pseudo_classes;
 }
 
 static ccss_node_class_t _node_class = {
 	.is_a			= NULL,
 	.get_container		= NULL,
 	.get_base_style		= NULL,
-	.get_id			= (ccss_node_get_id_f) get_id,
-	.get_type		= (ccss_node_get_type_f) get_type,
+	.get_id			= get_id,
+	.get_type		= get_type,
 	.get_classes		= NULL,
-	.get_pseudo_classes	= (ccss_node_get_pseudo_classes_f) get_pseudo_classes,
+	.get_pseudo_classes	= get_pseudo_classes,
 	.get_attribute		= NULL,
 	.get_viewport		= NULL,
 	.release		= NULL
@@ -243,18 +248,21 @@ accumulate_state (ccss_stylesheet_t 	 *stylesheet,
 		  struct RcState	 *state,
 		  GSList		**style_properties)
 {
-	ccss_style_t		*style;
-	Node			 node;
-	char			*color;
-	gboolean		 ret;
+	ccss_style_t	*style;
+	ccss_node_t	*node;
+	Widget		 widget;
+	char		*color;
+	gboolean	 ret;
 
-	ccss_node_init (&node.parent, &_node_class);
-	node.type_name = type_name;
-	node.id = NULL;
-	node.pseudo_classes[0] = state_name;
-	node.pseudo_classes[1] = NULL;
-
-	style = ccss_stylesheet_query (stylesheet, &node.parent);
+	widget.type_name = type_name;
+	widget.id = NULL;
+	widget.pseudo_classes[0] = state_name;
+	widget.pseudo_classes[1] = NULL;
+	node = ccss_node_create (&_node_class,
+				 CCSS_NODE_CLASS_N_METHODS (_node_class),
+				 &widget);
+	style = ccss_stylesheet_query (stylesheet, node);
+	ccss_node_destroy (node);
 	if (!style) {
 		return false;
 	}

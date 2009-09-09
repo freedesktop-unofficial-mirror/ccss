@@ -28,6 +28,7 @@
   #endif
 #endif
 
+#include <ccss/ccss-property-impl.h>
 #include <ccss-cairo/ccss-cairo.h>
 #include <gtk/gtk.h>
 

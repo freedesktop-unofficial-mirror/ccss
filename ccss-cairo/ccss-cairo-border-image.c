@@ -22,6 +22,7 @@
 /* Direct access to struct members for fun and profit. */
 #include <ccss/ccss-macros.h>
 
+#include "ccss/ccss-border-image-priv.h"
 #include "ccss-cairo-border-image.h"
 #include "ccss-cairo-image-cache.h"
 #include "config.h"

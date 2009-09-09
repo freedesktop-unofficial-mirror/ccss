@@ -28,6 +28,10 @@
 
 CCSS_BEGIN_DECLS
 
+/*
+ * Border style.
+ */
+
 typedef enum {
 	CCSS_BORDER_STYLE_HIDDEN,
 	CCSS_BORDER_STYLE_DOTTED,
@@ -40,38 +44,36 @@ typedef enum {
 	CCSS_BORDER_STYLE_OUTSET
 } ccss_border_style_type_t;
 
-typedef struct {
-	/*< private >*/
-	CCSS_DEPRECATED (ccss_property_t		base);
-
-	CCSS_DEPRECATED (ccss_border_style_type_t	style);
-} ccss_border_style_t;
+typedef struct ccss_border_style_ ccss_border_style_t;
 
 ccss_border_style_type_t
 ccss_border_style_get_style (ccss_border_style_t const *self);
 
-typedef struct {
-	/*< private >*/
-	CCSS_DEPRECATED (ccss_property_t	base);
+/*
+ * Border width.
+ */
 
-	CCSS_DEPRECATED (double			width);
-} ccss_border_width_t;
+typedef struct ccss_border_width_ ccss_border_width_t;
 
 double
 ccss_border_width_get_width (ccss_border_width_t const *self);
 
-/* FIXME: introduce generic "double" value struct. */
-typedef ccss_border_width_t ccss_border_spacing_t;
+/*
+ * Border spacing.
+ * FIXME: introduce generic "double" value struct.
+ */
+
+typedef struct ccss_border_width_ ccss_border_spacing_t;
 
 double
 ccss_border_spacing_get_spacing (ccss_border_spacing_t const *self);
 
-typedef struct {
-	/*< private >*/
-	CCSS_DEPRECATED (ccss_property_t	base);
+/*
+ * Border join.
+ * FIXME: rename to `border-radius'?
+ */
 
-	CCSS_DEPRECATED (double			radius);
-} ccss_border_join_t;	/* FIXME: rename to `border-radius'? */
+typedef struct ccss_border_join_ ccss_border_join_t;
 
 double
 ccss_border_join_get_radius (ccss_border_join_t const *self);

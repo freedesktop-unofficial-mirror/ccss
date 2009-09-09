@@ -19,44 +19,22 @@
  * MA 02110-1301, USA.
  */
 
-#ifndef CCSS_BORDER_IMAGE_H
-#define CCSS_BORDER_IMAGE_H
+#ifndef CCSS_POSITION_PRIV_H
+#define CCSS_POSITION_PRIV_H
 
 #include <ccss/ccss-macros.h>
 #include <ccss/ccss-position.h>
+#include <ccss/ccss-property-impl.h>
 
 CCSS_BEGIN_DECLS
 
-typedef enum {
-	CCSS_BORDER_IMAGE_TILING_REPEAT = 0,
-	CCSS_BORDER_IMAGE_TILING_ROUND,
-	CCSS_BORDER_IMAGE_TILING_STRETCH
-} ccss_border_image_tiling_t;
-
-typedef struct ccss_border_image_ ccss_border_image_t;
-
-char const *
-ccss_border_image_get_uri (ccss_border_image_t const *self);
-
-ccss_position_t const *
-ccss_border_image_get_top (ccss_border_image_t const *self);
-
-ccss_position_t const *
-ccss_border_image_get_right (ccss_border_image_t const *self);
-
-ccss_position_t const *
-ccss_border_image_get_bottom (ccss_border_image_t const *self);
-
-ccss_position_t const *
-ccss_border_image_get_left (ccss_border_image_t const *self);
-
-ccss_border_image_tiling_t
-ccss_border_image_get_top_middle_bottom_horizontal_tiling (ccss_border_image_t const *self);
-
-ccss_border_image_tiling_t
-ccss_border_image_get_left_middle_right_vertical_tiling (ccss_border_image_t const *self);
+struct ccss_position_ {
+	/*< private >*/
+	CCSS_DEPRECATED (ccss_position_type_t	type);
+	CCSS_DEPRECATED (double			value);
+};
 
 CCSS_END_DECLS
 
-#endif /* CCSS_BORDER_IMAGE_H */
+#endif /* CCSS_POSITION_PRIV_H */
 
